@@ -11,7 +11,9 @@ jobs:
     name: Check licenses
     steps:
       - uses: actions/checkout@v1.0.0
-      - uses: actions/setup-ruby@v1.0.2
-        with: {ruby-version: 2.x}
-      - run: gem install licensed
+      - run: |-
+          cd /tmp
+          curl -fs https://github.com/github/licensed/releases/download/2.3.2/licensed-2.3.2-linux-x64.tar.gz
+          tar -xzfv licensed-2.3.2-linux-x64.tar.gz
+          sudo mv licensed-2.3.2-linux-x64/licensed /usr/local/bin/licensed
       - run: licensed status
