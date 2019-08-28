@@ -1,6 +1,9 @@
-name: Set up Elixir
+name: Setup Elixir
 description: Set up an Elixir/OTP environment and add it to the PATH
 author: GitHub
+branding:
+  color: blue
+  icon: code
 inputs:
   elixir-version:
     description: Version range or exact version of Elixir to use
