@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v1.0.0
       - run: |-
           cd /tmp
-          curl -fs https://github.com/github/licensed/releases/download/2.3.2/licensed-2.3.2-linux-x64.tar.gz
-          tar -xzfv licensed-2.3.2-linux-x64.tar.gz
-          sudo mv licensed-2.3.2-linux-x64/licensed /usr/local/bin/licensed
+          curl -Lfs -o licensed.tar.gz https://github.com/github/licensed/releases/download/2.3.2/licensed-2.3.2-linux-x64.tar.gz
+          sudo tar -xzf licensed.tar.gz
+          sudo mv licensed /usr/local/bin/licensed
       - run: licensed status
