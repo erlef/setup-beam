@@ -1,6 +1,7 @@
 # setup-elixir
 
 [![](https://github.com/actions/setup-elixir/workflows/Test/badge.svg)](https://github.com/actions/setup-elixir/actions)
+[![](https://github.com/actions/setup-elixir/workflows/Licensed/badge.svg)](https://github.com/actions/setup-elixir/actions)
 
 This actions sets up an Elixir environment for use in Actions by:
 
