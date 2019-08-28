@@ -1,0 +1,17 @@
+name: Licensed
+
+on:
+  push: {branches: master}
+  pull_request: {branches: master}
+  repository_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Check licenses
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - uses: actions/setup-ruby@v1.0.2
+        with: {ruby-version: 3.x}
+      - run: gem install licensed
+      - run: licensed status
