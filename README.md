@@ -29,6 +29,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1.0.0
       - uses: actions/setup-elixir@v1.0.0
         with:
           otp-version: 22.x
@@ -51,10 +52,40 @@ jobs:
         otp: [20.x, 21.x, 22.x]
         elixir: [1.8.x, 1.9.x]
     steps:
+      - uses: actions/checkout@v1.0.0
       - uses: actions/setup-elixir@v1.0.0
         with:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
+      - run: mix deps.get
+      - run: mix test
+```
+
+### Phoenix example
+
+```yaml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:11
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - uses: actions/setup-elixir@1.0.0
+        with:
+          otp-version: 22.x
+          elixir-version: 1.9.x
       - run: mix deps.get
       - run: mix test
 ```
