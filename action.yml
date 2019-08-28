@@ -1,0 +1,17 @@
+name: Set up Elixir
+description: Set up an Elixir/OTP environment and add it to the PATH
+author: GitHub
+inputs:
+  elixir-version:
+    description: Version range or exact version of Elixir to use
+  otp-version:
+    description: Version range or exact version of OTP to use
+  install-hex:
+    description: Whether to install Hex
+    default: true
+  install-rebar:
+    description: Whether to install Rebar
+    default: true
+runs:
+  using: node12
+  main: src/setup-elixir.js

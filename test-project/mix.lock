@@ -1,0 +1,3 @@
+%{
+  "logfmt": {:hex, :logfmt, "3.3.0", "f863e19b9cac952f177f878074ec9304bb132eb9034306e75216dee88ca744d9", [:mix], [], "hexpm"},
+}
