@@ -82,7 +82,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1.0.0
-      - uses: actions/setup-elixir@1.0.0
+      - uses: actions/setup-elixir@v1.0.0
         with:
           otp-version: 22.x
           elixir-version: 1.9.x
