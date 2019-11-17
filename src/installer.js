@@ -8,14 +8,11 @@ module.exports = {installElixir, installOTP}
  * Install Elixir.
  *
  * @param {string} version
- * @param {string} arch
+ * @param {string} otpMajor
  */
-async function installElixir(version) {
-  let arch = 'all'
-  if (semver.gt('1.9.0', version)) arch = 'amd64'
-
+async function installElixir(version, otpMajor) {
   if (process.platform === 'linux') {
-    await exec(path.join(__dirname, 'install-elixir-ubuntu'), [version, arch])
+    await exec(path.join(__dirname, 'install-elixir'), [version, otpMajor])
   }
 }
 
@@ -26,7 +23,7 @@ async function installElixir(version) {
  */
 async function installOTP(version) {
   if (process.platform === 'linux') {
-    await exec(path.join(__dirname, 'install-otp-ubuntu'), [version])
+    await exec(path.join(__dirname, 'install-otp'), [version])
     return
   }
 

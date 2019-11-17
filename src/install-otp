@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eo pipefail
+
+wget -q -O otp.tar.gz https://repo.hex.pm/builds/otp/ubuntu-14.04/OTP-${1}.tar.gz
+mkdir -p .setup-elixir/otp
+tar zxf otp.tar.gz -C .setup-elixir/otp --strip-components=1
+rm otp.tar.gz
+.setup-elixir/otp/Install -minimal $(pwd)/.setup-elixir/otp
+echo "::add-path::$(pwd)/.setup-elixir/otp/bin"
