@@ -14,8 +14,8 @@ async function main() {
 
   const otpSpec = core.getInput('otp-version', {required: true})
   const elixirSpec = core.getInput('elixir-version', {required: true})
-  const otpVersion = getVersionFromSpec(otpSpec, await getOtpVersions())
-  const [elixirVersion, otpMajor] = getElixirVersion(elixirSpec, await getElixirVersions(), otpVersion)
+  const otpVersion = await getOtpVersion(otpSpec)
+  const [elixirVersion, otpMajor] = await getElixirVersion(elixirSpec, otpVersion)
 
   let installHex = core.getInput('install-hex')
   installHex = installHex == null ? true : installHex
@@ -42,23 +42,33 @@ function checkPlatform() {
     )
 }
 
-function getElixirVersion(spec, versions, otpVersion) {
-  const version = getVersionFromSpec(spec, Array.from(versions.keys()))
+async function getOtpVersion(spec) {
+  return getVersionFromSpec(spec, await getOtpVersions()) || spec
+}
+
+async function getElixirVersion(spec, otpVersion) {
+  const versions = await getElixirVersions()
+  const semverRegex = /^v(\d+\.\d+\.\d+)/
+
+  const semverVersions =
+    Array.from(versions.keys())
+      .filter(str => str.match(semverRegex))
+      .map(str => str.match(semverRegex)[1])
+
+  const version = getVersionFromSpec(spec, semverVersions)
+  const gitRef = version ? `v${version}` : spec
   const [otpMajor] = otpVersion.match(/^\d+/)
 
-  if (versions.get(version).includes(otpMajor)) {
-    return [version, otpMajor]
+  if (versions.get(gitRef).includes(otpMajor)) {
+    return [gitRef, otpMajor]
   } else {
-    throw new Error(
-      `Elixir ${version} and OTP ${otpVersion} are incompatible`
-    )
+    return [gitRef, null]
   }
 }
 
 function getVersionFromSpec(spec, versions) {
   const range = semver.validRange(spec)
-  const version = semver.maxSatisfying(versions, range)
-  return version || spec
+  return semver.maxSatisfying(versions, range)
 }
 
 async function getOtpVersions() {
@@ -75,7 +85,7 @@ async function getElixirVersions() {
   const map = new Map()
 
   result.trim().split('\n').forEach(line => {
-    const match = line.match(/^v(\d+\.\d+\.\d+)-otp-(\d+)/)
+    const match = line.match(/^(v\d+\.\d+\.\d+)-otp-(\d+)/) || line.match(/^([^-]+)-otp-(\d+)/)
 
     if (match) {
       const [_, version, otp] = match

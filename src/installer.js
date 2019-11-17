@@ -12,7 +12,8 @@ module.exports = {installElixir, installOTP}
  */
 async function installElixir(version, otpMajor) {
   if (process.platform === 'linux') {
-    await exec(path.join(__dirname, 'install-elixir'), [version, otpMajor])
+    const otpString = otpMajor ? `-otp-${otpMajor}` : ''
+    await exec(path.join(__dirname, 'install-elixir'), [version, otpString])
   }
 }
 
