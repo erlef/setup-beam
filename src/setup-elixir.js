@@ -67,8 +67,12 @@ async function getElixirVersion(spec, otpVersion) {
 }
 
 function getVersionFromSpec(spec, versions) {
-  const range = semver.validRange(spec)
-  return semver.maxSatisfying(versions, range)
+  if (versions.includes(spec)) {
+    return spec;
+  } else {
+    const range = semver.validRange(spec)
+    return semver.maxSatisfying(versions, range)
+  }
 }
 
 async function getOtpVersions() {
