@@ -1,0 +1,31 @@
+{
+  "problemMatcher": [
+    {
+      "owner": "elixir",
+      "pattern": [
+        {
+          "regexp": "^(\\*\\* \\(.*\\) )?((.:)?[^:]*):(\\d+)(:(\\d+))?: (.*)$",
+          "file": 2,
+          "line": 4,
+          "column": 6,
+          "message": 7
+        }
+      ]
+    },
+    {
+      "owner": "elixir-warning",
+      "pattern": [
+        {
+          "regexp": "^(warning: (.*))$",
+          "message": 2
+        },
+        {
+          "regexp": "^(  )((.:)?[^:]*):(\\d+)(:(\\d+))?$",
+          "file": 2,
+          "line": 4,
+          "column": 6
+        }
+      ]
+    }
+  ]
+}
