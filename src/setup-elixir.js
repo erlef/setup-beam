@@ -15,7 +15,10 @@ async function main() {
   const otpSpec = core.getInput('otp-version', {required: true})
   const elixirSpec = core.getInput('elixir-version', {required: true})
   const otpVersion = await getOtpVersion(otpSpec)
-  const [elixirVersion, otpMajor] = await getElixirVersion(elixirSpec, otpVersion)
+  const [elixirVersion, otpMajor] = await getElixirVersion(
+    elixirSpec,
+    otpVersion
+  )
 
   let installHex = core.getInput('install-hex')
   installHex = installHex == null ? true : installHex
@@ -30,12 +33,13 @@ async function main() {
   await installElixir(elixirVersion, otpMajor)
   console.log(`##[endgroup]`)
 
-  process.env.PATH = `${process.cwd()}/.setup-elixir/elixir/bin:${process.env.PATH}`
+  process.env.PATH = `/tmp/.setup-elixir/elixir/bin:${process.env.PATH}`
+
   if (installRebar) await exec('mix local.rebar --force')
   if (installHex) await exec('mix local.hex --force')
 
-  const matchersPath = path.join(__dirname, '..', '.github');
-  console.log(`##[add-matcher]${path.join(matchersPath, 'elixir.json')}`);
+  const matchersPath = path.join(__dirname, '..', '.github')
+  console.log(`##[add-matcher]${path.join(matchersPath, 'elixir.json')}`)
 }
 
 function checkPlatform() {
@@ -53,10 +57,9 @@ async function getElixirVersion(spec, otpVersion) {
   const versions = await getElixirVersions()
   const semverRegex = /^v(\d+\.\d+\.\d+)/
 
-  const semverVersions =
-    Array.from(versions.keys())
-      .filter(str => str.match(semverRegex))
-      .map(str => str.match(semverRegex)[1])
+  const semverVersions = Array.from(versions.keys())
+    .filter(str => str.match(semverRegex))
+    .map(str => str.match(semverRegex)[1])
 
   const version = getVersionFromSpec(spec, semverVersions)
   const gitRef = version ? `v${version}` : spec
@@ -71,7 +74,7 @@ async function getElixirVersion(spec, otpVersion) {
 
 function getVersionFromSpec(spec, versions) {
   if (versions.includes(spec)) {
-    return spec;
+    return spec
   } else {
     const range = semver.validRange(spec)
     return semver.maxSatisfying(versions, range)
@@ -79,28 +82,38 @@ function getVersionFromSpec(spec, versions) {
 }
 
 async function getOtpVersions() {
-  const result = await get("https://raw.githubusercontent.com/erlang/otp/master/otp_versions.table")
+  const result = await get(
+    'https://raw.githubusercontent.com/erlang/otp/master/otp_versions.table'
+  )
 
-  return result.trim().split('\n').map(line => {
-    const [_, version] = line.match(/^OTP-([\.\d]+)/)
-    return version
-  })
+  return result
+    .trim()
+    .split('\n')
+    .map(line => {
+      const [_, version] = line.match(/^OTP-([\.\d]+)/)
+      return version
+    })
 }
 
 async function getElixirVersions() {
-  const result = await get("https://repo.hex.pm/builds/elixir/builds.txt")
+  const result = await get('https://repo.hex.pm/builds/elixir/builds.txt')
   const map = new Map()
 
-  result.trim().split('\n').forEach(line => {
-    const match = line.match(/^(v\d+\.\d+\.\d+)-otp-(\d+)/) || line.match(/^([^-]+)-otp-(\d+)/)
+  result
+    .trim()
+    .split('\n')
+    .forEach(line => {
+      const match =
+        line.match(/^(v\d+\.\d+\.\d+)-otp-(\d+)/) ||
+        line.match(/^([^-]+)-otp-(\d+)/)
 
-    if (match) {
-      const [_, version, otp] = match
-      const array = (map.get(version) || [])
-      array.push(otp)
-      map.set(version, array)
-    }
-  })
+      if (match) {
+        const [_, version, otp] = match
+        const array = map.get(version) || []
+        array.push(otp)
+        map.set(version, array)
+      }
+    })
 
   return map
 }
@@ -111,10 +124,16 @@ function get(url) {
 
     req.on('response', res => {
       let data = ''
-      res.on('data', (chunk) => { data += chunk })
-      res.on('end', () => { resolve(data) })
+      res.on('data', chunk => {
+        data += chunk
+      })
+      res.on('end', () => {
+        resolve(data)
+      })
     })
 
-    req.on('error', err => { reject(err) })
+    req.on('error', err => {
+      reject(err)
+    })
   })
 }
