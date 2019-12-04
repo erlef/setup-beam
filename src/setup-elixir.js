@@ -33,6 +33,9 @@ async function main() {
   process.env.PATH = `${process.cwd()}/.setup-elixir/elixir/bin:${process.env.PATH}`
   if (installRebar) await exec('mix local.rebar --force')
   if (installHex) await exec('mix local.hex --force')
+
+  const matchersPath = path.join(__dirname, '..', '.github');
+  console.log(`##[add-matcher]${path.join(matchersPath, 'elixir.json')}`);
 }
 
 function checkPlatform() {
