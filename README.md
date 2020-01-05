@@ -29,8 +29,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1.0.0
-      - uses: actions/setup-elixir@v1.1.0
+      - uses: actions/checkout@v2
+      - uses: actions/setup-elixir@v1.2.0
         with:
           otp-version: 22.x
           elixir-version: 1.9.x
@@ -52,8 +52,8 @@ jobs:
         otp: [20.x, 21.x, 22.x]
         elixir: [1.8.x, 1.9.x]
     steps:
-      - uses: actions/checkout@v1.0.0
-      - uses: actions/setup-elixir@v1.1.0
+      - uses: actions/checkout@v2
+      - uses: actions/setup-elixir@v1.2.0
         with:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
@@ -81,8 +81,8 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v1.0.0
-      - uses: actions/setup-elixir@v1.1.0
+      - uses: actions/checkout@v2
+      - uses: actions/setup-elixir@v1.2.0
         with:
           otp-version: 22.x
           elixir-version: 1.9.x
