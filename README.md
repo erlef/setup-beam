@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-elixir@v1.2.0
+      - uses: actions/setup-elixir@v1
         with:
           otp-version: 22.2
           elixir-version: 1.9.4
@@ -54,7 +54,7 @@ jobs:
         elixir: [1.8.2, 1.9.4]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-elixir@v1.2.0
+      - uses: actions/setup-elixir@v1
         with:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
@@ -83,7 +83,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-elixir@v1.2.0
+      - uses: actions/setup-elixir@v1
         with:
           otp-version: 22.2
           elixir-version: 1.9.4

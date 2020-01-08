@@ -1,5 +1,5 @@
 name: Setup Elixir
-description: Set up an Elixir/OTP environment and add it to the PATH
+description: Set up a specific version of OTP and Elixir and add the command-line tools to the PATH
 author: GitHub
 branding:
   color: blue
