@@ -91,6 +91,35 @@ jobs:
       - run: mix test
 ```
 
+#### Authenticating with Postgres in Phoenix
+
+When using the Phoenix example above, the `postgres` container has some
+default authentication set up. Specifically, it expects a username of
+"postgres", and a password of "postgres". It will be available at
+`localhost:5432`.
+
+The simplest way of setting these auth values in CI is by checking for the
+`GITHUB_ACTIONS` environment variable that is set in all workflows:
+
+```elixir
+# config/test.exs
+
+use Mix.Config
+
+# Configure the database for local testing
+config :app, App.Repo,
+  database: "my_app_test",
+  hostname: "localhost",
+  pool: Ecto.Adapters.SQL.Sandbox
+
+# Configure the database for GitHub Actions
+if System.get_env("GITHUB_ACTIONS") do
+  config :app, App.Repo,
+    username: "postgres",
+    password: "postgres"
+end
+```
+
 ## License
 
 The scripts and documentation in this project are released under the [MIT license](LICENSE.md).
