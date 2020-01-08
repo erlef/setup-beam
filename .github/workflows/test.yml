@@ -18,6 +18,9 @@ jobs:
           # Semver ranges
           - otp-version: 21.x
             elixir-version: <1.9.1
+          # Branches
+          - otp-version: 22.0
+            elixir-version: master
     steps:
       - uses: actions/checkout@v1.0.0
       - name: Use actions/setup-elixir

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eo pipefail
+
+cd /tmp
+
+wget -q https://repo.hex.pm/builds/elixir/${1}${2}.zip
+unzip -d .setup-elixir/elixir ${1}${2}.zip
+rm ${1}${2}.zip
+echo "::add-path::$(pwd)/.setup-elixir/elixir/bin"
