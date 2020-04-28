@@ -75,6 +75,8 @@ jobs:
       db:
         image: postgres:11
         ports: ['5432:5432']
+        env:
+          POSTGRES_PASSWORD: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
