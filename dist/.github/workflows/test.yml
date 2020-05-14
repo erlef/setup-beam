@@ -1,0 +1,35 @@
+name: Test
+
+on:
+  push: {branches: master}
+  pull_request: {branches: master}
+  repository_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: OTP ${{matrix.pair.otp-version}} / Elixir ${{matrix.pair.elixir-version}}
+    strategy:
+      matrix:
+        pair:
+          # Full Versions
+          - otp-version: 22.0
+            elixir-version: 1.9.1
+          # Semver ranges
+          - otp-version: 21.x
+            elixir-version: <1.9.1
+          # Branches
+          - otp-version: 22.0
+            elixir-version: master
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - name: Use actions/setup-elixir
+        uses: ./
+        with:
+          otp-version: ${{matrix.pair.otp-version}}
+          elixir-version: ${{matrix.pair.elixir-version}}
+      - name: Run Mix project tests
+        run: |-
+          cd test-project
+          mix deps.get
+          mix test

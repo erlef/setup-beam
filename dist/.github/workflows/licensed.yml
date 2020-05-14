@@ -1,0 +1,19 @@
+name: Licensed
+
+on:
+  push: {branches: master}
+  pull_request: {branches: master}
+  repository_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Check licenses
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - run: |-
+          cd /tmp
+          curl -Lfs -o licensed.tar.gz https://github.com/github/licensed/releases/download/2.3.2/licensed-2.3.2-linux-x64.tar.gz
+          sudo tar -xzf licensed.tar.gz
+          sudo mv licensed /usr/local/bin/licensed
+      - run: licensed status
