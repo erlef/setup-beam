@@ -1,6 +1,9 @@
 sources:
   npm: true
 
+npm:
+  production_only: false
+
 allowed:
   - apache-2.0
   - bsd-2-clause
@@ -14,4 +17,5 @@ reviewed:
   npm:
     - typed-rest-client # MIT
     - underscore # MIT
+    - color-convert # MIT
 
