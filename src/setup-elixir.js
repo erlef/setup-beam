@@ -21,9 +21,9 @@ async function main() {
   )
 
   let installHex = core.getInput('install-hex')
-  installHex = installHex == null ? true : installHex
+  installHex = installHex == null ? 'true' : installHex
   let installRebar = core.getInput('install-rebar')
-  installRebar = installRebar == null ? true : installRebar
+  installRebar = installRebar == null ? 'true' : installRebar
 
   console.log(`##[group]Installing OTP ${otpVersion}`)
   await installOTP(otpVersion)
@@ -33,10 +33,10 @@ async function main() {
   await installElixir(elixirVersion, otpMajor)
   console.log(`##[endgroup]`)
 
-  process.env.PATH = `/tmp/.setup-elixir/elixir/bin:${process.env.PATH}`
+  process.env.PATH = `/tmp/.setup-elixir/elixir/bin:/tmp/.setup-elixir/otp/bin:${process.env.PATH}`
 
-  if (installRebar) await exec('mix local.rebar --force')
-  if (installHex) await exec('mix local.hex --force')
+  if (installRebar === 'true') await exec('mix local.rebar --force')
+  if (installHex === 'true') await exec('mix local.hex --force')
 
   const matchersPath = path.join(__dirname, '..', '.github')
   console.log(`##[add-matcher]${path.join(matchersPath, 'elixir.json')}`)
