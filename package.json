@@ -4,11 +4,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "ncc build src/setup-elixir.js"
+    "build": "ncc build src/setup-elixir.js",
+    "format": "prettier \"src/**/*.js\""
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build && git add dist/"
+      "pre-commit": "npm run format -- --check && npm run build && git add dist/"
     }
   },
   "dependencies": {
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@zeit/ncc": "^0.22.1",
-    "husky": "^4.2.5"
+    "husky": "^4.2.5",
+    "prettier": "^2.0.5"
   }
 }
