@@ -17,4 +17,4 @@ inputs:
     default: true
 runs:
   using: node12
-  main: src/setup-elixir.js
+  main: dist/setup-elixir.js
