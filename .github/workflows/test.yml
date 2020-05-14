@@ -22,7 +22,7 @@ jobs:
           - otp-version: 22.0
             elixir-version: master
     steps:
-      - uses: actions/checkout@v1.0.0
+      - uses: actions/checkout@v2
       - name: Use actions/setup-elixir
         uses: ./
         with:
