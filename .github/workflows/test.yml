@@ -12,6 +12,10 @@ jobs:
     strategy:
       matrix:
         pair:
+          - otp-version: 18.x
+            elixir-version: 1.1.x
+          - otp-version: 23
+            elixir-version: 1.10
           # Full Versions
           - otp-version: 22.0
             elixir-version: 1.9.1
