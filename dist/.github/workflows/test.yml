@@ -12,14 +12,18 @@ jobs:
     strategy:
       matrix:
         pair:
+          - otp-version: '18.0'
+            elixir-version: '1.1'
+          - otp-version: '23.0'
+            elixir-version: '1.10'
           # Full Versions
-          - otp-version: 22.0
-            elixir-version: 1.9.1
+          - otp-version: '22.0'
+            elixir-version: '1.9.1'
           # Semver ranges
-          - otp-version: 21.x
-            elixir-version: <1.9.1
+          - otp-version: '21.x'
+            elixir-version: '<1.9.1'
           # Branches
-          - otp-version: 22.0
+          - otp-version: '22.0'
             elixir-version: master
     steps:
       - uses: actions/checkout@v2

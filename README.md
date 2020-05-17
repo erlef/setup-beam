@@ -21,6 +21,10 @@ For best results, we recommend specifying exact OTP and Elixir versions.
 However, values like `22.x` are also accepted, and we attempt to resolve them
 according to semantic versioning rules.
 
+Additionally, it is recommended that one specifies OTP and Elixir versions
+using YAML strings, as these examples do, so that numbers like `23.0` don't
+end up being parsed as `23`, which is not equivalent.
+
 ### Basic example
 
 ```yaml
@@ -33,8 +37,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-elixir@v1
         with:
-          otp-version: 22.2
-          elixir-version: 1.9.4
+          otp-version: '22.2'
+          elixir-version: '1.9.4'
       - run: mix deps.get
       - run: mix test
 ```
@@ -50,8 +54,8 @@ jobs:
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
       matrix:
-        otp: [20.3, 21.3, 22.2]
-        elixir: [1.8.2, 1.9.4]
+        otp: ['20.3', '21.3', '22.2']
+        elixir: ['1.8.2', '1.9.4']
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-elixir@v1
@@ -87,8 +91,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-elixir@v1
         with:
-          otp-version: 22.2
-          elixir-version: 1.9.4
+          otp-version: '22.2'
+          elixir-version: '1.9.4'
       - run: mix deps.get
       - run: mix test
 ```
