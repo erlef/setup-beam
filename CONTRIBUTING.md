@@ -2,7 +2,7 @@
 
 [fork]: https://github.com/actions/setup-elixir/fork
 [pr]: https://github.com/actions/setup-elixir/compare
-[code-of-conduct]: https://github.com/actions/setup-elixir/blob/master/CODE_OF_CONDUCT.md
+[code-of-conduct]: https://github.com/actions/setup-elixir/blob/main/CODE_OF_CONDUCT.md
 
 Hi there! We're thrilled that you'd like to contribute to this project. Your help is essential for keeping it great.
 
