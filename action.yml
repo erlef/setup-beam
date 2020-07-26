@@ -15,6 +15,11 @@ inputs:
   install-rebar:
     description: Whether to install Rebar
     default: true
+outputs:
+  elixir-version:
+    description: Exact version of Elixir that was installed
+  otp-version:
+    description: Exact version of OTP that was installed
 runs:
   using: node12
   main: dist/index.js
