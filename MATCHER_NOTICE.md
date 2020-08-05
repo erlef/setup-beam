@@ -1,4 +1,4 @@
-Problem matchers in [elixir.json](.github/elixir.json) are adapted from https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json,
+Problem matchers in [elixir.json](.github/elixir.json) are adapted from [here](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118),
 available under the [MIT license](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/LICENSE.md):
 
 MIT License
