@@ -40,6 +40,8 @@ async function main() {
 
   const matchersPath = path.join(__dirname, '..', '.github')
   console.log(`##[add-matcher]${path.join(matchersPath, 'elixir.json')}`)
+  core.setOutput('otp-version', otpVersion)
+  core.setOutput('elixir-version', elixirVersion)
 }
 
 function checkPlatform() {
