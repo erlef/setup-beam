@@ -13,7 +13,7 @@ Please note that this project is released with a [Contributor Code of Conduct][c
 ## Submitting a pull request
 
 1. [Fork][fork] and clone the repository
-1. Configure and install the dependencies: `yarn`
+1. Configure and install the dependencies: `npm install`
 1. Create a new branch: `git checkout -b my-branch-name`
 1. Make your change, add tests, and make sure the tests still pass
 1. Push to your fork and [submit a pull request][pr]
