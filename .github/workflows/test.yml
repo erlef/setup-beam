@@ -28,10 +28,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use actions/setup-elixir
+        id: setup-elixir
         uses: ./
         with:
           otp-version: ${{matrix.pair.otp-version}}
           elixir-version: ${{matrix.pair.elixir-version}}
+      - name: Output runtime versions
+        run: echo "Elixir ${{steps.setup-elixir.outputs.elixir-version}} / OTP ${{steps.setup-elixir.outputs.otp-version}}"
       - name: Run Mix project tests
         run: |-
           cd test-project
