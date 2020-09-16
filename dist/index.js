@@ -3229,7 +3229,7 @@ exports.exec = exec;
 /***/ }),
 
 /***/ 986:
-/***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 const core = __webpack_require__(470)
 const {exec} = __webpack_require__(917)
@@ -3237,6 +3237,10 @@ const {installElixir, installOTP} = __webpack_require__(449)
 const path = __webpack_require__(622)
 const semver = __webpack_require__(280)
 const https = __webpack_require__(211)
+const {
+  fstat,
+  promises: {readFile},
+} = __webpack_require__(747)
 
 main().catch(err => {
   core.setFailed(err.message)
@@ -3288,9 +3292,11 @@ async function getOtpVersion(spec) {
   return getVersionFromSpec(spec, await getOtpVersions()) || spec
 }
 
+exports.getElixirVersion = getElixirVersion
+
 async function getElixirVersion(spec, otpVersion) {
   const versions = await getElixirVersions()
-  const semverRegex = /^v(\d+\.\d+\.\d+)/
+  const semverRegex = /^v(\d+\.\d+\.\d+(?:-.+)?)/
 
   const semverVersions = Array.from(versions.keys())
     .filter(str => str.match(semverRegex))
@@ -3339,7 +3345,7 @@ async function getElixirVersions() {
     .split('\n')
     .forEach(line => {
       const match =
-        line.match(/^(v\d+\.\d+\.\d+)-otp-(\d+)/) ||
+        line.match(/^(v\d+\.\d+\.\d+(?:-.+)?)-otp-(\d+)/) ||
         line.match(/^([^-]+)-otp-(\d+)/)
 
       if (match) {
@@ -3354,6 +3360,12 @@ async function getElixirVersions() {
 }
 
 function get(url) {
+  if (process.env.NODE_ENV === 'test') {
+    return readFile(
+      __webpack_require__.ab + "builds.txt"
+    ).then(buf => buf.toString())
+  }
+
   return new Promise((resolve, reject) => {
     const req = https.get(url)
 

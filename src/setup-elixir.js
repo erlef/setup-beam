@@ -4,6 +4,10 @@ const {installElixir, installOTP} = require('./installer')
 const path = require('path')
 const semver = require('semver')
 const https = require('https')
+const {
+  fstat,
+  promises: {readFile},
+} = require('fs')
 
 main().catch(err => {
   core.setFailed(err.message)
@@ -55,9 +59,11 @@ async function getOtpVersion(spec) {
   return getVersionFromSpec(spec, await getOtpVersions()) || spec
 }
 
+exports.getElixirVersion = getElixirVersion
+
 async function getElixirVersion(spec, otpVersion) {
   const versions = await getElixirVersions()
-  const semverRegex = /^v(\d+\.\d+\.\d+)/
+  const semverRegex = /^v(\d+\.\d+\.\d+(?:-.+)?)/
 
   const semverVersions = Array.from(versions.keys())
     .filter(str => str.match(semverRegex))
@@ -106,7 +112,7 @@ async function getElixirVersions() {
     .split('\n')
     .forEach(line => {
       const match =
-        line.match(/^(v\d+\.\d+\.\d+)-otp-(\d+)/) ||
+        line.match(/^(v\d+\.\d+\.\d+(?:-.+)?)-otp-(\d+)/) ||
         line.match(/^([^-]+)-otp-(\d+)/)
 
       if (match) {
@@ -121,6 +127,12 @@ async function getElixirVersions() {
 }
 
 function get(url) {
+  if (process.env.NODE_ENV === 'test') {
+    return readFile(
+      path.join(__dirname, '..', '__tests__', 'builds.txt')
+    ).then(buf => buf.toString())
+  }
+
   return new Promise((resolve, reject) => {
     const req = https.get(url)
 
