@@ -5,8 +5,7 @@
   "private": true,
   "scripts": {
     "build": "ncc build src/setup-elixir.js",
-    "format": "prettier \"src/**/*.js\"",
-    "test": "node __tests__/setup-elixir.test.js"
+    "format": "prettier \"src/**/*.js\""
   },
   "husky": {
     "hooks": {
@@ -17,7 +16,7 @@
     "@actions/core": "^1.0.0",
     "@actions/exec": "^1.0.0",
     "@actions/tool-cache": "^1.1.0",
-    "semver": "^7.3.2"
+    "semver": "^6.3.0"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.22.1",
