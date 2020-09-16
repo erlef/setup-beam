@@ -6,7 +6,7 @@
   "scripts": {
     "build": "ncc build src/setup-elixir.js",
     "format": "prettier \"src/**/*.js\"",
-    "test": "jest"
+    "test": "node __tests__/setup-elixir.test.js"
   },
   "husky": {
     "hooks": {
@@ -22,7 +22,6 @@
   "devDependencies": {
     "@zeit/ncc": "^0.22.1",
     "husky": "^4.2.5",
-    "jest": "^26.4.2",
     "prettier": "^2.0.5"
   }
 }
