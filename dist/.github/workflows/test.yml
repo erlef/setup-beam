@@ -7,7 +7,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  unit_test:
+    runs-on: ubuntu-latest
+    name: Unit tests
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with: {node-version: '12'}
+      - run: npm ci
+      - run: npm test
+
+  integration_test:
     runs-on: ubuntu-latest
     name: OTP ${{matrix.pair.otp-version}} / Elixir ${{matrix.pair.elixir-version}}
     strategy:
