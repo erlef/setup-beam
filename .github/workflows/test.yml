@@ -23,10 +23,6 @@ jobs:
     strategy:
       matrix:
         pair:
-          - otp-version: '18.0'
-            elixir-version: '1.1'
-          - otp-version: '23.0'
-            elixir-version: '1.10'
           # Full Versions
           - otp-version: '22.0'
             elixir-version: '1.9.1'
@@ -36,6 +32,9 @@ jobs:
           # Branches
           - otp-version: '22.0'
             elixir-version: master
+          # Pre-releases
+          - otp-version: '23.0'
+            elixir-version: '1.11.0-rc.0'
     steps:
       - uses: actions/checkout@v2
       - name: Use actions/setup-elixir
