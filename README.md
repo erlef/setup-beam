@@ -25,6 +25,10 @@ Additionally, it is recommended that one specifies OTP and Elixir versions
 using YAML strings, as these examples do, so that numbers like `23.0` don't
 end up being parsed as `23`, which is not equivalent.
 
+For pre-release Elixir versions, such as `1.11.0-rc.0`, use the full version
+specifier (`1.11.0-rc.0`). Pre-release versions are opt-in, so `1.11.x` will
+not match a pre-release.
+
 ### Basic example
 
 ```yaml
