@@ -7,4 +7,4 @@ cd $RUNNER_TEMP
 wget -q https://repo.hex.pm/builds/elixir/${1}${2}.zip
 unzip -d .setup-elixir/elixir ${1}${2}.zip
 rm ${1}${2}.zip
-echo "::add-path::$(pwd)/.setup-elixir/elixir/bin"
+echo "$(pwd)/.setup-elixir/elixir/bin" >> $GITHUB_PATH
