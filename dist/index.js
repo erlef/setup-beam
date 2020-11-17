@@ -2955,9 +2955,9 @@ async function installElixir(version, otpMajor) {
  *
  * @param {string} version
  */
-async function installOTP(version) {
+async function installOTP(version, osVersion) {
   if (process.platform === 'linux') {
-    await exec(__webpack_require__.ab + "install-otp", [version])
+    await exec(__webpack_require__.ab + "install-otp", [version, osVersion])
     return
   }
 
@@ -3324,11 +3324,16 @@ async function main() {
 
   let installHex = core.getInput('install-hex')
   installHex = installHex == null ? 'true' : installHex
+
   let installRebar = core.getInput('install-rebar')
   installRebar = installRebar == null ? 'true' : installRebar
 
-  console.log(`##[group]Installing OTP ${otpVersion}`)
-  await installOTP(otpVersion)
+  const experimentalOTP = core.getInput('experimental-otp')
+  const osVersion =
+    experimentalOTP === 'true' ? getRunnerOSVersion() : 'ubuntu-14.04'
+
+  console.log(`##[group]Installing OTP ${otpVersion} - built on ${osVersion}`)
+  await installOTP(otpVersion, osVersion)
   console.log(`##[endgroup]`)
 
   console.log(`##[group]Installing Elixir ${elixirVersion}`)
@@ -3344,6 +3349,7 @@ async function main() {
   console.log(`##[add-matcher]${path.join(matchersPath, 'elixir.json')}`)
   core.setOutput('otp-version', otpVersion)
   core.setOutput('elixir-version', elixirVersion)
+  core.setOutput('osVersion', osVersion)
 }
 
 function checkPlatform() {
@@ -3355,6 +3361,16 @@ function checkPlatform() {
 
 async function getOtpVersion(spec) {
   return getVersionFromSpec(spec, await getOtpVersions()) || spec
+}
+
+function getRunnerOSVersion(experimentalOTP) {
+  const mapToUbuntuVersion = {
+    ubuntu16: 'ubuntu-16.04',
+    ubuntu18: 'ubuntu-18.04',
+    ubuntu20: 'ubuntu-20.04',
+  }
+
+  return mapToUbuntuVersion[process.env.ImageOS] || 'ubuntu-18.04'
 }
 
 exports.getElixirVersion = getElixirVersion

@@ -22,9 +22,9 @@ async function installElixir(version, otpMajor) {
  *
  * @param {string} version
  */
-async function installOTP(version) {
+async function installOTP(version, osVersion) {
   if (process.platform === 'linux') {
-    await exec(path.join(__dirname, 'install-otp'), [version])
+    await exec(path.join(__dirname, 'install-otp'), [version, osVersion])
     return
   }
 

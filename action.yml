@@ -9,6 +9,9 @@ inputs:
     description: Version range or exact version of Elixir to use
   otp-version:
     description: Version range or exact version of OTP to use
+  experimental-otp:
+    description: Whether to use experimental builds of OTP (images that have not yet been fully tested include ubuntu-16.04, ubuntu-18.04, ubuntu-20.04)
+    default: false
   install-hex:
     description: Whether to install Hex
     default: true
