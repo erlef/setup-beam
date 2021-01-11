@@ -16,9 +16,10 @@ main().catch(err => {
 async function main() {
   checkPlatform()
 
+  const osVersion = getRunnerOSVersion()
   const otpSpec = core.getInput('otp-version', {required: true})
   const elixirSpec = core.getInput('elixir-version', {required: true})
-  const otpVersion = await getOtpVersion(otpSpec)
+  const otpVersion = await getOtpVersion(otpSpec, osVersion)
   const [elixirVersion, otpMajor] = await getElixirVersion(
     elixirSpec,
     otpVersion
@@ -29,8 +30,6 @@ async function main() {
 
   let installRebar = core.getInput('install-rebar')
   installRebar = installRebar == null ? 'true' : installRebar
-
-  const osVersion = getRunnerOSVersion()
 
   console.log(`##[group]Installing OTP ${otpVersion} - built on ${osVersion}`)
   await installOTP(otpVersion, osVersion)
@@ -59,8 +58,9 @@ function checkPlatform() {
     )
 }
 
-async function getOtpVersion(spec) {
-  return getVersionFromSpec(spec, await getOtpVersions()) || spec
+async function getOtpVersion(spec, osVersion) {
+  const version = getVersionFromSpec(spec, await getOtpVersions(osVersion))
+  return version ? `OTP-${version}` : spec
 }
 
 function getRunnerOSVersion() {
@@ -85,10 +85,10 @@ async function getElixirVersion(spec, otpVersion) {
 
   const version = getVersionFromSpec(spec, semverVersions)
   const gitRef = version ? `v${version}` : spec
-  const [otpMajor] = otpVersion.match(/^\d+/)
+  const otpMatch = otpVersion.match(/^OTP-([\.\d]+)/)
 
-  if (versions.get(gitRef).includes(otpMajor)) {
-    return [gitRef, otpMajor]
+  if (otpMatch != null && versions.get(gitRef).includes(otpMatch[0])) {
+    return [gitRef, otpMatch[0]]
   } else {
     return [gitRef, null]
   }
@@ -103,17 +103,23 @@ function getVersionFromSpec(spec, versions) {
   }
 }
 
-async function getOtpVersions() {
+async function getOtpVersions(osVersion) {
   const result = await get(
-    'https://raw.githubusercontent.com/erlang/otp/master/otp_versions.table'
+    `https://repo.hex.pm/builds/otp/${osVersion}/builds.txt`
   )
 
   return result
     .trim()
     .split('\n')
     .map(line => {
-      const [_, version] = line.match(/^OTP-([\.\d]+)/)
-      return version
+      const match = line.match(/^OTP-([\.\d]+)/)
+
+      if (match) {
+        const [_, version] = match
+        return version
+      } else {
+        return line
+      }
     })
 }
 
