@@ -30,9 +30,7 @@ async function main() {
   let installRebar = core.getInput('install-rebar')
   installRebar = installRebar == null ? 'true' : installRebar
 
-  const experimentalOTP = core.getInput('experimental-otp')
-  const osVersion =
-    experimentalOTP === 'true' ? getRunnerOSVersion() : 'ubuntu-14.04'
+  const osVersion = getRunnerOSVersion()
 
   console.log(`##[group]Installing OTP ${otpVersion} - built on ${osVersion}`)
   await installOTP(otpVersion, osVersion)
@@ -65,7 +63,7 @@ async function getOtpVersion(spec) {
   return getVersionFromSpec(spec, await getOtpVersions()) || spec
 }
 
-function getRunnerOSVersion(experimentalOTP) {
+function getRunnerOSVersion() {
   const mapToUbuntuVersion = {
     ubuntu16: 'ubuntu-16.04',
     ubuntu18: 'ubuntu-18.04',
