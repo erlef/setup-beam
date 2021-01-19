@@ -57,7 +57,7 @@ async function main() {
 function checkPlatform() {
   if (process.platform !== 'linux')
     throw new Error(
-      '@actions/setup-elixir only supports Ubuntu Linux at this time'
+      '@erlef/setup-elixir only supports Ubuntu Linux at this time'
     )
 }
 
