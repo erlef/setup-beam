@@ -1,7 +1,7 @@
 # setup-elixir
 
-[![](https://github.com/actions/setup-elixir/workflows/Test/badge.svg)](https://github.com/actions/setup-elixir/actions)
-[![](https://github.com/actions/setup-elixir/workflows/Licensed/badge.svg)](https://github.com/actions/setup-elixir/actions)
+[![](https://github.com/erlef/setup-elixir/workflows/Test/badge.svg)](https://github.com/actions/setup-elixir/actions)
+[![](https://github.com/erlef/setup-elixir/workflows/Licensed/badge.svg)](https://github.com/actions/setup-elixir/actions)
 
 This action sets up an Elixir environment for use in a GitHub Actions
 workflow by:
