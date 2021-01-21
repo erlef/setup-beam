@@ -2961,9 +2961,7 @@ async function installOTP(version, osVersion) {
     return
   }
 
-  throw new Error(
-    '@erlef/setup-elixir only supports Ubuntu Linux at this time'
-  )
+  throw new Error('@erlef/setup-elixir only supports Ubuntu Linux at this time')
 }
 
 
