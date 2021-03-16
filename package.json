@@ -4,8 +4,14 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "ncc build src/setup-beam.js",
-    "format": "prettier \"src/**/*.js\""
+    "build": "ncc build src/setup-beam.js --no-cache --license licenses.txt",
+    "format": "prettier src/**/*.js --write && prettier __tests__/**/*.js --write",
+    "jslint": "eslint src/**/*.js && eslint __tests__/**/*.js",
+    "licenses": "yarn licenses generate-disclaimer > 3RD_PARTY_LICENSES",
+    "markdownlint": "markdownlint *.md",
+    "shellcheck": "shellcheck src/install-*",
+    "test": "node __tests__/setup-beam.test.js",
+    "yamllint": "yamllint .github/workflows/**.yml && yamllint .*.yml && yamllint *.yml"
   },
   "husky": {
     "hooks": {
@@ -13,14 +19,22 @@
     }
   },
   "dependencies": {
-    "@actions/core": "^1.0.0",
-    "@actions/exec": "^1.0.0",
-    "@actions/tool-cache": "^1.1.0",
-    "semver": "^6.3.0"
+    "@actions/core": "1.2.6",
+    "@actions/exec": "1.0.4",
+    "semver": "7.3.4"
   },
   "devDependencies": {
-    "@zeit/ncc": "^0.22.1",
-    "husky": "^4.2.5",
-    "prettier": "^2.0.5"
+    "@vercel/ncc": "0.27.0",
+    "eslint": "7.22.0",
+    "eslint-config-google": "0.14.0",
+    "husky": "5.2.0",
+    "markdownlint": "0.23.1",
+    "prettier": "2.2.1",
+    "shellcheck": "1.0.0",
+    "yaml-lint": "1.2.4",
+    "yarn": "1.22.10"
+  },
+  "engines": {
+    "node": ">=12"
   }
 }

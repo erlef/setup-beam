@@ -1,0 +1,16 @@
+---
+env:
+  node: true
+  es2021: true
+extends:
+  - google
+parserOptions:
+  ecmaVersion: 12
+rules: {
+  indent: ["warn", 2],
+  max-len: ["warn", 100],
+  no-unused-vars: ["error", {"varsIgnorePattern": "^_"}],
+  require-jsdoc: 0,
+  semi: 0,
+  no-undef: "error"
+}

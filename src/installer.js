@@ -1,32 +1,43 @@
 const {exec} = require('@actions/exec')
 const path = require('path')
-const semver = require('semver')
 
-module.exports = {installElixir, installOTP}
+/**
+ * Install Erlang/OTP.
+ *
+ * @param {string} osVersion
+ * @param {string} otpVersion
+ */
+async function installOTP(osVersion, otpVersion) {
+  await exec(path.join(__dirname, 'install-otp'), [osVersion, otpVersion])
+}
 
 /**
  * Install Elixir.
  *
- * @param {string} version
- * @param {string} otpMajor
+ * @param {string} elixirVersion
  */
-async function installElixir(version, otpMajor) {
-  if (process.platform === 'linux') {
-    const otpString = otpMajor ? `-otp-${otpMajor}` : ''
-    await exec(path.join(__dirname, 'install-elixir'), [version, otpString])
-  }
+async function installElixir(elixirVersion) {
+  await exec(path.join(__dirname, 'install-elixir'), [elixirVersion])
 }
 
 /**
- * Install OTP.
+ * Install rebar3.
  *
- * @param {string} version
+ * @param {string} rebar3Version
  */
-async function installOTP(version, osVersion) {
-  if (process.platform === 'linux') {
-    await exec(path.join(__dirname, 'install-otp'), [version, osVersion])
-    return
-  }
+async function installRebar3(rebar3Version) {
+  await exec(path.join(__dirname, 'install-rebar3'), [rebar3Version])
+}
 
-  throw new Error('@erlef/setup-beam only supports Ubuntu Linux at this time')
+function checkPlatform() {
+  if (process.platform !== 'linux') {
+    throw new Error('@erlef/setup-beam only supports Ubuntu Linux at this time')
+  }
+}
+
+module.exports = {
+  installOTP: installOTP,
+  installElixir: installElixir,
+  installRebar3: installRebar3,
+  checkPlatform: checkPlatform,
 }

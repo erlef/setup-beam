@@ -1,4 +1,5 @@
-## Contributing
+<!-- markdownlint-disable MD013 -->
+# Contributing
 
 [fork]: https://github.com/erlef/setup-beam/fork
 [pr]: https://github.com/erlef/setup-beam/compare

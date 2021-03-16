@@ -1,0 +1,16 @@
+{application, mylib, [
+    {description, "An OTP library"},
+    {vsn, "0.1.0"},
+    {registered, []},
+    {mod, nil},
+
+    {applications, [
+        % OTP dependencies
+        kernel,
+        stdlib
+    ]},
+
+    {env,[]},
+
+    {licenses, ["Apache 2.0"]}
+ ]}.
