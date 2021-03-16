@@ -4,8 +4,8 @@ simulateInput('rebar3-version', '3.14')
 simulateInput('install-rebar', 'true')
 simulateInput('install-hex', 'true')
 
-const setupElixir = require('../src/setup-beam')
 const assert = require('assert')
+const setupElixir = require('../src/setup-beam')
 const installer = require('../src/installer')
 
 async function all() {
