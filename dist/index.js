@@ -3383,8 +3383,8 @@ async function getElixirVersion(spec, otpVersion) {
   const gitRef = version ? `v${version}` : spec
   const otpMatch = otpVersion.match(/^OTP-([\.\d]+)/)
 
-  if (otpMatch != null && versions.get(gitRef).includes(otpMatch[0])) {
-    return [gitRef, otpMatch[0]]
+  if (otpMatch != null && versions.get(gitRef).includes(otpMatch[1])) {
+    return [gitRef, otpMatch[1]]
   } else {
     return [gitRef, null]
   }

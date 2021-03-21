@@ -3,13 +3,13 @@ const {deepStrictEqual} = require('assert')
 
 async function test() {
   let vsn
-  vsn = await getElixirVersion('v1.10.x', '23')
+  vsn = await getElixirVersion('v1.10.x', 'OTP-23')
   deepStrictEqual(vsn, ['v1.10.4', '23'])
 
-  vsn = await getElixirVersion('^v1.10', '23')
-  deepStrictEqual(vsn, ['v1.10.4', '23'])
+  vsn = await getElixirVersion('^v1.10', 'OTP-23')
+  deepStrictEqual(vsn, ['v1.11.4', '23'])
 
-  vsn = await getElixirVersion('v1.11.0-rc.0', '23')
+  vsn = await getElixirVersion('v1.11.0-rc.0', 'OTP-23')
   deepStrictEqual(vsn, ['v1.11.0-rc.0', '23'])
 }
 
