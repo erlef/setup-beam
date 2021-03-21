@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "build": "ncc build src/setup-elixir.js",
-    "format": "prettier \"src/**/*.js\""
+    "format": "prettier \"src/**/*.js\"",
+    "test": "node __tests__/setup-elixir.test.js"
   },
   "husky": {
     "hooks": {
