@@ -1,42 +1,18 @@
 name: Test
 
 on:
-  push: {branches: main}
-  pull_request: {branches: main}
-  repository_dispatch:
-  workflow_dispatch:
+  pull_request: {branches: '*'}
 
 jobs:
-  unit_test:
-    runs-on: ubuntu-latest
-    name: Unit tests
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with: {node-version: '12'}
-      - run: npm ci
-      - run: npm test
-
   integration_test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     name: OTP ${{matrix.pair.otp-version}} / Elixir ${{matrix.pair.elixir-version}}
     strategy:
       matrix:
         pair:
           # Full Versions
-          - otp-version: '22.0'
-            elixir-version: '1.9.1'
-          # Semver ranges
-          - otp-version: '21.x'
-            elixir-version: '<1.9.1'
-          # Branches
-          - otp-version: '22.0'
-            elixir-version: master
-          - otp-version: 'master'
-            elixir-version: '1.11.3'
-          # Pre-releases
-          - otp-version: '23.0'
-            elixir-version: '1.11.0-rc.0'
+          - otp-version: '19.3'
+            elixir-version: '1.2.6'
     steps:
       - uses: actions/checkout@v2
       - name: Use erlef/setup-elixir

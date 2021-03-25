@@ -8,3 +8,7 @@ wget -q https://repo.hex.pm/builds/elixir/${1}${2}.zip
 unzip -d .setup-elixir/elixir ${1}${2}.zip
 rm ${1}${2}.zip
 echo "$(pwd)/.setup-elixir/elixir/bin" >> $GITHUB_PATH
+echo "Erlang/OTP location: $(which erl)"
+echo "Erlang/OTP version: $(which erl) -version"
+echo "Installed Elixir version follows"
+.setup-elixir/elixir/bin/iex -v
