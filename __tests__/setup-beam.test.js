@@ -1,4 +1,4 @@
-const {getElixirVersion} = require('../src/setup-elixir')
+const {getElixirVersion} = require('../src/setup-beam')
 const {deepStrictEqual} = require('assert')
 
 async function test() {

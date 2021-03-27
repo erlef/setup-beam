@@ -39,7 +39,7 @@ async function main() {
   await installElixir(elixirVersion, otpMajor)
   console.log(`##[endgroup]`)
 
-  process.env.PATH = `${process.env.RUNNER_TEMP}/.setup-elixir/elixir/bin:${process.env.RUNNER_TEMP}/.setup-elixir/otp/bin:${process.env.PATH}`
+  process.env.PATH = `${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin:${process.env.RUNNER_TEMP}/.setup-beam/otp/bin:${process.env.PATH}`
 
   if (installRebar === 'true') await exec('mix local.rebar --force')
   if (installHex === 'true') await exec('mix local.hex --force')
@@ -53,9 +53,7 @@ async function main() {
 
 function checkPlatform() {
   if (process.platform !== 'linux')
-    throw new Error(
-      '@erlef/setup-elixir only supports Ubuntu Linux at this time'
-    )
+    throw new Error('@erlef/setup-beam only supports Ubuntu Linux at this time')
 }
 
 async function getOtpVersion(spec, osVersion) {
