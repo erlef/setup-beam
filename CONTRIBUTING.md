@@ -1,8 +1,8 @@
 ## Contributing
 
-[fork]: https://github.com/erlef/setup-elixir/fork
-[pr]: https://github.com/erlef/setup-elixir/compare
-[code-of-conduct]: https://github.com/erlef/setup-elixir/blob/main/CODE_OF_CONDUCT.md
+[fork]: https://github.com/erlef/setup-beam/fork
+[pr]: https://github.com/erlef/setup-beam/compare
+[code-of-conduct]: https://github.com/erlef/setup-beam/blob/main/CODE_OF_CONDUCT.md
 
 Hi there! We're thrilled that you'd like to contribute to this project. Your help is essential for keeping it great.
 

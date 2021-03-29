@@ -34,7 +34,7 @@ module.exports =
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(986);
+/******/ 		return __webpack_require__(562);
 /******/ 	};
 /******/
 /******/ 	// run startup
@@ -2931,7 +2931,7 @@ function escapeProperty(s) {
 /***/ 449:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
-const {exec} = __webpack_require__(917)
+const {exec} = __webpack_require__(986)
 const path = __webpack_require__(622)
 const semver = __webpack_require__(280)
 
@@ -2961,7 +2961,7 @@ async function installOTP(version, osVersion) {
     return
   }
 
-  throw new Error('@erlef/setup-elixir only supports Ubuntu Linux at this time')
+  throw new Error('@erlef/setup-beam only supports Ubuntu Linux at this time')
 }
 
 
@@ -3212,90 +3212,11 @@ exports.getState = getState;
 
 /***/ }),
 
-/***/ 614:
-/***/ (function(module) {
-
-module.exports = require("events");
-
-/***/ }),
-
-/***/ 622:
-/***/ (function(module) {
-
-module.exports = require("path");
-
-/***/ }),
-
-/***/ 669:
-/***/ (function(module) {
-
-module.exports = require("util");
-
-/***/ }),
-
-/***/ 747:
-/***/ (function(module) {
-
-module.exports = require("fs");
-
-/***/ }),
-
-/***/ 917:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const tr = __importStar(__webpack_require__(9));
-/**
- * Exec a command.
- * Output will be streamed to the live console.
- * Returns promise with return code
- *
- * @param     commandLine        command to execute (can include additional args). Must be correctly escaped.
- * @param     args               optional arguments for tool. Escaping is handled by the lib.
- * @param     options            optional exec options.  See ExecOptions
- * @returns   Promise<number>    exit code
- */
-function exec(commandLine, args, options) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const commandArgs = tr.argStringToArray(commandLine);
-        if (commandArgs.length === 0) {
-            throw new Error(`Parameter 'commandLine' cannot be null or empty.`);
-        }
-        // Path to tool to execute should be first arg
-        const toolPath = commandArgs[0];
-        args = commandArgs.slice(1).concat(args || []);
-        const runner = new tr.ToolRunner(toolPath, args, options);
-        return runner.exec();
-    });
-}
-exports.exec = exec;
-//# sourceMappingURL=exec.js.map
-
-/***/ }),
-
-/***/ 986:
+/***/ 562:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 const core = __webpack_require__(470)
-const {exec} = __webpack_require__(917)
+const {exec} = __webpack_require__(986)
 const {installElixir, installOTP} = __webpack_require__(449)
 const path = __webpack_require__(622)
 const semver = __webpack_require__(280)
@@ -3335,7 +3256,7 @@ async function main() {
   await installElixir(elixirVersion, otpMajor)
   console.log(`##[endgroup]`)
 
-  process.env.PATH = `${process.env.RUNNER_TEMP}/.setup-elixir/elixir/bin:${process.env.RUNNER_TEMP}/.setup-elixir/otp/bin:${process.env.PATH}`
+  process.env.PATH = `${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin:${process.env.RUNNER_TEMP}/.setup-beam/otp/bin:${process.env.PATH}`
 
   if (installRebar === 'true') await exec('mix local.rebar --force')
   if (installHex === 'true') await exec('mix local.hex --force')
@@ -3349,9 +3270,7 @@ async function main() {
 
 function checkPlatform() {
   if (process.platform !== 'linux')
-    throw new Error(
-      '@erlef/setup-elixir only supports Ubuntu Linux at this time'
-    )
+    throw new Error('@erlef/setup-beam only supports Ubuntu Linux at this time')
 }
 
 async function getOtpVersion(spec, osVersion) {
@@ -3468,6 +3387,85 @@ function get(url) {
   })
 }
 
+
+/***/ }),
+
+/***/ 614:
+/***/ (function(module) {
+
+module.exports = require("events");
+
+/***/ }),
+
+/***/ 622:
+/***/ (function(module) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 669:
+/***/ (function(module) {
+
+module.exports = require("util");
+
+/***/ }),
+
+/***/ 747:
+/***/ (function(module) {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 986:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const tr = __importStar(__webpack_require__(9));
+/**
+ * Exec a command.
+ * Output will be streamed to the live console.
+ * Returns promise with return code
+ *
+ * @param     commandLine        command to execute (can include additional args). Must be correctly escaped.
+ * @param     args               optional arguments for tool. Escaping is handled by the lib.
+ * @param     options            optional exec options.  See ExecOptions
+ * @returns   Promise<number>    exit code
+ */
+function exec(commandLine, args, options) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const commandArgs = tr.argStringToArray(commandLine);
+        if (commandArgs.length === 0) {
+            throw new Error(`Parameter 'commandLine' cannot be null or empty.`);
+        }
+        // Path to tool to execute should be first arg
+        const toolPath = commandArgs[0];
+        args = commandArgs.slice(1).concat(args || []);
+        const runner = new tr.ToolRunner(toolPath, args, options);
+        return runner.exec();
+    });
+}
+exports.exec = exec;
+//# sourceMappingURL=exec.js.map
 
 /***/ })
 
