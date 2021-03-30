@@ -1,4 +1,4 @@
-const {exec} = require('@actions/exec')
+const { exec } = require('@actions/exec')
 const path = require('path')
 
 /**
@@ -36,8 +36,8 @@ function checkPlatform() {
 }
 
 module.exports = {
-  installOTP: installOTP,
-  installElixir: installElixir,
-  installRebar3: installRebar3,
-  checkPlatform: checkPlatform,
+  installOTP,
+  installElixir,
+  installRebar3,
+  checkPlatform,
 }

@@ -26,7 +26,7 @@
   "devDependencies": {
     "@vercel/ncc": "0.27.0",
     "eslint": "7.22.0",
-    "eslint-config-google": "0.14.0",
+    "eslint-config-airbnb": "v18.2.1",
     "husky": "5.2.0",
     "markdownlint": "0.23.1",
     "prettier": "2.2.1",

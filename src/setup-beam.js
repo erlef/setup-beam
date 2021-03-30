@@ -1,9 +1,9 @@
 const core = require('@actions/core')
-const {exec} = require('@actions/exec')
-const installer = require('./installer')
+const { exec } = require('@actions/exec')
 const path = require('path')
 const semver = require('semver')
 const https = require('https')
+const installer = require('./installer')
 
 main().catch((err) => {
   core.setFailed(err.message)
@@ -13,10 +13,10 @@ async function main() {
   installer.checkPlatform()
 
   const osVersion = getRunnerOSVersion()
-  const otpSpec = core.getInput('otp-version', {required: true})
+  const otpSpec = core.getInput('otp-version', { required: true })
   const otpVersion = await installOTP(otpSpec, osVersion)
 
-  const elixirSpec = core.getInput('elixir-version', {required: false})
+  const elixirSpec = core.getInput('elixir-version', { required: false })
   const elixirInstalled = await maybeInstallElixir(elixirSpec, otpVersion)
   if (elixirInstalled === true) {
     const shouldMixRebar = core.getInput('install-rebar', {
@@ -29,7 +29,7 @@ async function main() {
     await mix(shouldMixHex, 'hex')
   }
 
-  const rebar3Spec = core.getInput('rebar3-version', {required: false})
+  const rebar3Spec = core.getInput('rebar3-version', { required: false })
   maybeInstallRebar3(rebar3Spec)
 }
 
@@ -41,7 +41,7 @@ async function installOTP(otpSpec, osVersion) {
   await installer.installOTP(osVersion, otpVersion)
   core.setOutput('otp-version', otpVersion)
   prependToPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
-  console.log(`##[endgroup]`)
+  console.log('##[endgroup]')
 
   return otpVersion
 }
@@ -55,12 +55,12 @@ async function maybeInstallElixir(elixirSpec, otpVersion) {
     const matchersPath = path.join(__dirname, '..', '.github')
     console.log(`##[add-matcher]${path.join(matchersPath, 'elixir.json')}`)
     prependToPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
-    console.log(`##[endgroup]`)
+    console.log('##[endgroup]')
 
     return true
-  } else {
-    return false
   }
+
+  return false
 }
 
 async function mix(shouldMix, what) {
@@ -69,7 +69,7 @@ async function mix(shouldMix, what) {
     const args = [`local.${what}`, '--force']
     console.log(`##[group]Running ${cmd} ${args}`)
     await exec(cmd, args)
-    console.log(`##[endgroup]`)
+    console.log('##[endgroup]')
   }
 }
 
@@ -80,12 +80,12 @@ async function maybeInstallRebar3(rebar3Spec) {
     await installer.installRebar3(rebar3Version)
     core.setOutput('rebar3-version', rebar3Version)
     prependToPath(`${process.env.RUNNER_TEMP}/.setup-beam/rebar3/bin`)
-    console.log(`##[endgroup]`)
+    console.log('##[endgroup]')
 
     return true
-  } else {
-    return false
   }
+
+  return false
 }
 
 async function getOTPVersion(otpSpec0, osVersion) {
@@ -95,7 +95,7 @@ async function getOTPVersion(otpSpec0, osVersion) {
   if (otpSpec[1]) {
     throw new Error(
       `Requested Erlang/OTP version (from spec ${otpSpec0}) ` +
-        `should not contain 'OTP-'`,
+        "should not contain 'OTP-'",
     )
   }
   if (otpSpec) {
@@ -122,7 +122,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
   if (exSpec[2]) {
     throw new Error(
       `Requested Elixir / Erlang/OTP version (from spec ${exSpec0} / ${otpVersion}) ` +
-        `should not contain '-otp-...'`,
+        "should not contain '-otp-...'",
     )
   }
   if (exSpec) {
@@ -133,7 +133,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
       `Requested Elixir version (from spec ${exSpec0}) not found in build listing`,
     )
   }
-  const otpMatch = otpVersion.match(/^(?:OTP-)?([^\.]+)/)
+  const otpMatch = otpVersion.match(/^(?:OTP-)?([^.]+)/)
   let elixirVersionWithOTP
 
   if (elixirVersions.get(elixirVersion)) {
@@ -141,7 +141,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
     // We try for a version like `v1.4.5-otp-20`...
     if (elixirVersions.get(elixirVersion).includes(otpMatch[1])) {
       // ... and it's available: use it!
-      elixirVersionWithOTP = elixirVersion + `-otp-${otpVersionMajor}`
+      elixirVersionWithOTP = `${elixirVersion}-otp-${otpVersionMajor}`
       core.info(`Using Elixir / -otp- version ${elixirVersionWithOTP}`)
     } else {
       // ... and it's not available: fallback to the "generic" version (v1.4.5 only).
@@ -151,7 +151,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
   } else {
     throw new Error(
       `Requested Elixir / Erlang/OTP version (from spec ${exSpec0} / ${otpVersion}) not ` +
-        `found in build listing`,
+        'found in build listing',
     )
   }
 
@@ -179,14 +179,12 @@ async function getOTPVersions(osVersion) {
   otpVersionsListing
     .trim()
     .split('\n')
-    .map((line) => {
-      debugger
+    .forEach((line) => {
       const otpMatch = line.match(/^(OTP-)?([^ ]+)/)
 
       const otpVersion = otpMatch[2]
       otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
     })
-    .sort()
 
   return otpVersions
 }
@@ -230,9 +228,9 @@ async function getRebar3Versions() {
 function getVersionFromSpec(spec, versions) {
   if (versions.includes(spec)) {
     return spec
-  } else {
-    return semver.maxSatisfying(versions, semver.validRange(spec))
   }
+
+  return semver.maxSatisfying(versions, semver.validRange(spec))
 }
 
 function getRunnerOSVersion() {
@@ -251,7 +249,7 @@ function get(url) {
       .get(
         url,
         {
-          headers: {'user-agent': 'setup-beam'},
+          headers: { 'user-agent': 'setup-beam' },
         },
         (res) => {
           let data = ''
@@ -274,7 +272,7 @@ function prependToPath(what) {
 }
 
 module.exports = {
-  getOTPVersion: getOTPVersion,
-  getElixirVersion: getElixirVersion,
-  getRebar3Version: getRebar3Version,
+  getOTPVersion,
+  getElixirVersion,
+  getRebar3Version,
 }

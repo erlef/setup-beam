@@ -1,6 +1,6 @@
 {
   "arrowParens": "always",
-  "bracketSpacing": false,
+  "bracketSpacing": true,
   "semi": false,
   "singleQuote": true,
   "trailingComma": "all"
