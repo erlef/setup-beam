@@ -4660,7 +4660,9 @@ async function maybeInstallElixir(elixirSpec, otpVersion) {
     await installer.installElixir(elixirVersion)
     core.setOutput('elixir-version', elixirVersion)
     const matchersPath = __nccwpck_require__.ab + ".github"
-    console.log(`##[add-matcher]${path.join(matchersPath, 'elixir.json')}`)
+    console.log(
+      `##[add-matcher]${path.join(matchersPath, 'elixir-matchers.json')}`,
+    )
     prependToPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
     console.log('##[endgroup]')
 
