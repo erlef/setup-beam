@@ -1,3 +1,4 @@
 %{
-  "logfmt": {:hex, :logfmt, "3.3.0", "f863e19b9cac952f177f878074ec9304bb132eb9034306e75216dee88ca744d9", [:mix], [], "hexpm"},
+  "logfmt": {:hex, :logfmt, "3.3.1", "d9eaf344f81f4b4a6f2a1c73d79cb9cb4c4ff1d7c878d7a1bf3cb92761f653db", [:mix], [], "hexpm", "5030c9dafe1ef85e416cc867cd8db836de512c54047735c7a3e7be0ba67a532e"},
+  "verl": {:hex, :verl, "1.0.3", "22d1add283196ba2c453a848a6b99122412e4d16dfda690846a55bdd3fbfe594", [:rebar3], [], "hexpm", "dffd8a778c21c98dd4270930f321dc47ec783707fb2d42bd81c9955811af89f1"},
 }
