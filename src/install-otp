@@ -2,11 +2,21 @@
 
 set -eo pipefail
 
-cd $RUNNER_TEMP
+cd "$RUNNER_TEMP"
 
-wget -q -O otp.tar.gz https://repo.hex.pm/builds/otp/${2}/${1}.tar.gz
-mkdir -p .setup-beam/otp
-tar zxf otp.tar.gz -C .setup-beam/otp --strip-components=1
-rm otp.tar.gz
-.setup-beam/otp/Install -minimal $(pwd)/.setup-beam/otp
-echo "$(pwd)/.setup-beam/otp/bin" >> $GITHUB_PATH
+OS=${1}
+VSN=${2}
+FILE_INPUT="${VSN}.tar.gz"
+FILE_OUTPUT=otp.tar.gz
+DIR_FOR_BIN=.setup-beam/otp
+
+rm -f "${FILE_OUTPUT}"
+rm -rf "${DIR_FOR_BIN}"
+wget -q -O "${FILE_OUTPUT}" "https://repo.hex.pm/builds/otp/${OS}/${FILE_INPUT}"
+mkdir -p "${DIR_FOR_BIN}"
+tar zxf "${FILE_OUTPUT}" -C "${DIR_FOR_BIN}" --strip-components=1
+rm -f "${FILE_OUTPUT}"
+"${DIR_FOR_BIN}/Install" -minimal "$(pwd)/${DIR_FOR_BIN}"
+echo "$(pwd)/${DIR_FOR_BIN}/bin" >> "$GITHUB_PATH"
+echo "Installed Erlang/OTP version follows"
+${DIR_FOR_BIN}/bin/erl -version

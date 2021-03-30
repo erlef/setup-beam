@@ -1,4 +1,5 @@
-The MIT License (MIT)
+<!-- markdownlint-disable MD013 -->
+# The MIT License (MIT)
 
 Copyright (c) 2019 GitHub, Inc. and contributors
 

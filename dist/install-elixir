@@ -2,9 +2,19 @@
 
 set -eo pipefail
 
-cd $RUNNER_TEMP
+cd "$RUNNER_TEMP"
 
-wget -q https://repo.hex.pm/builds/elixir/${1}${2}.zip
-unzip -d .setup-beam/elixir ${1}${2}.zip
-rm ${1}${2}.zip
-echo "$(pwd)/.setup-beam/elixir/bin" >> $GITHUB_PATH
+VSN=${1}
+FILE_INPUT="${VSN}.zip"
+FILE_OUTPUT=elixir.zip
+DIR_FOR_BIN=.setup-beam/elixir
+
+rm -f "${FILE_OUTPUT}"
+rm -rf "${DIR_FOR_BIN}"
+wget -q -O "${FILE_OUTPUT}" "https://repo.hex.pm/builds/elixir/${FILE_INPUT}"
+mkdir -p "${DIR_FOR_BIN}"
+unzip -q -d "${DIR_FOR_BIN}" "${FILE_OUTPUT}"
+rm -f "${FILE_OUTPUT}"
+echo "$(pwd)/${DIR_FOR_BIN}/bin" >> "$GITHUB_PATH"
+echo "Installed Elixir version follows"
+${DIR_FOR_BIN}/bin/iex -v
