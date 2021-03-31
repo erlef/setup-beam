@@ -174,9 +174,9 @@ if System.get_env("GITHUB_ACTIONS") do
 end
 ```
 
-## Matchers
+## Elixir Problem Matchers
 
-The problem matchers in this repository are adapted from [here](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118). See [MATCHER_NOTICE](MATCHER_NOTICE.md) for license details.
+The Elixir Problem Matchers in this repository are adapted from [here](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118). See [MATCHER_NOTICE](MATCHER_NOTICE.md) for license details.
 
 ## License
 
