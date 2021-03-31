@@ -34,6 +34,17 @@ For pre-release Elixir versions, such as `1.11.0-rc.0`, use the full version
 specifier (`1.11.0-rc.0`). Pre-release versions are opt-in, so `1.11.x` will
 not match a pre-release.
 
+### Compatibility between Ubuntu and Erlang/OTP
+
+This list presents the known working version combos between Ubuntu
+and Erlang/OTP. Non-listed combos are not guaranteed to work.
+
+| Ubuntu       | Erlang/OTP | Status
+|-             |-           |-
+| ubuntu-16.04 | 17 - 23    | ✅
+| ubuntu-18.04 | 20 - 23    | ✅
+| ubuntu-20.04 | 20 - 23    | ✅
+
 ### Basic example (Elixir)
 
 ```yaml
