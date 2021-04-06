@@ -37,12 +37,12 @@ not match a pre-release.
 ### Compatibility between Ubuntu and Erlang/OTP
 
 This list presents the known working version combos between Ubuntu
-and Erlang/OTP. Non-listed combos are not guaranteed to work.
+and Erlang/OTP.
 
 | Ubuntu       | Erlang/OTP | Status
 |-             |-           |-
 | ubuntu-16.04 | 17 - 23    | ✅
-| ubuntu-18.04 | 20 - 23    | ✅
+| ubuntu-18.04 | 17 - 23    | ✅
 | ubuntu-20.04 | 20 - 23    | ✅
 
 ### Basic example (Elixir)

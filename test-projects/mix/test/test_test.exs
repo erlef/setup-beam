@@ -6,4 +6,8 @@ defmodule TestTest do
     out = Logfmt.encode(foo: "bar")
     assert out == "foo=bar"
   end
+
+  test "ensures ssl" do
+    assert {:ok, _} = Application.ensure_all_started(:ssl)
+  end
 end
