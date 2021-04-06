@@ -24,10 +24,11 @@ jobs:
       (Erlang/OTP ${{matrix.pair.otp-version}},
        Elixir ${{matrix.pair.elixir-version}},
        rebar3 ${{matrix.pair.rebar3-version}})
-    runs-on: ubuntu-18.04
+    runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
       matrix:
+        os: ['ubuntu-16.04', 'ubuntu-18.04', 'ubuntu-20.04']
         pair:
           # Full Versions
           - otp-version: '22.0'
@@ -47,9 +48,8 @@ jobs:
           # Pre-releases
           - otp-version: '23.0'
             elixir-version: '1.11.0-rc.0'
-          # Fallback to Elixir (with no OTP)
-          - otp-version: '24.0-rc1'
-            elixir-version: '1.9.3'
+          - elixir-version: 'v1.11.0-rc.0'
+            otp-version: 'master'
           # Miscellaneous combos
           - elixir-version: 'master'
             otp-version: '22.3'
@@ -81,8 +81,6 @@ jobs:
             otp-version: '23'
           - elixir-version: 'v1.11.0-rc.0'
             otp-version: '23.0'
-          - elixir-version: 'v1.11.0-rc.0'
-            otp-version: 'master'
     steps:
       - uses: actions/checkout@v2
       - name: Use erlef/setup-beam
