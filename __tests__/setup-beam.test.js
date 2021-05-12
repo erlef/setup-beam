@@ -98,6 +98,30 @@ async function testOTPVersions() {
   expected = 'OTP-19.3.6'
   got = await setupElixir.getOTPVersion(spec, osVersion)
   assert.deepStrictEqual(got, expected)
+
+  spec = '20'
+  osVersion = 'ubuntu-20.04'
+  expected = 'OTP-20.3.8'
+  got = await setupElixir.getOTPVersion(spec, osVersion)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '20.x'
+  osVersion = 'ubuntu-20.04'
+  expected = 'OTP-20.3.8'
+  got = await setupElixir.getOTPVersion(spec, osVersion)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '20.0'
+  osVersion = 'ubuntu-20.04'
+  expected = 'OTP-20.0.5'
+  got = await setupElixir.getOTPVersion(spec, osVersion)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '20.0.x'
+  osVersion = 'ubuntu-20.04'
+  expected = 'OTP-20.0.5'
+  got = await setupElixir.getOTPVersion(spec, osVersion)
+  assert.deepStrictEqual(got, expected)
 }
 
 async function testElixirVersions() {

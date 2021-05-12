@@ -1081,7 +1081,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -----
 
-The following software may be included in this product: es-to-primitive, is-boolean-object, is-callable, is-date-object, is-number-object, is-string, is-symbol, object.entries. A copy of the source code may be downloaded from git://github.com/ljharb/es-to-primitive.git (es-to-primitive), git://github.com/ljharb/is-boolean-object.git (is-boolean-object), git://github.com/ljharb/is-callable.git (is-callable), git://github.com/ljharb/is-date-object.git (is-date-object), git://github.com/inspect-js/is-number-object.git (is-number-object), git://github.com/ljharb/is-string.git (is-string), git://github.com/inspect-js/is-symbol.git (is-symbol), git://github.com/es-shims/Object.entries.git (object.entries). This software contains the following license and notice below:
+The following software may be included in this product: es-to-primitive, is-boolean-object, is-callable, is-date-object, is-number-object, is-string, is-symbol, object.entries. A copy of the source code may be downloaded from git://github.com/ljharb/es-to-primitive.git (es-to-primitive), git://github.com/inspect-js/is-boolean-object.git (is-boolean-object), git://github.com/ljharb/is-callable.git (is-callable), git://github.com/inspect-js/is-date-object.git (is-date-object), git://github.com/inspect-js/is-number-object.git (is-number-object), git://github.com/ljharb/is-string.git (is-string), git://github.com/inspect-js/is-symbol.git (is-symbol), git://github.com/es-shims/Object.entries.git (object.entries). This software contains the following license and notice below:
 
 The MIT License (MIT)
 
@@ -1928,7 +1928,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 -----
 
-The following software may be included in this product: is-bigint. A copy of the source code may be downloaded from git+https://github.com/ljharb/is-bigint.git. This software contains the following license and notice below:
+The following software may be included in this product: is-bigint. A copy of the source code may be downloaded from git+https://github.com/inspect-js/is-bigint.git. This software contains the following license and notice below:
 
 MIT License
 
@@ -2216,7 +2216,7 @@ terms above.
 
 -----
 
-The following software may be included in this product: lodash.clonedeep, lodash.flatten, lodash.snakecase, lodash.truncate. A copy of the source code may be downloaded from https://github.com/lodash/lodash.git (lodash.clonedeep), https://github.com/lodash/lodash.git (lodash.flatten), https://github.com/lodash/lodash.git (lodash.snakecase), https://github.com/lodash/lodash.git (lodash.truncate). This software contains the following license and notice below:
+The following software may be included in this product: lodash.clonedeep, lodash.snakecase, lodash.truncate. A copy of the source code may be downloaded from https://github.com/lodash/lodash.git (lodash.clonedeep), https://github.com/lodash/lodash.git (lodash.snakecase), https://github.com/lodash/lodash.git (lodash.truncate). This software contains the following license and notice below:
 
 Copyright jQuery Foundation and other contributors <https://jquery.org/>
 

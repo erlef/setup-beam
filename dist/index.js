@@ -4791,7 +4791,10 @@ async function getOTPVersions(osVersion) {
     .forEach((line) => {
       const otpMatch = line.match(/^(OTP-)?([^ ]+)/)
 
-      const otpVersion = otpMatch[2]
+      let otpVersion = otpMatch[2]
+      if (semver.validRange(otpVersion)) {
+        otpVersion = semver.minVersion(otpVersion).version
+      }
       otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
     })
 
