@@ -144,12 +144,12 @@ async function getElixirVersion(exSpec0, otpVersion) {
     if (elixirVersions.get(elixirVersion).includes(otpMatch[1])) {
       // ... and it's available: use it!
       elixirVersionWithOTP = `${elixirVersion}-otp-${otpVersionMajor}`
-      core.info(`Using Elixir / -otp- version ${elixirVersionWithOTP}`)
     } else {
       // ... and it's not available: fallback to the "generic" version (v1.4.5 only).
       elixirVersionWithOTP = elixirVersion
-      core.info(`Using Elixir ${elixirVersionWithOTP}`)
     }
+
+    core.info(`Using Elixir ${elixirVersionWithOTP}`)
   } else {
     throw new Error(
       `Requested Elixir / Erlang/OTP version (from spec ${exSpec0} / ${otpVersion}) not ` +
