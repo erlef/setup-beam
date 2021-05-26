@@ -12,12 +12,9 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
-      - name: Use erlef/setup-beam
-        id: setup-beam
-        uses: ./
-        with:
-          otp-version: '24'
-      - name: Erlang/OTP version (action)
-        run: echo "Erlang/OTP ${{steps.setup-beam.outputs.otp-version}}"
-      - name: rebar3 version (action)
-        run: rebar3 version
+      #- name: Use erlef/setup-beam
+      #  id: setup-beam
+      #  uses: ./
+      #  with:
+      #    otp-version: '24'
+      - run: which rebar3
