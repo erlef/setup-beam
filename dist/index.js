@@ -4859,7 +4859,7 @@ async function getElixirVersions() {
 
 async function getRebar3Versions() {
   const resultJSON = await get(
-    'https://api.github.com/repos/erlang/rebar3/releases',
+    'https://api.github.com/repos/erlang/rebar3/releases?per_page=100',
   )
   const rebar3VersionsListing = JSON.parse(resultJSON)
     .map((x) => x.tag_name)

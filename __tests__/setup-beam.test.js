@@ -154,18 +154,18 @@ async function testRebar3Versions() {
   let expected
   let spec
 
-  spec = '3.13.x'
-  expected = '3.13.2'
+  spec = '3.10.x'
+  expected = '3.10.0'
   got = await setupElixir.getRebar3Version(spec)
   assert.deepStrictEqual(got, expected)
 
-  spec = '3.13.2'
-  expected = '3.13.2'
+  spec = '3.10.0'
+  expected = '3.10.0'
   got = await setupElixir.getRebar3Version(spec)
   assert.deepStrictEqual(got, expected)
 
-  spec = '3.13'
-  expected = '3.13.2'
+  spec = '3.10'
+  expected = '3.10.0'
   got = await setupElixir.getRebar3Version(spec)
   assert.deepStrictEqual(got, expected)
 }
