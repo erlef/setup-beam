@@ -1,6 +1,5 @@
 {
   "name": "setup-beam",
-  "version": "1.7.1",
   "license": "MIT",
   "private": true,
   "scripts": {
