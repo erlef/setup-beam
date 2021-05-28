@@ -56,7 +56,7 @@ jobs:
             os: 'ubuntu-16.04'
           - elixir-version: 'v1.4'
             otp-version: '20'
-            rebar3-version: '3.11'
+            rebar3-version: '3.6.0'
             os: 'ubuntu-18.04'
           - elixir-version: 'v1.4'
             otp-version: '20'
