@@ -23,7 +23,7 @@ See [action.yml](action.yml).
 complex](http://erlang.org/doc/system_principles/versions.html#version-scheme).
 For best results, we recommend specifying exact Erlang/OTP, Elixir versions, and
 `rebar3` versions.
-However, values like `22.x` are also accepted, and we attempt to resolve them
+However, values like `22.x`, or even `>22`, are also accepted, and we attempt to resolve them
 according to semantic versioning rules.
 
 Additionally, it is recommended that one specifies Erlang/OTP, Elixir and `rebar3` versions
@@ -41,9 +41,9 @@ and Erlang/OTP.
 
 | Ubuntu       | Erlang/OTP | Status
 |-             |-           |-
-| ubuntu-16.04 | 17 - 23    | ✅
-| ubuntu-18.04 | 17 - 23    | ✅
-| ubuntu-20.04 | 20 - 23    | ✅
+| ubuntu-16.04 | 17 - 24    | ✅
+| ubuntu-18.04 | 17 - 24    | ✅
+| ubuntu-20.04 | 20 - 24    | ✅
 
 ### Basic example (Elixir)
 
