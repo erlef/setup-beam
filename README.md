@@ -12,18 +12,19 @@ workflow by:
 - installing Erlang/OTP
 - optionally, installing Elixir
 - optionally, installing `rebar3`
+- optionally, installing `hex`
 
 **Note** Currently, this action only supports Actions' `ubuntu-` runtimes.
 
 ## Usage
 
-See [action.yml](action.yml).
+See [action.yml](action.yml) for the action's specification.
 
-**Note** The Erlang/OTP release version specification is [relatively
+**Note**: The Erlang/OTP release version specification is [relatively
 complex](http://erlang.org/doc/system_principles/versions.html#version-scheme).
 For best results, we recommend specifying exact Erlang/OTP, Elixir versions, and
 `rebar3` versions.
-However, values like `22.x` are also accepted, and we attempt to resolve them
+However, values like `22.x`, or even `>22`, are also accepted, and we attempt to resolve them
 according to semantic versioning rules.
 
 Additionally, it is recommended that one specifies Erlang/OTP, Elixir and `rebar3` versions
@@ -41,13 +42,14 @@ and Erlang/OTP.
 
 | Ubuntu       | Erlang/OTP | Status
 |-             |-           |-
-| ubuntu-16.04 | 17 - 23    | ✅
-| ubuntu-18.04 | 17 - 23    | ✅
-| ubuntu-20.04 | 20 - 23    | ✅
+| ubuntu-16.04 | 17 - 24    | ✅
+| ubuntu-18.04 | 17 - 24    | ✅
+| ubuntu-20.04 | 20 - 24    | ✅
 
 ### Basic example (Elixir)
 
 ```yaml
+# create this in .github/workflows/ci.yml
 on: push
 
 jobs:
@@ -66,6 +68,7 @@ jobs:
 ### Basic example (`rebar3`)
 
 ```yaml
+# create this in .github/workflows/ci.yml
 on: push
 
 jobs:
@@ -83,6 +86,7 @@ jobs:
 ### Matrix example (Elixir)
 
 ```yaml
+# create this in .github/workflows/ci.yml
 on: push
 
 jobs:
@@ -106,6 +110,7 @@ jobs:
 ### Matrix example (`rebar3`)
 
 ```yaml
+# create this in .github/workflows/ci.yml
 on: push
 
 jobs:
@@ -123,66 +128,6 @@ jobs:
           otp-version: ${{matrix.otp}}
           rebar3-version: ${{matrix.rebar3}}
       - run: rebar3 ct
-```
-
-### Phoenix example
-
-```yaml
-on: push
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    services:
-      db:
-        image: postgres:11
-        ports: ['5432:5432']
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: '22.2'
-          elixir-version: '1.9.4'
-      - run: mix deps.get
-      - run: mix test
-```
-
-#### Authenticating with Postgres in Phoenix
-
-When using the Phoenix example above, the `postgres` container has some
-default authentication set up. Specifically, it expects a username of
-"postgres", and a password of "postgres". It will be available at
-`localhost:5432`.
-
-The simplest way of setting these auth values in CI is by checking for the
-`GITHUB_ACTIONS` environment variable that is set in all workflows:
-
-```elixir
-# config/test.exs
-
-use Mix.Config
-
-# Configure the database for local testing
-config :app, App.Repo,
-  database: "my_app_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
-
-# Configure the database for GitHub Actions
-if System.get_env("GITHUB_ACTIONS") do
-  config :app, App.Repo,
-    username: "postgres",
-    password: "postgres"
-end
 ```
 
 ## Elixir Problem Matchers
