@@ -12,14 +12,15 @@ workflow by:
 - installing Erlang/OTP
 - optionally, installing Elixir
 - optionally, installing `rebar3`
+- optionally, installing `hex`
 
 **Note** Currently, this action only supports Actions' `ubuntu-` runtimes.
 
 ## Usage
 
-See [action.yml](action.yml).
+See [action.yml](action.yml) for the action's specification.
 
-**Note** The Erlang/OTP release version specification is [relatively
+**Note**: The Erlang/OTP release version specification is [relatively
 complex](http://erlang.org/doc/system_principles/versions.html#version-scheme).
 For best results, we recommend specifying exact Erlang/OTP, Elixir versions, and
 `rebar3` versions.
@@ -48,6 +49,7 @@ and Erlang/OTP.
 ### Basic example (Elixir)
 
 ```yaml
+# create this in .github/workflows/ci.yml
 on: push
 
 jobs:
@@ -66,6 +68,7 @@ jobs:
 ### Basic example (`rebar3`)
 
 ```yaml
+# create this in .github/workflows/ci.yml
 on: push
 
 jobs:
@@ -83,6 +86,7 @@ jobs:
 ### Matrix example (Elixir)
 
 ```yaml
+# create this in .github/workflows/ci.yml
 on: push
 
 jobs:
@@ -106,6 +110,7 @@ jobs:
 ### Matrix example (`rebar3`)
 
 ```yaml
+# create this in .github/workflows/ci.yml
 on: push
 
 jobs:
