@@ -5,7 +5,7 @@ simulateInput('install-rebar', 'true')
 simulateInput('install-hex', 'true')
 
 const assert = require('assert')
-const setupElixir = require('../src/setup-beam')
+const setupBeam = require('../src/setup-beam')
 const installer = require('../src/installer')
 
 async function all() {
@@ -84,43 +84,43 @@ async function testOTPVersions() {
   spec = '19.3.x'
   osVersion = 'ubuntu-16.04'
   expected = 'OTP-19.3.6'
-  got = await setupElixir.getOTPVersion(spec, osVersion)
+  got = await setupBeam.getOTPVersion(spec, osVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '^19.3.6'
   osVersion = 'ubuntu-16.04'
   expected = 'OTP-19.3.6'
-  got = await setupElixir.getOTPVersion(spec, osVersion)
+  got = await setupBeam.getOTPVersion(spec, osVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '^19.3'
   osVersion = 'ubuntu-18.04'
   expected = 'OTP-19.3.6'
-  got = await setupElixir.getOTPVersion(spec, osVersion)
+  got = await setupBeam.getOTPVersion(spec, osVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '20'
   osVersion = 'ubuntu-20.04'
   expected = 'OTP-20.3.8'
-  got = await setupElixir.getOTPVersion(spec, osVersion)
+  got = await setupBeam.getOTPVersion(spec, osVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '20.x'
   osVersion = 'ubuntu-20.04'
   expected = 'OTP-20.3.8'
-  got = await setupElixir.getOTPVersion(spec, osVersion)
+  got = await setupBeam.getOTPVersion(spec, osVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '20.0'
   osVersion = 'ubuntu-20.04'
   expected = 'OTP-20.0.5'
-  got = await setupElixir.getOTPVersion(spec, osVersion)
+  got = await setupBeam.getOTPVersion(spec, osVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '20.0.x'
   osVersion = 'ubuntu-20.04'
   expected = 'OTP-20.0.5'
-  got = await setupElixir.getOTPVersion(spec, osVersion)
+  got = await setupBeam.getOTPVersion(spec, osVersion)
   assert.deepStrictEqual(got, expected)
 }
 
@@ -133,19 +133,19 @@ async function testElixirVersions() {
   spec = '1.1.x'
   otpVersion = 'OTP-23'
   expected = 'v1.1.1'
-  got = await setupElixir.getElixirVersion(spec, otpVersion)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '1.10.4'
   otpVersion = 'OTP-23'
   expected = 'v1.10.4-otp-23'
-  got = await setupElixir.getElixirVersion(spec, otpVersion)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '1.11.0-rc.0'
   otpVersion = 'OTP-23'
   expected = 'v1.11.0-rc.0-otp-23'
-  got = await setupElixir.getElixirVersion(spec, otpVersion)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 }
 
@@ -156,17 +156,17 @@ async function testRebar3Versions() {
 
   spec = '3.10.x'
   expected = '3.10.0'
-  got = await setupElixir.getRebar3Version(spec)
+  got = await setupBeam.getRebar3Version(spec)
   assert.deepStrictEqual(got, expected)
 
   spec = '3.10.0'
   expected = '3.10.0'
-  got = await setupElixir.getRebar3Version(spec)
+  got = await setupBeam.getRebar3Version(spec)
   assert.deepStrictEqual(got, expected)
 
   spec = '3.10'
   expected = '3.10.0'
-  got = await setupElixir.getRebar3Version(spec)
+  got = await setupBeam.getRebar3Version(spec)
   assert.deepStrictEqual(got, expected)
 }
 
