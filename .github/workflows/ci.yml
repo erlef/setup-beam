@@ -21,12 +21,12 @@ jobs:
       - run: npm install -g npm
       - run: npm install
       - run: npm run build
+      - run: npm run format
       - run: npm install -g markdownlint-cli
       - run: npm run markdownlint
       - run: npm run shellcheck
       - run: npm run yamllint
       - run: npm run jslint
       - run: npm run licenses
-      - run: npm run format
       - name: Check if build left artifacts
         run: git diff --exit-code
