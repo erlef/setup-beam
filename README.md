@@ -141,7 +141,6 @@ on: push
 jobs:
   test:
     runs-on: windows-2019
-    name: Erlang/OTP ${{matrix.otp}} / rebar3 ${{matrix.rebar3}}
     steps:
       - uses: actions/checkout@v2
       - uses: erlef/setup-beam@v1
