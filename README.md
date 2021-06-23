@@ -147,8 +147,7 @@ jobs:
         with:
           otp-version: '24.0.2'
           rebar3-version: '3.16.1'
-      - shell: pwsh
-        run: "& rebar3 ct"
+      - run: rebar3 ct
 ```
 
 ## Elixir Problem Matchers
