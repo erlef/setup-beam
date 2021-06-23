@@ -177,4 +177,4 @@ jobs:
       - name: Run rebar3 project tests
         run: |
           cd test-projects/rebar3
-          & rebar3 ct
+          rebar3 ct
