@@ -10,8 +10,29 @@ on:
       - main
 
 jobs:
+  check_integrity:
+    name: Expected local npm actions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - run: npm install -g npm
+      - run: npm install
+      - run: npm run build
+      - run: npm run format
+      - run: npm install -g markdownlint-cli
+      - run: npm run markdownlint
+      - run: npm run shellcheck
+      - run: npm run yamllint
+      - run: npm run jslint
+      - run: npm run licenses
+      - name: Check if build left artifacts
+        run: git diff --exit-code
+
   unit_test:
-    name: Pre-release unit tests
+    name: Unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,9 +42,8 @@ jobs:
       - run: npm test
 
   integration_test_ubuntu:
-    name: >
-      Pre-release integration tests
-      (Ubuntu ${{matrix.combo.os}},
+    name: Integration tests (Ubuntu)
+      (on ${{matrix.combo.os}},
        Erlang/OTP ${{matrix.combo.otp-version}},
        Elixir ${{matrix.combo.elixir-version}},
        rebar3 ${{matrix.combo.rebar3-version}})
@@ -140,9 +160,8 @@ jobs:
         if: ${{matrix.combo.rebar3-version}}
 
   integration_test_windows:
-    name: >
-      Pre-release integration tests
-      (Windows ${{matrix.combo.os}},
+    name: Integration tests (Windows)
+      (on ${{matrix.combo.os}},
        Erlang/OTP ${{matrix.combo.otp-version}},
        rebar3 ${{matrix.combo.rebar3-version}})
     runs-on: ${{matrix.combo.os}}
