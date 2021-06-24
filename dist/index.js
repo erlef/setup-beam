@@ -4599,7 +4599,7 @@ async function installOTP(osVersion, otpVersion) {
     await exec(__nccwpck_require__.ab + "install-otp.sh", [osVersion, otpVersion])
   } else if (OS === 'win32') {
     const script = __nccwpck_require__.ab + "install-otp.ps1"
-    await exec(`powershell.exe ${script} -VSN:${otpVersion}`)
+    await exec(`pwsh.exe ${script} -VSN:${otpVersion}`)
   }
 }
 
@@ -4614,7 +4614,7 @@ async function installElixir(elixirVersion) {
     await exec(__nccwpck_require__.ab + "install-elixir.sh", [elixirVersion])
   } else if (OS === 'win32') {
     const script = __nccwpck_require__.ab + "install-elixir.ps1"
-    await exec(`powershell.exe ${script} ${elixirVersion}`)
+    await exec(`pwsh.exe ${script} -VSN:${elixirVersion}`)
   }
 }
 
@@ -4629,7 +4629,7 @@ async function installRebar3(rebar3Version) {
     await exec(__nccwpck_require__.ab + "install-rebar3.sh", [rebar3Version])
   } else if (OS === 'win32') {
     const script = __nccwpck_require__.ab + "install-rebar3.ps1"
-    await exec(`powershell.exe ${script} -VSN:${rebar3Version}`)
+    await exec(`pwsh.exe ${script} -VSN:${rebar3Version}`)
   }
 }
 
@@ -4704,11 +4704,11 @@ async function installOTP(otpSpec, osVersion) {
   if (process.platform === 'linux') {
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
   } else if (process.platform === 'win32') {
-    const prePath = fs.readFileSync(`${process.env.RUNNER_TEMP}/pre_path.txt`, {
+    const otpPath = fs.readFileSync(`${process.env.RUNNER_TEMP}/otp_path.txt`, {
       encoding: 'utf8',
       flag: 'r',
     })
-    core.addPath(prePath)
+    core.addPath(otpPath)
   }
   console.log('##[endgroup]')
 

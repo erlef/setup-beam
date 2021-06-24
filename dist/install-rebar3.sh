@@ -13,6 +13,5 @@ wget -q -O "${FILE_OUTPUT}" "https://github.com/erlang/rebar3/releases/download/
 mkdir -p "${DIR_FOR_BIN}/bin"
 chmod +x "${FILE_OUTPUT}"
 mv "${FILE_OUTPUT}" "${DIR_FOR_BIN}/bin"
-echo "$(pwd)/${DIR_FOR_BIN}/bin" >> "$GITHUB_PATH"
 echo "Installed rebar3 version follows"
 ${DIR_FOR_BIN}/bin/rebar3 version

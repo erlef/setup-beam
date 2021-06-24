@@ -48,11 +48,11 @@ async function installOTP(otpSpec, osVersion) {
   if (process.platform === 'linux') {
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
   } else if (process.platform === 'win32') {
-    const prePath = fs.readFileSync(`${process.env.RUNNER_TEMP}/pre_path.txt`, {
+    const otpPath = fs.readFileSync(`${process.env.RUNNER_TEMP}/otp_path.txt`, {
       encoding: 'utf8',
       flag: 'r',
     })
-    core.addPath(prePath)
+    core.addPath(otpPath)
   }
   console.log('##[endgroup]')
 

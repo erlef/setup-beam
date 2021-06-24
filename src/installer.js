@@ -13,7 +13,7 @@ async function installOTP(osVersion, otpVersion) {
     await exec(path.join(__dirname, 'install-otp.sh'), [osVersion, otpVersion])
   } else if (OS === 'win32') {
     const script = path.join(__dirname, 'install-otp.ps1')
-    await exec(`powershell.exe ${script} -VSN:${otpVersion}`)
+    await exec(`pwsh.exe ${script} -VSN:${otpVersion}`)
   }
 }
 
@@ -28,7 +28,7 @@ async function installElixir(elixirVersion) {
     await exec(path.join(__dirname, 'install-elixir.sh'), [elixirVersion])
   } else if (OS === 'win32') {
     const script = path.join(__dirname, 'install-elixir.ps1')
-    await exec(`powershell.exe ${script} ${elixirVersion}`)
+    await exec(`pwsh.exe ${script} -VSN:${elixirVersion}`)
   }
 }
 
@@ -43,7 +43,7 @@ async function installRebar3(rebar3Version) {
     await exec(path.join(__dirname, 'install-rebar3.sh'), [rebar3Version])
   } else if (OS === 'win32') {
     const script = path.join(__dirname, 'install-rebar3.ps1')
-    await exec(`powershell.exe ${script} -VSN:${rebar3Version}`)
+    await exec(`pwsh.exe ${script} -VSN:${rebar3Version}`)
   }
 }
 
