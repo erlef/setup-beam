@@ -2,10 +2,12 @@
 name: test
 
 on:
-  push: {branches: main}
-  pull_request: {branches: main}
-  repository_dispatch:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   unit_test:
@@ -18,7 +20,7 @@ jobs:
       - run: npm ci
       - run: npm test
 
-  integration_test:
+  integration_test_ubuntu:
     name: >
       Pre-release integration tests
       (Ubuntu ${{matrix.combo.os}},
@@ -136,3 +138,43 @@ jobs:
           cd test-projects/rebar3
           rebar3 ct
         if: ${{matrix.combo.rebar3-version}}
+
+  integration_test_windows:
+    name: >
+      Pre-release integration tests
+      (Windows ${{matrix.combo.os}},
+       Erlang/OTP ${{matrix.combo.otp-version}},
+       rebar3 ${{matrix.combo.rebar3-version}})
+    runs-on: ${{matrix.combo.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        combo:
+          - otp-version: '24.0.2'
+            rebar3-version: '3.16'
+            os: 'windows-2019'
+          - otp-version: '23.0'
+            rebar3-version: '3.15'
+            os: 'windows-2019'
+          - otp-version: '24.0.2'
+            rebar3-version: '3.16'
+            os: 'windows-2016'
+          - otp-version: '23.0'
+            rebar3-version: '3.15'
+            os: 'windows-2016'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use erlef/setup-beam
+        id: setup-beam
+        uses: ./
+        with:
+          otp-version: ${{matrix.combo.otp-version}}
+          rebar3-version: ${{matrix.combo.rebar3-version}}
+      - name: Erlang/OTP version (action)
+        run: echo "Erlang/OTP ${{steps.setup-beam.outputs.otp-version}}"
+      - name: rebar3 version (action)
+        run: echo "rebar3 ${{steps.setup-beam.outputs.rebar3-version}}"
+      - name: Run rebar3 project tests
+        run: |
+          cd test-projects/rebar3
+          rebar3 ct

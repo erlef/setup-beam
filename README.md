@@ -45,6 +45,8 @@ and Erlang/OTP.
 | ubuntu-16.04 | 17 - 24    | ✅
 | ubuntu-18.04 | 17 - 24    | ✅
 | ubuntu-20.04 | 20 - 24    | ✅
+| windows-2016 | 23 - 24    | ✅
+| windows-2019 | 23 - 24    | ✅
 
 ### Basic example (Elixir)
 
@@ -127,6 +129,24 @@ jobs:
         with:
           otp-version: ${{matrix.otp}}
           rebar3-version: ${{matrix.rebar3}}
+      - run: rebar3 ct
+```
+
+### Basic example (`rebar3` on Windows 2016)
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '24.0.2'
+          rebar3-version: '3.16.1'
       - run: rebar3 ct
 ```
 
