@@ -14,6 +14,9 @@ $ProgressPreference="Continue"
 New-Item "$DIR_FOR_BIN" -ItemType Directory | Out-Null
 Move-Item "$FILE_OUTPUT" "$DIR_FOR_BIN"
 Start-Process "./$DIR_FOR_BIN/$FILE_OUTPUT" /S -Wait
-Write-Output "C:/Program Files/erl-$VSN/bin" | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf8 -Append
+$ErlExec = Get-ChildItem -Path "C:/Program Files/" -Recurse -Depth 2 -Filter 'erl.exe' -Name | ForEach-Object { Write-Output "C:/Program Files/$_" }
+$ErlPath = Split-Path -Path "$ErlExec"
+Write-Output "$ErlPath" | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf8 -Append
+Write-Output "$ErlPath" | Out-File -FilePath pre_path.txt -Encoding utf8 -NoNewline
 Write-Output "Installed Erlang/OTP version follows"
-& "C:/Program Files/erl-$VSN/bin/erl.exe" "+V" | Write-Output
+& "$ErlPath/erl.exe" "+V" | Write-Output

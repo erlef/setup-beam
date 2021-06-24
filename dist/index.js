@@ -4659,6 +4659,7 @@ const { exec } = __nccwpck_require__(1514)
 const path = __nccwpck_require__(5622)
 const semver = __nccwpck_require__(1383)
 const https = __nccwpck_require__(7211)
+const fs = __nccwpck_require__(5747)
 const installer = __nccwpck_require__(2127)
 
 main().catch((err) => {
@@ -4701,9 +4702,13 @@ async function installOTP(otpSpec, osVersion) {
   await installer.installOTP(osVersion, otpVersion)
   core.setOutput('otp-version', otpVersion)
   if (process.platform === 'linux') {
-    prependToPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
+    core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
   } else if (process.platform === 'win32') {
-    prependToPath(`C:/Program Files/erl-${otpVersion}/bin`)
+    const prePath = fs.readFileSync(`${process.env.RUNNER_TEMP}/pre_path.txt`, {
+      encoding: 'utf8',
+      flag: 'r',
+    })
+    core.addPath(prePath)
   }
   console.log('##[endgroup]')
 
@@ -4720,7 +4725,7 @@ async function maybeInstallElixir(elixirSpec, otpVersion, shouldMixHex) {
     console.log(
       `##[add-matcher]${path.join(matchersPath, 'elixir-matchers.json')}`,
     )
-    prependToPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
+    core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
     console.log('##[endgroup]')
 
     return true
@@ -4751,7 +4756,7 @@ async function maybeInstallRebar3(rebar3Spec) {
     console.log(`##[group]Installing rebar3 ${rebar3Version}`)
     await installer.installRebar3(rebar3Version)
     core.setOutput('rebar3-version', rebar3Version)
-    prependToPath(`${process.env.RUNNER_TEMP}/.setup-beam/rebar3/bin`)
+    core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/rebar3/bin`)
     console.log('##[endgroup]')
 
     return true
@@ -4996,14 +5001,6 @@ async function get(url0, pageIdxs) {
     ret = Promise.all(pageIdxs.map((pageIdx) => getPage(pageIdx)))
   }
   return ret
-}
-
-function prependToPath(what) {
-  if (process.platform === 'linux') {
-    process.env.PATH = `${what}:${process.env.PATH}`
-  } else if (process.platform === 'win32') {
-    process.env.PATH = `${what};${process.env.PATH}`
-  }
 }
 
 function hasPatch(v) {

@@ -162,6 +162,18 @@ jobs:
           - otp-version: '23.0'
             rebar3-version: '3.15'
             os: 'windows-2016'
+          - otp-version: '22.3'
+            rebar3-version: '3.15'
+            os: 'windows-2016'
+          - otp-version: '22.0'
+            rebar3-version: '3.15'
+            os: 'windows-2016'
+          - otp-version: '21.3'
+            rebar3-version: '3.15'
+            os: 'windows-2016'
+          - otp-version: '21.0'
+            rebar3-version: '3.15'
+            os: 'windows-2016'
     steps:
       - uses: actions/checkout@v2
       - name: Use erlef/setup-beam
