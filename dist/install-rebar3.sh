@@ -9,8 +9,6 @@ FILE_INPUT=rebar3
 FILE_OUTPUT=rebar3
 DIR_FOR_BIN=.setup-beam/rebar3
 
-rm -f "${FILE_OUTPUT}"
-rm -rf "${DIR_FOR_BIN}"
 wget -q -O "${FILE_OUTPUT}" "https://github.com/erlang/rebar3/releases/download/${VSN}/${FILE_INPUT}"
 mkdir -p "${DIR_FOR_BIN}/bin"
 chmod +x "${FILE_OUTPUT}"
