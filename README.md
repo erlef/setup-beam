@@ -1,8 +1,12 @@
 <!-- markdownlint-disable MD013 -->
-# setup-beam [![GitHub Actions Test][test-img]][test] [![GitHub Actions CI]
+# setup-beam [![GitHub Actions][action-img]][action] [![GitHub Actions][ubuntu-img]][ubuntu] [![GitHub Actions][windows-img]][windows]
 
-[test]: https://github.com/erlef/setup-beam
-[test-img]: https://github.com/erlef/setup-beam/workflows/test/badge.svg
+[action]: https://github.com/erlef/setup-beam
+[action-img]: https://github.com/erlef/setup-beam/workflows/action/badge.svg
+[ubuntu]: https://github.com/erlef/setup-beam
+[ubuntu-img]: https://github.com/erlef/setup-beam/workflows/ubuntu/badge.svg
+[windows]: https://github.com/erlef/setup-beam
+[windows-img]: https://github.com/erlef/setup-beam/workflows/windows/badge.svg
 
 This action sets up an Erlang/OTP environment for use in a GitHub Actions
 workflow by:

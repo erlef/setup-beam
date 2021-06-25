@@ -1,5 +1,5 @@
 ---
-name: test
+name: ubuntu
 
 on:
   push:
@@ -10,39 +10,8 @@ on:
       - main
 
 jobs:
-  check_integrity:
-    name: Expected local npm actions
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12'
-      - run: npm install -g npm
-      - run: npm install
-      - run: npm run build
-      - run: npm run format
-      - run: npm install -g markdownlint-cli
-      - run: npm run markdownlint
-      - run: npm run shellcheck
-      - run: npm run yamllint
-      - run: npm run jslint
-      - run: npm run licenses
-      - name: Check if build left artifacts
-        run: git diff --exit-code
-
-  unit_test:
-    name: Unit tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with: {node-version: '12'}
-      - run: npm ci
-      - run: npm test
-
-  integration_test_ubuntu:
-    name: Test ${{matrix.combo.os}},
+  integration_test:
+    name: >
       OTP ${{matrix.combo.otp-version}},
       Elixir ${{matrix.combo.elixir-version}},
       rebar3 ${{matrix.combo.rebar3-version}}
@@ -140,82 +109,6 @@ jobs:
       - name: rebar3 version (action)
         run: echo "rebar3 ${{steps.setup-beam.outputs.rebar3-version}}"
         if: ${{matrix.combo.rebar3-version}}
-      - name: mix version and help (CLI)
-        run: |
-          mix -v
-          mix help local.rebar
-          mix help local.hex
-        if: ${{matrix.combo.elixir-version}}
-      - name: Run Mix project tests
-        run: |
-          cd test-projects/mix
-          mix deps.get
-          mix test
-        if: ${{matrix.combo.elixir-version}}
-      - name: Run rebar3 project tests
-        run: |
-          cd test-projects/rebar3
-          rebar3 ct
-        if: ${{matrix.combo.rebar3-version}}
-
-  integration_test_windows:
-    name: Test ${{matrix.combo.os}},
-      OTP ${{matrix.combo.otp-version}},
-      Elixir ${{matrix.combo.elixir-version}},
-      rebar3 ${{matrix.combo.rebar3-version}}
-    runs-on: ${{matrix.combo.os}}
-    strategy:
-      fail-fast: false
-      matrix:
-        combo:
-          - otp-version: '24.0.2'
-            rebar3-version: '3.16'
-            os: 'windows-2019'
-          - otp-version: '23.0'
-            rebar3-version: '3.15'
-            os: 'windows-2019'
-          - otp-version: '24.0.2'
-            rebar3-version: '3.16'
-            os: 'windows-2016'
-          - otp-version: '23.0'
-            rebar3-version: '3.15'
-            os: 'windows-2016'
-          - otp-version: '22.3'
-            rebar3-version: '3.15'
-            os: 'windows-2016'
-          - otp-version: '22.0'
-            rebar3-version: '3.15'
-            os: 'windows-2016'
-          - otp-version: '21.3'
-            rebar3-version: '3.15'
-            os: 'windows-2016'
-          - otp-version: '21.0'
-            rebar3-version: '3.15'
-            os: 'windows-2016'
-          - elixir-version: 'v1.10'
-            otp-version: '23'
-            rebar3-version: '3.14'
-            os: 'windows-latest'
-          - elixir-version: 'v1.11'
-            otp-version: '24'
-            rebar3-version: '3.15'
-            os: 'windows-latest'
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use erlef/setup-beam
-        id: setup-beam
-        uses: ./
-        with:
-          otp-version: ${{matrix.combo.otp-version}}
-          elixir-version: ${{matrix.combo.elixir-version}}
-          rebar3-version: ${{matrix.combo.rebar3-version}}
-      - name: Erlang/OTP version (action)
-        run: echo "Erlang/OTP ${{steps.setup-beam.outputs.otp-version}}"
-      - name: Elixir version (action)
-        run: echo "Elixir ${{steps.setup-beam.outputs.elixir-version}}"
-        if: ${{matrix.combo.elixir-version}}
-      - name: rebar3 version (action)
-        run: echo "rebar3 ${{steps.setup-beam.outputs.rebar3-version}}"
       - name: mix version and help (CLI)
         run: |
           mix -v
