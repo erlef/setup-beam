@@ -16,7 +16,7 @@ workflow by:
 - optionally, installing `rebar3`
 - optionally, installing `hex`
 
-**Note** Currently, this action only supports Actions' `ubuntu-` runtimes.
+**Note** Currently, this action only supports Actions' `ubuntu-` and `windows-` runtimes.
 
 ## Usage
 
@@ -37,22 +37,22 @@ For pre-release Elixir versions, such as `1.11.0-rc.0`, use the full version
 specifier (`1.11.0-rc.0`). Pre-release versions are opt-in, so `1.11.x` will
 not match a pre-release.
 
-### Compatibility between Ubuntu and Erlang/OTP
+### Compatibility between Operating System and Erlang/OTP
 
-This list presents the known working version combos between Ubuntu
+This list presents the known working version combos between the target operating system
 and Erlang/OTP.
 
-| Ubuntu       | Erlang/OTP | Status
-|-             |-           |-
-| ubuntu-16.04 | 17 - 24    | ✅
-| ubuntu-18.04 | 17 - 24    | ✅
-| ubuntu-20.04 | 20 - 24    | ✅
-| windows-2016 | 21* - 24   | ✅
-| windows-2019 | 21* - 24   | ✅
+| Operating system | Erlang/OTP | Status
+|-                 |-           |-
+| ubuntu-16.04     | 17 - 24    | ✅
+| ubuntu-18.04     | 17 - 24    | ✅
+| ubuntu-20.04     | 20 - 24    | ✅
+| windows-2016     | 21* - 24   | ✅
+| windows-2019     | 21* - 24   | ✅
 
 **Note** *: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3, 22.0, etc.
 
-### Basic example (Elixir)
+### Basic example (Erlang/OTP + Elixir, on Ubuntu)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -71,7 +71,7 @@ jobs:
       - run: mix test
 ```
 
-### Basic example (`rebar3`)
+### Basic example (Erlang/OTP + `rebar3`, on Ubuntu)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -89,7 +89,7 @@ jobs:
       - run: rebar3 ct
 ```
 
-### Matrix example (Elixir)
+### Matrix example (Erlang/OTP + Elixir, on Ubuntu)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -113,7 +113,7 @@ jobs:
       - run: mix test
 ```
 
-### Matrix example (`rebar3`)
+### Matrix example (Erlang/OTP + `rebar3`, on Ubuntu)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -136,7 +136,7 @@ jobs:
       - run: rebar3 ct
 ```
 
-### Basic example (`rebar3` on Windows 2016)
+### Basic example (Erlang/OTP + `rebar3`, on Windows)
 
 ```yaml
 # create this in .github/workflows/ci.yml
