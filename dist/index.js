@@ -4674,19 +4674,15 @@ async function main() {
   const otpVersion = await installOTP(otpSpec, osVersion)
 
   const elixirSpec = core.getInput('elixir-version', { required: false })
-  const shouldMixHex = core.getInput('install-hex', {
-    required: false,
-  })
-  const elixirInstalled = await maybeInstallElixir(
-    elixirSpec,
-    otpVersion,
-    shouldMixHex,
-  )
+  const elixirInstalled = await maybeInstallElixir(elixirSpec, otpVersion)
   if (elixirInstalled === true) {
     const shouldMixRebar = core.getInput('install-rebar', {
       required: false,
     })
     await mix(shouldMixRebar, 'rebar')
+    const shouldMixHex = core.getInput('install-hex', {
+      required: false,
+    })
     await mix(shouldMixHex, 'hex')
   }
 
@@ -4715,7 +4711,7 @@ async function installOTP(otpSpec, osVersion) {
   return otpVersion
 }
 
-async function maybeInstallElixir(elixirSpec, otpVersion, shouldMixHex) {
+async function maybeInstallElixir(elixirSpec, otpVersion) {
   if (elixirSpec) {
     const elixirVersion = await getElixirVersion(elixirSpec, otpVersion)
     console.log(`##[group]Installing Elixir ${elixirVersion}`)
