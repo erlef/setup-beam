@@ -114,7 +114,7 @@ async function testOTPVersions() {
 
     spec = '20.0'
     osVersion = 'ubuntu-20.04'
-    expected = 'OTP-20.0'
+    expected = 'OTP-20.0.5'
     got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 

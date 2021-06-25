@@ -4862,7 +4862,7 @@ async function getOTPVersions(osVersion) {
         const otpMatch = line.match(/^(OTP-)?([^ ]+)/)
 
         let otpVersion = otpMatch[2]
-        if (semver.validRange(otpVersion) && hasPatch(otpVersion)) {
+        if (semver.validRange(otpVersion)) {
           otpVersion = semver.minVersion(otpVersion).version
         }
         otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
@@ -4876,7 +4876,7 @@ async function getOTPVersions(osVersion) {
         .forEach((x) => {
           const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
           let otpVersion = otpMatch[1]
-          if (semver.validRange(otpVersion) && hasPatch(otpVersion)) {
+          if (semver.validRange(otpVersion)) {
             otpVersion = semver.minVersion(otpVersion).version
           }
           otpVersions.set(otpVersion, otpVersion)
@@ -4993,15 +4993,6 @@ async function get(url0, pageIdxs) {
   return ret
 }
 
-function hasPatch(v) {
-  try {
-    semver.patch(v)
-  } catch {
-    return false
-  }
-
-  return true
-}
 module.exports = {
   getOTPVersion,
   getElixirVersion,
