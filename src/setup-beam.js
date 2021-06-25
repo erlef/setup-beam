@@ -204,11 +204,7 @@ async function getOTPVersions(osVersion) {
       .split('\n')
       .forEach((line) => {
         const otpMatch = line.match(/^(OTP-)?([^ ]+)/)
-
-        let otpVersion = otpMatch[2]
-        if (semver.validRange(otpVersion)) {
-          otpVersion = semver.minVersion(otpVersion).version
-        }
+        const otpVersion = otpMatch[2]
         otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
@@ -219,10 +215,7 @@ async function getOTPVersions(osVersion) {
         .filter((x) => x.name.match(/^otp_win64_.*.exe$/))
         .forEach((x) => {
           const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
-          let otpVersion = otpMatch[1]
-          if (semver.validRange(otpVersion)) {
-            otpVersion = semver.minVersion(otpVersion).version
-          }
+          const otpVersion = otpMatch[1]
           otpVersions.set(otpVersion, otpVersion)
         })
     })
@@ -273,7 +266,10 @@ async function getRebar3Versions() {
 }
 
 function getVersionFromSpec(spec, versions) {
-  if (versions.includes(spec)) {
+  if (
+    versions.includes(spec) ||
+    core.getInput('version-type', { required: false }) === 'strict'
+  ) {
     return spec
   }
 

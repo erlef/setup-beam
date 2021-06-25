@@ -25,9 +25,10 @@ See [action.yml](action.yml) for the action's specification.
 **Note**: The Erlang/OTP release version specification is [relatively
 complex](http://erlang.org/doc/system_principles/versions.html#version-scheme).
 For best results, we recommend specifying exact Erlang/OTP, Elixir versions, and
-`rebar3` versions.
+`rebar3` versions, and setting option `strict-version` to `true`.
 However, values like `22.x`, or even `>22`, are also accepted, and we attempt to resolve them
-according to semantic versioning rules.
+according to semantic versioning rules. This implicitly means `strict-version` is `false`,
+which is also the default value for this option.
 
 Additionally, it is recommended that one specifies Erlang/OTP, Elixir and `rebar3` versions
 using YAML strings, as these examples do, so that numbers like `23.0` don't
@@ -149,7 +150,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: '24.0.2'
+          otp-version: '24'
           rebar3-version: '3.16.1'
       - run: rebar3 ct
 ```
