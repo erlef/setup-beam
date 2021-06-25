@@ -4731,12 +4731,6 @@ async function maybeInstallElixir(elixirSpec, otpVersion, shouldMixHex) {
     return true
   }
 
-  if (shouldMixHex) {
-    console.log(
-      "hex will not be installed (overriding default) since Elixir wasn't either",
-    )
-  }
-
   return false
 }
 
@@ -4771,7 +4765,7 @@ async function getOTPVersion(otpSpec0, osVersion) {
   let otpVersion
   if (otpSpec[1]) {
     throw new Error(
-      `Requested Erlang/OTP version (from spec ${otpSpec0}) ` +
+      `Requested Erlang/OTP version (${otpSpec0}) ` +
         "should not contain 'OTP-'",
     )
   }
@@ -4783,7 +4777,7 @@ async function getOTPVersion(otpSpec0, osVersion) {
   }
   if (otpVersion === null) {
     throw new Error(
-      `Requested Erlang/OTP version (from spec ${otpSpec0}) not found in build listing`,
+      `Requested Erlang/OTP version (${otpSpec0}) not found in version list`,
     )
   }
 
@@ -4798,7 +4792,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
   let elixirVersion
   if (exSpec[2]) {
     throw new Error(
-      `Requested Elixir / Erlang/OTP version (from spec ${exSpec0} / ${otpVersion}) ` +
+      `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion}) ` +
         "should not contain '-otp-...'",
     )
   }
@@ -4807,7 +4801,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
   }
   if (!exSpec || elixirVersion === null) {
     throw new Error(
-      `Requested Elixir version (from spec ${exSpec0}) not found in build listing`,
+      `Requested Elixir version (${exSpec0}) not found in version list`,
     )
   }
   const otpMatch = otpVersion.match(/^(?:OTP-)?([^.]+)/)
@@ -4829,8 +4823,8 @@ async function getElixirVersion(exSpec0, otpVersion) {
     }
   } else {
     throw new Error(
-      `Requested Elixir / Erlang/OTP version (from spec ${exSpec0} / ${otpVersion}) not ` +
-        'found in build listing',
+      `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion}) not ` +
+        'found in version list',
     )
   }
 
@@ -4842,7 +4836,7 @@ async function getRebar3Version(r3Spec) {
   const rebar3Version = getVersionFromSpec(r3Spec, rebar3Versions)
   if (rebar3Version === null) {
     throw new Error(
-      `Requested rebar3 version (from spec ${r3Spec}) not found in build listing`,
+      `Requested rebar3 version (${r3Spec}) not found in version list`,
     )
   }
 
