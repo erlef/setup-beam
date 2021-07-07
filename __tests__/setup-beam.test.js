@@ -16,6 +16,8 @@ async function all() {
   await testOTPVersions()
   await testElixirVersions()
   await testRebar3Versions()
+
+  await testGetVersionFromSpec()
 }
 
 async function testFailInstallOTP() {
@@ -189,6 +191,109 @@ async function testRebar3Versions() {
   spec = '3.10'
   expected = '3.10.0'
   got = await setupBeam.getRebar3Version(spec)
+  assert.deepStrictEqual(got, expected)
+}
+
+async function testGetVersionFromSpec() {
+  let got
+  let expected
+  let spec
+  const versions = [
+    '3.2.3.5',
+    '1',
+    '2',
+    '3.2.3.4.1',
+    '1.0',
+    '2.0',
+    '1.0.0',
+    '3.2.3.4.2',
+    '1.1.0',
+    '3.4.5.4',
+    '3.4.5.3',
+    '3.4.5.4.1',
+    '24.0-rc3',
+    '24.0-rc2',
+    '24.0',
+    '23.3.4',
+    '23.3.3',
+    '22.3.4.12.1',
+    '22.3.4.10.1',
+  ]
+
+  spec = '1'
+  expected = '1.1.0'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '1.0'
+  expected = '1.0.0'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  simulateInput('version-type', 'strict')
+  spec = '1'
+  expected = '1'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+  simulateInput('version-type', 'loose')
+
+  simulateInput('version-type', 'strict')
+  spec = '1.0'
+  expected = '1.0'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+  simulateInput('version-type', 'loose')
+
+  spec = '2'
+  expected = '2.0'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '3'
+  expected = '3.4.5.4.1'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '3.2'
+  expected = '3.2.3.5'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '>20'
+  expected = '24.0'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '24.0'
+  expected = '24.0'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  simulateInput('version-type', 'strict')
+  spec = '24.0-rc3'
+  expected = '24.0-rc3'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+  simulateInput('version-type', 'loose')
+
+  spec = '22.3'
+  expected = '22.3.4.12.1'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '23.3.3'
+  expected = '23.3.3'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '24'
+  expected = '24.0'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '23.3'
+  expected = '23.3.4'
+  got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 }
 

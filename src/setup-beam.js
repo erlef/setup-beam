@@ -266,14 +266,24 @@ async function getRebar3Versions() {
 }
 
 function getVersionFromSpec(spec, versions) {
-  if (
-    versions.includes(spec) ||
-    core.getInput('version-type', { required: false }) === 'strict'
-  ) {
-    return spec
+  if (core.getInput('version-type', { required: false }) === 'strict') {
+    if (versions.includes(spec)) {
+      return spec
+    }
+    return null
   }
 
-  return semver.maxSatisfying(versions, semver.validRange(spec))
+  // We keep a map of semver => actualver in order to use semver ranges to find appropriate versions
+  const versionsMap = versions.sort().reduce((acc, v) => {
+    if (!v.match('rc')) {
+      // Release candidates require strict
+      acc[semver.coerce(v).version] = v
+    }
+    return acc
+  }, {})
+  return versionsMap[
+    semver.maxSatisfying(Object.keys(versionsMap), semver.validRange(spec))
+  ]
 }
 
 function getRunnerOSVersion() {
@@ -337,4 +347,5 @@ module.exports = {
   getOTPVersion,
   getElixirVersion,
   getRebar3Version,
+  getVersionFromSpec,
 }
