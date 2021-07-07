@@ -218,6 +218,7 @@ async function testGetVersionFromSpec() {
     '23.3.3',
     '22.3.4.12.1',
     '22.3.4.10.1',
+    'master',
   ]
 
   spec = '1'
@@ -293,6 +294,18 @@ async function testGetVersionFromSpec() {
 
   spec = '23.3'
   expected = '23.3.4'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  simulateInput('version-type', 'strict')
+  spec = 'master'
+  expected = 'master'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+  simulateInput('version-type', 'loose')
+
+  spec = 'master'
+  expected = 'master'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 }

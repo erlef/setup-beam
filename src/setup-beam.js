@@ -56,6 +56,8 @@ async function installOTP(otpSpec, osVersion) {
 }
 
 async function maybeInstallElixir(elixirSpec, otpVersion) {
+  let installed = false
+
   if (elixirSpec) {
     const elixirVersion = await getElixirVersion(elixirSpec, otpVersion)
     console.log(`##[group]Installing Elixir ${elixirVersion}`)
@@ -68,10 +70,10 @@ async function maybeInstallElixir(elixirSpec, otpVersion) {
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
     console.log('##[endgroup]')
 
-    return true
+    installed = true
   }
 
-  return false
+  return installed
 }
 
 async function mix(shouldMix, what) {
@@ -85,6 +87,8 @@ async function mix(shouldMix, what) {
 }
 
 async function maybeInstallRebar3(rebar3Spec) {
+  let installed = false
+
   if (rebar3Spec) {
     const rebar3Version = await getRebar3Version(rebar3Spec)
     console.log(`##[group]Installing rebar3 ${rebar3Version}`)
@@ -93,10 +97,10 @@ async function maybeInstallRebar3(rebar3Spec) {
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/rebar3/bin`)
     console.log('##[endgroup]')
 
-    return true
+    installed = true
   }
 
-  return false
+  return installed
 }
 
 async function getOTPVersion(otpSpec0, osVersion) {
@@ -266,24 +270,37 @@ async function getRebar3Versions() {
 }
 
 function getVersionFromSpec(spec, versions) {
+  let version = null
+
   if (core.getInput('version-type', { required: false }) === 'strict') {
     if (versions.includes(spec)) {
-      return spec
+      version = spec
     }
-    return null
   }
 
-  // We keep a map of semver => actualver in order to use semver ranges to find appropriate versions
-  const versionsMap = versions.sort().reduce((acc, v) => {
-    if (!v.match('rc')) {
-      // Release candidates require strict
-      acc[semver.coerce(v).version] = v
+  if (version === null) {
+    // We keep a map of semver => "spec" in order to use semver ranges to find appropriate versions
+    const versionsMap = versions.sort().reduce((acc, v) => {
+      if (!v.match('rc')) {
+        // Release candidates require strict; some stuff can't be coerced, like master
+        try {
+          acc[semver.coerce(v).version] = v
+        } catch {
+          acc[v] = v
+        }
+      }
+      return acc
+    }, {})
+    const rangeForMax = semver.validRange(spec)
+    if (rangeForMax) {
+      version =
+        versionsMap[semver.maxSatisfying(Object.keys(versionsMap), rangeForMax)]
+    } else {
+      version = versionsMap[spec]
     }
-    return acc
-  }, {})
-  return versionsMap[
-    semver.maxSatisfying(Object.keys(versionsMap), semver.validRange(spec))
-  ]
+  }
+
+  return version
 }
 
 function getRunnerOSVersion() {
