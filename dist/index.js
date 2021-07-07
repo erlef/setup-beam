@@ -4936,7 +4936,7 @@ function getVersionFromSpec(spec, versions) {
 
   if (version === null) {
     // We keep a map of semver => "spec" in order to use semver ranges to find appropriate versions
-    const versionsMap = versions.sort().reduce((acc, v) => {
+    const versionsMap = versions.sort(sortVersions).reduce((acc, v) => {
       if (!v.match('rc')) {
         // Release candidates require strict; some stuff can't be coerced, like master
         try {
@@ -4957,6 +4957,27 @@ function getVersionFromSpec(spec, versions) {
   }
 
   return version
+}
+
+function sortVersions(left, right) {
+  let ret = 0
+  const newL = verAsComparableStr(left)
+  const newR = verAsComparableStr(right)
+
+  function verAsComparableStr(ver) {
+    const matchGroups = 5
+    const verSpec = '([^.]+)?.?([^.]+)?.?([^.]+)?.?([^.]+)?.?([^.]+)?'
+    const matches = ver.match(verSpec).splice(1, matchGroups)
+    return matches.reduce((acc, v) => acc + (v || '0').padStart(3, '0'), '')
+  }
+
+  if (newL < newR) {
+    ret = -1
+  } else if (newL > newR) {
+    ret = 1
+  }
+
+  return ret
 }
 
 function getRunnerOSVersion() {
