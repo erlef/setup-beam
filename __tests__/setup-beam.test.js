@@ -166,11 +166,13 @@ async function testElixirVersions() {
   got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 
-  spec = '1.11.0-rc.0'
+  simulateInput('version-type', 'strict')
+  spec = 'v1.11.0-rc.0'
   otpVersion = 'OTP-23'
   expected = 'v1.11.0-rc.0-otp-23'
   got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
+  simulateInput('version-type', 'loose')
 }
 
 async function testRebar3Versions() {
@@ -225,6 +227,7 @@ async function testGetVersionFromSpec() {
     '22.3.4.12.1',
     '22.3.4.10.1',
     'master',
+    'v11.11.0-rc.0-otp-23',
   ]
 
   spec = '1'
@@ -312,6 +315,26 @@ async function testGetVersionFromSpec() {
 
   spec = 'master'
   expected = 'master'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '11.11'
+  expected = 'v11.11.0-rc.0-otp-23'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '11.11.0'
+  expected = 'v11.11.0-rc.0-otp-23'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'v11.11'
+  expected = 'v11.11.0-rc.0-otp-23'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'v11.11.0'
+  expected = 'v11.11.0-rc.0-otp-23'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 }

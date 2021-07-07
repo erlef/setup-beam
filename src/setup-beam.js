@@ -273,21 +273,17 @@ function getVersionFromSpec(spec, versions) {
   let version = null
 
   if (core.getInput('version-type', { required: false }) === 'strict') {
-    if (versions.includes(spec)) {
-      version = spec
-    }
+    version = spec
   }
 
   if (version === null) {
     // We keep a map of semver => "spec" in order to use semver ranges to find appropriate versions
     const versionsMap = versions.sort(sortVersions).reduce((acc, v) => {
-      if (!v.match('rc')) {
-        // Release candidates require strict; some stuff can't be coerced, like master
-        try {
-          acc[semver.coerce(v).version] = v
-        } catch {
-          acc[v] = v
-        }
+      try {
+        acc[semver.coerce(v).version] = v
+      } catch {
+        // some stuff can't be coerced, like 'master'
+        acc[v] = v
       }
       return acc
     }, {})
@@ -310,7 +306,7 @@ function sortVersions(left, right) {
 
   function verAsComparableStr(ver) {
     const matchGroups = 5
-    const verSpec = '([^.]+)?.?([^.]+)?.?([^.]+)?.?([^.]+)?.?([^.]+)?'
+    const verSpec = /([^.]+)?\.?([^.]+)?\.?([^.]+)?\.?([^.]+)?\.?([^.]+)?/
     const matches = ver.match(verSpec).splice(1, matchGroups)
     return matches.reduce((acc, v) => acc + (v || '0').padStart(3, '0'), '')
   }
