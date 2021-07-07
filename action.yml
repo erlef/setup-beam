@@ -20,10 +20,10 @@ inputs:
     default: true
   rebar3-version:
     description: Version range or exact version of rebar3 to use
-  strict-version:
-    description: true means input is unchanged; false means we try
-      to guess a version
-    default: false
+  version-type:
+    description: strict means the versions are take as-are; loose means we try
+      to guess versions based on semver rules
+    default: loose
 outputs:
   elixir-version:
     description: Exact version of Elixir that was installed

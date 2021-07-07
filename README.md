@@ -25,9 +25,9 @@ See [action.yml](action.yml) for the action's specification.
 **Note**: The Erlang/OTP release version specification is [relatively
 complex](http://erlang.org/doc/system_principles/versions.html#version-scheme).
 For best results, we recommend specifying exact Erlang/OTP, Elixir versions, and
-`rebar3` versions, and setting option `strict-version` to `true`.
+`rebar3` versions, and setting option `version-type` to `strict`.
 However, values like `22.x`, or even `>22`, are also accepted, and we attempt to resolve them
-according to semantic versioning rules. This implicitly means `strict-version` is `false`,
+according to semantic versioning rules. This implicitly means `version-type` is `loose`,
 which is also the default value for this option.
 
 Additionally, it is recommended that one specifies Erlang/OTP, Elixir and `rebar3` versions
