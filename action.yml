@@ -1,5 +1,5 @@
 ---
-name: Setup Erlang/OTP with optional Elixir and/or rebar3
+name: Setup Erlang/OTP with optional Elixir (and mix) and/or rebar3
 description: >
   Set up a specific version of Erlang/OTP, Elixir, and/or rebar3
   and add the command-line tools to the PATH
@@ -13,13 +13,17 @@ inputs:
   otp-version:
     description: Version range or exact version of Erlang/OTP to use
   install-hex:
-    description: Whether to install Hex
+    description: Whether to install Hex (with Mix)
     default: true
   install-rebar:
-    description: Whether to install Rebar
+    description: Whether to install Rebar (with Mix)
     default: true
   rebar3-version:
     description: Version range or exact version of rebar3 to use
+  version-type:
+    description: strict means the versions are take as-are; loose means we try
+      to guess versions based on semver rules
+    default: loose
 outputs:
   elixir-version:
     description: Exact version of Elixir that was installed

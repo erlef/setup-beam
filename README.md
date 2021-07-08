@@ -1,10 +1,12 @@
 <!-- markdownlint-disable MD013 -->
-# setup-beam [![GitHub Actions Test][test-img]][test] [![GitHub Actions CI][ci-img]][ci]
+# setup-beam [![GitHub Actions][action-img]][action] [![GitHub Actions][ubuntu-img]][ubuntu] [![GitHub Actions][windows-img]][windows]
 
-[test]: https://github.com/erlef/setup-beam
-[test-img]: https://github.com/erlef/setup-beam/workflows/test/badge.svg
-[ci]: https://github.com/erlef/setup-beam
-[ci-img]: https://github.com/erlef/setup-beam/workflows/ci/badge.svg
+[action]: https://github.com/erlef/setup-beam
+[action-img]: https://github.com/erlef/setup-beam/workflows/action/badge.svg
+[ubuntu]: https://github.com/erlef/setup-beam
+[ubuntu-img]: https://github.com/erlef/setup-beam/workflows/ubuntu/badge.svg
+[windows]: https://github.com/erlef/setup-beam
+[windows-img]: https://github.com/erlef/setup-beam/workflows/windows/badge.svg
 
 This action sets up an Erlang/OTP environment for use in a GitHub Actions
 workflow by:
@@ -14,7 +16,7 @@ workflow by:
 - optionally, installing `rebar3`
 - optionally, installing `hex`
 
-**Note** Currently, this action only supports Actions' `ubuntu-` runtimes.
+**Note** Currently, this action only supports Actions' `ubuntu-` and `windows-` runtimes.
 
 ## Usage
 
@@ -23,9 +25,10 @@ See [action.yml](action.yml) for the action's specification.
 **Note**: The Erlang/OTP release version specification is [relatively
 complex](http://erlang.org/doc/system_principles/versions.html#version-scheme).
 For best results, we recommend specifying exact Erlang/OTP, Elixir versions, and
-`rebar3` versions.
+`rebar3` versions, and setting option `version-type` to `strict`.
 However, values like `22.x`, or even `>22`, are also accepted, and we attempt to resolve them
-according to semantic versioning rules.
+according to semantic versioning rules. This implicitly means `version-type` is `loose`,
+which is also the default value for this option.
 
 Additionally, it is recommended that one specifies Erlang/OTP, Elixir and `rebar3` versions
 using YAML strings, as these examples do, so that numbers like `23.0` don't
@@ -35,20 +38,22 @@ For pre-release Elixir versions, such as `1.11.0-rc.0`, use the full version
 specifier (`1.11.0-rc.0`). Pre-release versions are opt-in, so `1.11.x` will
 not match a pre-release.
 
-### Compatibility between Ubuntu and Erlang/OTP
+### Compatibility between Operating System and Erlang/OTP
 
-This list presents the known working version combos between Ubuntu
+This list presents the known working version combos between the target operating system
 and Erlang/OTP.
 
-| Ubuntu       | Erlang/OTP | Status
-|-             |-           |-
-| ubuntu-16.04 | 17 - 24    | ✅
-| ubuntu-18.04 | 17 - 24    | ✅
-| ubuntu-20.04 | 20 - 24    | ✅
-| windows-2016 | 23 - 24    | ✅
-| windows-2019 | 23 - 24    | ✅
+| Operating system | Erlang/OTP | Status
+|-                 |-           |-
+| ubuntu-16.04     | 17 - 24    | ✅
+| ubuntu-18.04     | 17 - 24    | ✅
+| ubuntu-20.04     | 20 - 24    | ✅
+| windows-2016     | 21* - 24   | ✅
+| windows-2019     | 21* - 24   | ✅
 
-### Basic example (Elixir)
+**Note** *: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3, 22.0, etc.
+
+### Basic example (Erlang/OTP + Elixir, on Ubuntu)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -67,7 +72,7 @@ jobs:
       - run: mix test
 ```
 
-### Basic example (`rebar3`)
+### Basic example (Erlang/OTP + `rebar3`, on Ubuntu)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -85,7 +90,7 @@ jobs:
       - run: rebar3 ct
 ```
 
-### Matrix example (Elixir)
+### Matrix example (Erlang/OTP + Elixir, on Ubuntu)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -109,7 +114,7 @@ jobs:
       - run: mix test
 ```
 
-### Matrix example (`rebar3`)
+### Matrix example (Erlang/OTP + `rebar3`, on Ubuntu)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -132,7 +137,7 @@ jobs:
       - run: rebar3 ct
 ```
 
-### Basic example (`rebar3` on Windows 2016)
+### Basic example (Erlang/OTP + `rebar3`, on Windows)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -145,7 +150,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: '24.0.2'
+          otp-version: '24'
           rebar3-version: '3.16.1'
       - run: rebar3 ct
 ```

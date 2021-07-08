@@ -3,6 +3,7 @@ const { exec } = require('@actions/exec')
 const path = require('path')
 const semver = require('semver')
 const https = require('https')
+const fs = require('fs')
 const installer = require('./installer')
 
 main().catch((err) => {
@@ -17,19 +18,15 @@ async function main() {
   const otpVersion = await installOTP(otpSpec, osVersion)
 
   const elixirSpec = core.getInput('elixir-version', { required: false })
-  const shouldMixHex = core.getInput('install-hex', {
-    required: false,
-  })
-  const elixirInstalled = await maybeInstallElixir(
-    elixirSpec,
-    otpVersion,
-    shouldMixHex,
-  )
+  const elixirInstalled = await maybeInstallElixir(elixirSpec, otpVersion)
   if (elixirInstalled === true) {
     const shouldMixRebar = core.getInput('install-rebar', {
       required: false,
     })
     await mix(shouldMixRebar, 'rebar')
+    const shouldMixHex = core.getInput('install-hex', {
+      required: false,
+    })
     await mix(shouldMixHex, 'hex')
   }
 
@@ -45,16 +42,22 @@ async function installOTP(otpSpec, osVersion) {
   await installer.installOTP(osVersion, otpVersion)
   core.setOutput('otp-version', otpVersion)
   if (process.platform === 'linux') {
-    prependToPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
+    core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
   } else if (process.platform === 'win32') {
-    prependToPath(`C:/Program Files/erl-${otpVersion}/bin`)
+    const otpPath = fs.readFileSync(`${process.env.RUNNER_TEMP}/otp_path.txt`, {
+      encoding: 'utf8',
+      flag: 'r',
+    })
+    core.addPath(otpPath)
   }
   console.log('##[endgroup]')
 
   return otpVersion
 }
 
-async function maybeInstallElixir(elixirSpec, otpVersion, shouldMixHex) {
+async function maybeInstallElixir(elixirSpec, otpVersion) {
+  let installed = false
+
   if (elixirSpec) {
     const elixirVersion = await getElixirVersion(elixirSpec, otpVersion)
     console.log(`##[group]Installing Elixir ${elixirVersion}`)
@@ -64,19 +67,13 @@ async function maybeInstallElixir(elixirSpec, otpVersion, shouldMixHex) {
     console.log(
       `##[add-matcher]${path.join(matchersPath, 'elixir-matchers.json')}`,
     )
-    prependToPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
+    core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
     console.log('##[endgroup]')
 
-    return true
+    installed = true
   }
 
-  if (shouldMixHex) {
-    console.log(
-      "hex will not be installed (overriding default) since Elixir wasn't either",
-    )
-  }
-
-  return false
+  return installed
 }
 
 async function mix(shouldMix, what) {
@@ -90,18 +87,20 @@ async function mix(shouldMix, what) {
 }
 
 async function maybeInstallRebar3(rebar3Spec) {
+  let installed = false
+
   if (rebar3Spec) {
     const rebar3Version = await getRebar3Version(rebar3Spec)
     console.log(`##[group]Installing rebar3 ${rebar3Version}`)
     await installer.installRebar3(rebar3Version)
     core.setOutput('rebar3-version', rebar3Version)
-    prependToPath(`${process.env.RUNNER_TEMP}/.setup-beam/rebar3/bin`)
+    core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/rebar3/bin`)
     console.log('##[endgroup]')
 
-    return true
+    installed = true
   }
 
-  return false
+  return installed
 }
 
 async function getOTPVersion(otpSpec0, osVersion) {
@@ -110,7 +109,7 @@ async function getOTPVersion(otpSpec0, osVersion) {
   let otpVersion
   if (otpSpec[1]) {
     throw new Error(
-      `Requested Erlang/OTP version (from spec ${otpSpec0}) ` +
+      `Requested Erlang/OTP version (${otpSpec0}) ` +
         "should not contain 'OTP-'",
     )
   }
@@ -122,7 +121,7 @@ async function getOTPVersion(otpSpec0, osVersion) {
   }
   if (otpVersion === null) {
     throw new Error(
-      `Requested Erlang/OTP version (from spec ${otpSpec0}) not found in build listing`,
+      `Requested Erlang/OTP version (${otpSpec0}) not found in version list`,
     )
   }
 
@@ -137,7 +136,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
   let elixirVersion
   if (exSpec[2]) {
     throw new Error(
-      `Requested Elixir / Erlang/OTP version (from spec ${exSpec0} / ${otpVersion}) ` +
+      `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion}) ` +
         "should not contain '-otp-...'",
     )
   }
@@ -146,7 +145,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
   }
   if (!exSpec || elixirVersion === null) {
     throw new Error(
-      `Requested Elixir version (from spec ${exSpec0}) not found in build listing`,
+      `Requested Elixir version (${exSpec0}) not found in version list`,
     )
   }
   const otpMatch = otpVersion.match(/^(?:OTP-)?([^.]+)/)
@@ -168,8 +167,8 @@ async function getElixirVersion(exSpec0, otpVersion) {
     }
   } else {
     throw new Error(
-      `Requested Elixir / Erlang/OTP version (from spec ${exSpec0} / ${otpVersion}) not ` +
-        'found in build listing',
+      `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion}) not ` +
+        'found in version list',
     )
   }
 
@@ -181,7 +180,7 @@ async function getRebar3Version(r3Spec) {
   const rebar3Version = getVersionFromSpec(r3Spec, rebar3Versions)
   if (rebar3Version === null) {
     throw new Error(
-      `Requested rebar3 version (from spec ${r3Spec}) not found in build listing`,
+      `Requested rebar3 version (${r3Spec}) not found in version list`,
     )
   }
 
@@ -209,11 +208,7 @@ async function getOTPVersions(osVersion) {
       .split('\n')
       .forEach((line) => {
         const otpMatch = line.match(/^(OTP-)?([^ ]+)/)
-
-        let otpVersion = otpMatch[2]
-        if (semver.validRange(otpVersion) && hasPatch(otpVersion)) {
-          otpVersion = semver.minVersion(otpVersion).version
-        }
+        const otpVersion = otpMatch[2]
         otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
@@ -224,10 +219,7 @@ async function getOTPVersions(osVersion) {
         .filter((x) => x.name.match(/^otp_win64_.*.exe$/))
         .forEach((x) => {
           const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
-          let otpVersion = otpMatch[1]
-          if (semver.validRange(otpVersion) && hasPatch(otpVersion)) {
-            otpVersion = semver.minVersion(otpVersion).version
-          }
+          const otpVersion = otpMatch[1]
           otpVersions.set(otpVersion, otpVersion)
         })
     })
@@ -278,11 +270,54 @@ async function getRebar3Versions() {
 }
 
 function getVersionFromSpec(spec, versions) {
-  if (versions.includes(spec)) {
-    return spec
+  let version = null
+
+  if (core.getInput('version-type', { required: false }) === 'strict') {
+    version = spec
   }
 
-  return semver.maxSatisfying(versions, semver.validRange(spec))
+  if (version === null) {
+    // We keep a map of semver => "spec" in order to use semver ranges to find appropriate versions
+    const versionsMap = versions.sort(sortVersions).reduce((acc, v) => {
+      try {
+        acc[semver.coerce(v).version] = v
+      } catch {
+        // some stuff can't be coerced, like 'master'
+        acc[v] = v
+      }
+      return acc
+    }, {})
+    const rangeForMax = semver.validRange(spec)
+    if (rangeForMax) {
+      version =
+        versionsMap[semver.maxSatisfying(Object.keys(versionsMap), rangeForMax)]
+    } else {
+      version = versionsMap[spec]
+    }
+  }
+
+  return version
+}
+
+function sortVersions(left, right) {
+  let ret = 0
+  const newL = verAsComparableStr(left)
+  const newR = verAsComparableStr(right)
+
+  function verAsComparableStr(ver) {
+    const matchGroups = 5
+    const verSpec = /([^.]+)?\.?([^.]+)?\.?([^.]+)?\.?([^.]+)?\.?([^.]+)?/
+    const matches = ver.match(verSpec).splice(1, matchGroups)
+    return matches.reduce((acc, v) => acc + (v || '0').padStart(3, '0'), '')
+  }
+
+  if (newL < newR) {
+    ret = -1
+  } else if (newL > newR) {
+    ret = 1
+  }
+
+  return ret
 }
 
 function getRunnerOSVersion() {
@@ -342,25 +377,9 @@ async function get(url0, pageIdxs) {
   return ret
 }
 
-function prependToPath(what) {
-  if (process.platform === 'linux') {
-    process.env.PATH = `${what}:${process.env.PATH}`
-  } else if (process.platform === 'win32') {
-    process.env.PATH = `${what};${process.env.PATH}`
-  }
-}
-
-function hasPatch(v) {
-  try {
-    semver.patch(v)
-  } catch {
-    return false
-  }
-
-  return true
-}
 module.exports = {
   getOTPVersion,
   getElixirVersion,
   getRebar3Version,
+  getVersionFromSpec,
 }
