@@ -121,7 +121,8 @@ async function getOTPVersion(otpSpec0, osVersion) {
   }
   if (otpVersion === null) {
     throw new Error(
-      `Requested Erlang/OTP version (${otpSpec0}) not found in version list`,
+      `Requested Erlang/OTP version (${otpSpec0}) not found in version list ` +
+        "(should you be using option 'version-type': 'strict'?)",
     )
   }
 
@@ -132,7 +133,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
   const elixirVersions = await getElixirVersions()
   const semverVersions = Array.from(elixirVersions.keys()).sort()
 
-  const exSpec = exSpec0.match(/^(.+)(-otp-.+)/) || exSpec0.match(/^(.+)/)
+  const exSpec = exSpec0.match(/^v?(.+)(-otp-.+)/) || exSpec0.match(/^v?(.+)/)
   let elixirVersion
   if (exSpec[2]) {
     throw new Error(
@@ -145,7 +146,8 @@ async function getElixirVersion(exSpec0, otpVersion) {
   }
   if (!exSpec || elixirVersion === null) {
     throw new Error(
-      `Requested Elixir version (${exSpec0}) not found in version list`,
+      `Requested Elixir version (${exSpec0}) not found in version list ` +
+        "(should you be using option 'version-type': 'strict'?)",
     )
   }
   const otpMatch = otpVersion.match(/^(?:OTP-)?([^.]+)/)
@@ -168,11 +170,11 @@ async function getElixirVersion(exSpec0, otpVersion) {
   } else {
     throw new Error(
       `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion}) not ` +
-        'found in version list',
+        "found in version list (should you be using option 'version-type': 'strict'?)",
     )
   }
 
-  return elixirVersionWithOTP
+  return `v${elixirVersionWithOTP}`
 }
 
 async function getRebar3Version(r3Spec) {
@@ -180,7 +182,8 @@ async function getRebar3Version(r3Spec) {
   const rebar3Version = getVersionFromSpec(r3Spec, rebar3Versions)
   if (rebar3Version === null) {
     throw new Error(
-      `Requested rebar3 version (${r3Spec}) not found in version list`,
+      `Requested rebar3 version (${r3Spec}) not found in version list ` +
+        "(should you be using option 'version-type': 'strict'?)",
     )
   }
 
@@ -240,7 +243,7 @@ async function getElixirVersions() {
     .split('\n')
     .forEach((line) => {
       const elixirMatch =
-        line.match(/^(.+)-otp-([^ ]+)/) || line.match(/^([^ ]+)/)
+        line.match(/^v?(.+)-otp-([^ ]+)/) || line.match(/^v?([^ ]+)/)
       const elixirVersion = elixirMatch[1]
       const otpVersion = elixirMatch[2]
       const otpVersions = otpVersionsForElixirMap.get(elixirVersion) || []
@@ -272,18 +275,19 @@ async function getRebar3Versions() {
 function getVersionFromSpec(spec, versions) {
   let version = null
 
-  if (core.getInput('version-type', { required: false }) === 'strict') {
+  if (
+    spec.match(/rc/) ||
+    core.getInput('version-type', { required: false }) === 'strict'
+  ) {
     version = spec
   }
 
   if (version === null) {
     // We keep a map of semver => "spec" in order to use semver ranges to find appropriate versions
     const versionsMap = versions.sort(sortVersions).reduce((acc, v) => {
-      try {
-        acc[semver.coerce(v).version] = v
-      } catch {
-        // some stuff can't be coerced, like 'master'
-        acc[v] = v
+      if (!v.match(/rc/)) {
+        // release candidates are opt-in
+        acc[maybeCoerced(v)] = v
       }
       return acc
     }, {})
@@ -292,11 +296,24 @@ function getVersionFromSpec(spec, versions) {
       version =
         versionsMap[semver.maxSatisfying(Object.keys(versionsMap), rangeForMax)]
     } else {
-      version = versionsMap[spec]
+      version = versionsMap[maybeCoerced(spec)]
     }
   }
 
   return version
+}
+
+function maybeCoerced(v) {
+  let ret
+
+  try {
+    ret = semver.coerce(v).version
+  } catch {
+    // some stuff can't be coerced, like 'master'
+    ret = v
+  }
+
+  return ret
 }
 
 function sortVersions(left, right) {

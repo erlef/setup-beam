@@ -34,9 +34,9 @@ Additionally, it is recommended that one specifies Erlang/OTP, Elixir and `rebar
 using YAML strings, as these examples do, so that numbers like `23.0` don't
 end up being parsed as `23`, which is not equivalent.
 
-For pre-release Elixir versions, such as `1.11.0-rc.0`, use the full version
-specifier (`1.11.0-rc.0`). Pre-release versions are opt-in, so `1.11.x` will
-not match a pre-release.
+For pre-release versions, such as `v1.11.0-rc.0`, use the full version
+specifier (`v1.11.0-rc.0`) and set option `version-type` to `strict`. Pre-release versions are
+opt-in, so `1.11.x` will not match a pre-release.
 
 ### Compatibility between Operating System and Erlang/OTP
 
@@ -158,6 +158,18 @@ jobs:
 ## Elixir Problem Matchers
 
 The Elixir Problem Matchers in this repository are adapted from [here](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118). See [MATCHER_NOTICE](MATCHER_NOTICE.md) for license details.
+
+## Action versioning
+
+`setup-beam` has three version paths, described below, for example version `1.8.0`:
+
+- `@v1`: the latest in the `1.y.z` series (this tag is movable),
+- `@v1.8`: the latest in the `1.8.z` series (this tag is movable),
+- `@v1.8.0`: release `1.8.0` (this tag is not movable).
+
+To prevent issues in CI (unless you're OK with potential incompatibility between versions - we
+make real a effort to not introduce those without bumping major) we suggest you to use `@vx.y.z`,
+whenever possible.
 
 ## License
 
