@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: '12'
+          node-version: 12
       - run: npm install -g npm
       - run: npm install
       - run: npm run build
@@ -31,12 +31,24 @@ jobs:
       - name: Check if build left artifacts
         run: git diff --exit-code
 
-  unit_test:
-    name: Unit tests
+  unit_tests_ubuntu:
+    name: Unit tests (Ubuntu)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-        with: {node-version: '12'}
+        with:
+          node-version: 12
       - run: npm ci
+      - run: npm test
+
+  unit_tests_windows:
+    name: Unit tests (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm install --production
       - run: npm test
