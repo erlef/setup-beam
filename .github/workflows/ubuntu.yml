@@ -92,6 +92,17 @@ jobs:
             otp-version: '24'
             rebar3-version: '3.15'
             os: 'ubuntu-20.04'
+          - elixir-version: 'v1.11.0'
+            otp-version: '22.3.4.2'
+            os: 'ubuntu-20.04'
+            version-type: 'strict'
+          - elixir-version: '1.10.3'
+            otp-version: '22.3.4.1'
+            os: 'ubuntu-20.04'
+            version-type: 'strict'
+          - elixir-version: '1.10.3'
+            otp-version: '22.3.4.1'
+            os: 'ubuntu-20.04'
     steps:
       - uses: actions/checkout@v2
       - name: Use erlef/setup-beam
@@ -101,6 +112,7 @@ jobs:
           otp-version: ${{matrix.combo.otp-version}}
           elixir-version: ${{matrix.combo.elixir-version}}
           rebar3-version: ${{matrix.combo.rebar3-version}}
+          version-type: ${{matrix.combo.version-type}}
       - name: Erlang/OTP version (action)
         run: echo "Erlang/OTP ${{steps.setup-beam.outputs.otp-version}}"
       - name: Elixir version (action)
