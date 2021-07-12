@@ -53,6 +53,35 @@ and Erlang/OTP.
 
 **Note** *: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3, 22.0, etc.
 
+### Self-hosted runners
+
+Self-hosted runners need to set env. variable `ImageOS` to one of the following, since the action
+uses that to download assets:
+
+| ImageOS  | Operating system
+|-         |-
+| ubuntu16 | ubuntu-16.04
+| ubuntu18 | ubuntu-18.04
+| ubuntu20 | ubuntu-20.04
+| win16    | windows-2016
+| win19    | windows-2019
+
+as per the following example:
+
+```yaml
+...
+
+jobs:
+  test:
+    runs-on: self-hosted
+    env:
+      ImageOS: ubuntu20 # equivalent to runs-on ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        ...
+```
+
 ### Basic example (Erlang/OTP + Elixir, on Ubuntu)
 
 ```yaml

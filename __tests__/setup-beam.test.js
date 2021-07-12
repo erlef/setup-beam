@@ -136,7 +136,7 @@ async function testOTPVersions() {
 
     spec = '23.2.x'
     osVersion = 'windows-2016'
-    expected = '23.2.7.4'
+    expected = '23.2.7'
     got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 

@@ -345,8 +345,19 @@ function getRunnerOSVersion() {
     win16: 'windows-2016',
     win19: 'windows-2019',
   }
+  const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
 
-  return ImageOSToContainer[process.env.ImageOS]
+  if (!containerFromEnvImageOS) {
+    throw new Error(
+      "Tried to map a target OS from env. variable 'ImageOS', but failed. If you're using a " +
+        "self-hosted runner, you should set 'env': 'ImageOS': ... to one of the following: " +
+        "['" +
+        `${Object.keys(ImageOSToContainer).join("', '")}` +
+        "']",
+    )
+  }
+
+  return containerFromEnvImageOS
 }
 
 async function get(url0, pageIdxs) {
