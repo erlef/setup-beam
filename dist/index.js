@@ -4830,7 +4830,10 @@ async function getElixirVersion(exSpec0, otpVersion) {
     )
   }
 
-  return `v${elixirVersionWithOTP}`
+  const DigitStart = new RegExp('^\\d+')
+  return DigitStart.test(elixirVersion)
+    ? `v${elixirVersionWithOTP}`
+    : elixirVersionWithOTP
 }
 
 async function getRebar3Version(r3Spec) {
