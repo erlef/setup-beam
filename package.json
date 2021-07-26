@@ -9,7 +9,7 @@
     "licenses": "yarn licenses generate-disclaimer > 3RD_PARTY_LICENSES",
     "markdownlint": "markdownlint *.md",
     "shellcheck": "shellcheck src/install-*.sh",
-    "test": "node __tests__/setup-beam.test.js",
+    "test": "node __tests__/setup-beam.test.js && node ./__tests__/problem-matchers.test.js",
     "yamllint": "yamllint .github/workflows/**.yml && yamllint .*.yml && yamllint *.yml"
   },
   "husky": {
