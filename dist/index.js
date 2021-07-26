@@ -5008,7 +5008,9 @@ function getRunnerOSVersion() {
 
   if (!containerFromEnvImageOS) {
     throw new Error(
-      "Tried to map a target OS from env. variable 'ImageOS', but failed. If you're using a " +
+      "Tried to map a target OS from env. variable 'ImageOS' (got " +
+        `${process.env.ImageOS}` +
+        "), but failed. If you're using a " +
         "self-hosted runner, you should set 'env': 'ImageOS': ... to one of the following: " +
         "['" +
         `${Object.keys(ImageOSToContainer).join("', '")}` +
