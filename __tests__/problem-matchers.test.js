@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { problemMatcher } = require('../.github/elixir-matchers')
+const { problemMatcher } = require('../.github/elixir-matchers.json')
 
 async function all() {
   await testElixirMixCompileError()
@@ -25,13 +25,13 @@ async function testElixirMixCompileWarning() {
   ).pattern
 
   const firstOutput =
-    'warning: variable "err" does not exist and is being expanded to "err()", please use parentheses to remove the ambiguity or change the variable name'
+    'warning: variable "err" does not exist and is being expanded to "err()"'
   const secondOutput = '  lib/test.ex:16: Test.hello/0'
 
   const [, message] = firstOutput.match(messagePattern.regexp)
   assert.equal(
     message,
-    'variable "err" does not exist and is being expanded to "err()", please use parentheses to remove the ambiguity or change the variable name',
+    'variable "err" does not exist and is being expanded to "err()"',
   )
 
   const [, file, line] = secondOutput.match(filePattern.regexp)
