@@ -65,10 +65,7 @@ async function testElixirCredoOutputDefault() {
   const firstOutput = '┃ [F] → Function is too complex (CC is 29, max is 9).'
   const secondOutput = '┃       lib/test.ex:15:7 #(Test.hello)'
 
-  const [, severity, message] = firstOutput.match(messagePattern.regexp)
-  // Credo can output an "E" here which will be accepted as an "error" severity
-  // Everything else will default to "warning".
-  assert.equal(severity, 'F')
+  const [, message] = firstOutput.match(messagePattern.regexp)
   assert.equal(message, 'Function is too complex (CC is 29, max is 9).')
 
   const [, file, line, column] = secondOutput.match(filePattern.regexp)
