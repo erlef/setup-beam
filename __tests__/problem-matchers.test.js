@@ -5,6 +5,8 @@ async function all() {
   await testElixirMixCompileError()
   await testElixirMixCompileWarning()
   await testElixirMixTestFailure()
+  await testElixirCredoOutputDefault()
+  await testElixirDialyzerOutputDefault()
 }
 
 async function testElixirMixCompileError() {
@@ -53,6 +55,44 @@ async function testElixirMixTestFailure() {
   const [, file, line] = secondOutput.match(filePattern.regexp)
   assert.equal(file, 'test/test_test.exs')
   assert.equal(line, '9')
+}
+
+async function testElixirCredoOutputDefault() {
+  const [messagePattern, filePattern] = problemMatcher.find(
+    ({ owner }) => owner === 'elixir-credoOutputDefault',
+  ).pattern
+
+  const firstOutput = '┃ [F] → Function is too complex (CC is 29, max is 9).'
+  const secondOutput = '┃       lib/test.ex:15:7 #(Test.hello)'
+
+  const [, severity, message] = firstOutput.match(messagePattern.regexp)
+  // Credo can output an "E" here which will be accepted as an "error" severity
+  // Everything else will default to "warning".
+  assert.equal(severity, 'F')
+  assert.equal(message, 'Function is too complex (CC is 29, max is 9).')
+
+  const [, file, line, column] = secondOutput.match(filePattern.regexp)
+  assert.equal(file, 'lib/test.ex')
+  assert.equal(line, '15')
+  assert.equal(column, '7')
+}
+
+async function testElixirDialyzerOutputDefault() {
+  const [messagePattern, filePattern] = problemMatcher.find(
+    ({ owner }) => owner === 'elixir-dialyzerOutputDefault',
+  ).pattern
+
+  const firstOutput = 'lib/test.ex:15:invalid_contract'
+  const secondOutput =
+    'The @spec for the function does not match the success typing of the function.'
+
+  const [, file, line, code] = firstOutput.match(messagePattern.regexp)
+  assert.equal(file, 'lib/test.ex')
+  assert.equal(line, '15')
+  assert.equal(code, 'invalid_contract')
+
+  const [, message] = secondOutput.match(filePattern.regexp)
+  assert.equal(message, secondOutput)
 }
 
 all()
