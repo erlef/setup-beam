@@ -24,13 +24,13 @@ See [action.yml](action.yml) for the action's specification.
 
 **Note**: The Erlang/OTP release version specification is [relatively
 complex](http://erlang.org/doc/system_principles/versions.html#version-scheme).
-For best results, we recommend specifying exact Erlang/OTP, Elixir versions, and
-`rebar3` versions, and setting option `version-type` to `strict`.
+For best results, we recommend specifying exact
+versions, and setting option `version-type` to `strict`.
 However, values like `22.x`, or even `>22`, are also accepted, and we attempt to resolve them
 according to semantic versioning rules. This implicitly means `version-type` is `loose`,
 which is also the default value for this option.
 
-Additionally, it is recommended that one specifies Erlang/OTP, Elixir and `rebar3` versions
+Additionally, it is recommended that one specifies versions
 using YAML strings, as these examples do, so that numbers like `23.0` don't
 end up being parsed as `23`, which is not equivalent.
 
@@ -82,44 +82,7 @@ jobs:
         ...
 ```
 
-### Basic example (Erlang/OTP + Elixir, on Ubuntu)
-
-```yaml
-# create this in .github/workflows/ci.yml
-on: push
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: '22.2'
-          elixir-version: '1.9.4'
-      - run: mix deps.get
-      - run: mix test
-```
-
-### Basic example (Erlang/OTP + `rebar3`, on Ubuntu)
-
-```yaml
-# create this in .github/workflows/ci.yml
-on: push
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: '22.2'
-          rebar3-version: '3.14.2'
-      - run: rebar3 ct
-```
-
-### Matrix example (Erlang/OTP + Elixir, on Ubuntu)
+### Example (Erlang/OTP + Elixir, on Ubuntu)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -143,7 +106,7 @@ jobs:
       - run: mix test
 ```
 
-### Matrix example (Erlang/OTP + `rebar3`, on Ubuntu)
+### Example (Erlang/OTP + `rebar3`, on Ubuntu)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -166,7 +129,7 @@ jobs:
       - run: rebar3 ct
 ```
 
-### Basic example (Erlang/OTP + `rebar3`, on Windows)
+### Example (Erlang/OTP + `rebar3`, on Windows)
 
 ```yaml
 # create this in .github/workflows/ci.yml
