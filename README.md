@@ -13,6 +13,7 @@ workflow by:
 
 - installing Erlang/OTP
 - optionally, installing Elixir
+- optionally, installing Gleam
 - optionally, installing `rebar3`
 - optionally, installing `hex`
 
@@ -144,6 +145,25 @@ jobs:
         with:
           otp-version: '24'
           rebar3-version: '3.16.1'
+      - run: rebar3 ct
+```
+
+### Example (Gleam + `rebar3`, on Ubuntu)
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '24'
+          gleam-version: '0.16'
+          rebar3-version: '3.16'
       - run: rebar3 ct
 ```
 
