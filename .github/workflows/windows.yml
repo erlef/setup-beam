@@ -74,14 +74,14 @@ jobs:
           mix help local.rebar
           mix help local.hex
         if: ${{matrix.combo.elixir-version}}
-      - name: Run Mix project tests
+      - name: Run Elixir/Mix project tests
         run: |
-          cd test-projects/mix
+          cd test-projects/elixir_mix
           mix deps.get
           mix test
         if: ${{matrix.combo.elixir-version}}
-      - name: Run rebar3 project tests
+      - name: Run Erlang/rebar3 project tests
         run: |
-          cd test-projects/rebar3
+          cd test-projects/erlang_rebar3
           rebar3 ct
         if: ${{matrix.combo.rebar3-version}}
