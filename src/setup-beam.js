@@ -194,10 +194,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
     )
   }
 
-  const DigitStart = new RegExp('^\\d+')
-  return DigitStart.test(elixirVersion)
-    ? `v${elixirVersionWithOTP}`
-    : elixirVersionWithOTP
+  return maybePrependWithV(elixirVersionWithOTP, elixirVersion)
 }
 
 async function getGleamVersion(gleamSpec0) {
@@ -211,8 +208,7 @@ async function getGleamVersion(gleamSpec0) {
     )
   }
 
-  const digitStart = new RegExp('^\\d+')
-  return digitStart.test(gleamVersion) ? `v${gleamVersion}` : gleamVersion
+  return maybePrependWithV(gleamVersion, gleamVersion)
 }
 
 async function getRebar3Version(r3Spec) {
@@ -458,6 +454,13 @@ async function get(url0, pageIdxs) {
     ret = Promise.all(pageIdxs.map((pageIdx) => getPage(pageIdx)))
   }
   return ret
+}
+
+function maybePrependWithV(versionToPrepend, specVersion) {
+  const digitStart = new RegExp('^\\d+')
+  return digitStart.test(specVersion)
+    ? `v${versionToPrepend}`
+    : versionToPrepend
 }
 
 module.exports = {
