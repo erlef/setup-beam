@@ -15,5 +15,5 @@ New-Item "$DIR_FOR_BIN" -ItemType Directory | Out-Null
 $ProgressPreference="SilentlyContinue"
 Expand-Archive -DestinationPath "${DIR_FOR_BIN}" -Path "${FILE_OUTPUT}"
 $ProgressPreference="Continue"
-Write-Output "Installed Erlang/OTP version follows"
+Write-Output "Installed Elixir version follows"
 & "$DIR_FOR_BIN/bin/iex" "-v" | Write-Output

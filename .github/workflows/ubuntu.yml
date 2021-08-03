@@ -14,6 +14,7 @@ jobs:
     name: >
       OTP ${{matrix.combo.otp-version}},
       Elixir ${{matrix.combo.elixir-version}},
+      Gleam ${{matrix.combo.gleam-version}},
       rebar3 ${{matrix.combo.rebar3-version}}
     runs-on: ${{matrix.combo.os}}
     strategy:
@@ -106,6 +107,10 @@ jobs:
           - elixir-version: 'master'
             otp-version: '23.1'
             os:  'ubuntu-20.04'
+          - gleam-version: '0.16'
+            otp-version: '24'
+            rebar3-version: '3.16'
+            os: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Use erlef/setup-beam
@@ -114,6 +119,7 @@ jobs:
         with:
           otp-version: ${{matrix.combo.otp-version}}
           elixir-version: ${{matrix.combo.elixir-version}}
+          gleam-version: ${{matrix.combo.gleam-version}}
           rebar3-version: ${{matrix.combo.rebar3-version}}
           version-type: ${{matrix.combo.version-type}}
       - name: Erlang/OTP version (action)
@@ -121,6 +127,9 @@ jobs:
       - name: Elixir version (action)
         run: echo "Elixir ${{steps.setup-beam.outputs.elixir-version}}"
         if: ${{matrix.combo.elixir-version}}
+      - name: Gleam version (action)
+        run: echo "Gleam ${{steps.setup-beam.outputs.gleam-version}}"
+        if: ${{matrix.combo.gleam-version}}
       - name: rebar3 version (action)
         run: echo "rebar3 ${{steps.setup-beam.outputs.rebar3-version}}"
         if: ${{matrix.combo.rebar3-version}}
@@ -130,14 +139,19 @@ jobs:
           mix help local.rebar
           mix help local.hex
         if: ${{matrix.combo.elixir-version}}
-      - name: Run Mix project tests
+      - name: Run Elixir/Mix project tests
         run: |
-          cd test-projects/mix
+          cd test-projects/elixir_mix
           mix deps.get
           mix test
         if: ${{matrix.combo.elixir-version}}
-      - name: Run rebar3 project tests
+      - name: Run Erlang/rebar3 project tests
         run: |
-          cd test-projects/rebar3
+          cd test-projects/erlang_rebar3
           rebar3 ct
         if: ${{matrix.combo.rebar3-version}}
+      - name: Run Gleam/rebar3 project tests
+        run: |
+          cd test-projects/gleam_rebar3
+          rebar3 eunit
+        if: ${{matrix.combo.gleam-version}}

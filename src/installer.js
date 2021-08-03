@@ -33,6 +33,21 @@ async function installElixir(elixirVersion) {
 }
 
 /**
+ * Install Gleam.
+ *
+ * @param {string} gleamVersion
+ */
+async function installGleam(gleamVersion) {
+  const OS = process.platform
+  if (OS === 'linux') {
+    await exec(path.join(__dirname, 'install-gleam.sh'), [gleamVersion])
+  } else if (OS === 'win32') {
+    const script = path.join(__dirname, 'install-gleam.ps1')
+    await exec(`pwsh.exe ${script} -VSN:${gleamVersion}`)
+  }
+}
+
+/**
  * Install rebar3.
  *
  * @param {string} rebar3Version
@@ -58,6 +73,7 @@ function checkPlatform() {
 module.exports = {
   installOTP,
   installElixir,
+  installGleam,
   installRebar3,
   checkPlatform,
 }

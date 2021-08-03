@@ -11,10 +11,12 @@ const installer = require('../src/installer')
 async function all() {
   await testFailInstallOTP()
   await testFailInstallElixir()
+  await testFailInstallGleam()
   await testFailInstallRebar3()
 
   await testOTPVersions()
   await testElixirVersions()
+  await testGleamVersions()
   await testRebar3Versions()
 
   await testGetVersionFromSpec()
@@ -60,6 +62,20 @@ async function testFailInstallElixir() {
       return true
     },
     `Installing Elixir ${exVersion} is supposed to fail`,
+  )
+}
+
+async function testFailInstallGleam() {
+  const gleamVersion = '0.1.3'
+  assert.rejects(
+    async () => {
+      await installer.installGleam(gleamVersion)
+    },
+    (err) => {
+      assert.ok(err instanceof Error)
+      return true
+    },
+    `Installing Gleam ${gleamVersion} is supposed to fail`,
   )
 }
 
@@ -193,6 +209,33 @@ async function testElixirVersions() {
   otpVersion = '23.1'
   expected = 'master-otp-23'
   got = await setupBeam.getElixirVersion(spec, otpVersion)
+  assert.deepStrictEqual(got, expected)
+  simulateInput('version-type', 'loose')
+}
+
+async function testGleamVersions() {
+  let got
+  let expected
+  let spec
+  let otpVersion
+
+  spec = 'v0.3.0'
+  otpVersion = 'OTP-23'
+  expected = 'v0.3.0'
+  got = await setupBeam.getGleamVersion(spec, otpVersion)
+  assert.deepStrictEqual(got, expected)
+
+  spec = '0.13.2'
+  otpVersion = 'OTP-24'
+  expected = 'v0.13.2'
+  got = await setupBeam.getGleamVersion(spec, otpVersion)
+  assert.deepStrictEqual(got, expected)
+
+  simulateInput('version-type', 'strict')
+  spec = 'v0.14.0-rc2'
+  otpVersion = 'OTP-22'
+  expected = 'v0.14.0-rc2'
+  got = await setupBeam.getGleamVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', 'loose')
 }

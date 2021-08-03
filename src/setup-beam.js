@@ -30,6 +30,9 @@ async function main() {
     await mix(shouldMixHex, 'hex')
   }
 
+  const gleamSpec = core.getInput('gleam-version', { required: false })
+  await maybeInstallGleam(gleamSpec)
+
   const rebar3Spec = core.getInput('rebar3-version', { required: false })
   await maybeInstallRebar3(rebar3Spec)
 }
@@ -84,6 +87,23 @@ async function mix(shouldMix, what) {
     await exec(cmd, args)
     console.log('##[endgroup]')
   }
+}
+
+async function maybeInstallGleam(gleamSpec) {
+  let installed = false
+
+  if (gleamSpec) {
+    const gleamVersion = await getGleamVersion(gleamSpec)
+    console.log(`##[group]Installing Gleam ${gleamVersion}`)
+    await installer.installGleam(gleamVersion)
+    core.setOutput('gleam-version', gleamVersion)
+    core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/gleam/bin`)
+    console.log('##[endgroup]')
+
+    installed = true
+  }
+
+  return installed
 }
 
 async function maybeInstallRebar3(rebar3Spec) {
@@ -174,10 +194,21 @@ async function getElixirVersion(exSpec0, otpVersion) {
     )
   }
 
-  const DigitStart = new RegExp('^\\d+')
-  return DigitStart.test(elixirVersion)
-    ? `v${elixirVersionWithOTP}`
-    : elixirVersionWithOTP
+  return maybePrependWithV(elixirVersionWithOTP, elixirVersion)
+}
+
+async function getGleamVersion(gleamSpec0) {
+  const gleamSpec = gleamSpec0.match(/^v?(.+)/)
+  const gleamVersions = await getGleamVersions()
+  const gleamVersion = getVersionFromSpec(gleamSpec[1], gleamVersions)
+  if (gleamVersion === null) {
+    throw new Error(
+      `Requested Gleam version (${gleamSpec0}) not found in version list ` +
+        "(should you be using option 'version-type': 'strict'?)",
+    )
+  }
+
+  return maybePrependWithV(gleamVersion, gleamVersion)
 }
 
 async function getRebar3Version(r3Spec) {
@@ -260,6 +291,21 @@ async function getElixirVersions() {
   return otpVersionsForElixirMap
 }
 
+async function getGleamVersions() {
+  const resultJSONs = await get(
+    'https://api.github.com/repos/gleam-lang/gleam/releases?per_page=100',
+    [1, 2, 3],
+  )
+  const gleamVersionsListing = []
+  resultJSONs.forEach((resultJSON) => {
+    JSON.parse(resultJSON)
+      .map((x) => x.tag_name)
+      .sort()
+      .forEach((v) => gleamVersionsListing.push(v))
+  })
+  return gleamVersionsListing
+}
+
 async function getRebar3Versions() {
   const resultJSONs = await get(
     'https://api.github.com/repos/erlang/rebar3/releases?per_page=100',
@@ -303,7 +349,7 @@ function getVersionFromSpec(spec, versions) {
     }
   }
 
-  return version
+  return version === null || version === undefined ? null : version
 }
 
 function maybeCoerced(v) {
@@ -410,9 +456,17 @@ async function get(url0, pageIdxs) {
   return ret
 }
 
+function maybePrependWithV(versionToPrepend, specVersion) {
+  const digitStart = new RegExp('^\\d+')
+  return digitStart.test(specVersion)
+    ? `v${versionToPrepend}`
+    : versionToPrepend
+}
+
 module.exports = {
   getOTPVersion,
   getElixirVersion,
+  getGleamVersion,
   getRebar3Version,
   getVersionFromSpec,
 }
