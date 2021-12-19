@@ -16,6 +16,7 @@ workflow by:
 - optionally, installing Gleam
 - optionally, installing `rebar3`
 - optionally, installing `hex`
+- Configures [problem matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) to show warnings and errors on PR's
 
 **Note** Currently, this action only supports Actions' `ubuntu-` and `windows-` runtimes.
 
