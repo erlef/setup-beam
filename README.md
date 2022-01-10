@@ -47,10 +47,8 @@ and Erlang/OTP.
 
 | Operating system | Erlang/OTP | Status
 |-                 |-           |-
-| ubuntu-16.04     | 17 - 24    | ✅
 | ubuntu-18.04     | 17 - 24    | ✅
 | ubuntu-20.04     | 20 - 24    | ✅
-| windows-2016     | 21* - 24   | ✅
 | windows-2019     | 21* - 24   | ✅
 
 **Note** *: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3, 22.0, etc.
@@ -62,10 +60,8 @@ uses that to download assets:
 
 | ImageOS  | Operating system
 |-         |-
-| ubuntu16 | ubuntu-16.04
 | ubuntu18 | ubuntu-18.04
 | ubuntu20 | ubuntu-20.04
-| win16    | windows-2016
 | win19    | windows-2019
 
 as per the following example:
