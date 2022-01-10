@@ -1,0 +1,19 @@
+---
+name: update_3rd_party_licenses
+
+on:
+  schedule:
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    name: Update 3rd party licenses
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - run:
+          ./.github/workflows/update_3rd_party_licenses.sh
