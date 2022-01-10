@@ -16,6 +16,8 @@ async function main() {
   const osVersion = getRunnerOSVersion()
   const otpSpec = core.getInput('otp-version', { required: true })
   const elixirSpec = core.getInput('elixir-version', { required: false })
+  const gleamSpec = core.getInput('gleam-version', { required: false })
+  const rebar3Spec = core.getInput('rebar3-version', { required: false })
 
   if (otpSpec !== 'false') {
     const otpVersion = await installOTP(otpSpec, osVersion)
@@ -31,14 +33,11 @@ async function main() {
       })
       await mix(shouldMixHex, 'hex')
     }
-  } else if (elixirSpec) {
-    throw new Error('Cannot install Elixir without installing OTP')
+  } else if (!gleamSpec) {
+    throw new Error('otp-version=false is only available when installing Gleam')
   }
 
-  const gleamSpec = core.getInput('gleam-version', { required: false })
   await maybeInstallGleam(gleamSpec)
-
-  const rebar3Spec = core.getInput('rebar3-version', { required: false })
   await maybeInstallRebar3(rebar3Spec)
 }
 
