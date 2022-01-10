@@ -18,7 +18,7 @@ async function main() {
   const elixirSpec = core.getInput('elixir-version', { required: false })
 
   if (otpSpec !== 'false') {
-    const otpVersion = await maybeInstallOTP(otpSpec, osVersion)
+    const otpVersion = await installOTP(otpSpec, osVersion)
     const elixirInstalled = await maybeInstallElixir(elixirSpec, otpVersion)
 
     if (elixirInstalled === true) {
@@ -42,7 +42,7 @@ async function main() {
   await maybeInstallRebar3(rebar3Spec)
 }
 
-async function maybeInstallOTP(otpSpec, osVersion) {
+async function installOTP(otpSpec, osVersion) {
   const otpVersion = await getOTPVersion(otpSpec, osVersion)
   console.log(
     `##[group]Installing Erlang/OTP ${otpVersion} - built on ${osVersion}`,
