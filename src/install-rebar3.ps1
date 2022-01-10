@@ -10,7 +10,12 @@ $FILE_OUTPUT_PS1="rebar3.ps1"
 $DIR_FOR_BIN=".setup-beam/rebar3"
 
 $ProgressPreference="SilentlyContinue"
-Invoke-WebRequest "https://github.com/erlang/rebar3/releases/download/${VSN}/${FILE_INPUT}" -OutFile "$FILE_OUTPUT"
+$REBAR3_TARGET="https://github.com/erlang/rebar3/releases/download/${VSN}/${FILE_INPUT}"
+if ( $VSN -eq "nightly" )
+{
+    $REBAR3_TARGET="https://s3.amazonaws.com/rebar3-nightly/rebar3"
+}
+Invoke-WebRequest "$REBAR3_TARGET" -OutFile "$FILE_OUTPUT"
 $ProgressPreference="Continue"
 New-Item "$DIR_FOR_BIN/bin" -ItemType Directory | Out-Null
 Move-Item "$FILE_OUTPUT" "$DIR_FOR_BIN/bin"

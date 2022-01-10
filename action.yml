@@ -21,7 +21,7 @@ inputs:
     description: Whether to install Rebar (with Mix)
     default: true
   rebar3-version:
-    description: Version range or exact version of rebar3 to use
+    description: Version range or exact version of rebar3 to use (or nightly)
   version-type:
     description: strict means the versions are take as-are; loose means we try
       to guess versions based on semver rules

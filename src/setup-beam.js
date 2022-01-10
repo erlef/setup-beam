@@ -108,9 +108,14 @@ async function maybeInstallGleam(gleamSpec) {
 
 async function maybeInstallRebar3(rebar3Spec) {
   let installed = false
+  let rebar3Version
 
   if (rebar3Spec) {
-    const rebar3Version = await getRebar3Version(rebar3Spec)
+    if (rebar3Spec === 'nightly') {
+      rebar3Version = 'nightly'
+    } else {
+      rebar3Version = await getRebar3Version(rebar3Spec)
+    }
     console.log(`##[group]Installing rebar3 ${rebar3Version}`)
     await installer.installRebar3(rebar3Version)
     core.setOutput('rebar3-version', rebar3Version)
