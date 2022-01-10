@@ -162,12 +162,12 @@ jobs:
           cd test-projects/gleam_rebar3
           rebar3 eunit
         if: ${{matrix.combo.gleam-version}}
-      - name: Type check Gleam project
+      - name: Type check Gleam project (without installing Erlang/OTP)
         run: |
           cd test-projects/gleam_gleam
           gleam check
         if: ${{ matrix.combo.gleam-version && !matrix.combo.otp-version }}
-      - name: Run Gleam project tests
+      - name: Run Gleam project tests (without `rebar3`)
         run: |
           cd test-projects/gleam_gleam
           gleam test
