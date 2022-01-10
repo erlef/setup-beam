@@ -66,10 +66,15 @@ async function maybeInstallElixir(elixirSpec, otpVersion) {
     console.log(`##[group]Installing Elixir ${elixirVersion}`)
     await installer.installElixir(elixirVersion)
     core.setOutput('elixir-version', elixirVersion)
-    const matchersPath = path.join(__dirname, '..', '.github')
-    console.log(
-      `##[add-matcher]${path.join(matchersPath, 'elixir-matchers.json')}`,
-    )
+    const disableProblemMatchers = core.getInput('disable_problem_matchers', {
+      required: false,
+    })
+    if (!disableProblemMatchers) {
+      const matchersPath = path.join(__dirname, '..', '.github')
+      console.log(
+        `##[add-matcher]${path.join(matchersPath, 'elixir-matchers.json')}`,
+      )
+    }
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
     console.log('##[endgroup]')
 

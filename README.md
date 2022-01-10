@@ -16,7 +16,9 @@ workflow by:
 - optionally, installing Gleam
 - optionally, installing `rebar3`
 - optionally, installing `hex`
-- Configures [problem matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) to show warnings and errors on PR's
+- optionally, having
+  [problem matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) show
+  warnings and errors on pull requests
 
 **Note** Currently, this action only supports Actions' `ubuntu-` and `windows-` runtimes.
 
@@ -170,7 +172,9 @@ jobs:
 
 ## Elixir Problem Matchers
 
-The Elixir Problem Matchers in this repository are adapted from [here](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118). See [MATCHER_NOTICE](MATCHER_NOTICE.md) for license details.
+The Elixir Problem Matchers in this repository are adapted from
+[here](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118).
+See [MATCHER_NOTICE](MATCHER_NOTICE.md) for license details.
 
 ## Action versioning
 
