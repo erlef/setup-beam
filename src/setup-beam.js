@@ -15,19 +15,24 @@ async function main() {
 
   const osVersion = getRunnerOSVersion()
   const otpSpec = core.getInput('otp-version', { required: true })
-  const otpVersion = await installOTP(otpSpec, osVersion)
-
   const elixirSpec = core.getInput('elixir-version', { required: false })
-  const elixirInstalled = await maybeInstallElixir(elixirSpec, otpVersion)
-  if (elixirInstalled === true) {
-    const shouldMixRebar = core.getInput('install-rebar', {
-      required: false,
-    })
-    await mix(shouldMixRebar, 'rebar')
-    const shouldMixHex = core.getInput('install-hex', {
-      required: false,
-    })
-    await mix(shouldMixHex, 'hex')
+
+  if (otpSpec !== 'false') {
+    const otpVersion = await maybeInstallOTP(otpSpec, osVersion)
+    const elixirInstalled = await maybeInstallElixir(elixirSpec, otpVersion)
+
+    if (elixirInstalled === true) {
+      const shouldMixRebar = core.getInput('install-rebar', {
+        required: false,
+      })
+      await mix(shouldMixRebar, 'rebar')
+      const shouldMixHex = core.getInput('install-hex', {
+        required: false,
+      })
+      await mix(shouldMixHex, 'hex')
+    }
+  } else if (elixirSpec) {
+    throw new Error('Cannot install Elixir without installing OTP')
   }
 
   const gleamSpec = core.getInput('gleam-version', { required: false })
@@ -37,7 +42,7 @@ async function main() {
   await maybeInstallRebar3(rebar3Spec)
 }
 
-async function installOTP(otpSpec, osVersion) {
+async function maybeInstallOTP(otpSpec, osVersion) {
   const otpVersion = await getOTPVersion(otpSpec, osVersion)
   console.log(
     `##[group]Installing Erlang/OTP ${otpVersion} - built on ${osVersion}`,

@@ -111,6 +111,12 @@ jobs:
             otp-version: '24'
             rebar3-version: '3.16'
             os: 'ubuntu-latest'
+          - gleam-version: '0.19.0-rc3'
+            otp-version: '24'
+            os: 'ubuntu-latest'
+          - gleam-version: '0.19.0-rc3'
+            otp-version: false
+            os: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Use erlef/setup-beam
@@ -124,6 +130,7 @@ jobs:
           version-type: ${{matrix.combo.version-type}}
       - name: Erlang/OTP version (action)
         run: echo "Erlang/OTP ${{steps.setup-beam.outputs.otp-version}}"
+        if: ${{matrix.combo.otp-version}}
       - name: Elixir version (action)
         run: echo "Elixir ${{steps.setup-beam.outputs.elixir-version}}"
         if: ${{matrix.combo.elixir-version}}
@@ -155,3 +162,13 @@ jobs:
           cd test-projects/gleam_rebar3
           rebar3 eunit
         if: ${{matrix.combo.gleam-version}}
+      - name: Type check Gleam project
+        run: |
+          cd test-projects/gleam_gleam
+          gleam check
+        if: ${{ matrix.combo.gleam-version && !matrix.combo.otp-version }}
+      - name: Run Gleam project tests
+        run: |
+          cd test-projects/gleam_gleam
+          gleam test
+        if: ${{ matrix.combo.gleam-version && matrix.combo.otp-version && !matrix.combo.rebar3-version }}
