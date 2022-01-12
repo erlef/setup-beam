@@ -187,7 +187,7 @@ jobs:
       - run: gleam check
 ```
 
-**Note**: The `otp-version: false` config is only applicable when installing Gleam.
+**Note**: the `otp-version: false` input is only applicable when installing Gleam.
 
 ## Elixir Problem Matchers
 
@@ -204,7 +204,7 @@ See [MATCHER_NOTICE](MATCHER_NOTICE.md) for license details.
 - `@v1.8.0`: release `1.8.0` (this tag is not movable).
 
 We make a real effort to not introduce incompatibilities without changing the major
-version number. To be extra safe against changes causing issues in CI you can specify
+version number. To be extra safe against changes causing issues in your CI you should specify
 an exact version with `@vx.y.z`.
 
 ## License
