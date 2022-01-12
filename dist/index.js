@@ -5074,10 +5074,8 @@ function sortVersions(left, right) {
 
 function getRunnerOSVersion() {
   const ImageOSToContainer = {
-    ubuntu16: 'ubuntu-16.04',
     ubuntu18: 'ubuntu-18.04',
     ubuntu20: 'ubuntu-20.04',
-    win16: 'windows-2016',
     win19: 'windows-2019',
   }
   const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
