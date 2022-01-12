@@ -20,13 +20,13 @@ workflow by:
   [problem matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) show
   warnings and errors on pull requests
 
-**Note** Currently, this action only supports Actions' `ubuntu-` and `windows-` runtimes.
+**Note**: currently, this action only supports Actions' `ubuntu-` and `windows-` runtimes.
 
 ## Usage
 
 See [action.yml](action.yml) for the action's specification.
 
-**Note**: The Erlang/OTP release version specification is [relatively
+**Note**: the Erlang/OTP release version specification is [relatively
 complex](http://erlang.org/doc/system_principles/versions.html#version-scheme).
 For best results, we recommend specifying exact
 versions, and setting option `version-type` to `strict`.
