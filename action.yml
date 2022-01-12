@@ -26,6 +26,9 @@ inputs:
     description: strict means the versions are take as-are; loose means we try
       to guess versions based on semver rules
     default: loose
+  disable_problem_matchers:
+    description: whether to have the problem matchers present in the results (or not)
+    default: false
 outputs:
   elixir-version:
     description: Exact version of Elixir that was installed
