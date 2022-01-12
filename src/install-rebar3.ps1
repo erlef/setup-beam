@@ -12,7 +12,7 @@ $DIR_FOR_BIN=".setup-beam/rebar3"
 $ProgressPreference="SilentlyContinue"
 $REBAR3_TARGET="https://github.com/erlang/rebar3/releases/download/${VSN}/${FILE_INPUT}"
 $REBAR3_NIGHTLY=""
-if ( $VSN -eq "nightly" )
+If ( $VSN -eq "nightly" )
 {
     $REBAR3_TARGET="https://s3.amazonaws.com/rebar3-nightly/rebar3"
     $REBAR3_NIGHTLY=" (from nightly build)"
