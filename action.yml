@@ -8,17 +8,21 @@ branding:
   color: blue
   icon: code
 inputs:
+  otp-version:
+    description: Version range or exact version of Erlang/OTP to use,
+      or false when installing only Gleam without OTP
+    required: true
   elixir-version:
     description: Version range or exact version of Elixir to use
-  otp-version:
-    description: Version range or exact version of Erlang/OTP to use
   gleam-version:
     description: Version range or exact version of Gleam to use
   install-hex:
-    description: Whether to install Hex (with Mix)
+    description: Whether to install Hex (with mix local.hex
+      when installing Elixir)
     default: true
   install-rebar:
-    description: Whether to install Rebar (with Mix)
+    description: Whether to install Rebar (with mix local.rebar
+      when installing Elixir)
     default: true
   rebar3-version:
     description: Version range or exact version of rebar3 to use

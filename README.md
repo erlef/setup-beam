@@ -11,14 +11,14 @@
 This action sets up an Erlang/OTP environment for use in a GitHub Actions
 workflow by:
 
-- installing Erlang/OTP
-- optionally, installing Elixir
-- optionally, installing Gleam
-- optionally, installing `rebar3`
-- optionally, installing `hex`
+- installing [Erlang/OTP](https://www.erlang.org/)
+- optionally, installing [Elixir](https://elixir-lang.org/)
+- optionally, installing [Gleam](https://gleam.run/)
+- optionally, installing [`rebar3`](https://www.rebar3.org/)
+- optionally, installing [`hex`](https://hex.pm/)
 - optionally, having
   [problem matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) show
-  warnings and errors on pull requests
+  warnings and errors on pull requestsotp-version: false)
 
 **Note** Currently, this action only supports Actions' `ubuntu-` and `windows-` runtimes.
 
@@ -151,7 +151,7 @@ jobs:
       - run: rebar3 ct
 ```
 
-### Example (Gleam + `rebar3`, on Ubuntu)
+### Example (Gleam on Ubuntu)
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -165,10 +165,29 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: '24'
-          gleam-version: '0.16'
-          rebar3-version: '3.16'
-      - run: rebar3 ct
+          gleam-version: '0.19.0-rc3'
+      - run: gleam test
 ```
+
+### Example (Gleam on Ubuntu without OTP)
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: false
+          gleam-version: '0.19.0-rc3'
+      - run: gleam check
+```
+
+**Note**: The `otp-version: false` config is only applicable when installing Gleam.
 
 ## Elixir Problem Matchers
 
@@ -184,9 +203,9 @@ See [MATCHER_NOTICE](MATCHER_NOTICE.md) for license details.
 - `@v1.8`: the latest in the `1.8.z` series (this tag is movable),
 - `@v1.8.0`: release `1.8.0` (this tag is not movable).
 
-To prevent issues in CI (unless you're OK with potential incompatibility between versions - we
-make real a effort to not introduce those without bumping major) we suggest you to use `@vx.y.z`,
-whenever possible.
+We make a real effort to not introduce incompatibilities without changing the major
+version number. To be extra safe against changes causing issues in CI you can specify
+an exact version with `@vx.y.z`.
 
 ## License
 
