@@ -15,25 +15,29 @@ async function main() {
 
   const osVersion = getRunnerOSVersion()
   const otpSpec = core.getInput('otp-version', { required: true })
-  const otpVersion = await installOTP(otpSpec, osVersion)
-
   const elixirSpec = core.getInput('elixir-version', { required: false })
-  const elixirInstalled = await maybeInstallElixir(elixirSpec, otpVersion)
-  if (elixirInstalled === true) {
-    const shouldMixRebar = core.getInput('install-rebar', {
-      required: false,
-    })
-    await mix(shouldMixRebar, 'rebar')
-    const shouldMixHex = core.getInput('install-hex', {
-      required: false,
-    })
-    await mix(shouldMixHex, 'hex')
+  const gleamSpec = core.getInput('gleam-version', { required: false })
+  const rebar3Spec = core.getInput('rebar3-version', { required: false })
+
+  if (otpSpec !== 'false') {
+    const otpVersion = await installOTP(otpSpec, osVersion)
+    const elixirInstalled = await maybeInstallElixir(elixirSpec, otpVersion)
+
+    if (elixirInstalled === true) {
+      const shouldMixRebar = core.getInput('install-rebar', {
+        required: false,
+      })
+      await mix(shouldMixRebar, 'rebar')
+      const shouldMixHex = core.getInput('install-hex', {
+        required: false,
+      })
+      await mix(shouldMixHex, 'hex')
+    }
+  } else if (!gleamSpec) {
+    throw new Error('otp-version=false is only available when installing Gleam')
   }
 
-  const gleamSpec = core.getInput('gleam-version', { required: false })
   await maybeInstallGleam(gleamSpec)
-
-  const rebar3Spec = core.getInput('rebar3-version', { required: false })
   await maybeInstallRebar3(rebar3Spec)
 }
 
