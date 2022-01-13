@@ -469,7 +469,7 @@ async function get(url0, pageIdxs) {
 }
 
 function maybePrependWithV(versionToPrepend, specVersion) {
-  const digitStart = new RegExp('^\\d+')
+  const digitStart = /^\d+/
   return digitStart.test(specVersion)
     ? `v${versionToPrepend}`
     : versionToPrepend
