@@ -52,6 +52,7 @@ and Erlang/OTP.
 | ubuntu-18.04     | 17 - 24    | ✅
 | ubuntu-20.04     | 20 - 24    | ✅
 | windows-2019     | 21* - 24   | ✅
+| windows-2022     | 21* - 24   | ✅
 
 **Note** *: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3, 22.0, etc.
 
@@ -65,6 +66,7 @@ uses that to download assets:
 | ubuntu18 | ubuntu-18.04
 | ubuntu20 | ubuntu-20.04
 | win19    | windows-2019
+| win22    | windows-2022
 
 as per the following example:
 
@@ -137,7 +139,7 @@ on: push
 
 jobs:
   test:
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2
       - uses: erlef/setup-beam@v1
