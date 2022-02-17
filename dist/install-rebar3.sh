@@ -21,3 +21,5 @@ chmod +x "${FILE_OUTPUT}"
 mv "${FILE_OUTPUT}" "${DIR_FOR_BIN}/bin"
 echo "Installed rebar3 version$REBAR3_NIGHTLY follows"
 ${DIR_FOR_BIN}/bin/rebar3 version
+
+echo "INSTALL_DIR_FOR_REBAR3=${RUNNER_TEMP}/${DIR_FOR_BIN}" >> "${GITHUB_ENV}"

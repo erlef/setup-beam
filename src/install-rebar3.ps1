@@ -26,3 +26,5 @@ type $FILE_OUTPUT_PS1
 Move-Item "$FILE_OUTPUT_PS1" "$DIR_FOR_BIN/bin"
 Write-Output "Installed rebar3 version$REBAR3_NIGHTLY follows"
 & "$DIR_FOR_BIN/bin/rebar3" "version" | Write-Output
+
+"INSTALL_DIR_FOR_REBAR3=${Env:RUNNER_TEMP}/${DIR_FOR_BIN}" | Out-File -FilePath ${Env:GITHUB_ENV} -Encoding utf8 -Append
