@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-cd "$RUNNER_TEMP"
+cd "${RUNNER_TEMP}"
 
 OS=${1}
 VSN=${2}

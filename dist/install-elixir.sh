@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-cd "$RUNNER_TEMP"
+cd "${RUNNER_TEMP}"
 
 VSN=${1}
 FILE_INPUT="${VSN}.zip"

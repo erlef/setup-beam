@@ -1,15 +1,15 @@
-param([Parameter(Mandatory=$true)][string]$VSN)
+param([Parameter(Mandatory=$true)][string]${VSN})
 
 $ErrorActionPreference="Stop"
 
-Set-Location $Env:RUNNER_TEMP
+Set-Location ${Env:RUNNER_TEMP}
 
 $FILE_INPUT="gleam-${VSN}-windows-64bit.zip"
 $FILE_OUTPUT="gleam.zip"
 $DIR_FOR_BIN=".setup-beam/gleam"
 
 $ProgressPreference="SilentlyContinue"
-Invoke-WebRequest "https://github.com/gleam-lang/gleam/releases/download/${VSN}/${FILE_INPUT}" -OutFile "$FILE_OUTPUT"
+Invoke-WebRequest "https://github.com/gleam-lang/gleam/releases/download/${VSN}/${FILE_INPUT}" -OutFile "${FILE_OUTPUT}"
 $ProgressPreference="Continue"
 New-Item "${DIR_FOR_BIN}/bin" -ItemType Directory | Out-Null
 $ProgressPreference="SilentlyContinue"
