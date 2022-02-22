@@ -187,6 +187,16 @@ jobs:
 
 **Note**: the `otp-version: false` input is only applicable when installing Gleam.
 
+## Environment variables
+
+Base installation folders (useful for e.g. fetching headers for NIFs) are available in the following
+environment variables:
+
+- `INSTALL_DIR_FOR_ELIXIR`: base folder for Erlang/OTP
+- `INSTALL_DIR_FOR_GLEAM`: base folder for Elixir
+- `INSTALL_DIR_FOR_OTP`: base folder for Gleam
+- `INSTALL_DIR_FOR_REBAR3`: base folder for `rebar3`
+
 ## Elixir Problem Matchers
 
 The Elixir Problem Matchers in this repository are adapted from

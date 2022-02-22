@@ -84,3 +84,32 @@ jobs:
           cd test-projects/gleam_rebar3
           rebar3 eunit
         if: ${{matrix.combo.gleam-version}}
+  environment_variables:
+    name: Environment variables
+    runs-on: ${{matrix.combo.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        combo:
+          - otp-version: '24'
+            elixir-version: 'v1.12'
+            gleam-version: '0.19'
+            rebar3-version: 'nightly'
+            os: 'windows-latest'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use erlef/setup-beam
+        id: setup-beam
+        uses: ./
+        with:
+          otp-version: ${{matrix.combo.otp-version}}
+          elixir-version: ${{matrix.combo.elixir-version}}
+          gleam-version: ${{matrix.combo.gleam-version}}
+          rebar3-version: ${{matrix.combo.rebar3-version}}
+      - run: env
+      - name: List environment variables
+        run: |
+          echo "${{env.INSTALL_DIR_FOR_ELIXIR}}"
+          echo "${{env.INSTALL_DIR_FOR_GLEAM}}"
+          echo "${{env.INSTALL_DIR_FOR_OTP}}"
+          echo "${{env.INSTALL_DIR_FOR_REBAR3}}"

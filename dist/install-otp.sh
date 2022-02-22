@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-cd "$RUNNER_TEMP"
+cd "${RUNNER_TEMP}"
 
 OS=${1}
 VSN=${2}
@@ -16,3 +16,5 @@ tar zxf "${FILE_OUTPUT}" -C "${DIR_FOR_BIN}" --strip-components=1
 "${DIR_FOR_BIN}/Install" -minimal "$(pwd)/${DIR_FOR_BIN}"
 echo "Installed Erlang/OTP version follows"
 ${DIR_FOR_BIN}/bin/erl -version
+
+echo "INSTALL_DIR_FOR_OTP=${RUNNER_TEMP}/${DIR_FOR_BIN}" >> "${GITHUB_ENV}"

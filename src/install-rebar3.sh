@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-cd "$RUNNER_TEMP"
+cd "${RUNNER_TEMP}"
 
 VSN=${1}
 FILE_INPUT=rebar3
@@ -19,5 +19,7 @@ wget -q -O "${FILE_OUTPUT}" "${REBAR3_TARGET}"
 mkdir -p "${DIR_FOR_BIN}/bin"
 chmod +x "${FILE_OUTPUT}"
 mv "${FILE_OUTPUT}" "${DIR_FOR_BIN}/bin"
-echo "Installed rebar3 version$REBAR3_NIGHTLY follows"
+echo "Installed rebar3 version${REBAR3_NIGHTLY} follows"
 ${DIR_FOR_BIN}/bin/rebar3 version
+
+echo "INSTALL_DIR_FOR_REBAR3=${RUNNER_TEMP}/${DIR_FOR_BIN}" >> "${GITHUB_ENV}"
