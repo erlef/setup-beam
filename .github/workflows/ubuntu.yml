@@ -21,6 +21,9 @@ jobs:
       fail-fast: false
       matrix:
         combo:
+          - otp-version: '25.0-rc1'
+            rebar3-version: 'nightly'
+            os: 'ubuntu-latest'
           - otp-version: '24'
             rebar3-version: 'nightly'
             os: 'ubuntu-latest'
