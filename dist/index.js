@@ -6378,6 +6378,7 @@ function getRunnerOSVersion() {
     ubuntu18: 'ubuntu-18.04',
     ubuntu20: 'ubuntu-20.04',
     win19: 'windows-2019',
+    win22: 'windows-2022',
   }
   const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
 
