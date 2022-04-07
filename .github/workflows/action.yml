@@ -27,7 +27,6 @@ jobs:
       - run: npm run shellcheck
       - run: npm run yamllint
       - run: npm run jslint
-      - run: npm run licenses
       - name: Check if build left artifacts
         run: git diff --exit-code
 
