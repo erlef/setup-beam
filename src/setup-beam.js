@@ -73,7 +73,7 @@ async function maybeInstallElixir(elixirSpec, otpVersion) {
     const disableProblemMatchers = core.getInput('disable_problem_matchers', {
       required: false,
     })
-    if (!disableProblemMatchers) {
+    if (disableProblemMatchers === 'false') {
       const matchersPath = path.join(__dirname, '..', '.github')
       console.log(
         `##[add-matcher]${path.join(matchersPath, 'elixir-matchers.json')}`,
@@ -89,7 +89,7 @@ async function maybeInstallElixir(elixirSpec, otpVersion) {
 }
 
 async function mix(shouldMix, what) {
-  if (shouldMix) {
+  if (shouldMix === 'true') {
     const cmd = 'mix'
     const args = [`local.${what}`, '--force']
     console.log(`##[group]Running ${cmd} ${args}`)
