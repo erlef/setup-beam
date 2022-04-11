@@ -43,5 +43,5 @@ outputs:
   rebar3-version:
     description: Exact version of rebar3 that was installed
 runs:
-  using: node12
+  using: node16
   main: dist/index.js
