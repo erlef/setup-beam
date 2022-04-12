@@ -19,24 +19,24 @@
   },
   "dependencies": {
     "@actions/core": "1.6.0",
-    "@actions/exec": "1.1.0",
-    "semver": "7.3.5"
+    "@actions/exec": "1.1.1",
+    "semver": "7.3.6"
   },
   "devDependencies": {
-    "@vercel/ncc": "0.33.1",
-    "eslint": "8.6.0",
-    "eslint-config-airbnb": "v19.0.4",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "^7.28.0",
+    "@vercel/ncc": "0.33.4",
+    "eslint": "8.13.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jsx-a11y": "6.5.1",
+    "eslint-plugin-react": "7.29.0",
     "husky": "7.0.4",
-    "markdownlint": "0.25.0",
-    "prettier": "2.5.1",
+    "markdownlint": "0.25.1",
+    "prettier": "2.6.2",
     "shellcheck": "1.1.0",
     "yaml-lint": "1.2.4",
-    "yarn": "1.22.17"
+    "yarn": "1.22.18"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   }
 }

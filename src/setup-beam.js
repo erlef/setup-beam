@@ -471,9 +471,11 @@ async function get(url0, pageIdxs) {
 
 function maybePrependWithV(versionToPrepend, specVersion) {
   const digitStart = /^\d+/
-  return digitStart.test(specVersion)
-    ? `v${versionToPrepend}`
-    : versionToPrepend
+  let v = versionToPrepend
+  if (digitStart.test(specVersion)) {
+    v = `v${versionToPrepend}`
+  }
+  return v
 }
 
 module.exports = {
