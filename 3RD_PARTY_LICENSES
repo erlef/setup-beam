@@ -2797,6 +2797,32 @@ THE SOFTWARE.
 
 -----
 
+The following software may be included in this product: functions-have-names, has-bigints, internal-slot, side-channel, unbox-primitive, which-boxed-primitive. A copy of the source code may be downloaded from git+https://github.com/inspect-js/functions-have-names.git (functions-have-names), git+https://github.com/ljharb/has-bigints.git (has-bigints), git+https://github.com/ljharb/internal-slot.git (internal-slot), git+https://github.com/ljharb/side-channel.git (side-channel), git+https://github.com/ljharb/unbox-primitive.git (unbox-primitive), git+https://github.com/inspect-js/which-boxed-primitive.git (which-boxed-primitive). This software contains the following license and notice below:
+
+MIT License
+
+Copyright (c) 2019 Jordan Harband
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----
+
 The following software may be included in this product: get-symbol-description, has-tostringtag, is-shared-array-buffer. A copy of the source code may be downloaded from git+https://github.com/inspect-js/get-symbol-description.git (get-symbol-description), git+https://github.com/inspect-js/has-tostringtag.git (has-tostringtag), git+https://github.com/inspect-js/is-shared-array-buffer.git (is-shared-array-buffer). This software contains the following license and notice below:
 
 MIT License
@@ -2924,11 +2950,11 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: has-bigints, internal-slot, side-channel, unbox-primitive, which-boxed-primitive. A copy of the source code may be downloaded from git+https://github.com/ljharb/has-bigints.git (has-bigints), git+https://github.com/ljharb/internal-slot.git (internal-slot), git+https://github.com/ljharb/side-channel.git (side-channel), git+https://github.com/ljharb/unbox-primitive.git (unbox-primitive), git+https://github.com/inspect-js/which-boxed-primitive.git (which-boxed-primitive). This software contains the following license and notice below:
+The following software may be included in this product: has-property-descriptors, supports-preserve-symlinks-flag. A copy of the source code may be downloaded from git+https://github.com/inspect-js/has-property-descriptors.git (has-property-descriptors), git+https://github.com/inspect-js/node-supports-preserve-symlinks-flag.git (supports-preserve-symlinks-flag). This software contains the following license and notice below:
 
 MIT License
 
-Copyright (c) 2019 Jordan Harband
+Copyright (c) 2022 Inspect JS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -10118,32 +10144,6 @@ The following software may be included in this product: string.prototype.trimend
 MIT License
 
 Copyright (c) 2017 Khaled Al-Ansari
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
------
-
-The following software may be included in this product: supports-preserve-symlinks-flag. A copy of the source code may be downloaded from git+https://github.com/inspect-js/node-supports-preserve-symlinks-flag.git. This software contains the following license and notice below:
-
-MIT License
-
-Copyright (c) 2022 Inspect JS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
