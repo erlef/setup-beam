@@ -3,7 +3,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "ncc build src/setup-beam.js --no-cache --license licenses.txt",
+    "build": "ncc build src/setup-beam.js --no-cache",
     "format": "prettier src/**/*.js --write && prettier __tests__/**/*.js --write",
     "jslint": "eslint src/**/*.js && eslint __tests__/**/*.js",
     "licenses": "yarn licenses generate-disclaimer > 3RD_PARTY_LICENSES",
