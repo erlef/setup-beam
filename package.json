@@ -10,7 +10,8 @@
     "markdownlint": "markdownlint *.md",
     "shellcheck": "shellcheck src/install-*.sh .github/workflows/*.sh",
     "test": "node __tests__/setup-beam.test.js && node ./__tests__/problem-matchers.test.js",
-    "yamllint": "yamllint .github/workflows/**.yml && yamllint .*.yml && yamllint *.yml"
+    "yamllint": "yamllint .github/workflows/**.yml && yamllint .*.yml && yamllint *.yml",
+    "build-dist": "npm install && npm run build && npm run format && npm run markdownlint && npm run shellcheck && npm run yamllint && npm run jslint"
   },
   "husky": {
     "hooks": {
