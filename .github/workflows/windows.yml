@@ -21,7 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          - otp-version: '25.0-rc1'
+          - otp-version: '25'
             rebar3-version: 'nightly'
             os: 'windows-latest'
           - otp-version: '24.0.2'
