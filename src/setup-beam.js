@@ -141,7 +141,7 @@ async function getOTPVersion(otpSpec0, osVersion) {
   const otpVersions = await getOTPVersions(osVersion)
   const otpSpec = otpSpec0.match(/^(OTP-)?([^ ]+)/)
   let otpVersion
-  if (otpSpec[1]) {
+  if (otpSpec[1] && !isStrictVersion()) {
     throw new Error(
       `Requested Erlang/OTP version (${otpSpec0}) ` +
         "should not contain 'OTP-'",
@@ -169,7 +169,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
 
   const exSpec = exSpec0.match(/^v?(.+)(-otp-.+)/) || exSpec0.match(/^v?(.+)/)
   let elixirVersion
-  if (exSpec[2]) {
+  if (exSpec[2] && !isStrictVersion()) {
     throw new Error(
       `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion}) ` +
         "should not contain '-otp-...'",
@@ -335,13 +335,14 @@ async function getRebar3Versions() {
   return rebar3VersionsListing
 }
 
+function isStrictVersion() {
+  return core.getInput('version-type', { required: false }) === 'strict'
+}
+
 function getVersionFromSpec(spec, versions) {
   let version = null
 
-  if (
-    spec.match(/rc/) ||
-    core.getInput('version-type', { required: false }) === 'strict'
-  ) {
+  if (spec.match(/rc/) || isStrictVersion()) {
     version = spec
   }
 
