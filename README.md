@@ -18,7 +18,7 @@ workflow by:
 - optionally, installing [`hex`](https://hex.pm/)
 - optionally, having
   [problem matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) show
-  warnings and errors on pull requestsotp-version: false)
+  warnings and errors on pull requests
 
 **Note**: currently, this action only supports Actions' `ubuntu-` and `windows-` runtimes.
 
