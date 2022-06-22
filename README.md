@@ -51,6 +51,7 @@ and Erlang/OTP.
 |-                 |-           |-
 | ubuntu-18.04     | 17 - 24    | ✅
 | ubuntu-20.04     | 20 - 24    | ✅
+| ubuntu-22.04     | 24.2 - 25  | ✅
 | windows-2019     | 21* - 24   | ✅
 | windows-2022     | 21* - 24   | ✅
 
@@ -65,6 +66,7 @@ uses that to download assets:
 |-         |-
 | ubuntu18 | ubuntu-18.04
 | ubuntu20 | ubuntu-20.04
+| ubuntu22 | ubuntu-22.04
 | win19    | windows-2019
 | win22    | windows-2022
 
