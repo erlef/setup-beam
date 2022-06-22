@@ -6191,12 +6191,12 @@ async function maybeInstallRebar3(rebar3Spec) {
 
 async function getOTPVersion(otpSpec0, osVersion) {
   const otpVersions = await getOTPVersions(osVersion)
-  const otpSpec = otpSpec0.match(/^(OTP-)?([^ ]+)/)
+  const otpSpec = otpSpec0.match(/^(OTP-|maint-)?([^ ]+)/)
   let otpVersion
   if (otpSpec[1] && !isStrictVersion()) {
     throw new Error(
       `Requested Erlang/OTP version (${otpSpec0}) ` +
-        "should not contain 'OTP-'",
+        "should not contain 'OTP-, or maint-'",
     )
   }
   if (otpSpec) {
@@ -6310,7 +6310,7 @@ async function getOTPVersions(osVersion) {
       .trim()
       .split('\n')
       .forEach((line) => {
-        const otpMatch = line.match(/^(OTP-)?([^ ]+)/)
+        const otpMatch = line.match(/^(OTP-|maint-)?([^ ]+)/)
         const otpVersion = otpMatch[2]
         otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
       })
