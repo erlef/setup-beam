@@ -49,11 +49,11 @@ and Erlang/OTP.
 
 | Operating system | Erlang/OTP | Status
 |-                 |-           |-
-| ubuntu-18.04     | 17 - 24    | ✅
-| ubuntu-20.04     | 20 - 24    | ✅
+| ubuntu-18.04     | 17 - 25    | ✅
+| ubuntu-20.04     | 20 - 25    | ✅
 | ubuntu-22.04     | 24.2 - 25  | ✅
-| windows-2019     | 21* - 24   | ✅
-| windows-2022     | 21* - 24   | ✅
+| windows-2019     | 21* - 25   | ✅
+| windows-2022     | 21* - 25   | ✅
 
 **Note** *: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3, 22.0, etc.
 
