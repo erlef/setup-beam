@@ -5,7 +5,7 @@ set -eo pipefail
 cd "${RUNNER_TEMP}"
 
 VSN=${1}
-FILE_INPUT=gleam-${VSN}-linux-amd64.tar.gz
+FILE_INPUT=gleam-${VSN}-x86_64-unknown-linux-musl.tar.gz
 FILE_OUTPUT=gleam.tar.gz
 DIR_FOR_BIN=.setup-beam/gleam
 
