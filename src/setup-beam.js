@@ -3,7 +3,6 @@ const { exec } = require('@actions/exec')
 const path = require('path')
 const semver = require('semver')
 const https = require('https')
-const fs = require('fs')
 const installer = require('./installer')
 
 main().catch((err) => {
