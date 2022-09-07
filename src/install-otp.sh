@@ -17,4 +17,4 @@ tar zxf "${FILE_OUTPUT}" -C "${DIR_FOR_BIN}" --strip-components=1
 echo "Installed Erlang/OTP version follows"
 ${DIR_FOR_BIN}/bin/erl -version
 
-echo "INSTALL_DIR_FOR_OTP=${RUNNER_TEMP}/${DIR_FOR_BIN}" >> "${GITHUB_ENV}"
+echo "INSTALL_DIR_FOR_OTP=${RUNNER_TEMP}/${DIR_FOR_BIN}"
