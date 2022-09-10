@@ -129,6 +129,9 @@ jobs:
           - gleam-version: '0.23.0-rc1'
             otp-version: false
             os: 'ubuntu-latest'
+          - gleam-version: '0.22.0' # Version with Gleam's old archive naming convention
+            otp-version: '24'
+            os: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Use erlef/setup-beam
