@@ -3,7 +3,6 @@ const { exec } = require('@actions/exec')
 const path = require('path')
 const semver = require('semver')
 const https = require('https')
-const fs = require('fs')
 const installer = require('./installer')
 
 main().catch((err) => {
@@ -48,15 +47,7 @@ async function installOTP(otpSpec, osVersion) {
   )
   await installer.installOTP(osVersion, otpVersion)
   core.setOutput('otp-version', otpVersion)
-  if (process.platform === 'linux') {
-    core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
-  } else if (process.platform === 'win32') {
-    const otpPath = fs.readFileSync(`${process.env.RUNNER_TEMP}/otp_path.txt`, {
-      encoding: 'utf8',
-      flag: 'r',
-    })
-    core.addPath(otpPath)
-  }
+  core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
   console.log('##[endgroup]')
 
   return otpVersion
