@@ -116,15 +116,19 @@ jobs:
           - elixir-version: 'master'
             otp-version: '25'
             os:  'ubuntu-20.04'
-          - gleam-version: '0.16'
+          - gleam-version: 'nightly'
             otp-version: '24'
-            rebar3-version: '3.16'
-            os: 'ubuntu-latest'
-          - gleam-version: '0.19.0-rc3'
+          - gleam-version: '0.23'
             otp-version: '24'
             os: 'ubuntu-latest'
-          - gleam-version: '0.19.0-rc3'
+          - gleam-version: '0.23.0-rc1'
+            otp-version: '24'
+            os: 'ubuntu-latest'
+          - gleam-version: '0.23.0-rc1'
             otp-version: false
+            os: 'ubuntu-latest'
+          - gleam-version: '0.22.0' # Version with Gleam's old archive naming convention
+            otp-version: '24'
             os: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
@@ -166,11 +170,6 @@ jobs:
           cd test-projects/erlang_rebar3
           rebar3 ct
         if: ${{matrix.combo.rebar3-version}}
-      - name: Run Gleam/rebar3 project tests
-        run: |
-          cd test-projects/gleam_rebar3
-          rebar3 eunit
-        if: ${{matrix.combo.gleam-version}}
       - name: Type check Gleam project (without installing Erlang/OTP)
         run: |
           cd test-projects/gleam_gleam
@@ -190,7 +189,7 @@ jobs:
         combo:
           - otp-version: '24'
             elixir-version: 'v1.12'
-            gleam-version: '0.19'
+            gleam-version: '0.23.0-rc1'
             rebar3-version: 'nightly'
             os: 'ubuntu-latest'
     steps:

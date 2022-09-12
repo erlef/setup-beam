@@ -4,7 +4,7 @@ $ErrorActionPreference="Stop"
 
 Set-Location ${Env:RUNNER_TEMP}
 
-$FILE_INPUT="gleam-${VSN}-windows-64bit.zip"
+$FILE_INPUT="gleam-${VSN}-x86_64-pc-windows-msvc.zip"
 $FILE_OUTPUT="gleam.zip"
 $DIR_FOR_BIN=".setup-beam/gleam"
 

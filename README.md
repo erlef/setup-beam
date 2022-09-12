@@ -165,7 +165,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: '24'
-          gleam-version: '0.19.0-rc3'
+          gleam-version: '0.23.0-rc1'
       - run: gleam test
 ```
 
@@ -183,7 +183,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: false
-          gleam-version: '0.19.0-rc3'
+          gleam-version: '0.23.0-rc1'
       - run: gleam check
 ```
 
