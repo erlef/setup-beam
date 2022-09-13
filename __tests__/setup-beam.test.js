@@ -171,8 +171,8 @@ async function testElixirVersions() {
   let otpVersion
 
   spec = '1.1.x'
-  otpVersion = 'OTP-23'
-  expected = 'v1.1.1'
+  otpVersion = 'OTP-17'
+  expected = 'v1.1.1-otp-17'
   got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 

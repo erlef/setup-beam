@@ -116,6 +116,7 @@ jobs:
           - elixir-version: 'master'
             otp-version: '25'
             os:  'ubuntu-20.04'
+            version-type: 'strict'
           - gleam-version: 'nightly'
             otp-version: '24'
           - gleam-version: '0.23'
