@@ -210,3 +210,4 @@ jobs:
           [ -n "${INSTALL_DIR_FOR_GLEAM}"  ] && echo "${INSTALL_DIR_FOR_GLEAM}"
           [ -n "${INSTALL_DIR_FOR_OTP}"    ] && echo "${INSTALL_DIR_FOR_OTP}"
           [ -n "${INSTALL_DIR_FOR_REBAR3}" ] && echo "${INSTALL_DIR_FOR_REBAR3}"
+          [ -n "${WIP_TEST}" ] && echo "${WIP_TEST}"
