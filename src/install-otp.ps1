@@ -14,4 +14,4 @@ Start-Process "${FILE_OUTPUT}" "/S /D=${ERL_ROOT}" -Wait
 Write-Output "Installed Erlang/OTP version follows"
 & "${ERL_ROOT}/bin/erl.exe" "+V" | Write-Output
 
-"INSTALL_DIR_FOR_OTP=" + ${ERL_ROOT}
+"INSTALL_DIR_FOR_OTP=${ERL_ROOT}" | Out-File -FilePath ${Env:GITHUB_ENV} -Encoding utf8 -Append
