@@ -107,7 +107,8 @@ jobs:
       - run: env
       - name: List environment variables
         run: |
-          echo "${{env.INSTALL_DIR_FOR_ELIXIR}}"
-          echo "${{env.INSTALL_DIR_FOR_GLEAM}}"
-          echo "${{env.INSTALL_DIR_FOR_OTP}}"
-          echo "${{env.INSTALL_DIR_FOR_REBAR3}}"
+          [ -n "${INSTALL_DIR_FOR_ELIXIR}" ] && echo "${INSTALL_DIR_FOR_ELIXIR}"
+          [ -n "${INSTALL_DIR_FOR_GLEAM}"  ] && echo "${INSTALL_DIR_FOR_GLEAM}"
+          [ -n "${INSTALL_DIR_FOR_OTP}"    ] && echo "${INSTALL_DIR_FOR_OTP}"
+          [ -n "${INSTALL_DIR_FOR_REBAR3}" ] && echo "${INSTALL_DIR_FOR_REBAR3}"
+        shell: bash
