@@ -21,6 +21,9 @@ jobs:
       fail-fast: false
       matrix:
         combo:
+          - otp-version: 'master'
+            elixir-version: '1.14.0'
+            os: 'ubuntu-22.04'
           - otp-version: '25'
             elixir-version: '1'
             rebar3-version: '3'
