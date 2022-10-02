@@ -131,16 +131,23 @@ async function maybeInstallRebar3(rebar3Spec) {
 async function getOTPVersion(otpSpec0, osVersion) {
   const otpVersions = await getOTPVersions(osVersion)
   const otpSpec = otpSpec0.match(/^(OTP-|maint-)?([^ ]+)/)
+  let otpSpecPref = ''
   let otpVersion
-  if (otpSpec[1] && !isStrictVersion()) {
-    throw new Error(
-      `Requested Erlang/OTP version (${otpSpec0}) ` +
-        "should not contain 'OTP-, or maint-'",
-    )
+  if (otpSpec[1]) {
+    if (!isStrictVersion()) {
+      throw new Error(
+        `Requested Erlang/OTP version (${otpSpec0}) ` +
+          "should not contain 'OTP-, or maint-'",
+      )
+    } else if (otpSpec[1] !== 'OTP-') {
+      // We try to help by using OTP- as prefix,
+      // but not for "maint" (as these should be less common)
+      otpSpecPref = 'OTP-'
+    }
   }
   if (otpSpec) {
     otpVersion = getVersionFromSpec(
-      otpSpec[2],
+      otpSpecPref + otpSpec[2],
       Array.from(otpVersions.keys()).sort(),
     )
   }
