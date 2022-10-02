@@ -7357,6 +7357,9 @@ async function getElixirVersion(exSpec0, otpVersion) {
       core.info(
         `Using Elixir ${elixirVersion} (built for OTP ${otpVersionMajor})`,
       )
+    } else if (isStrictVersion() && otpVersion === 'master') {
+      elixirVersionWithOTP = `${elixirVersion}`
+      core.info(`Using Elixir ${elixirVersion} (with OTP 'master' - strict)`)
     } else {
       // ... and it's not available: exit with exception
       throw new Error(
