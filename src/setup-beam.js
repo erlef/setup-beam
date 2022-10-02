@@ -133,21 +133,20 @@ async function getOTPVersion(otpSpec0, osVersion) {
   const otpSpec = otpSpec0.match(/^(OTP-|maint-)?([^ ]+)/)
   let otpSpecPref = ''
   let otpVersion
-  if (otpSpec[1]) {
+  if (otpSpec0 === 'latest') {
+    otpVersion = 'master'
+  } else if (otpSpec[1]) {
     if (!isStrictVersion()) {
       throw new Error(
         `Requested Erlang/OTP version (${otpSpec0}) ` +
           "should not contain 'OTP-, or maint-'",
       )
-    } else if (otpSpec[1] !== 'OTP-') {
-      if (otpSpec[0] !== 'latest') {
-        // We try to help by using OTP- as prefix,
-        // but not for "maint" (as these should be less common)
-        otpSpecPref = 'OTP-'
-      } else {
-        otpSpecPref = ''
-        otpVersion = 'master'
-      }
+    } else if (otpSpec[1] !== 'OTP-' && otpSpec[0] !== 'latest') {
+      // We try to help by using OTP- as prefix,
+      // but not for "maint" (as these should be less common)
+      otpSpecPref = 'OTP-'
+    } else {
+      otpSpecPref = ''
     }
   }
   if (otpSpec) {
