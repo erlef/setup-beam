@@ -123,6 +123,7 @@ jobs:
             version-type: 'strict'
           - gleam-version: 'nightly'
             otp-version: '24'
+            os: 'ubuntu-latest'
           - gleam-version: '0.23'
             otp-version: '24'
             os: 'ubuntu-latest'
