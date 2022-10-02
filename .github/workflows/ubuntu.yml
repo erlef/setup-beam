@@ -21,7 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          - otp-version: 'latest'
+          - otp-version: 'master'
             elixir-version: '1.14.0'
             os: 'ubuntu-latest'
             version-type: 'strict'
@@ -118,7 +118,7 @@ jobs:
             otp-version: '23.1'
             os:  'ubuntu-20.04'
           - elixir-version: 'master'
-            otp-version: 'latest'
+            otp-version: '25'
             os:  'ubuntu-20.04'
             version-type: 'strict'
           - gleam-version: 'nightly'
