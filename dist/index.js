@@ -7301,18 +7301,23 @@ async function maybeInstallRebar3(rebar3Spec) {
 async function getOTPVersion(otpSpec0, osVersion) {
   const otpVersions = await getOTPVersions(osVersion)
   const otpSpec = otpSpec0.match(/^(OTP-|maint-)?([^ ]+)/)
-  let otpSpecPref = ""
+  let otpSpecPref = ''
   let otpVersion
   if (otpSpec[1]) {
-    if(!isStrictVersion()) {
+    if (!isStrictVersion()) {
       throw new Error(
         `Requested Erlang/OTP version (${otpSpec0}) ` +
           "should not contain 'OTP-, or maint-'",
       )
-    } else if (otpSpec[1] !== "OTP-") {
-      // We try to help by using OTP- as prefix,
-      // but not for "maint" (as these should be less common)
-      otpSpecPref = "OTP-"
+    } else if (otpSpec[1] !== 'OTP-') {
+      if (otpSpec[0] !== 'latest') {
+        // We try to help by using OTP- as prefix,
+        // but not for "maint" (as these should be less common)
+        otpSpecPref = 'OTP-'
+      } else {
+        otpSpecPref = ''
+        otpVersion = 'master'
+      }
     }
   }
   if (otpSpec) {
@@ -7364,7 +7369,7 @@ async function getElixirVersion(exSpec0, otpVersion) {
       core.info(
         `Using Elixir ${elixirVersion} (built for OTP ${otpVersionMajor})`,
       )
-    } else if (isStrictVersion() && otpVersion === 'master') {
+    } else if (isStrictVersion() && otpVersion === 'latest') {
       elixirVersionWithOTP = `${elixirVersion}`
       core.info(`Using Elixir ${elixirVersion} (with OTP 'master' - strict)`)
     } else {
