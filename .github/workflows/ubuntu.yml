@@ -23,7 +23,7 @@ jobs:
         combo:
           - otp-version: 'master'
             elixir-version: '1.14.0'
-            os: 'ubuntu-22.04'
+            os: 'ubuntu-latest'
             version-type: 'strict'
           - otp-version: '25'
             elixir-version: '1'
