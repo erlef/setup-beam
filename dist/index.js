@@ -7302,9 +7302,10 @@ async function getOTPVersion(otpSpec0, osVersion) {
   const otpVersions = await getOTPVersions(osVersion)
   const otpSpec = otpSpec0.match(/^(OTP-|maint-)?([^ ]+)/)
   let otpSpecPref = ''
+  let otpSpecSuf
   let otpVersion
   if (otpSpec0 === 'latest') {
-    otpVersion = 'master'
+    otpSpecSuf = 'master'
   } else if (otpSpec[1]) {
     if (!isStrictVersion()) {
       throw new Error(
@@ -7318,10 +7319,14 @@ async function getOTPVersion(otpSpec0, osVersion) {
     } else {
       otpSpecPref = ''
     }
+
+    /* eslint-disable no-extra-semi */
+    ;[, , otpSpecSuf] = otpSpec
+    /* eslint-enable no-extra-semi */
   }
   if (otpSpec) {
     otpVersion = getVersionFromSpec(
-      otpSpecPref + otpSpec[2],
+      otpSpecPref + otpSpecSuf,
       Array.from(otpVersions.keys()).sort(),
     )
   }
