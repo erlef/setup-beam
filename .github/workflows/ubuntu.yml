@@ -117,7 +117,7 @@ jobs:
           - elixir-version: 'master'
             otp-version: '23.1'
             os:  'ubuntu-20.04'
-          - elixir-version: 'master'
+          - elixir-version: 'main'
             otp-version: '25'
             os:  'ubuntu-20.04'
             version-type: 'strict'
