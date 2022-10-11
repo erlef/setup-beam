@@ -1543,7 +1543,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -----
 
-The following software may be included in this product: concat-map, json-stable-stringify-without-jsonify, minimist, semver-compare, text-table. A copy of the source code may be downloaded from git://github.com/substack/node-concat-map.git (concat-map), git://github.com/samn/json-stable-stringify.git (json-stable-stringify-without-jsonify), git://github.com/substack/minimist.git (minimist), git://github.com/substack/semver-compare.git (semver-compare), git://github.com/substack/text-table.git (text-table). This software contains the following license and notice below:
+The following software may be included in this product: concat-map, json-stable-stringify-without-jsonify, minimist, semver-compare, text-table. A copy of the source code may be downloaded from git://github.com/substack/node-concat-map.git (concat-map), git://github.com/samn/json-stable-stringify.git (json-stable-stringify-without-jsonify), git://github.com/minimistjs/minimist.git (minimist), git://github.com/substack/semver-compare.git (semver-compare), git://github.com/substack/text-table.git (text-table). This software contains the following license and notice below:
 
 This software is released under the MIT license:
 
