@@ -45,6 +45,7 @@ jobs:
             otp-version: '24'
             rebar3-version: '3.16'
             os: 'windows-latest'
+            disable_problem_matchers: true
     steps:
       - uses: actions/checkout@v3
       - name: Use erlef/setup-beam
@@ -104,6 +105,7 @@ jobs:
           elixir-version: ${{matrix.combo.elixir-version}}
           gleam-version: ${{matrix.combo.gleam-version}}
           rebar3-version: ${{matrix.combo.rebar3-version}}
+          disable_problem_matchers: true
       - run: env
       - name: List environment variables
         run: |
