@@ -52,20 +52,10 @@ jobs:
           - otp-version: '24'
             rebar3-version: 'nightly'
             os: 'ubuntu-latest'
-          - elixir-version: 'v1.0'
-            otp-version: '17'
-            os: 'ubuntu-18.04'
-          - elixir-version: 'v1.1'
-            otp-version: '18'
-            os: 'ubuntu-18.04'
-          - elixir-version: 'v1.2'
-            otp-version: '19'
-            rebar3-version: '3.10'
-            os: 'ubuntu-18.04'
           - elixir-version: 'v1.4'
             otp-version: '20'
             rebar3-version: '3.6.0'
-            os: 'ubuntu-18.04'
+            os: 'ubuntu-20.04'
           - elixir-version: 'v1.4'
             otp-version: '20'
             rebar3-version: '3.11'
@@ -73,7 +63,7 @@ jobs:
           - elixir-version: 'v1.6'
             otp-version: '21'
             rebar3-version: '3.12'
-            os: 'ubuntu-18.04'
+            os: 'ubuntu-20.04'
           - elixir-version: 'v1.6'
             otp-version: '21'
             rebar3-version: '3.12'
@@ -81,7 +71,7 @@ jobs:
           - elixir-version: 'v1.7'
             otp-version: '22'
             rebar3-version: '3.13'
-            os: 'ubuntu-18.04'
+            os: 'ubuntu-20.04'
           - elixir-version: 'v1.7'
             otp-version: '22'
             rebar3-version: '3.13'
@@ -89,11 +79,11 @@ jobs:
           - elixir-version: 'v1.10'
             otp-version: '23'
             rebar3-version: '3.14'
-            os: 'ubuntu-18.04'
+            os: 'ubuntu-20.04'
           - elixir-version: 'v1.13.4'
             otp-version: '25.0.2'
             rebar3-version: '3.19'
-            os: 'ubuntu-18.04'
+            os: 'ubuntu-20.04'
           - elixir-version: 'v1.10'
             otp-version: '23'
             rebar3-version: '3.14'
@@ -127,20 +117,25 @@ jobs:
           - gleam-version: 'nightly'
             otp-version: '24'
             os: 'ubuntu-latest'
+            disable_problem_matchers: true
           - gleam-version: '0.23'
             otp-version: '24'
             os: 'ubuntu-latest'
+            disable_problem_matchers: true
           - gleam-version: '0.23.0-rc1'
             otp-version: '24'
             os: 'ubuntu-latest'
+            disable_problem_matchers: true
           - gleam-version: '0.23.0-rc1'
             otp-version: false
             os: 'ubuntu-latest'
+            disable_problem_matchers: true
           - gleam-version: '0.22.0' # Version with Gleam's old archive naming convention
             otp-version: '24'
             os: 'ubuntu-latest'
+            disable_problem_matchers: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use erlef/setup-beam
         id: setup-beam
         uses: ./
@@ -202,7 +197,7 @@ jobs:
             rebar3-version: 'nightly'
             os: 'ubuntu-latest'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use erlef/setup-beam
         id: setup-beam
         uses: ./
