@@ -19,8 +19,8 @@ async function main() {
   const rebar3Spec = core.getInput('rebar3-version', { required: false })
 
   if (otpSpec !== 'false') {
-    const otpVersion = await installOTP(otpSpec, osVersion)
-    const elixirInstalled = await maybeInstallElixir(elixirSpec, otpVersion)
+    await installOTP(otpSpec, osVersion)
+    const elixirInstalled = await maybeInstallElixir(elixirSpec, otpSpec)
 
     if (elixirInstalled === true) {
       const shouldMixRebar = core.getInput('install-rebar', {
@@ -130,19 +130,13 @@ async function maybeInstallRebar3(rebar3Spec) {
 
 async function getOTPVersion(otpSpec0, osVersion) {
   const otpVersions = await getOTPVersions(osVersion)
-  const otpSpec = otpSpec0.match(/^(OTP-|maint-)?([^ ]+)/)
-  let otpVersion
-  if (otpSpec[1] && !isStrictVersion()) {
-    throw new Error(
-      `Requested Erlang/OTP version (${otpSpec0}) ` +
-        "should not contain 'OTP-, or maint-'",
-    )
-  }
-  if (otpSpec) {
-    otpVersion = getVersionFromSpec(
-      otpSpec[2],
-      Array.from(otpVersions.keys()).sort(),
-    )
+  let otpSpec = otpSpec0 // might be a branch (?)
+  const otpVersion = getVersionFromSpec(
+    otpSpec,
+    Array.from(otpVersions.keys()).sort(),
+  )
+  if (isVersion(otpSpec0)) {
+    otpSpec = `OTP-${otpSpec0}` // ... it's a version!
   }
   if (otpVersion === null) {
     throw new Error(
@@ -154,60 +148,46 @@ async function getOTPVersion(otpSpec0, osVersion) {
   return otpVersions.get(otpVersion) // from the reference, for download
 }
 
-async function getElixirVersion(exSpec0, otpVersion) {
+async function getElixirVersion(exSpec0, otpVersion0) {
+  const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
+  const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
   const elixirVersions = await getElixirVersions()
   const semverVersions = Array.from(elixirVersions.keys()).sort()
-
-  const exSpec = exSpec0.match(/^v?(.+)(-otp-.+)/) || exSpec0.match(/^v?(.+)/)
-  let elixirVersion
-  if (exSpec[2] && !isStrictVersion()) {
-    throw new Error(
-      `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion}) ` +
-        "should not contain '-otp-...'",
-    )
+  const exSpec = exSpec0.replace(/-otp-.*$/, '')
+  const elixirVersionFromSpec = getVersionFromSpec(exSpec, semverVersions, true)
+  let elixirVersionForDownload = elixirVersionFromSpec
+  if (isVersion(otpVersionMajor)) {
+    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajor}`
   }
-  if (exSpec) {
-    elixirVersion = getVersionFromSpec(exSpec[1], semverVersions)
-  }
-  if (!exSpec || elixirVersion === null) {
+  if (elixirVersionFromSpec === null) {
     throw new Error(
       `Requested Elixir version (${exSpec0}) not found in version list ` +
         "(should you be using option 'version-type': 'strict'?)",
     )
   }
-  const otpMatch = otpVersion.match(/^(?:OTP-)?([^.]+)/)
-  let elixirVersionWithOTP
 
-  if (elixirVersions.get(elixirVersion)) {
-    const otpVersionMajor = otpMatch[1]
-    // We try for a version like `v1.4.5-otp-20`...
-    if (elixirVersions.get(elixirVersion).includes(otpMatch[1])) {
-      // ... and it's available: use it!
-      elixirVersionWithOTP = `${elixirVersion}-otp-${otpVersionMajor}`
-      core.info(
-        `Using Elixir ${elixirVersion} (built for OTP ${otpVersionMajor})`,
-      )
-    } else {
-      // ... and it's not available: exit with exception
-      throw new Error(
-        `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion}) not ` +
-          'found in version list (did you check Compatibility between Elixir and Erlang/OTP?)',
-      )
-    }
+  const elixirVersionComp = elixirVersions.get(elixirVersionFromSpec)
+  if (
+    (elixirVersionComp && elixirVersionComp.includes(otpVersionMajor)) ||
+    !isVersion(otpVersionMajor)
+  ) {
+    core.info(
+      `Using Elixir ${elixirVersionFromSpec} (built for Erlang/OTP ${otpVersionMajor})`,
+    )
   } else {
     throw new Error(
-      `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion}) not ` +
-        "found in version list (should you be using option 'version-type': 'strict'?)",
+      `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion0}) not ` +
+        'found in version list (did you check Compatibility between Elixir and Erlang/OTP?)',
     )
   }
 
-  return maybePrependWithV(elixirVersionWithOTP, elixirVersion)
+  return maybePrependWithV(elixirVersionForDownload)
 }
 
 async function getGleamVersion(gleamSpec0) {
-  const gleamSpec = gleamSpec0.match(/^v?(.+)/)
+  const gleamSpec = gleamSpec0.match(/^v?(.+)$/)
   const gleamVersions = await getGleamVersions()
-  const gleamVersion = getVersionFromSpec(gleamSpec[1], gleamVersions)
+  const gleamVersion = getVersionFromSpec(gleamSpec[1], gleamVersions, true)
   if (gleamVersion === null) {
     throw new Error(
       `Requested Gleam version (${gleamSpec0}) not found in version list ` +
@@ -251,7 +231,9 @@ async function getOTPVersions(osVersion) {
       .trim()
       .split('\n')
       .forEach((line) => {
-        const otpMatch = line.match(/^(OTP-|maint-)?([^ ]+)/)
+        const otpMatch = line
+          .match(/^([^ ]+)?( .+)/)[1]
+          .match(/^([^-]+-)?(.+)$/)
         const otpVersion = otpMatch[2]
         otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
       })
@@ -268,7 +250,6 @@ async function getOTPVersions(osVersion) {
         })
     })
   }
-
   return otpVersions
 }
 
@@ -285,7 +266,7 @@ async function getElixirVersions() {
     .forEach((line) => {
       const elixirMatch =
         line.match(/^v?(.+)-otp-([^ ]+)/) || line.match(/^v?([^ ]+)/)
-      const elixirVersion = elixirMatch[1]
+      const elixirVersion = maybePrependWithV(elixirMatch[1])
       const otpVersion = elixirMatch[2]
       const otpVersions = otpVersionsForElixirMap.get(elixirVersion) || []
       if (otpVersion) {
@@ -332,7 +313,7 @@ function isStrictVersion() {
   return core.getInput('version-type', { required: false }) === 'strict'
 }
 
-function getVersionFromSpec(spec, versions) {
+function getVersionFromSpec(spec, versions, maybePrependWithV0) {
   let version = null
 
   if (spec.match(/rc/) || isStrictVersion()) {
@@ -357,7 +338,11 @@ function getVersionFromSpec(spec, versions) {
     }
   }
 
-  return version === null || version === undefined ? null : version
+  let v = version === null || version === undefined ? null : version
+  if (maybePrependWithV0 && v != null) {
+    v = maybePrependWithV(v)
+  }
+  return v
 }
 
 function maybeCoerced(v) {
@@ -464,13 +449,15 @@ async function get(url0, pageIdxs) {
   return ret
 }
 
-function maybePrependWithV(versionToPrepend, specVersion) {
-  const digitStart = /^\d+/
-  let v = versionToPrepend
-  if (digitStart.test(specVersion)) {
-    v = `v${versionToPrepend}`
+function maybePrependWithV(v) {
+  if (isVersion(v)) {
+    return `v${v.replace('v', '')}`
   }
   return v
+}
+
+function isVersion(v) {
+  return /^v?\d+/.test(v)
 }
 
 module.exports = {

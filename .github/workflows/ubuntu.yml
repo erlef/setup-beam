@@ -21,6 +21,13 @@ jobs:
       fail-fast: false
       matrix:
         combo:
+          - otp-version: 'master'
+            elixir-version: '1.14.0'
+            os: 'ubuntu-latest'
+          - otp-version: 'master'
+            elixir-version: '1.14.0'
+            os: 'ubuntu-latest'
+            version-type: 'strict'
           - otp-version: '25'
             elixir-version: '1'
             rebar3-version: '3'
@@ -113,12 +120,13 @@ jobs:
           - elixir-version: 'master'
             otp-version: '23.1'
             os:  'ubuntu-20.04'
-          - elixir-version: 'master'
+          - elixir-version: 'main'
             otp-version: '25'
             os:  'ubuntu-20.04'
             version-type: 'strict'
           - gleam-version: 'nightly'
             otp-version: '24'
+            os: 'ubuntu-latest'
           - gleam-version: '0.23'
             otp-version: '24'
             os: 'ubuntu-latest'
