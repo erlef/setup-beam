@@ -68,6 +68,10 @@ jobs:
       - name: Gleam version (action)
         run: echo "Gleam ${{steps.setup-beam.outputs.gleam-version}}"
         if: ${{matrix.combo.gleam-version}}
+      - shell: cmd
+        run: rebar3
+      - shell: cmd
+        run: rebar3.cmd
       - name: rebar3 version (action)
         run: echo "rebar3 ${{steps.setup-beam.outputs.rebar3-version}}"
       - name: mix version and help (CLI)
