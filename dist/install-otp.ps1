@@ -4,7 +4,7 @@ $ErrorActionPreference="Stop"
 
 Set-Location ${Env:RUNNER_TEMP}
 
-$FILE_OUTPUT="otp.exe"
+$FILE_OUTPUT="otp_win64_${VSN}.exe"
 $ERL_ROOT = "${Env:RUNNER_TEMP}\.setup-beam\otp"
 
 $ProgressPreference="SilentlyContinue"

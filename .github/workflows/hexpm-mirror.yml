@@ -1,0 +1,35 @@
+---
+name: hexpm-mirror
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test_option_hexpm_mirror:
+    name: Test option hexpm-mirror
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['ubuntu-22.04', 'windows-2019']
+        otp-version: ['24']
+        elixir-version: ['v1.12', '']
+        install-rebar: [true, false]
+        install-hex: [true, false]
+        hexpm-mirror: ['https://repo.hex.pm', 'https://cdn.jsdelivr.net/hex']
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use erlef/setup-beam
+        id: setup-beam
+        uses: ./
+        with:
+          otp-version: ${{matrix.otp-version}}
+          elixir-version: ${{matrix.elixir-version}}
+          install-rebar: ${{matrix.install-rebar}}
+          install-hex: ${{matrix.install-hex}}
+          hexpm-mirror: ${{matrix.hexpm-mirror}}

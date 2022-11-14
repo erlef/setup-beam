@@ -4,12 +4,14 @@ $ErrorActionPreference="Stop"
 
 Set-Location ${Env:RUNNER_TEMP}
 
+$CACHEDIR="${Env:RUNNER_TEMP}\.setup-beam\cache"
 $FILE_INPUT="${VSN}.zip"
-$FILE_OUTPUT="elixir.zip"
+$FILE_OUTPUT="${CACHEDIR}\elixir-${VSN}.zip"
 $DIR_FOR_BIN=".setup-beam/elixir"
 
+New-Item "${CACHEDIR}" -ItemType Directory -Force | Out-Null
 $ProgressPreference="SilentlyContinue"
-Invoke-WebRequest "https://repo.hex.pm/builds/elixir/${FILE_INPUT}" -OutFile "${FILE_OUTPUT}"
+Invoke-WebRequest "${Env:HEX_MIRROR}/builds/elixir/${FILE_INPUT}" -OutFile "${FILE_OUTPUT}"
 $ProgressPreference="Continue"
 New-Item "${DIR_FOR_BIN}" -ItemType Directory | Out-Null
 $ProgressPreference="SilentlyContinue"
