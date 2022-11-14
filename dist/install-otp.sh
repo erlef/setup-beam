@@ -6,11 +6,12 @@ cd "${RUNNER_TEMP}"
 
 OS=${1}
 VSN=${2}
+HEX_MIRROR=${3}
 FILE_INPUT="${VSN}.tar.gz"
 FILE_OUTPUT=otp.tar.gz
 DIR_FOR_BIN=.setup-beam/otp
 
-wget -q -O "${FILE_OUTPUT}" "https://builds.hex.pm/builds/otp/${OS}/${FILE_INPUT}"
+wget -q -O "${FILE_OUTPUT}" "${HEX_MIRROR}/builds/otp/${OS}/${FILE_INPUT}"
 mkdir -p "${DIR_FOR_BIN}"
 tar zxf "${FILE_OUTPUT}" -C "${DIR_FOR_BIN}" --strip-components=1
 "${DIR_FOR_BIN}/Install" -minimal "$(pwd)/${DIR_FOR_BIN}"

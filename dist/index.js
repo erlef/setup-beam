@@ -7105,6 +7105,7 @@ try {
 /***/ 2127:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
+const core = __nccwpck_require__(2186)
 const { exec } = __nccwpck_require__(1514)
 const path = __nccwpck_require__(1017)
 
@@ -7113,11 +7114,28 @@ const path = __nccwpck_require__(1017)
  *
  * @param {string} osVersion
  * @param {string} otpVersion
+ * @param {string[]} hexMirrors
  */
-async function installOTP(osVersion, otpVersion) {
+async function installOTP(osVersion, otpVersion, hexMirrors) {
   const OS = process.platform
   if (OS === 'linux') {
-    await exec(__nccwpck_require__.ab + "install-otp.sh", [osVersion, otpVersion])
+    if (hexMirrors.length === 0) {
+      throw new Error(
+        `Could not install Erlang/OTP ${otpVersion} from any hex.pm mirror`,
+      )
+    }
+    const [hexMirror, ...hexMirrorsT] = hexMirrors
+    try {
+      await exec(__nccwpck_require__.ab + "install-otp.sh", [
+        osVersion,
+        otpVersion,
+        hexMirror,
+      ])
+      return
+    } catch (err) {
+      core.info(`install-otp.sh failed for mirror ${hexMirror}`)
+    }
+    await installOTP(osVersion, otpVersion, hexMirrorsT)
   } else if (OS === 'win32') {
     const script = __nccwpck_require__.ab + "install-otp.ps1"
     await exec(`pwsh.exe ${script} -VSN:${otpVersion}`)
@@ -7128,15 +7146,35 @@ async function installOTP(osVersion, otpVersion) {
  * Install Elixir.
  *
  * @param {string} elixirVersion
+ * @param {string[]} hexMirrors
  */
-async function installElixir(elixirVersion) {
-  const OS = process.platform
-  if (OS === 'linux') {
-    await exec(__nccwpck_require__.ab + "install-elixir.sh", [elixirVersion])
-  } else if (OS === 'win32') {
-    const script = __nccwpck_require__.ab + "install-elixir.ps1"
-    await exec(`pwsh.exe ${script} -VSN:${elixirVersion}`)
+async function installElixir(elixirVersion, hexMirrors) {
+  if (hexMirrors.length === 0) {
+    throw new Error(
+      `Could not install Elixir ${elixirVersion} from any hex.pm mirror`,
+    )
   }
+  const [hexMirror, ...hexMirrorsT] = hexMirrors
+  const OS = process.platform
+  try {
+    if (OS === 'linux') {
+      await exec(__nccwpck_require__.ab + "install-elixir.sh", [
+        elixirVersion,
+        hexMirror,
+      ])
+      return
+    }
+    if (OS === 'win32') {
+      const script = __nccwpck_require__.ab + "install-elixir.ps1"
+      await exec(
+        `pwsh.exe ${script} -VSN:${elixirVersion} -HEX_MIRROR:${hexMirror}`,
+      )
+      return
+    }
+  } catch (err) {
+    core.info(`install-elixir failed for mirror ${hexMirror}`)
+  }
+  await installElixir(elixirVersion, hexMirrorsT)
 }
 
 /**
@@ -7223,16 +7261,23 @@ async function main() {
   const elixirSpec = getInput('elixir-version', false, 'elixir', versions)
   const gleamSpec = getInput('gleam-version', false, 'gleam', versions)
   const rebar3Spec = getInput('rebar3-version', false, 'rebar', versions)
+  const hexMirrors = core.getMultilineInput('hexpm-mirrors', {
+    required: false,
+  })
 
   if (otpSpec !== 'false') {
-    await installOTP(otpSpec, osVersion)
-    const elixirInstalled = await maybeInstallElixir(elixirSpec, otpSpec)
+    await installOTP(otpSpec, osVersion, hexMirrors)
+    const elixirInstalled = await maybeInstallElixir(
+      elixirSpec,
+      otpSpec,
+      hexMirrors,
+    )
 
     if (elixirInstalled === true) {
       const shouldMixRebar = getInput('install-rebar', false)
-      await mix(shouldMixRebar, 'rebar')
+      await mix(shouldMixRebar, 'rebar', hexMirrors)
       const shouldMixHex = getInput('install-hex', false)
-      await mix(shouldMixHex, 'hex')
+      await mix(shouldMixHex, 'hex', hexMirrors)
     }
   } else if (!gleamSpec) {
     throw new Error('otp-version=false is only available when installing Gleam')
@@ -7242,12 +7287,12 @@ async function main() {
   await maybeInstallRebar3(rebar3Spec)
 }
 
-async function installOTP(otpSpec, osVersion) {
-  const otpVersion = await getOTPVersion(otpSpec, osVersion)
+async function installOTP(otpSpec, osVersion, hexMirrors) {
+  const otpVersion = await getOTPVersion(otpSpec, osVersion, hexMirrors)
   console.log(
     `##[group]Installing Erlang/OTP ${otpVersion} - built on ${osVersion}`,
   )
-  await installer.installOTP(osVersion, otpVersion)
+  await installer.installOTP(osVersion, otpVersion, hexMirrors)
   core.setOutput('otp-version', otpVersion)
   core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
   console.log('##[endgroup]')
@@ -7255,13 +7300,17 @@ async function installOTP(otpSpec, osVersion) {
   return otpVersion
 }
 
-async function maybeInstallElixir(elixirSpec, otpVersion) {
+async function maybeInstallElixir(elixirSpec, otpSpec, hexMirrors) {
   let installed = false
 
   if (elixirSpec) {
-    const elixirVersion = await getElixirVersion(elixirSpec, otpVersion)
+    const elixirVersion = await getElixirVersion(
+      elixirSpec,
+      otpSpec,
+      hexMirrors,
+    )
     console.log(`##[group]Installing Elixir ${elixirVersion}`)
-    await installer.installElixir(elixirVersion)
+    await installer.installElixir(elixirVersion, hexMirrors)
     core.setOutput('elixir-version', elixirVersion)
     const disableProblemMatchers = getInput('disable_problem_matchers', false)
     if (disableProblemMatchers === 'false') {
@@ -7280,12 +7329,28 @@ async function maybeInstallElixir(elixirSpec, otpVersion) {
   return installed
 }
 
-async function mix(shouldMix, what) {
+async function mixWithMirrors(cmd, args, hexMirrors) {
+  if (hexMirrors.length === 0) {
+    throw new Error('mix failed with every mirror')
+  }
+  const [hexMirror, ...hexMirrorsT] = hexMirrors
+  process.env.HEX_MIRROR = hexMirror
+  try {
+    return await exec(cmd, args)
+  } catch (err) {
+    core.info(
+      `mix failed with mirror ${process.env.HEX_MIRROR} with message ${err.message})`,
+    )
+  }
+  return mixWithMirrors(cmd, args, hexMirrorsT)
+}
+
+async function mix(shouldMix, what, hexMirrors) {
   if (shouldMix === 'true') {
     const cmd = 'mix'
     const args = [`local.${what}`, '--force']
     console.log(`##[group]Running ${cmd} ${args}`)
-    await exec(cmd, args)
+    await mixWithMirrors(cmd, args, hexMirrors)
     console.log('##[endgroup]')
   }
 }
@@ -7329,8 +7394,8 @@ async function maybeInstallRebar3(rebar3Spec) {
   return installed
 }
 
-async function getOTPVersion(otpSpec0, osVersion) {
-  const otpVersions = await getOTPVersions(osVersion)
+async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
+  const otpVersions = await getOTPVersions(osVersion, hexMirrors)
   let otpSpec = otpSpec0 // might be a branch (?)
   const otpVersion = getVersionFromSpec(
     otpSpec,
@@ -7349,10 +7414,10 @@ async function getOTPVersion(otpSpec0, osVersion) {
   return otpVersions.get(otpVersion) // from the reference, for download
 }
 
-async function getElixirVersion(exSpec0, otpVersion0) {
+async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
   const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
   const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
-  const elixirVersions = await getElixirVersions()
+  const elixirVersions = await getElixirVersions(hexMirrors)
   const semverVersions = Array.from(elixirVersions.keys()).sort()
   const exSpec = exSpec0.replace(/-otp-.*$/, '')
   const elixirVersionFromSpec = getVersionFromSpec(exSpec, semverVersions, true)
@@ -7412,19 +7477,19 @@ async function getRebar3Version(r3Spec) {
   return rebar3Version
 }
 
-async function getOTPVersions(osVersion) {
-  let originListing
-  let pageIdxs
+async function getOTPVersions(osVersion, hexMirrors) {
+  let otpVersionsListings
   if (process.platform === 'linux') {
-    originListing = `https://builds.hex.pm/builds/otp/${osVersion}/builds.txt`
-    pageIdxs = [null]
+    otpVersionsListings = await getWithMirrors(
+      `/builds/otp/${osVersion}/builds.txt`,
+      hexMirrors,
+    )
   } else if (process.platform === 'win32') {
-    originListing =
+    const originListing =
       'https://api.github.com/repos/erlang/otp/releases?per_page=100'
-    pageIdxs = [1, 2, 3]
+    otpVersionsListings = await get(originListing, [1, 2, 3])
   }
 
-  const otpVersionsListings = await get(originListing, pageIdxs)
   const otpVersions = new Map()
 
   if (process.platform === 'linux') {
@@ -7454,10 +7519,10 @@ async function getOTPVersions(osVersion) {
   return otpVersions
 }
 
-async function getElixirVersions() {
-  const elixirVersionsListings = await get(
-    'https://builds.hex.pm/builds/elixir/builds.txt',
-    [null],
+async function getElixirVersions(hexMirrors) {
+  const elixirVersionsListings = await getWithMirrors(
+    '/builds/elixir/builds.txt',
+    hexMirrors,
   )
   const otpVersionsForElixirMap = new Map()
 
@@ -7651,6 +7716,19 @@ async function get(url0, pageIdxs) {
     ret = Promise.all(pageIdxs.map((pageIdx) => getPage(pageIdx)))
   }
   return ret
+}
+
+async function getWithMirrors(resourcePath, hexMirrors) {
+  if (hexMirrors.length === 0) {
+    throw new Error(`Could not fetch ${resourcePath} from any hex.pm mirror`)
+  }
+  const [hexMirror, ...hexMirrorsT] = hexMirrors
+  try {
+    return await get(`${hexMirror}${resourcePath}`, [null])
+  } catch (err) {
+    core.info(`get failed for URL ${hexMirror}${resourcePath}`)
+  }
+  return getWithMirrors(resourcePath, hexMirrorsT)
 }
 
 function maybePrependWithV(v) {

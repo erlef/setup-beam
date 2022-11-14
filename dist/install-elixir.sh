@@ -5,11 +5,12 @@ set -eo pipefail
 cd "${RUNNER_TEMP}"
 
 VSN=${1}
+HEX_MIRROR=${2}
 FILE_INPUT="${VSN}.zip"
 FILE_OUTPUT=elixir.zip
 DIR_FOR_BIN=.setup-beam/elixir
 
-wget -q -O "${FILE_OUTPUT}" "https://builds.hex.pm/builds/elixir/${FILE_INPUT}"
+wget -q -O "${FILE_OUTPUT}" "${HEX_MIRROR}/builds/elixir/${FILE_INPUT}"
 mkdir -p "${DIR_FOR_BIN}"
 unzip -q -o -d "${DIR_FOR_BIN}" "${FILE_OUTPUT}"
 echo "Installed Elixir version follows"
