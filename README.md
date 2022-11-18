@@ -189,6 +189,13 @@ jobs:
 
 **Note**: the `otp-version: false` input is only applicable when installing Gleam.
 
+## Hex.pm mirrors and caching
+
+It is possible to define the hex.pm mirrors to use including their order with
+option `hexpm-mirrors`. By default, the action will fetch from `repo.hex.pm`
+first and then from `cdn.jsdelivr.net/hex`. Permanent files from these mirrors,
+such as OTP binaries for a given version, are cached automatically.
+
 ## Environment variables
 
 Base installation folders (useful for e.g. fetching headers for NIFs) are available in the following

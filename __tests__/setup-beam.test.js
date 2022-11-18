@@ -98,48 +98,49 @@ async function testOTPVersions() {
   let expected
   let spec
   let osVersion
+  const hexMirrors = ['https://repo.hex.pm', 'https://cdn.jsdelivr.net/hex']
 
   if (process.platform === 'linux') {
     spec = '19.3.x'
     osVersion = 'ubuntu-16.04'
     expected = 'OTP-19.3.6.13'
-    got = await setupBeam.getOTPVersion(spec, osVersion)
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
     spec = '^19.3.6'
     osVersion = 'ubuntu-16.04'
     expected = 'OTP-19.3.6.13'
-    got = await setupBeam.getOTPVersion(spec, osVersion)
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
     spec = '^19.3'
     osVersion = 'ubuntu-18.04'
     expected = 'OTP-19.3.6.13'
-    got = await setupBeam.getOTPVersion(spec, osVersion)
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
     spec = '20'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.3.8.26'
-    got = await setupBeam.getOTPVersion(spec, osVersion)
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
     spec = '20.x'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.3.8.26'
-    got = await setupBeam.getOTPVersion(spec, osVersion)
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
     spec = '20.0'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.0.5'
-    got = await setupBeam.getOTPVersion(spec, osVersion)
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
     spec = '20.0.x'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.0.5'
-    got = await setupBeam.getOTPVersion(spec, osVersion)
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
   }
 
@@ -147,19 +148,19 @@ async function testOTPVersions() {
     spec = '24.0.1'
     osVersion = 'windows-latest'
     expected = '24.0.1'
-    got = await setupBeam.getOTPVersion(spec, osVersion)
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
     spec = '23.2.x'
     osVersion = 'windows-2016'
     expected = '23.2.7'
-    got = await setupBeam.getOTPVersion(spec, osVersion)
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
     spec = '23.0'
     osVersion = 'windows-2019'
     expected = '23.0.4'
-    got = await setupBeam.getOTPVersion(spec, osVersion)
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
   }
 }
@@ -169,30 +170,37 @@ async function testElixirVersions() {
   let expected
   let spec
   let otpVersion
+  const hexMirrors = ['https://repo.hex.pm', 'https://cdn.jsdelivr.net/hex']
+
+  spec = ''
+  otpVersion = 'OTP-17'
+  expected = undefined
+  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  assert.deepStrictEqual(got, expected)
 
   spec = '1.1.x'
   otpVersion = 'OTP-17'
   expected = 'v1.1.1-otp-17'
-  got = await setupBeam.getElixirVersion(spec, otpVersion)
+  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
 
   spec = '1.10.4'
   otpVersion = 'OTP-23'
   expected = 'v1.10.4-otp-23'
-  got = await setupBeam.getElixirVersion(spec, otpVersion)
+  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
 
   spec = '1.12.1'
   otpVersion = 'OTP-24.0.2'
   expected = 'v1.12.1-otp-24'
-  got = await setupBeam.getElixirVersion(spec, otpVersion)
+  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
 
   simulateInput('version-type', 'strict')
   spec = '1.14.0'
   otpVersion = 'master'
   expected = 'v1.14.0'
-  got = await setupBeam.getElixirVersion(spec, otpVersion)
+  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', 'loose')
 
@@ -200,7 +208,7 @@ async function testElixirVersions() {
   spec = 'v1.11.0-rc.0'
   otpVersion = 'OTP-23'
   expected = 'v1.11.0-rc.0-otp-23'
-  got = await setupBeam.getElixirVersion(spec, otpVersion)
+  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', 'loose')
 
@@ -208,7 +216,7 @@ async function testElixirVersions() {
   spec = 'v1.11.0'
   otpVersion = '22.3.4.2'
   expected = 'v1.11.0-otp-22'
-  got = await setupBeam.getElixirVersion(spec, otpVersion)
+  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', 'loose')
 
@@ -216,7 +224,7 @@ async function testElixirVersions() {
   spec = 'main'
   otpVersion = '23.1'
   expected = 'main-otp-23'
-  got = await setupBeam.getElixirVersion(spec, otpVersion)
+  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', 'loose')
 }

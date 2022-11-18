@@ -33,9 +33,11 @@ inputs:
   disable_problem_matchers:
     description: whether to have the problem matchers present in the results (or not)
     default: false
-  hexpm-mirror:
+  hexpm-mirrors:
     description: mirror for hex.pm
-    default: https://repo.hex.pm
+    default: |
+        https://repo.hex.pm
+        https://cdn.jsdelivr.net/hex
 outputs:
   elixir-version:
     description: Exact version of Elixir that was installed
