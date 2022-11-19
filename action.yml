@@ -31,8 +31,12 @@ inputs:
       to guess versions based on semver rules
     default: loose
   disable_problem_matchers:
-    description: whether to have the problem matchers present in the results (or not)
+    description: whether to have the problem matchers present in the results
+      (or not)
     default: false
+  version-file:
+    description: a versions file (e.g. as used by `asdf`), which defines inputs
+    default: ''
 outputs:
   elixir-version:
     description: Exact version of Elixir that was installed

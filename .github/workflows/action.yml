@@ -40,6 +40,11 @@ jobs:
           node-version: '14'
       - run: npm ci
       - run: npm test
+      - name: .tool-versions test
+        id: setup-beam
+        uses: ./
+        with:
+          version-file: '__tests__/.tool-versions'
 
   unit_tests_windows:
     name: Unit tests (Windows)
@@ -51,3 +56,8 @@ jobs:
           node-version: '14'
       - run: npm install --production
       - run: npm test
+      - name: .tool-versions test
+        id: setup-beam
+        uses: ./
+        with:
+          version-file: '__tests__/.tool-versions'

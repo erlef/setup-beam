@@ -5,6 +5,7 @@ simulateInput('install-rebar', 'true')
 simulateInput('install-hex', 'true')
 
 const assert = require('assert')
+const fs = require('fs')
 const setupBeam = require('../src/setup-beam')
 const installer = require('../src/installer')
 
@@ -20,6 +21,8 @@ async function all() {
   await testRebar3Versions()
 
   await testGetVersionFromSpec()
+
+  await testParseVersionFile()
 }
 
 async function testFailInstallOTP() {
@@ -405,8 +408,39 @@ async function testGetVersionFromSpec() {
   simulateInput('version-type', 'loose')
 }
 
+async function testParseVersionFile() {
+  const otpVersion = unsimulateInput('otp-version')
+  const elixirVersion = unsimulateInput('elixir-version')
+
+  const erlang = '25.1.1'
+  const elixir = '1.14.1'
+  const toolVersions = `# a comment
+erlang   ${erlang}# comment, no space
+elixir ${elixir}  # comment, with space
+ gleam 0.23 # not picked up`
+  const filename = '__tests__/.tool-versions'
+  fs.writeFileSync(filename, toolVersions)
+  process.env.GITHUB_WORKSPACE = ''
+  const appVersions = setupBeam.parseVersionFile(filename)
+  assert.strictEqual(appVersions.get('erlang'), erlang)
+  assert.strictEqual(appVersions.get('elixir'), elixir)
+
+  simulateInput('otp-version', otpVersion)
+  simulateInput('elixir-version', elixirVersion)
+}
+
+function unsimulateInput(key) {
+  const before = process.env[input(key)]
+  simulateInput(key, '')
+  return before
+}
+
 function simulateInput(key, value) {
-  process.env[`INPUT_${key.replace(/ /g, '_').toUpperCase()}`] = value
+  process.env[input(key)] = value
+}
+
+function input(key) {
+  return `INPUT_${key.replace(/ /g, '_').toUpperCase()}`
 }
 
 all()

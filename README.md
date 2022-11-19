@@ -16,9 +16,11 @@ workflow by:
 - optionally, installing [Gleam](https://gleam.run/)
 - optionally, installing [`rebar3`](https://www.rebar3.org/)
 - optionally, installing [`hex`](https://hex.pm/)
+- optionally, opting for strict or loose version matching
 - optionally, having
   [problem matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) show
   warnings and errors on pull requests
+- optionally, using a version file (as explained in "Version file", below), to identify versions
 
 **Note**: currently, this action only supports Actions' `ubuntu-` and `windows-` runtimes.
 
@@ -85,6 +87,31 @@ jobs:
       - uses: erlef/setup-beam@v1
         ...
 ```
+
+### Version file
+
+A version file is specified via input `version-file` (e.g.`.tool-versions`). This
+allows not having to use YML input for versions, though the action does check (and
+will exit with error) if both inputs are set.
+
+**Note**: if you're using a version file, option `version-type` is checked to be `strict`,
+and will make the action exit with error otherwise.
+
+The following version file formats are supported:
+
+- `.tool-versions`, as specified by [asdf: Configuration](https://asdf-vm.com/manage/configuration.html)
+
+Supported version elements are the same as the ones defined for the YML portion of the action,
+with the following correspondence.
+
+#### `.tool-versions` format
+
+| YML              | `.tool-versions` |
+|-                 |-
+| `otp-version`    | `erlang`
+| `elixir-version` | `elixir`
+| `gleam-version`  | `gleam`
+| `rebar3-version` | `rebar`
 
 ### Example (Erlang/OTP + Elixir, on Ubuntu)
 
