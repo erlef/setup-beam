@@ -44,7 +44,8 @@ jobs:
         id: setup-beam
         uses: ./
         with:
-          version-file: '__tests__/.tool-versions'
+          version-file: __tests__/.tool-versions
+          version-type: strict
 
   unit_tests_windows:
     name: Unit tests (Windows)
@@ -60,4 +61,5 @@ jobs:
         id: setup-beam
         uses: ./
         with:
-          version-file: '__tests__/.tool-versions'
+          version-file: __tests__/.tool-versions
+          version-type: strict
