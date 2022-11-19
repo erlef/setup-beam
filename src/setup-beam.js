@@ -25,15 +25,10 @@ async function main() {
   }
 
   const osVersion = getRunnerOSVersion()
-  const otpSpec = getInput('otp-version', true, 'erlang', versions.erlang)
-  const elixirSpec = getInput(
-    'elixir-version',
-    false,
-    'elixir',
-    versions.elixir,
-  )
-  const gleamSpec = getInput('gleam-version', false, 'gleam', versions.gleam)
-  const rebar3Spec = getInput('rebar3-version', false, 'rebar', versions.rebar)
+  const otpSpec = getInput('otp-version', true, 'erlang', versions)
+  const elixirSpec = getInput('elixir-version', false, 'elixir', versions)
+  const gleamSpec = getInput('gleam-version', false, 'gleam', versions)
+  const rebar3Spec = getInput('rebar3-version', false, 'rebar', versions)
 
   if (otpSpec !== 'false') {
     await installOTP(otpSpec, osVersion)
@@ -471,7 +466,8 @@ function isVersion(v) {
   return /^v?\d+/.test(v)
 }
 
-function getInput(inputName, required, alternativeName, alternativeValue) {
+function getInput(inputName, required, alternativeName, alternatives) {
+  const alternativeValue = (alternatives || new Map()).get(alternativeName)
   let input = core.getInput(inputName, {
     required: alternativeValue ? false : required,
   })
