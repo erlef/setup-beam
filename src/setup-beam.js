@@ -505,7 +505,7 @@ function parseVersionFile(versionFilePath0) {
     const appVersion = line.match(/^([^ ]+)[ ]+([^ #]+)/)
     if (appVersion) {
       const app = appVersion[1]
-      if (['erlang', 'elixir', 'gleam', 'rebar3'].includes(app)) {
+      if (['erlang', 'elixir', 'gleam', 'rebar'].includes(app)) {
         const [, , version] = appVersion
         console.log(`Consuming ${app} at version ${version}`)
         appVersions.set(app, version)
