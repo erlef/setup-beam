@@ -7665,10 +7665,10 @@ function isVersion(v) {
 }
 
 function getInput(inputName, required, alternativeName, alternativeValue) {
-  // We can't have both input and alternativeValue set
   let input = core.getInput(inputName, {
     required: alternativeValue ? false : required,
   })
+  // We can't have both input and alternativeValue set
   if (input && alternativeValue) {
     throw new Error(
       `Found input ${inputName}=${input} (from the YML) \
@@ -7698,7 +7698,7 @@ function parseVersionFile(versionFilePath0) {
     const appVersion = line.match(/^([^ ]+)[ ]+([^ #]+)/)
     if (appVersion) {
       const app = appVersion[1]
-      if (['erlang', 'elixir', 'gleam', 'rebar3'].includes(app)) {
+      if (['erlang', 'elixir', 'gleam', 'rebar'].includes(app)) {
         const [, , version] = appVersion
         console.log(`Consuming ${app} at version ${version}`)
         appVersions.set(app, version)
