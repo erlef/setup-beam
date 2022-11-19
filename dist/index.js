@@ -7668,8 +7668,8 @@ function getInput(inputName, required, alternativeName, alternatives) {
   if (input && alternativeValue) {
     throw new Error(
       `Found input ${inputName}=${input} (from the YML) \
-       alongside ${alternativeName}=${alternativeValue} \
-       (from the version file). You must choose one or the other.`,
+alongside ${alternativeName}=${alternativeValue} \
+(from the version file). You must choose one or the other.`,
     )
   } else if (!input) {
     input = alternativeValue
