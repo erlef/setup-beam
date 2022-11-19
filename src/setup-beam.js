@@ -14,7 +14,7 @@ async function main() {
   installer.checkPlatform()
 
   const versionFilePath = getInput('version-file', false)
-  let versions = {}
+  let versions
   if (versionFilePath) {
     if (!isStrictVersion()) {
       throw new Error(
