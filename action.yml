@@ -11,7 +11,6 @@ inputs:
   otp-version:
     description: Version range or exact version of Erlang/OTP to use,
       or false when installing only Gleam without OTP
-    required: true
   elixir-version:
     description: Version range or exact version of Elixir to use
   gleam-version:
