@@ -472,10 +472,10 @@ function isVersion(v) {
 }
 
 function getInput(inputName, required, alternativeName, alternativeValue) {
-  // We can't have both input and alternativeValue set
   let input = core.getInput(inputName, {
     required: alternativeValue ? false : required,
   })
+  // We can't have both input and alternativeValue set
   if (input && alternativeValue) {
     throw new Error(
       `Found input ${inputName}=${input} (from the YML) \
