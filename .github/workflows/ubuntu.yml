@@ -134,6 +134,11 @@ jobs:
             otp-version: '24'
             os: 'ubuntu-latest'
             disable_problem_matchers: true
+          - elixir-version: 'v1.13'
+            otp-version: '24'
+            escript_packages: 'hex protobuf'
+            escript_script: 'protoc-gen-elixir --version'
+            os: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v3
       - name: Use erlef/setup-beam
@@ -184,6 +189,11 @@ jobs:
           cd test-projects/gleam_gleam
           gleam test
         if: ${{ matrix.combo.gleam-version && matrix.combo.otp-version && !matrix.combo.rebar3-version }}
+      - name: Run escript
+        run: |
+          mix escript.install ${{matrix.combo.escript_packages}}
+          ${{matrix.combo.escript_script}}
+        if: ${{matrix.combo.escript_packages && matrix.combo.escript_script}}
   environment_variables:
     name: Environment variables
     runs-on: ${{matrix.combo.os}}
