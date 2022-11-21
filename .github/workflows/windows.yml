@@ -89,7 +89,7 @@ jobs:
         if: ${{matrix.combo.rebar3-version}}
       - name: Run escript
         run: |
-          mix escript.install ${{matrix.combo.escript_packages}}
+          mix escript.install --force ${{matrix.combo.escript_packages}}
           ${{matrix.combo.escript_script}}
         if: ${{matrix.combo.escript_packages && matrix.combo.escript_script}}
   environment_variables:
