@@ -7690,6 +7690,9 @@ function parseVersionFile(versionFilePath0) {
   console.log(`##[group]Parsing version file at ${versionFilePath0}`)
   const appVersions = new Map()
   const versions = fs.readFileSync(versionFilePath, 'utf8')
+  // For the time being we parse .tool-versions
+  // If we ever start parsing something else, this should
+  // become default in a new option named e.g. version-file-type
   versions.split('\n').forEach((line) => {
     const appVersion = line.match(/^([^ ]+)[ ]+([^ #]+)/)
     if (appVersion) {
