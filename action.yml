@@ -11,7 +11,6 @@ inputs:
   otp-version:
     description: Version range or exact version of Erlang/OTP to use,
       or false when installing only Gleam without OTP
-    required: true
   elixir-version:
     description: Version range or exact version of Elixir to use
   gleam-version:
@@ -31,8 +30,12 @@ inputs:
       to guess versions based on semver rules
     default: loose
   disable_problem_matchers:
-    description: whether to have the problem matchers present in the results (or not)
+    description: whether to have the problem matchers present in the results
+      (or not)
     default: false
+  version-file:
+    description: a versions file (e.g. as used by `asdf`), which defines inputs
+    default: ''
 outputs:
   elixir-version:
     description: Exact version of Elixir that was installed

@@ -1,2 +1,3 @@
 node_modules/**
 dist/.github/workflows
+__tests__/.tool-versions

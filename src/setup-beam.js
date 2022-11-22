@@ -3,6 +3,7 @@ const { exec } = require('@actions/exec')
 const path = require('path')
 const semver = require('semver')
 const https = require('https')
+const fs = require('fs')
 const installer = require('./installer')
 
 main().catch((err) => {
@@ -12,24 +13,31 @@ main().catch((err) => {
 async function main() {
   installer.checkPlatform()
 
+  const versionFilePath = getInput('version-file', false)
+  let versions
+  if (versionFilePath) {
+    if (!isStrictVersion()) {
+      throw new Error(
+        "you have to set version-type=strict if you're using version-file",
+      )
+    }
+    versions = parseVersionFile(versionFilePath)
+  }
+
   const osVersion = getRunnerOSVersion()
-  const otpSpec = core.getInput('otp-version', { required: true })
-  const elixirSpec = core.getInput('elixir-version', { required: false })
-  const gleamSpec = core.getInput('gleam-version', { required: false })
-  const rebar3Spec = core.getInput('rebar3-version', { required: false })
+  const otpSpec = getInput('otp-version', true, 'erlang', versions)
+  const elixirSpec = getInput('elixir-version', false, 'elixir', versions)
+  const gleamSpec = getInput('gleam-version', false, 'gleam', versions)
+  const rebar3Spec = getInput('rebar3-version', false, 'rebar', versions)
 
   if (otpSpec !== 'false') {
     await installOTP(otpSpec, osVersion)
     const elixirInstalled = await maybeInstallElixir(elixirSpec, otpSpec)
 
     if (elixirInstalled === true) {
-      const shouldMixRebar = core.getInput('install-rebar', {
-        required: false,
-      })
+      const shouldMixRebar = getInput('install-rebar', false)
       await mix(shouldMixRebar, 'rebar')
-      const shouldMixHex = core.getInput('install-hex', {
-        required: false,
-      })
+      const shouldMixHex = getInput('install-hex', false)
       await mix(shouldMixHex, 'hex')
     }
   } else if (!gleamSpec) {
@@ -61,9 +69,7 @@ async function maybeInstallElixir(elixirSpec, otpVersion) {
     console.log(`##[group]Installing Elixir ${elixirVersion}`)
     await installer.installElixir(elixirVersion)
     core.setOutput('elixir-version', elixirVersion)
-    const disableProblemMatchers = core.getInput('disable_problem_matchers', {
-      required: false,
-    })
+    const disableProblemMatchers = getInput('disable_problem_matchers', false)
     if (disableProblemMatchers === 'false') {
       const matchersPath = path.join(__dirname, '..', '.github')
       console.log(
@@ -310,7 +316,7 @@ async function getRebar3Versions() {
 }
 
 function isStrictVersion() {
-  return core.getInput('version-type', { required: false }) === 'strict'
+  return getInput('version-type', false) === 'strict'
 }
 
 function getVersionFromSpec(spec, versions, maybePrependWithV0) {
@@ -460,10 +466,66 @@ function isVersion(v) {
   return /^v?\d+/.test(v)
 }
 
+function getInput(inputName, required, alternativeName, alternatives) {
+  const alternativeValue = (alternatives || new Map()).get(alternativeName)
+  let input = core.getInput(inputName, {
+    required: alternativeValue ? false : required,
+  })
+  // We can't have both input and alternativeValue set
+  if (input && alternativeValue) {
+    throw new Error(
+      `Found input ${inputName}=${input} (from the YML) \
+alongside ${alternativeName}=${alternativeValue} \
+(from the version file). You must choose one or the other.`,
+    )
+  } else if (!input) {
+    input = alternativeValue
+  }
+  return input
+}
+
+function parseVersionFile(versionFilePath0) {
+  const versionFilePath = path.join(
+    process.env.GITHUB_WORKSPACE,
+    versionFilePath0,
+  )
+  if (!fs.existsSync(versionFilePath)) {
+    throw new Error(
+      `The specified version file, ${versionFilePath0}, does not exist`,
+    )
+  }
+  console.log(`##[group]Parsing version file at ${versionFilePath0}`)
+  const appVersions = new Map()
+  const versions = fs.readFileSync(versionFilePath, 'utf8')
+  // For the time being we parse .tool-versions
+  // If we ever start parsing something else, this should
+  // become default in a new option named e.g. version-file-type
+  versions.split('\n').forEach((line) => {
+    const appVersion = line.match(/^([^ ]+)[ ]+([^ #]+)/)
+    if (appVersion) {
+      const app = appVersion[1]
+      if (['erlang', 'elixir', 'gleam', 'rebar'].includes(app)) {
+        const [, , version] = appVersion
+        console.log(`Consuming ${app} at version ${version}`)
+        appVersions.set(app, version)
+      }
+    }
+  })
+  if (!appVersions.size) {
+    console.log('There was apparently nothing to consume')
+  } else {
+    console.log('... done!')
+  }
+  console.log('##[endgroup]')
+
+  return appVersions
+}
+
 module.exports = {
   getOTPVersion,
   getElixirVersion,
   getGleamVersion,
   getRebar3Version,
   getVersionFromSpec,
+  parseVersionFile,
 }
