@@ -18,4 +18,7 @@ $ProgressPreference="Continue"
 Write-Output "Installed Elixir version follows"
 & "${DIR_FOR_BIN}/bin/elixir" "-v" | Write-Output
 
+$ProgressPreference="Continue"
+New-Item "%UserProfile%/.mix/escripts" -ItemType Directory | Out-Null
+
 "INSTALL_DIR_FOR_ELIXIR=${Env:RUNNER_TEMP}/${DIR_FOR_BIN}" | Out-File -FilePath ${Env:GITHUB_ENV} -Encoding utf8 -Append

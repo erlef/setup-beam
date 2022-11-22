@@ -7193,6 +7193,7 @@ module.exports = {
 
 const core = __nccwpck_require__(2186)
 const { exec } = __nccwpck_require__(1514)
+const os = __nccwpck_require__(2037)
 const path = __nccwpck_require__(1017)
 const semver = __nccwpck_require__(1383)
 const https = __nccwpck_require__(5687)
@@ -7269,6 +7270,7 @@ async function maybeInstallElixir(elixirSpec, otpVersion) {
         `##[add-matcher]${path.join(matchersPath, 'elixir-matchers.json')}`,
       )
     }
+    core.addPath(`${os.homedir()}/.mix/escripts`)
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
     console.log('##[endgroup]')
 

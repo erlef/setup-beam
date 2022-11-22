@@ -1,5 +1,6 @@
 const core = require('@actions/core')
 const { exec } = require('@actions/exec')
+const os = require('os')
 const path = require('path')
 const semver = require('semver')
 const https = require('https')
@@ -76,6 +77,7 @@ async function maybeInstallElixir(elixirSpec, otpVersion) {
         `##[add-matcher]${path.join(matchersPath, 'elixir-matchers.json')}`,
       )
     }
+    core.addPath(`${os.homedir()}/.mix/escripts`)
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
     console.log('##[endgroup]')
 

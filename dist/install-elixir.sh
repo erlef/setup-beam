@@ -15,4 +15,6 @@ unzip -q -o -d "${DIR_FOR_BIN}" "${FILE_OUTPUT}"
 echo "Installed Elixir version follows"
 ${DIR_FOR_BIN}/bin/elixir -v
 
+mkdir -p "${HOME}/.mix/escripts"
+
 echo "INSTALL_DIR_FOR_ELIXIR=${RUNNER_TEMP}/${DIR_FOR_BIN}" >> "${GITHUB_ENV}"
