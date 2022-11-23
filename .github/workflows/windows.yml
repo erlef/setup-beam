@@ -68,12 +68,19 @@ jobs:
       - name: Gleam version (action)
         run: echo "Gleam ${{steps.setup-beam.outputs.gleam-version}}"
         if: ${{matrix.combo.gleam-version}}
-      - shell: cmd
-        run: rebar3
-      - shell: cmd
-        run: rebar3.cmd
       - name: rebar3 version (action)
         run: echo "rebar3 ${{steps.setup-beam.outputs.rebar3-version}}"
+      - name: Run rebar3 and rebar3.cmd
+        run: |
+          # Should not fail
+          rebar3 version
+          rebar3.cmd version
+        if: ${{matrix.combo.rebar3-version}}
+      - name: rebar3 from Rust
+        run: |
+          cd test-projects/rust_rebar3_cmd
+          cargo test -- --nocapture
+        if: ${{matrix.combo.rebar3-version}}
       - name: mix version and help (CLI)
         run: |
           mix -v
