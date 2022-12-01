@@ -7,6 +7,7 @@ Set-Location ${Env:RUNNER_TEMP}
 $FILE_INPUT="rebar3"
 $FILE_OUTPUT="rebar3"
 $FILE_OUTPUT_PS1="rebar3.ps1"
+$FILE_OUTPUT_CMD="rebar3.cmd"
 $DIR_FOR_BIN=".setup-beam/rebar3"
 
 $ProgressPreference="SilentlyContinue"
@@ -22,8 +23,9 @@ $ProgressPreference="Continue"
 New-Item "${DIR_FOR_BIN}/bin" -ItemType Directory | Out-Null
 Move-Item "${FILE_OUTPUT}" "${DIR_FOR_BIN}/bin"
 Write-Output "& escript.exe ${PWD}/${DIR_FOR_BIN}/bin/${FILE_OUTPUT} `${args}" | Out-File -FilePath "${FILE_OUTPUT_PS1}" -Encoding utf8 -Append
-type ${FILE_OUTPUT_PS1}
+Write-Output "@echo off`r`nescript.exe ${PWD}/${DIR_FOR_BIN}/bin/${FILE_OUTPUT} %*" | Out-File -FilePath "${FILE_OUTPUT_CMD}" -Encoding utf8 -Append
 Move-Item "${FILE_OUTPUT_PS1}" "${DIR_FOR_BIN}/bin"
+Move-Item "${FILE_OUTPUT_CMD}" "${DIR_FOR_BIN}/bin"
 Write-Output "Installed rebar3 version${REBAR3_NIGHTLY} follows"
 & "${DIR_FOR_BIN}/bin/rebar3" "version" | Write-Output
 
