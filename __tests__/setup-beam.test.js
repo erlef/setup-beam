@@ -170,13 +170,7 @@ async function testElixirVersions() {
   let expected
   let spec
   let otpVersion
-  const hexMirrors = ['https://repo.hex.pm', 'https://cdn.jsdelivr.net/hex']
-
-  spec = ''
-  otpVersion = 'OTP-17'
-  expected = undefined
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
-  assert.deepStrictEqual(got, expected)
+  const hexMirrors = ['https://repo.hex.pm']
 
   spec = '1.1.x'
   otpVersion = 'OTP-17'

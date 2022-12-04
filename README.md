@@ -189,12 +189,47 @@ jobs:
 
 **Note**: the `otp-version: false` input is only applicable when installing Gleam.
 
-## Hex.pm mirrors and caching
+## Hex.pm mirrors
 
-It is possible to define the hex.pm mirrors to use including their order with
-option `hexpm-mirrors`. By default, the action will fetch from `repo.hex.pm`
-first and then from `cdn.jsdelivr.net/hex`. Permanent files from these mirrors,
-such as OTP binaries for a given version, are cached automatically.
+It is possible to define the hex.pm mirror(s) to use including their order with
+option `hexpm-mirrors`. By default, the action will fetch from `repo.hex.pm`.
+To define several mirrors, simply put each in a given line.
+
+To use `cdn.jsdelivr.net/hex` instead of `repo.hex.pm`:
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '25'
+          hexpm-mirrors: https://cdn.jsdelivr.net/hex
+```
+
+To try `cdn.jsdelivr.net/hex` if `repo.hex.pm` fails:
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '25'
+          hexpm-mirrors: |
+            https://repo.hex.pm
+            https://cdn.jsdelivr.net/hex
+```
 
 ## Environment variables
 

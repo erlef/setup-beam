@@ -1,8 +1,5 @@
-const cache = require('@actions/cache')
 const core = require('@actions/core')
 const { exec } = require('@actions/exec')
-const crypto = require('crypto')
-const fs = require('fs')
 const path = require('path')
 const semver = require('semver')
 const https = require('https')
@@ -20,55 +17,27 @@ async function main() {
   const elixirSpec = core.getInput('elixir-version', { required: false })
   const gleamSpec = core.getInput('gleam-version', { required: false })
   const rebar3Spec = core.getInput('rebar3-version', { required: false })
-  const shouldMixRebar = core.getInput('install-rebar', { required: false })
-  const shouldMixHex = core.getInput('install-hex', { required: false })
   const hexMirrors = core.getMultilineInput('hexpm-mirrors', {
     required: false,
   })
 
   if (otpSpec !== 'false') {
-    const otpVersion = await getOTPVersion(otpSpec, osVersion, hexMirrors)
-    const elixirVersion = await getElixirVersion(
+    await installOTP(otpSpec, osVersion, hexMirrors)
+    const elixirInstalled = await maybeInstallElixir(
       elixirSpec,
-      otpVersion,
+      otpSpec,
       hexMirrors,
     )
-    // No cache for Windows OTP, rebar3 and Gleam as they're downloaded from GitHub
-    const useCache =
-      isVersion(otpSpec) &&
-      (!elixirSpec || isVersion(elixirSpec)) &&
-      (elixirVersion || process.platform !== 'win32')
-    let hexCachedRestored = false
-    const fileBuffer = fs.readFileSync(__filename)
-    const md5 = crypto.createHash('md5').update(fileBuffer).digest('hex')
-    const hexCacheKey =
-      `hex.pm-${osVersion}-${otpVersion}-${elixirVersion}-` +
-      `r=${shouldMixRebar}-h=${shouldMixHex}-${md5}`
-    const hexCachePaths = [
-      path.join(process.env.RUNNER_TEMP, '.setup-beam', 'cache'),
-      path.join(
-        process.platform === 'win32'
-          ? process.env.USERPROFILE
-          : process.env.HOME,
-        '.mix',
-      ),
-    ]
-    if (useCache) {
-      const restoredCacheKey = await cache.restoreCache(
-        hexCachePaths,
-        hexCacheKey,
-      )
-      hexCachedRestored = restoredCacheKey !== undefined
-    }
-    await installOTP(otpVersion, osVersion, hexMirrors)
-    const elixirInstalled = await maybeInstallElixir(elixirVersion, hexMirrors)
 
-    if (elixirInstalled === true && !hexCachedRestored) {
+    if (elixirInstalled === true) {
+      const shouldMixRebar = core.getInput('install-rebar', {
+        required: false,
+      })
       await mix(shouldMixRebar, 'rebar', hexMirrors)
+      const shouldMixHex = core.getInput('install-hex', {
+        required: false,
+      })
       await mix(shouldMixHex, 'hex', hexMirrors)
-    }
-    if (useCache && !hexCachedRestored) {
-      await cache.saveCache(hexCachePaths, hexCacheKey)
     }
   } else if (!gleamSpec) {
     throw new Error('otp-version=false is only available when installing Gleam')
@@ -78,7 +47,8 @@ async function main() {
   await maybeInstallRebar3(rebar3Spec)
 }
 
-async function installOTP(otpVersion, osVersion, hexMirrors) {
+async function installOTP(otpSpec, osVersion, hexMirrors) {
+  const otpVersion = await getOTPVersion(otpSpec, osVersion, hexMirrors)
   console.log(
     `##[group]Installing Erlang/OTP ${otpVersion} - built on ${osVersion}`,
   )
@@ -86,12 +56,19 @@ async function installOTP(otpVersion, osVersion, hexMirrors) {
   core.setOutput('otp-version', otpVersion)
   core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
   console.log('##[endgroup]')
+
+  return otpVersion
 }
 
-async function maybeInstallElixir(elixirVersion, hexMirrors) {
+async function maybeInstallElixir(elixirSpec, otpSpec, hexMirrors) {
   let installed = false
 
-  if (elixirVersion) {
+  if (elixirSpec) {
+    const elixirVersion = await getElixirVersion(
+      elixirSpec,
+      otpSpec,
+      hexMirrors,
+    )
     console.log(`##[group]Installing Elixir ${elixirVersion}`)
     await installer.installElixir(elixirVersion, hexMirrors)
     core.setOutput('elixir-version', elixirVersion)
@@ -198,22 +175,7 @@ async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
   return otpVersions.get(otpVersion) // from the reference, for download
 }
 
-/**
- * Return the elixir version from a specification and an OTP version.
- *
- * Process the OTP version and the Elixir specification to find the version
- * in the list of available elixir versions.
- *
- * @param exSpec0 Elixir specification. Can be the empty string.
- * @param otpVersion0 OTP version
- * @param hexMirrors list of hex mirrors to query (to get versions)
- * @return the Elixir version or undefined if no specification was passed.
- * @throws Error if the specification cannot be matched or satisfied.
- */
 async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
-  if (!exSpec0) {
-    return undefined
-  }
   const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
   const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
   const elixirVersions = await getElixirVersions(hexMirrors)

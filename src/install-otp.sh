@@ -7,18 +7,13 @@ cd "${RUNNER_TEMP}"
 OS=${1}
 VSN=${2}
 HEX_MIRROR=${3}
-CACHEDIR="${RUNNER_TEMP}/.setup-beam/cache"
 FILE_INPUT="${VSN}.tar.gz"
-FILE_OUTPUT="${CACHEDIR}/otp-${FILE_INPUT}"
+FILE_OUTPUT=otp.tar.gz
 DIR_FOR_BIN=.setup-beam/otp
 
-mkdir -p "${CACHEDIR}"
-[ -e "${FILE_OUTPUT}" ] || curl -sfL -o "${FILE_OUTPUT}" "${HEX_MIRROR}/builds/otp/${OS}/${FILE_INPUT}"
+wget -q -O "${FILE_OUTPUT}" "${HEX_MIRROR}/builds/otp/${OS}/${FILE_INPUT}"
 mkdir -p "${DIR_FOR_BIN}"
-tar zxf "${FILE_OUTPUT}" -C "${DIR_FOR_BIN}" --strip-components=1 || {
-    rm "${FILE_OUTPUT}"
-    exit 1
-}
+tar zxf "${FILE_OUTPUT}" -C "${DIR_FOR_BIN}" --strip-components=1
 "${DIR_FOR_BIN}/Install" -minimal "$(pwd)/${DIR_FOR_BIN}"
 echo "Installed Erlang/OTP version follows"
 ${DIR_FOR_BIN}/bin/erl -version

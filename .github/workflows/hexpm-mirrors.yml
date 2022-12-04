@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  test_option_hexpm_mirrors:
+  test_failing_first_mirror:
     name: Test option hexpm-mirrors with a dummy first mirror
     runs-on: ${{matrix.os}}
     strategy:
@@ -32,11 +32,11 @@ jobs:
           install-rebar: ${{matrix.install-rebar}}
           install-hex: ${{matrix.install-hex}}
           hexpm-mirrors: |
-            https://localhost
+            https://mirror.invalid
             https://cdn.jsdelivr.net/hex
             https://repo.hex.pm
 
-  test_cache:
+  test_invalid_mirror:
     name: Test errors with mirror
     runs-on: ubuntu-22.04
     steps:
