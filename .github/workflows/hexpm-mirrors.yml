@@ -54,5 +54,5 @@ jobs:
       - name: Report unexpected success
         if: ${{ steps.failing-setup-beam.outcome == 'success' }}
         run: |
-          echo "Expected erlef-setup beam task to fail"
+          echo "Action is expected to fail"
           exit 1
