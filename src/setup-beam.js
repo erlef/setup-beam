@@ -480,7 +480,7 @@ async function get(url0, pageIdxs) {
 
 async function getWithMirrors(resourcePath, hexMirrors) {
   if (hexMirrors.length === 0) {
-    throw new Error(`Could not fetch ${resourcePath} from any hex mirror`)
+    throw new Error(`Could not fetch ${resourcePath} from any hex.pm mirror`)
   }
   const [hexMirror, ...hexMirrorsT] = hexMirrors
   try {
