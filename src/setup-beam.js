@@ -100,7 +100,7 @@ async function mixWithMirrors(cmd, args, hexMirrors) {
     return await exec(cmd, args)
   } catch (err) {
     core.info(
-      `Mix failed with mirror ${process.env.HEX_MIRROR} with message ${err.message})`,
+      `mix failed with mirror ${process.env.HEX_MIRROR} with message ${err.message})`,
     )
   }
   return mixWithMirrors(cmd, args, hexMirrorsT)
