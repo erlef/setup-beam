@@ -14,7 +14,7 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
   if (OS === 'linux') {
     if (hexMirrors.length === 0) {
       throw new Error(
-        `Could not install OTP ${osVersion} ${otpVersion} from any hex mirror`,
+        `Could not install Erlang/OTP ${otpVersion} from any hex.pm mirror`,
       )
     }
     const [hexMirror, ...hexMirrorsT] = hexMirrors
