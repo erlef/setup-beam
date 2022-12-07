@@ -7121,7 +7121,7 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
   if (OS === 'linux') {
     if (hexMirrors.length === 0) {
       throw new Error(
-        `Could not install OTP ${osVersion} ${otpVersion} from any hex mirror`,
+        `Could not install Erlang/OTP ${otpVersion} from any hex.pm mirror`,
       )
     }
     const [hexMirror, ...hexMirrorsT] = hexMirrors
@@ -7151,7 +7151,7 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
 async function installElixir(elixirVersion, hexMirrors) {
   if (hexMirrors.length === 0) {
     throw new Error(
-      `Could not install Elixir ${elixirVersion} from any hex mirror`,
+      `Could not install Elixir ${elixirVersion} from any hex.pm mirror`,
     )
   }
   const [hexMirror, ...hexMirrorsT] = hexMirrors
@@ -7331,7 +7331,7 @@ async function mixWithMirrors(cmd, args, hexMirrors) {
     return await exec(cmd, args)
   } catch (err) {
     core.info(
-      `Mix failed with mirror ${process.env.HEX_MIRROR} with message ${err.message})`,
+      `mix failed with mirror ${process.env.HEX_MIRROR} with message ${err.message})`,
     )
   }
   return mixWithMirrors(cmd, args, hexMirrorsT)
@@ -7711,7 +7711,7 @@ async function get(url0, pageIdxs) {
 
 async function getWithMirrors(resourcePath, hexMirrors) {
   if (hexMirrors.length === 0) {
-    throw new Error(`Could not fetch ${resourcePath} from any hex mirror`)
+    throw new Error(`Could not fetch ${resourcePath} from any hex.pm mirror`)
   }
   const [hexMirror, ...hexMirrorsT] = hexMirrors
   try {
