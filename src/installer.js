@@ -44,7 +44,7 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
 async function installElixir(elixirVersion, hexMirrors) {
   if (hexMirrors.length === 0) {
     throw new Error(
-      `Could not install Elixir ${elixirVersion} from any hex mirror`,
+      `Could not install Elixir ${elixirVersion} from any hex.pm mirror`,
     )
   }
   const [hexMirror, ...hexMirrorsT] = hexMirrors
