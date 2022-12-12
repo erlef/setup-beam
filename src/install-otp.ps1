@@ -4,14 +4,17 @@ $ErrorActionPreference="Stop"
 
 Set-Location ${Env:RUNNER_TEMP}
 
+$FILE_INPUT="otp_win64_${VSN}.exe"
 $FILE_OUTPUT="otp.exe"
-$ERL_ROOT = "${Env:RUNNER_TEMP}\.setup-beam\otp"
+$DIR_FOR_BIN=".setup-beam/otp"
 
 $ProgressPreference="SilentlyContinue"
-Invoke-WebRequest "https://github.com/erlang/otp/releases/download/OTP-${VSN}/otp_win64_${VSN}.exe" -OutFile "${FILE_OUTPUT}"
+Invoke-WebRequest "https://github.com/erlang/otp/releases/download/OTP-${VSN}/${FILE_INPUT}" -OutFile "${FILE_OUTPUT}"
 $ProgressPreference="Continue"
-Start-Process "${FILE_OUTPUT}" "/S /D=${ERL_ROOT}" -Wait
+New-Item "${DIR_FOR_BIN}" -ItemType Directory | Out-Null
+$ProgressPreference="SilentlyContinue"
+Start-Process "${FILE_OUTPUT}" "/S /D=${DIR_FOR_BIN}" -Wait
 Write-Output "Installed Erlang/OTP version follows"
-& "${ERL_ROOT}/bin/erl.exe" "+V" | Write-Output
+& "${DIR_FOR_BIN}/bin/erl.exe" "+V" | Write-Output
 
-"INSTALL_DIR_FOR_OTP=${ERL_ROOT}" | Out-File -FilePath ${Env:GITHUB_ENV} -Encoding utf8 -Append
+"INSTALL_DIR_FOR_OTP=${RUNNER_TEMP}/${DIR_FOR_BIN}" | Out-File -FilePath ${Env:GITHUB_ENV} -Encoding utf8 -Append
