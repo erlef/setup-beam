@@ -9,12 +9,13 @@ FILE_OUTPUT=gleam.tar.gz
 DIR_FOR_BIN=.setup-beam/gleam
 
 version_gt() {
-  test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"
+  REFERENCE=$1
+  test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$REFERENCE"
 }
 
 uses_llvm_triplets() {
-  local version="$1"
-  test "$version" = "nightly" || version_gt "$version" "v0.22.1"
+  local VERSION="$1"
+  test "${VERSION}" = "nightly" || version_gt "${VERSION}" "v0.22.1"
 }
 
 if uses_llvm_triplets "$VSN"
