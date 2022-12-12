@@ -1,6 +1,6 @@
-simulateInput('otp-version', '23.2')
-simulateInput('elixir-version', '1.11')
-simulateInput('rebar3-version', '3.14')
+simulateInput('otp-version', '25.1.2')
+simulateInput('elixir-version', '1.14.2')
+simulateInput('rebar3-version', '3.20')
 simulateInput('install-rebar', 'true')
 simulateInput('install-hex', 'true')
 
