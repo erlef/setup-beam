@@ -179,10 +179,10 @@ jobs:
           cd test-projects/erlang_rebar3
           rebar3 ct
         if: ${{matrix.combo.rebar3-version}}
-      - name: Type check Gleam project (without installing Erlang/OTP)
+      - name: Format Gleam project (without installing Erlang/OTP)
         run: |
           cd test-projects/gleam_gleam
-          gleam check
+          gleam format
         if: ${{ matrix.combo.gleam-version && !matrix.combo.otp-version }}
       - name: Run Gleam project tests (without `rebar3`)
         run: |
