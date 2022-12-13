@@ -95,6 +95,7 @@ async function mixWithMirrors(cmd, args, hexMirrors) {
     throw new Error('mix failed with every mirror')
   }
   const [hexMirror, ...hexMirrorsT] = hexMirrors
+  // As per https://hex.pm/docs/mirrors
   process.env.HEX_MIRROR = hexMirror
   try {
     return await exec(cmd, args)
