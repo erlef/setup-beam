@@ -36,7 +36,7 @@ jobs:
             https://cdn.jsdelivr.net/hex
             https://repo.hex.pm
 
-  test_invalid_mirror:
+  test-invalid-mirror:
     name: Test errors with mirror
     runs-on: ubuntu-22.04
     steps:
