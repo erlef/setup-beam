@@ -9,6 +9,9 @@ on:
     branches:
       - main
 
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
 jobs:
   check_integrity:
     name: Expected local npm actions
@@ -28,7 +31,7 @@ jobs:
       - run: npm run yamllint
       - run: npm run jslint
       - name: Check if build left artifacts
-        run: git diff --exit-code
+        run: git diff --exit-code --ignore-space-at-eol
 
   unit_tests_ubuntu:
     name: Unit tests (Ubuntu)

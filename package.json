@@ -21,6 +21,8 @@
   "dependencies": {
     "@actions/core": "1.10.0",
     "@actions/exec": "1.1.1",
+    "request": "2.88.2",
+    "requestretry": "7.1.0",
     "semver": "7.3.8"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@ const { exec } = require('@actions/exec')
 const os = require('os')
 const path = require('path')
 const semver = require('semver')
-const https = require('https')
+const request = require('requestretry')
 const fs = require('fs')
 const installer = require('./installer')
 
@@ -413,38 +413,37 @@ function getRunnerOSVersion() {
 }
 
 async function get(url0, pageIdxs) {
-  function getPage(pageIdx) {
+  function getPage(pageIdx, retries0) {
+    let retries = retries0
     return new Promise((resolve, reject) => {
+      if (retries === undefined) {
+        retries = 5
+      }
       const url = new URL(url0)
       if (pageIdx !== null) {
         url.searchParams.append('page', pageIdx)
       }
-      https
-        .get(
-          url,
-          {
-            headers: { 'user-agent': 'setup-beam' },
-          },
-          (res) => {
-            let data = ''
-            res.on('data', (chunk) => {
-              data += chunk
-            })
-            res.on('end', () => {
-              if (res.statusCode >= 400 && res.statusCode <= 599) {
-                reject(
-                  new Error(
-                    `Got ${res.statusCode} from ${url}. Exiting with error`,
-                  ),
-                )
-              } else {
-                resolve(data)
-              }
-            })
-          },
-        )
-        .on('error', (err) => {
-          reject(err)
+      request({
+        url: url.toString(),
+        headers: {
+          authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+          'user-agent': 'setup-beam',
+        },
+        fullResponse: false,
+        maxAttempts: 5,
+        retryDelay: 61250,
+        retryStrategy(err, res) {
+          const retry =
+            !!err || (res.statusCode >= 400 && res.statusCode <= 599)
+          if (err) {
+            console.warn(`Error ${err} on HTTPS GET to ${url}. Retrying...`)
+          }
+          return retry
+        },
+      })
+        .then(resolve)
+        .catch((err) => {
+          reject(new Error(`Failed too many times (${err})`))
         })
     })
   }
