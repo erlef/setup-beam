@@ -7350,63 +7350,93 @@ async function getOTPVersion(otpSpec0, osVersion) {
 }
 
 async function getElixirVersion(exSpec0, otpVersion0) {
-  const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
-  const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
-  const elixirVersions = await getElixirVersions()
-  const semverVersions = Array.from(elixirVersions.keys()).sort()
-  const exSpec = exSpec0.replace(/-otp-.*$/, '')
-  const elixirVersionFromSpec = getVersionFromSpec(exSpec, semverVersions, true)
-  let elixirVersionForDownload = elixirVersionFromSpec
-  if (isVersion(otpVersionMajor)) {
-    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajor}`
-  }
-  if (elixirVersionFromSpec === null) {
-    throw new Error(
-      `Requested Elixir version (${exSpec0}) not found in version list ` +
-        "(should you be using option 'version-type': 'strict'?)",
+  let elixirVersionForDownload
+  if (isSemVer(exSpec0)) {
+    core.debug(
+      'SemVer specified for Elixir, skipping retrieval of versions from GitHub API',
     )
-  }
-
-  const elixirVersionComp = elixirVersions.get(elixirVersionFromSpec)
-  if (
-    (elixirVersionComp && elixirVersionComp.includes(otpVersionMajor)) ||
-    !isVersion(otpVersionMajor)
-  ) {
-    core.info(
-      `Using Elixir ${elixirVersionFromSpec} (built for Erlang/OTP ${otpVersionMajor})`,
-    )
+    elixirVersionForDownload = exSpec0
   } else {
-    throw new Error(
-      `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion0}) not ` +
-        'found in version list (did you check Compatibility between Elixir and Erlang/OTP?)',
+    const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
+    const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
+    const elixirVersions = await getElixirVersions()
+    const semverVersions = Array.from(elixirVersions.keys()).sort()
+    const exSpec = exSpec0.replace(/-otp-.*$/, '')
+    const elixirVersionFromSpec = getVersionFromSpec(
+      exSpec,
+      semverVersions,
+      true,
     )
+    elixirVersionForDownload = elixirVersionFromSpec
+    if (isVersion(otpVersionMajor)) {
+      elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajor}`
+    }
+    if (elixirVersionFromSpec === null) {
+      throw new Error(
+        `Requested Elixir version (${exSpec0}) not found in version list ` +
+          "(should you be using option 'version-type': 'strict'?)",
+      )
+    }
+
+    const elixirVersionComp = elixirVersions.get(elixirVersionFromSpec)
+    if (
+      (elixirVersionComp && elixirVersionComp.includes(otpVersionMajor)) ||
+      !isVersion(otpVersionMajor)
+    ) {
+      core.info(
+        `Using Elixir ${elixirVersionFromSpec} (built for Erlang/OTP ${otpVersionMajor})`,
+      )
+    } else {
+      throw new Error(
+        `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion0}) not ` +
+          'found in version list (did you check Compatibility between Elixir and Erlang/OTP?)',
+      )
+    }
   }
 
   return maybePrependWithV(elixirVersionForDownload)
 }
 
 async function getGleamVersion(gleamSpec0) {
-  const gleamSpec = gleamSpec0.match(/^v?(.+)$/)
-  const gleamVersions = await getGleamVersions()
-  const gleamVersion = getVersionFromSpec(gleamSpec[1], gleamVersions, true)
-  if (gleamVersion === null) {
-    throw new Error(
-      `Requested Gleam version (${gleamSpec0}) not found in version list ` +
-        "(should you be using option 'version-type': 'strict'?)",
+  let gleamVersion
+
+  if (isSemVer(gleamSpec0)) {
+    core.debug(
+      'SemVer specified for Gleam, skipping retrieval of versions from GitHub API',
     )
+    gleamVersion = gleamSpec0
+  } else {
+    const gleamSpec = gleamSpec0.match(/^v?(.+)$/)
+    const gleamVersions = await getGleamVersions()
+    gleamVersion = getVersionFromSpec(gleamSpec[1], gleamVersions, true)
+    if (gleamVersion === null) {
+      throw new Error(
+        `Requested Gleam version (${gleamSpec0}) not found in version list ` +
+          "(should you be using option 'version-type': 'strict'?)",
+      )
+    }
   }
 
   return maybePrependWithV(gleamVersion, gleamVersion)
 }
 
 async function getRebar3Version(r3Spec) {
-  const rebar3Versions = await getRebar3Versions()
-  const rebar3Version = getVersionFromSpec(r3Spec, rebar3Versions)
-  if (rebar3Version === null) {
-    throw new Error(
-      `Requested rebar3 version (${r3Spec}) not found in version list ` +
-        "(should you be using option 'version-type': 'strict'?)",
+  let rebar3Version
+
+  if (isSemVer(r3Spec)) {
+    core.debug(
+      'SemVer specified for rebar3, skipping retrieval of versions from GitHub API',
     )
+    rebar3Version = r3Spec
+  } else {
+    const rebar3Versions = await getRebar3Versions()
+    rebar3Version = getVersionFromSpec(r3Spec, rebar3Versions)
+    if (rebar3Version === null) {
+      throw new Error(
+        `Requested rebar3 version (${r3Spec}) not found in version list ` +
+          "(should you be using option 'version-type': 'strict'?)",
+      )
+    }
   }
 
   return rebar3Version
@@ -7508,6 +7538,10 @@ async function getRebar3Versions() {
       .forEach((v) => rebar3VersionsListing.push(v))
   })
   return rebar3VersionsListing
+}
+
+function isSemVer(spec) {
+  return (semver.parse(spec) && true) || false
 }
 
 function isStrictVersion() {
