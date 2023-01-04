@@ -416,7 +416,7 @@ async function get(url0, pageIdxs) {
   function getPage(pageIdx) {
     return new Promise((resolve, reject) => {
       const url = new URL(url0)
-      let headers = {
+      const headers = {
         'user-agent': 'setup-beam',
       }
       if (process.env.GITHUB_TOKEN) {
@@ -426,7 +426,7 @@ async function get(url0, pageIdxs) {
         url.searchParams.append('page', pageIdx)
       }
       https
-        .get(url, { headers: headers }, (res) => {
+        .get(url, { headers }, (res) => {
           let data = ''
           res.on('data', (chunk) => {
             data += chunk
