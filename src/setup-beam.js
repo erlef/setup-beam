@@ -416,36 +416,33 @@ async function get(url0, pageIdxs) {
   function getPage(pageIdx) {
     return new Promise((resolve, reject) => {
       const url = new URL(url0)
+      let headers = {
+        'user-agent': 'setup-beam',
+      }
+      if (process.env.GITHUB_TOKEN) {
+        headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`
+      }
       if (pageIdx !== null) {
         url.searchParams.append('page', pageIdx)
       }
       https
-        .get(
-          url,
-          {
-            headers: {
-              'user-agent': 'setup-beam',
-              authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-            },
-          },
-          (res) => {
-            let data = ''
-            res.on('data', (chunk) => {
-              data += chunk
-            })
-            res.on('end', () => {
-              if (res.statusCode >= 400 && res.statusCode <= 599) {
-                reject(
-                  new Error(
-                    `Got ${res.statusCode} from ${url}. Exiting with error`,
-                  ),
-                )
-              } else {
-                resolve(data)
-              }
-            })
-          },
-        )
+        .get(url, { headers: headers }, (res) => {
+          let data = ''
+          res.on('data', (chunk) => {
+            data += chunk
+          })
+          res.on('end', () => {
+            if (res.statusCode >= 400 && res.statusCode <= 599) {
+              reject(
+                new Error(
+                  `Got ${res.statusCode} from ${url}. Exiting with error`,
+                ),
+              )
+            } else {
+              resolve(data)
+            }
+          })
+        })
         .on('error', (err) => {
           reject(err)
         })
