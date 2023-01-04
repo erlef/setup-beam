@@ -7440,7 +7440,7 @@ async function getOTPVersions(osVersion) {
       })
   } else if (process.platform === 'win32') {
     otpVersionsListings.forEach((otpVersionsListing) => {
-      JSON.parse(otpVersionsListing)
+      jsonParse(otpVersionsListing)
         .map((x) => x.assets)
         .flat()
         .filter((x) => x.name.match(/^otp_win64_.*.exe$/))
@@ -7487,7 +7487,7 @@ async function getGleamVersions() {
   )
   const gleamVersionsListing = []
   resultJSONs.forEach((resultJSON) => {
-    JSON.parse(resultJSON)
+    jsonParse(resultJSON)
       .map((x) => x.tag_name)
       .sort()
       .forEach((v) => gleamVersionsListing.push(v))
@@ -7502,7 +7502,7 @@ async function getRebar3Versions() {
   )
   const rebar3VersionsListing = []
   resultJSONs.forEach((resultJSON) => {
-    JSON.parse(resultJSON)
+    jsonParse(resultJSON)
       .map((x) => x.tag_name)
       .sort()
       .forEach((v) => rebar3VersionsListing.push(v))
@@ -7714,6 +7714,16 @@ function parseVersionFile(versionFilePath0) {
   console.log('##[endgroup]')
 
   return appVersions
+}
+
+function jsonParse(maybeJson) {
+  try {
+    JSON.parse(maybeJson)
+  } catch (exc) {
+    throw new Error(
+      `Got an exception when trying to parse non-JSON ${maybeJson}: ${exc}`,
+    )
+  }
 }
 
 module.exports = {
