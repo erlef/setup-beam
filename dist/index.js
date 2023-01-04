@@ -7718,7 +7718,7 @@ function parseVersionFile(versionFilePath0) {
 
 function jsonParse(maybeJson) {
   try {
-    JSON.parse(maybeJson)
+    return JSON.parse(maybeJson)
   } catch (exc) {
     throw new Error(
       `Got an exception when trying to parse non-JSON ${maybeJson}: ${exc}`,
