@@ -419,9 +419,12 @@ async function get(url0, pageIdxs) {
       const headers = {
         'user-agent': 'setup-beam',
       }
-      if (process.env.GITHUB_TOKEN) {
-        headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`
+      const GithubToken = getInput('github-token', false)
+
+      if (GithubToken) {
+        headers.authorization = `Bearer ${GithubToken}`
       }
+
       if (pageIdx !== null) {
         url.searchParams.append('page', pageIdx)
       }
