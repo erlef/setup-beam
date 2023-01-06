@@ -11,7 +11,7 @@ inputs:
   github-token:
     description: >
       A GitHub token used to access the GitHub REST API for retrieving release and version information.
-      While this action will never perform anything more than read optionations against the GitHub REST API,
+      While this action will never perform anything more than read operations against the GitHub REST API,
       we do not recommend providing a self-generated personal access token which may provide more access than is
       required of this action. This input instead is merely a convenience so that users of this action do not
       have to manually pass an automatically generated token via their environment settings within a workflow.
