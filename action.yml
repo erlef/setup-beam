@@ -10,7 +10,7 @@ branding:
 inputs:
   github-token:
     description: >
-      A github token used to access the github REST api for retrieving release and version information.
+      A GitHub token used to access the GitHub REST API for retrieving release and version information.
       While this action will never perform anything more than read optionations against the github REST api,
       we do not recommend providing a self generated personal access token which may provide more access than is
       required of this action. This input instead is merely a conveience so that users of this action do not
