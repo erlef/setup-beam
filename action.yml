@@ -8,7 +8,7 @@ branding:
   color: blue
   icon: code
 inputs:
-  github_token:
+  github-token:
     description: >
       A github token used to access the github REST api for retrieving release and version information.
       While this action will never perform anything more than read optionations against the github REST api,
