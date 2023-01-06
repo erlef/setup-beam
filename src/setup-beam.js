@@ -419,8 +419,7 @@ async function get(url0, pageIdxs) {
       const headers = {
         'user-agent': 'setup-beam',
       }
-      const GithubToken =
-        getInput('github-token', false) || process.env.GITHUB_TOKEN
+      const GithubToken = getInput('github-token', false)
 
       if (GithubToken) {
         headers.authorization = `Bearer ${GithubToken}`
