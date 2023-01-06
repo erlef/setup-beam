@@ -17,5 +17,3 @@ jobs:
           node-version: '14'
       - run:
           ./.github/workflows/update_3rd_party_licenses.sh
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
