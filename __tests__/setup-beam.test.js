@@ -412,13 +412,19 @@ async function testGetVersionFromSpec() {
 async function testParseVersionFile() {
   const otpVersion = unsimulateInput('otp-version')
   const elixirVersion = unsimulateInput('elixir-version')
+  const gleamVersion = unsimulateInput('gleam-version')
+  const rebar3Version = unsimulateInput('rebar3-version')
 
   const erlang = '25.1.1'
   const elixir = '1.14.1'
+  const gleam = '0.23.0'
+  const rebar3 = '3.16.0'
   const toolVersions = `# a comment
 erlang   ${erlang}# comment, no space
 elixir ${elixir}  # comment, with space
- gleam 0.23 # not picked up`
+ not-gleam 0.23 # not picked up
+gleam ${gleam} 
+rebar ${rebar3}`
   const filename = '__tests__/.tool-versions'
   fs.writeFileSync(filename, toolVersions)
   process.env.GITHUB_WORKSPACE = ''
@@ -426,8 +432,23 @@ elixir ${elixir}  # comment, with space
   assert.strictEqual(appVersions.get('erlang'), erlang)
   assert.strictEqual(appVersions.get('elixir'), elixir)
 
+  assert.ok(async () => {
+    await installer.installOTP(erlang)
+  })
+  assert.ok(async () => {
+    await installer.installElixir(elixir)
+  })
+  assert.ok(async () => {
+    await installer.installGleam(gleam)
+  })
+  assert.ok(async () => {
+    await installer.installRebar3(rebar3)
+  })
+
   simulateInput('otp-version', otpVersion)
   simulateInput('elixir-version', elixirVersion)
+  simulateInput('gleam-version', gleamVersion)
+  simulateInput('rebar3-version', rebar3Version)
 }
 
 function unsimulateInput(key) {
