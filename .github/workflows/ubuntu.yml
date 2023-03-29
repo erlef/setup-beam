@@ -113,10 +113,6 @@ jobs:
             otp-version: '25'
             os:  'ubuntu-20.04'
             version-type: 'strict'
-          - gleam-version: 'nightly'
-            otp-version: '24'
-            os: 'ubuntu-latest'
-            disable_problem_matchers: true
           - gleam-version: '0.23'
             otp-version: '24'
             os: 'ubuntu-latest'
