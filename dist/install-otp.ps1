@@ -3,6 +3,7 @@ param([Parameter(Mandatory=$true)][string]${VSN})
 $ErrorActionPreference="Stop"
 
 Set-Location ${Env:RUNNER_TEMP}
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 
 $FILE_INPUT="otp_win64_${VSN}.exe"
 $FILE_OUTPUT="otp.exe"
