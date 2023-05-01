@@ -21,6 +21,7 @@
   "dependencies": {
     "@actions/core": "1.10.0",
     "@actions/exec": "1.1.1",
+    "@actions/http-client": "^2.1.0",
     "semver": "7.3.8"
   },
   "devDependencies": {

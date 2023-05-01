@@ -1,9 +1,9 @@
 const core = require('@actions/core')
 const { exec } = require('@actions/exec')
+const http = require('@actions/http-client')
 const os = require('os')
 const path = require('path')
 const semver = require('semver')
-const https = require('https')
 const fs = require('fs')
 const installer = require('./installer')
 
@@ -413,51 +413,39 @@ function getRunnerOSVersion() {
 }
 
 async function get(url0, pageIdxs) {
-  function getPage(pageIdx) {
-    return new Promise((resolve, reject) => {
-      const url = new URL(url0)
-      const headers = {
-        'user-agent': 'setup-beam',
-      }
-      const GithubToken = getInput('github-token', false)
+  async function getPage(pageIdx) {
+    const url = new URL(url0)
+    const headers = {}
+    const GithubToken = getInput('github-token', false)
 
-      if (GithubToken) {
-        headers.authorization = `Bearer ${GithubToken}`
-      }
+    if (GithubToken) {
+      headers.authorization = `Bearer ${GithubToken}`
+    }
 
-      if (pageIdx !== null) {
-        url.searchParams.append('page', pageIdx)
-      }
-      https
-        .get(url, { headers }, (res) => {
-          let data = ''
-          res.on('data', (chunk) => {
-            data += chunk
-          })
-          res.on('end', () => {
-            if (res.statusCode >= 400 && res.statusCode <= 599) {
-              reject(
-                new Error(
-                  `Got ${res.statusCode} from ${url}. Exiting with error`,
-                ),
-              )
-            } else {
-              resolve(data)
-            }
-          })
-        })
-        .on('error', (err) => {
-          reject(err)
-        })
+    if (pageIdx !== null) {
+      url.searchParams.append('page', pageIdx)
+    }
+
+    const httpClient = new http.HttpClient('setup-beam', [], {
+      allowRetries: true,
+      maxRetries: 3,
     })
+
+    const response = await httpClient.get(url, headers)
+
+    if (response.statusCode >= 400 && response.statusCode <= 599) {
+      throw new Error(
+        `Got ${response.statusCode} from ${url}. Exiting with error`,
+      )
+    }
+
+    return response.readBody()
   }
-  let ret
+
   if (pageIdxs[0] === null) {
-    ret = getPage(null)
-  } else {
-    ret = Promise.all(pageIdxs.map((pageIdx) => getPage(pageIdx)))
+    return getPage(null)
   }
-  return ret
+  return Promise.all(pageIdxs.map(getPage))
 }
 
 function maybePrependWithV(v) {

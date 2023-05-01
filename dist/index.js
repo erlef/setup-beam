@@ -2461,6 +2461,10 @@ function checkBypass(reqUrl) {
     if (!reqUrl.hostname) {
         return false;
     }
+    const reqHost = reqUrl.hostname;
+    if (isLoopbackAddress(reqHost)) {
+        return true;
+    }
     const noProxy = process.env['no_proxy'] || process.env['NO_PROXY'] || '';
     if (!noProxy) {
         return false;
@@ -2486,13 +2490,24 @@ function checkBypass(reqUrl) {
         .split(',')
         .map(x => x.trim().toUpperCase())
         .filter(x => x)) {
-        if (upperReqHosts.some(x => x === upperNoProxyItem)) {
+        if (upperNoProxyItem === '*' ||
+            upperReqHosts.some(x => x === upperNoProxyItem ||
+                x.endsWith(`.${upperNoProxyItem}`) ||
+                (upperNoProxyItem.startsWith('.') &&
+                    x.endsWith(`${upperNoProxyItem}`)))) {
             return true;
         }
     }
     return false;
 }
 exports.checkBypass = checkBypass;
+function isLoopbackAddress(host) {
+    const hostLower = host.toLowerCase();
+    return (hostLower === 'localhost' ||
+        hostLower.startsWith('127.') ||
+        hostLower.startsWith('[::1]') ||
+        hostLower.startsWith('[0:0:0:0:0:0:0:1]'));
+}
 //# sourceMappingURL=proxy.js.map
 
 /***/ }),
@@ -7193,10 +7208,10 @@ module.exports = {
 
 const core = __nccwpck_require__(2186)
 const { exec } = __nccwpck_require__(1514)
+const http = __nccwpck_require__(6255)
 const os = __nccwpck_require__(2037)
 const path = __nccwpck_require__(1017)
 const semver = __nccwpck_require__(1383)
-const https = __nccwpck_require__(5687)
 const fs = __nccwpck_require__(7147)
 const installer = __nccwpck_require__(2127)
 
@@ -7606,51 +7621,39 @@ function getRunnerOSVersion() {
 }
 
 async function get(url0, pageIdxs) {
-  function getPage(pageIdx) {
-    return new Promise((resolve, reject) => {
-      const url = new URL(url0)
-      const headers = {
-        'user-agent': 'setup-beam',
-      }
-      const GithubToken = getInput('github-token', false)
+  async function getPage(pageIdx) {
+    const url = new URL(url0)
+    const headers = {}
+    const GithubToken = getInput('github-token', false)
 
-      if (GithubToken) {
-        headers.authorization = `Bearer ${GithubToken}`
-      }
+    if (GithubToken) {
+      headers.authorization = `Bearer ${GithubToken}`
+    }
 
-      if (pageIdx !== null) {
-        url.searchParams.append('page', pageIdx)
-      }
-      https
-        .get(url, { headers }, (res) => {
-          let data = ''
-          res.on('data', (chunk) => {
-            data += chunk
-          })
-          res.on('end', () => {
-            if (res.statusCode >= 400 && res.statusCode <= 599) {
-              reject(
-                new Error(
-                  `Got ${res.statusCode} from ${url}. Exiting with error`,
-                ),
-              )
-            } else {
-              resolve(data)
-            }
-          })
-        })
-        .on('error', (err) => {
-          reject(err)
-        })
+    if (pageIdx !== null) {
+      url.searchParams.append('page', pageIdx)
+    }
+
+    const httpClient = new http.HttpClient('setup-beam', [], {
+      allowRetries: true,
+      maxRetries: 3,
     })
+
+    const response = await httpClient.get(url, headers)
+
+    if (response.statusCode >= 400 && response.statusCode <= 599) {
+      throw new Error(
+        `Got ${response.statusCode} from ${url}. Exiting with error`,
+      )
+    }
+
+    return response.readBody()
   }
-  let ret
+
   if (pageIdxs[0] === null) {
-    ret = getPage(null)
-  } else {
-    ret = Promise.all(pageIdxs.map((pageIdx) => getPage(pageIdx)))
+    return getPage(null)
   }
-  return ret
+  return Promise.all(pageIdxs.map(getPage))
 }
 
 function maybePrependWithV(v) {
