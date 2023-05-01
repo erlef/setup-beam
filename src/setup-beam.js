@@ -60,7 +60,6 @@ async function installOTP(otpSpec, osVersion, hexMirrors) {
   core.startGroup(`Installing Erlang/OTP ${otpVersion} - built on ${osVersion}`)
   await installer.installOTP(osVersion, otpVersion, hexMirrors)
   core.setOutput('otp-version', otpVersion)
-  core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
   core.endGroup()
 
   return otpVersion
