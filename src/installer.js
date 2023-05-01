@@ -1,6 +1,9 @@
 const core = require('@actions/core')
 const { exec } = require('@actions/exec')
+const tc = require('@actions/tool-cache')
 const path = require('path')
+const fs = require('fs');
+const os = require('os');
 
 /**
  * Install Erlang/OTP.
@@ -48,25 +51,33 @@ async function installElixir(elixirVersion, hexMirrors) {
     )
   }
   const [hexMirror, ...hexMirrorsT] = hexMirrors
-  const OS = process.platform
-  let script
+
   try {
-    if (OS === 'linux') {
-      script = path.join(__dirname, 'install-elixir.sh')
-      await exec(script, [elixirVersion, hexMirror])
-      return
-    }
-    if (OS === 'win32') {
-      script = path.join(__dirname, 'install-elixir.ps1')
-      await exec(
-        `pwsh.exe ${script} -VSN:${elixirVersion} -HEX_MIRROR:${hexMirror}`,
+    let cachedPath = tc.find('elixir', elixirVersion)
+
+    if (!cachedPath) {
+      const zipPath = await tc.downloadTool(
+        `${hexMirror}/builds/elixir/${elixirVersion}.zip`,
       )
-      return
+      const extractPath = await tc.extractZip(zipPath)
+      cachedPath = await tc.cacheDir(extractPath, 'elixir', elixirVersion)
     }
+
+    const elixirPath = path.join(cachedPath, 'bin')
+    const escriptsPath = path.join(os.homedir(), '.mix', 'escripts')
+
+    core.addPath(elixirPath)
+    core.addPath(escriptsPath)
+    core.exportVariable('INSTALL_DIR_FOR_ELIXIR', cachedPath)
+
+    core.info('Installed Elixir version')
+    await exec(path.join(elixirPath, 'elixir'), ['-v'])
+
+    await fs.promises.mkdir(escriptsPath, { recursive: true })
   } catch (err) {
-    core.info(`${script} failed for mirror ${hexMirror}`)
+    core.info(`Elixir install failed for mirror ${hexMirror}`)
+    await installElixir(elixirVersion, hexMirrorsT)
   }
-  await installElixir(elixirVersion, hexMirrorsT)
 }
 
 /**
