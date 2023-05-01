@@ -7416,7 +7416,7 @@ async function getOTPVersions(osVersion) {
   let originListing
   let pageIdxs
   if (process.platform === 'linux') {
-    originListing = `https://repo.hex.pm/builds/otp/${osVersion}/builds.txt`
+    originListing = `https://builds.hex.pm/builds/otp/${osVersion}/builds.txt`
     pageIdxs = [null]
   } else if (process.platform === 'win32') {
     originListing =
@@ -7456,7 +7456,7 @@ async function getOTPVersions(osVersion) {
 
 async function getElixirVersions() {
   const elixirVersionsListings = await get(
-    'https://repo.hex.pm/builds/elixir/builds.txt',
+    'https://builds.hex.pm/builds/elixir/builds.txt',
     [null],
   )
   const otpVersionsForElixirMap = new Map()
