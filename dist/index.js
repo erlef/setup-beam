@@ -7626,7 +7626,7 @@ async function get(url0, pageIdxs) {
     const headers = {}
     const GithubToken = getInput('github-token', false)
 
-    if (GithubToken) {
+    if (GithubToken && url.host === 'api.github.com') {
       headers.authorization = `Bearer ${GithubToken}`
     }
 
