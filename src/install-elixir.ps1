@@ -16,7 +16,7 @@ $ProgressPreference="SilentlyContinue"
 Expand-Archive -DestinationPath "${DIR_FOR_BIN}" -Path "${FILE_OUTPUT}"
 $ProgressPreference="Continue"
 Write-Output "Installed Elixir version follows"
-& "${DIR_FOR_BIN}/bin/elixir" "-v" | Write-Output
+& "${DIR_FOR_BIN}/bin/elixir.bat" "-v" | Write-Output
 
 $ProgressPreference="Continue"
 New-Item "%UserProfile%/.mix/escripts" -ItemType Directory | Out-Null

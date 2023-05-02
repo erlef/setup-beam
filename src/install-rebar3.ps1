@@ -27,6 +27,6 @@ Write-Output "@echo off`r`nescript.exe ${PWD}/${DIR_FOR_BIN}/bin/${FILE_OUTPUT} 
 Move-Item "${FILE_OUTPUT_PS1}" "${DIR_FOR_BIN}/bin"
 Move-Item "${FILE_OUTPUT_CMD}" "${DIR_FOR_BIN}/bin"
 Write-Output "Installed rebar3 version${REBAR3_NIGHTLY} follows"
-& "${DIR_FOR_BIN}/bin/rebar3" "version" | Write-Output
+& "${DIR_FOR_BIN}/bin/rebar3.cmd" "version" | Write-Output
 
 "INSTALL_DIR_FOR_REBAR3=${Env:RUNNER_TEMP}/${DIR_FOR_BIN}" | Out-File -FilePath ${Env:GITHUB_ENV} -Encoding utf8 -Append
