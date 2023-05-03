@@ -216,13 +216,11 @@ jobs:
 
 **Note**: the `otp-version: false` input is only applicable when installing Gleam.
 
-## Hex.pm mirrors
+## Alternative hex.pm mirrors
 
-It is possible to define the hex.pm mirror(s) to use including their order with
-option `hexpm-mirrors`. By default, the action will fetch from `builds.hex.pm`.
-To define several mirrors, simply put each in a given line.
-
-To use `cdn.jsdelivr.net/hex` instead of `repo.hex.pm`:
+It is possible to use alternative hex.pm mirror(s), in their declared order, with
+option `hexpm-mirrors`. By default, the action will use `builds.hex.pm`.
+To use other alternative mirrors, add one per line, as shown below.
 
 ```yaml
 # create this in .github/workflows/ci.yml
@@ -236,10 +234,11 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: '25'
+          # Use `cdn.jsdelivr.net/hex` as an alternative to `builds.hex.pm`
           hexpm-mirrors: https://cdn.jsdelivr.net/hex
 ```
 
-To try `cdn.jsdelivr.net/hex` if `builds.hex.pm` fails:
+Alternatively, you may try `cdn.jsdelivr.net/hex` if `builds.hex.pm` fails:
 
 ```yaml
 # create this in .github/workflows/ci.yml

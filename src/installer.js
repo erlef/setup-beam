@@ -49,23 +49,22 @@ async function installElixir(elixirVersion, hexMirrors) {
   }
   const [hexMirror, ...hexMirrorsT] = hexMirrors
   const OS = process.platform
+  let script
   try {
     if (OS === 'linux') {
-      await exec(path.join(__dirname, 'install-elixir.sh'), [
-        elixirVersion,
-        hexMirror,
-      ])
+      script = path.join(__dirname, 'install-elixir.sh')
+      await exec(script, [elixirVersion, hexMirror])
       return
     }
     if (OS === 'win32') {
-      const script = path.join(__dirname, 'install-elixir.ps1')
+      script = path.join(__dirname, 'install-elixir.ps1')
       await exec(
         `pwsh.exe ${script} -VSN:${elixirVersion} -HEX_MIRROR:${hexMirror}`,
       )
       return
     }
   } catch (err) {
-    core.info(`install-elixir failed for mirror ${hexMirror}`)
+    core.info(`${script} failed for mirror ${hexMirror}`)
   }
   await installElixir(elixirVersion, hexMirrorsT)
 }

@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  test_failing_first_mirror:
+  test-failing-first-mirror:
     name: Test option hexpm-mirrors with a dummy first mirror
     runs-on: ${{matrix.os}}
     strategy:
@@ -36,7 +36,7 @@ jobs:
             https://cdn.jsdelivr.net/hex
             https://builds.hex.pm
 
-  test_invalid_mirror:
+  test-invalid-mirror:
     name: Test errors with mirror
     runs-on: ubuntu-22.04
     steps:

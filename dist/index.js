@@ -7156,23 +7156,22 @@ async function installElixir(elixirVersion, hexMirrors) {
   }
   const [hexMirror, ...hexMirrorsT] = hexMirrors
   const OS = process.platform
+  let script
   try {
     if (OS === 'linux') {
-      await exec(__nccwpck_require__.ab + "install-elixir.sh", [
-        elixirVersion,
-        hexMirror,
-      ])
+      script = __nccwpck_require__.ab + "install-elixir.sh"
+      await exec(__nccwpck_require__.ab + "install-elixir.sh", [elixirVersion, hexMirror])
       return
     }
     if (OS === 'win32') {
-      const script = __nccwpck_require__.ab + "install-elixir.ps1"
+      script = __nccwpck_require__.ab + "install-elixir.ps1"
       await exec(
         `pwsh.exe ${script} -VSN:${elixirVersion} -HEX_MIRROR:${hexMirror}`,
       )
       return
     }
   } catch (err) {
-    core.info(`install-elixir failed for mirror ${hexMirror}`)
+    core.info(`${script} failed for mirror ${hexMirror}`)
   }
   await installElixir(elixirVersion, hexMirrorsT)
 }
