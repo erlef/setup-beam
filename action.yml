@@ -45,6 +45,10 @@ inputs:
   version-file:
     description: a versions file (e.g. as used by `asdf`), which defines inputs
     default: ''
+  hexpm-mirrors:
+    description: mirror(s) for hex.pm, one per line
+    default: |
+        https://builds.hex.pm
 outputs:
   elixir-version:
     description: Exact version of Elixir that was installed

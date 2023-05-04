@@ -216,6 +216,47 @@ jobs:
 
 **Note**: the `otp-version: false` input is only applicable when installing Gleam.
 
+## Alternative hex.pm mirrors
+
+It is possible to use alternative hex.pm mirror(s), in their declared order, with
+option `hexpm-mirrors`. By default, the action will use `builds.hex.pm`.
+To use other alternative mirrors, add one per line, as shown below.
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '25'
+          # Use `cdn.jsdelivr.net/hex` as an alternative to `builds.hex.pm`
+          hexpm-mirrors: https://cdn.jsdelivr.net/hex
+```
+
+Alternatively, you may try `cdn.jsdelivr.net/hex` if `builds.hex.pm` fails:
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '25'
+          hexpm-mirrors: |
+            https://builds.hex.pm
+            https://cdn.jsdelivr.net/hex
+```
+
 ## Environment variables
 
 Base installation folders (useful for e.g. fetching headers for NIFs) are available in the following

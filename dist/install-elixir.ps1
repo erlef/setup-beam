@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]${VSN})
+param([Parameter(Mandatory=$true)][string]${VSN}, [Parameter(Mandatory=$true)][string]${HEX_MIRROR})
 
 $ErrorActionPreference="Stop"
 
@@ -9,7 +9,7 @@ $FILE_OUTPUT="elixir.zip"
 $DIR_FOR_BIN=".setup-beam/elixir"
 
 $ProgressPreference="SilentlyContinue"
-Invoke-WebRequest "https://builds.hex.pm/builds/elixir/${FILE_INPUT}" -OutFile "${FILE_OUTPUT}"
+Invoke-WebRequest "${HEX_MIRROR}/builds/elixir/${FILE_INPUT}" -OutFile "${FILE_OUTPUT}"
 $ProgressPreference="Continue"
 New-Item "${DIR_FOR_BIN}" -ItemType Directory | Out-Null
 $ProgressPreference="SilentlyContinue"
