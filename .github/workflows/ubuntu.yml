@@ -53,7 +53,7 @@ jobs:
             os: 'ubuntu-latest'
           - elixir-version: 'v1.4'
             otp-version: '20'
-            rebar3-version: '3.6.0'
+            rebar3-version: '3.15.0'
             os: 'ubuntu-20.04'
           - elixir-version: 'v1.4'
             otp-version: '20'
@@ -172,7 +172,7 @@ jobs:
       - name: Run Erlang/rebar3 project tests
         run: |
           cd test-projects/erlang_rebar3
-          DEBUG=1 rebar3 ct
+          rebar3 ct
         if: ${{matrix.combo.rebar3-version}}
       - name: Format Gleam project (without installing Erlang/OTP)
         run: |
