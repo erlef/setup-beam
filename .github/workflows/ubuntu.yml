@@ -172,7 +172,7 @@ jobs:
       - name: Run Erlang/rebar3 project tests
         run: |
           cd test-projects/erlang_rebar3
-          rebar3 ct
+          DEBUG=1 rebar3 ct
         if: ${{matrix.combo.rebar3-version}}
       - name: Format Gleam project (without installing Erlang/OTP)
         run: |
