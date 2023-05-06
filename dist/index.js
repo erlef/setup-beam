@@ -7801,10 +7801,14 @@ function parseVersionFile(versionFilePath0) {
 
 function jsonParse(maybeJson) {
   try {
-    return JSON.parse(maybeJson)
+    const obj = JSON.parse(maybeJson)
+    if (typeof obj !== 'object') {
+      throw new Error(`Expected an object, got ${obj}`)
+    }
+    return obj
   } catch (exc) {
     throw new Error(
-      `Got an exception when trying to parse non-JSON ${maybeJson}: ${exc}`,
+      `Got an exception when trying to parse non-JSON object ${maybeJson}: ${exc}`,
     )
   }
 }
