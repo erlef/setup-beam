@@ -248,17 +248,16 @@ async function getRebar3Version(r3Spec) {
 
 async function getOTPVersions(osVersion, hexMirrors) {
   let otpVersionsListings
+  let originListing
   if (process.platform === 'linux') {
-    otpVersionsListings = await getWithMirrors(
-      `/builds/otp/${osVersion}/builds.txt`,
-      hexMirrors,
-    )
+    originListing = `/builds/otp/${osVersion}/builds.txt`
+    otpVersionsListings = await getWithMirrors(originListing, hexMirrors)
   } else if (process.platform === 'win32') {
-    const originListing =
+    originListing =
       'https://api.github.com/repos/erlang/otp/releases?per_page=100'
     otpVersionsListings = await get(originListing, [1, 2, 3])
   }
-  core.debug(otpVersionsListings)
+  debugLog(`OTP versions listings from ${originListing}`, otpVersionsListings)
 
   const otpVersions = new Map()
 
@@ -562,6 +561,14 @@ function jsonParse(maybeJson) {
     throw new Error(
       `Got an exception when trying to parse non-JSON ${maybeJson}: ${exc}`,
     )
+  }
+}
+
+function debugLog(groupName, message) {
+  if (process.env.RUNNER_DEBUG) {
+    core.startGroup(`Debugging for ${groupName}`)
+    core.debug(message)
+    core.endGroup()
   }
 }
 
