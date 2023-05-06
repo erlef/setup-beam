@@ -7503,6 +7503,7 @@ async function getOTPVersions(osVersion, hexMirrors) {
       'https://api.github.com/repos/erlang/otp/releases?per_page=100'
     otpVersionsListings = await get(originListing, [1, 2, 3])
   }
+  core.debug(otpVersionsListings)
 
   const otpVersions = new Map()
 
