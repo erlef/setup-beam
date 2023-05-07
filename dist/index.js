@@ -7519,7 +7519,7 @@ async function getOTPVersions(osVersion, hexMirrors) {
       })
   } else if (process.platform === 'win32') {
     otpVersionsListings.forEach((otpVersionsListing) => {
-      jsonParse(otpVersionsListing)
+      jsonParseAsList(otpVersionsListing)
         .map((x) => x.assets)
         .flat()
         .filter((x) => x.name.match(/^otp_win64_.*.exe$/))
@@ -7566,7 +7566,7 @@ async function getGleamVersions() {
   )
   const gleamVersionsListing = []
   resultJSONs.forEach((resultJSON) => {
-    jsonParse(resultJSON)
+    jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
       .sort()
       .forEach((v) => gleamVersionsListing.push(v))
@@ -7581,7 +7581,7 @@ async function getRebar3Versions() {
   )
   const rebar3VersionsListing = []
   resultJSONs.forEach((resultJSON) => {
-    jsonParse(resultJSON)
+    jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
       .sort()
       .forEach((v) => rebar3VersionsListing.push(v))
@@ -7799,16 +7799,16 @@ function parseVersionFile(versionFilePath0) {
   return appVersions
 }
 
-function jsonParse(maybeJson) {
+function jsonParseAsList(maybeJson) {
   try {
     const obj = JSON.parse(maybeJson)
-    if (typeof obj !== 'object') {
-      throw new Error(`Expected an object, got ${obj}`)
+    if (!Array.isArray(obj)) {
+      throw new Error('expected a list!')
     }
     return obj
   } catch (exc) {
     throw new Error(
-      `Got an exception when trying to parse non-JSON object ${maybeJson}: ${exc}`,
+      `Got an exception when trying to parse non-JSON list ${maybeJson}: ${exc}`,
     )
   }
 }
