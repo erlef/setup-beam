@@ -9719,11 +9719,6 @@ const os = __nccwpck_require__(2037);
  * @param {string[]} hexMirrors
  */
 async function installOTP(osVersion, otpVersion, hexMirrors) {
-  const OS = process.platform
-
-  const fullVersion = `${osVersion}/${otpVersion}`
-  let cachedPath = tc.find('otp', fullVersion)
-
   if (hexMirrors.length === 0) {
     throw new Error(
       `Could not install Erlang/OTP ${otpVersion} from any hex.pm mirror`,
@@ -9731,14 +9726,12 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
   }
 
   const [hexMirror, ...hexMirrorsT] = hexMirrors
+  const fullVersion = `${osVersion}/${otpVersion}`
+  let cachedPath = tc.find('otp', fullVersion)
+  const OS = process.platform
 
   try {
     if (OS === 'linux') {
-      await exec(path.join(__dirname, 'install-otp.sh'), [
-        osVersion,
-        otpVersion,
-        hexMirror,
-      ])
       if (!cachedPath) {
         const tarPath = await tc.downloadTool(
           `https://builds.hex.pm/builds/otp/${fullVersion}.tar.gz`,
