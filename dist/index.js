@@ -9708,8 +9708,8 @@ const core = __nccwpck_require__(2186)
 const { exec } = __nccwpck_require__(1514)
 const tc = __nccwpck_require__(7784)
 const path = __nccwpck_require__(1017)
-const fs = __nccwpck_require__(7147);
-const os = __nccwpck_require__(2037);
+const fs = __nccwpck_require__(7147)
+const os = __nccwpck_require__(2037)
 
 /**
  * Install Erlang/OTP.
@@ -9736,7 +9736,10 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
         const tarPath = await tc.downloadTool(
           `https://builds.hex.pm/builds/otp/${fullVersion}.tar.gz`,
         )
-        const extractPath = await tc.extractTar(tarPath, undefined, ['zx', '--strip-components=1'])
+        const extractPath = await tc.extractTar(tarPath, undefined, [
+          'zx',
+          '--strip-components=1',
+        ])
         cachedPath = await tc.cacheDir(extractPath, 'otp', fullVersion)
       }
 

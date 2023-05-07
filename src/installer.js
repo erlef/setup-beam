@@ -2,8 +2,8 @@ const core = require('@actions/core')
 const { exec } = require('@actions/exec')
 const tc = require('@actions/tool-cache')
 const path = require('path')
-const fs = require('fs');
-const os = require('os');
+const fs = require('fs')
+const os = require('os')
 
 /**
  * Install Erlang/OTP.
@@ -30,7 +30,10 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
         const tarPath = await tc.downloadTool(
           `https://builds.hex.pm/builds/otp/${fullVersion}.tar.gz`,
         )
-        const extractPath = await tc.extractTar(tarPath, undefined, ['zx', '--strip-components=1'])
+        const extractPath = await tc.extractTar(tarPath, undefined, [
+          'zx',
+          '--strip-components=1',
+        ])
         cachedPath = await tc.cacheDir(extractPath, 'otp', fullVersion)
       }
 
