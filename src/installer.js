@@ -75,6 +75,7 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
     }
   } catch (err) {
     core.info(`Install OTP failed for mirror ${hexMirror}`)
+    core.info(`${err}\n${err.stack}`)
     await installOTP(osVersion, otpVersion, hexMirrorsT)
   }
 }
@@ -117,6 +118,7 @@ async function installElixir(elixirVersion, hexMirrors) {
     await fs.promises.mkdir(escriptsPath, { recursive: true })
   } catch (err) {
     core.info(`Elixir install failed for mirror ${hexMirror}`)
+    core.info(`${err}\n${err.stack}`)
     await installElixir(elixirVersion, hexMirrorsT)
   }
 }
