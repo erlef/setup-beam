@@ -4,6 +4,7 @@ simulateInput('rebar3-version', '3.20')
 simulateInput('install-rebar', 'true')
 simulateInput('install-hex', 'true')
 simulateInput('github-token', process.env.GITHUB_TOKEN)
+simulateInput('hexpm-mirrors', ['https://builds.hex.pm'])
 
 const assert = require('assert')
 const fs = require('fs')
