@@ -9,7 +9,6 @@ parserOptions:
 rules:
   indent: ["warn", 2]
   max-len: ["warn", 100]
-  no-console: 0
   no-undef: "error"
   no-unused-vars: ["error", {"varsIgnorePattern": "^_"}]
   no-use-before-define: 0

@@ -1,6 +1,6 @@
 # Elixir Problem Matchers
 
-Elixir Problem Matchers in [elixir-matchers.json](.github/elixir-matchers.json)
+Elixir Problem Matchers in [elixir-matchers.json](matchers/elixir-matchers.json)
 are adapted from [here](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118),
 available under the [MIT license](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/LICENSE.md):
 

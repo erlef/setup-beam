@@ -8,6 +8,7 @@ simulateInput('hexpm-mirrors', ['https://builds.hex.pm'])
 
 const assert = require('assert')
 const fs = require('fs')
+const core = require('@actions/core')
 const setupBeam = require('../src/setup-beam')
 const installer = require('../src/installer')
 
@@ -430,7 +431,7 @@ elixir ${elixir}  # comment, with space
  not-gleam 0.23 # not picked up
 gleam ${gleam} 
 rebar ${rebar3}`
-  const filename = '__tests__/.tool-versions'
+  const filename = 'test/.tool-versions'
   fs.writeFileSync(filename, toolVersions)
   process.env.GITHUB_WORKSPACE = ''
   const appVersions = setupBeam.parseVersionFile(filename)
@@ -473,6 +474,6 @@ function input(key) {
 all()
   .then(() => process.exit(0))
   .catch((err) => {
-    console.error(err)
+    core.error(err)
     process.exit(1)
   })
