@@ -3,7 +3,7 @@ name: update_3rd_party_licenses
 
 on:
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '*/1 * * * *'
   workflow_dispatch:
 
 jobs:
