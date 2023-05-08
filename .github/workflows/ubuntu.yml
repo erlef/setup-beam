@@ -53,7 +53,7 @@ jobs:
             os: 'ubuntu-latest'
           - elixir-version: 'v1.4'
             otp-version: '20'
-            rebar3-version: '3.6.0'
+            rebar3-version: '3.15.0'
             os: 'ubuntu-20.04'
           - elixir-version: 'v1.4'
             otp-version: '20'
@@ -165,23 +165,23 @@ jobs:
         if: ${{matrix.combo.elixir-version}}
       - name: Run Elixir/Mix project tests
         run: |
-          cd test-projects/elixir_mix
+          cd test/projects/elixir_mix
           mix deps.get
           mix test
         if: ${{matrix.combo.elixir-version}}
       - name: Run Erlang/rebar3 project tests
         run: |
-          cd test-projects/erlang_rebar3
+          cd test/projects/erlang_rebar3
           rebar3 ct
         if: ${{matrix.combo.rebar3-version}}
       - name: Format Gleam project (without installing Erlang/OTP)
         run: |
-          cd test-projects/gleam_gleam
+          cd test/projects/gleam_gleam
           gleam format
         if: ${{ matrix.combo.gleam-version && !matrix.combo.otp-version }}
       - name: Run Gleam project tests (without `rebar3`)
         run: |
-          cd test-projects/gleam_gleam
+          cd test/projects/gleam_gleam
           gleam test
         if: ${{ matrix.combo.gleam-version && matrix.combo.otp-version && !matrix.combo.rebar3-version }}
       - name: Run escript

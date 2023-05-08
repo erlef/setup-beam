@@ -79,7 +79,7 @@ jobs:
         if: ${{matrix.combo.rebar3-version}}
       - name: rebar3 from Rust
         run: |
-          cd test-projects/rust_rebar3_cmd
+          cd test/projects/rust_rebar3_cmd
           cargo test -- --nocapture
         if: ${{matrix.combo.rebar3-version}}
       - name: mix version and help (CLI)
@@ -90,13 +90,13 @@ jobs:
         if: ${{matrix.combo.elixir-version}}
       - name: Run Elixir/Mix project tests
         run: |
-          cd test-projects/elixir_mix
+          cd test/projects/elixir_mix
           mix deps.get
           mix test
         if: ${{matrix.combo.elixir-version}}
       - name: Run Erlang/rebar3 project tests
         run: |
-          cd test-projects/erlang_rebar3
+          cd test/projects/erlang_rebar3
           rebar3 ct
         if: ${{matrix.combo.rebar3-version}}
       - name: Run escript

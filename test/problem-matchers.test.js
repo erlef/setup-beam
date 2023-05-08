@@ -1,5 +1,6 @@
 const assert = require('assert')
-const { problemMatcher } = require('../.github/elixir-matchers.json')
+const core = require('@actions/core')
+const { problemMatcher } = require('../matchers/elixir-matchers.json')
 
 async function all() {
   await testElixirMixCompileError()
@@ -76,6 +77,6 @@ async function testElixirCredoOutputDefault() {
 all()
   .then(() => process.exit(0))
   .catch((err) => {
-    console.error(err)
+    core.error(err)
     process.exit(1)
   })

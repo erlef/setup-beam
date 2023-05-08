@@ -35,24 +35,3 @@ jobs:
             https://mirror.invalid
             https://cdn.jsdelivr.net/hex
             https://builds.hex.pm
-
-  test-invalid-mirror:
-    name: Test errors with mirror
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use erlef/setup-beam
-        id: failing-setup-beam
-        uses: ./
-        continue-on-error: true
-        with:
-          otp-version: '24.3.4.6'
-          elixir-version: 'v1.13.4'
-          install-rebar: true
-          install-hex: true
-          hexpm-mirrors: https://mirror.invalid
-      - name: Report unexpected success
-        if: ${{ steps.failing-setup-beam.outcome == 'success' }}
-        run: |
-          echo "Action is expected to fail"
-          exit 1

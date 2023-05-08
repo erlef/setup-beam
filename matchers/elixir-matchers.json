@@ -1,0 +1,62 @@
+{
+  "problemMatcher": [
+    {
+      "owner": "elixir-mixCompileError",
+      "severity": "error",
+      "pattern": [
+        {
+          "regexp": "^\\*\\* \\((\\w+)\\) (.*):(\\d+): (.*)$",
+          "file": 2,
+          "line": 3,
+          "message": 0
+        }
+      ]
+    },
+    {
+      "owner": "elixir-mixCompileWarning",
+      "severity": "warning",
+      "pattern": [
+        {
+          "regexp": "^warning: (.*)$",
+          "message": 1
+        },
+        {
+          "regexp": "^  (.*):(\\d+).*$",
+          "file": 1,
+          "line": 2
+        }
+      ]
+    },
+    {
+      "owner": "elixir-mixTestFailure",
+      "severity": "error",
+      "pattern": [
+        {
+          "regexp": "^\\s*\\d+\\) (.*)$",
+          "message": 1
+        },
+        {
+          "regexp": "^\\s*(.*):(\\d+)$",
+          "file": 1,
+          "line": 2
+        }
+      ]
+    },
+    {
+      "owner": "elixir-credoOutputDefault",
+      "severity": "warning",
+      "pattern": [
+        {
+          "regexp": "^\u2503\\s\\[\\w\\]\\s[\u2191|\u2197|\u2192|\u2198|\u2193]\\s(.*)$",
+          "message": 1
+        },
+        {
+          "regexp": "^\u2503\\s{7}(.*):(\\d+):(\\d+)\\s.*$",
+          "file": 1,
+          "line": 2,
+          "column": 3
+        }
+      ]
+    }
+  ]
+}

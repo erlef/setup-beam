@@ -7303,13 +7303,11 @@ async function main() {
 
 async function installOTP(otpSpec, osVersion, hexMirrors) {
   const otpVersion = await getOTPVersion(otpSpec, osVersion, hexMirrors)
-  console.log(
-    `##[group]Installing Erlang/OTP ${otpVersion} - built on ${osVersion}`,
-  )
+  core.startGroup(`Installing Erlang/OTP ${otpVersion} - built on ${osVersion}`)
   await installer.installOTP(osVersion, otpVersion, hexMirrors)
   core.setOutput('otp-version', otpVersion)
   core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
-  console.log('##[endgroup]')
+  core.endGroup()
 
   return otpVersion
 }
@@ -7323,19 +7321,17 @@ async function maybeInstallElixir(elixirSpec, otpSpec, hexMirrors) {
       otpSpec,
       hexMirrors,
     )
-    console.log(`##[group]Installing Elixir ${elixirVersion}`)
+    core.startGroup(`Installing Elixir ${elixirVersion}`)
     await installer.installElixir(elixirVersion, hexMirrors)
     core.setOutput('elixir-version', elixirVersion)
     const disableProblemMatchers = getInput('disable_problem_matchers', false)
     if (disableProblemMatchers === 'false') {
-      const matchersPath = __nccwpck_require__.ab + ".github"
-      console.log(
-        `##[add-matcher]${path.join(matchersPath, 'elixir-matchers.json')}`,
-      )
+      const elixirMatchers = __nccwpck_require__.ab + "elixir-matchers.json"
+      core.info(`##[add-matcher]${elixirMatchers}`)
     }
     core.addPath(`${os.homedir()}/.mix/escripts`)
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
-    console.log('##[endgroup]')
+    core.endGroup()
 
     installed = true
   }
@@ -7363,9 +7359,9 @@ async function mix(shouldMix, what, hexMirrors) {
   if (shouldMix === 'true') {
     const cmd = 'mix'
     const args = [`local.${what}`, '--force']
-    console.log(`##[group]Running ${cmd} ${args}`)
+    core.startGroup(`Running ${cmd} ${args}`)
     await mixWithMirrors(cmd, args, hexMirrors)
-    console.log('##[endgroup]')
+    core.endGroup()
   }
 }
 
@@ -7374,11 +7370,11 @@ async function maybeInstallGleam(gleamSpec) {
 
   if (gleamSpec) {
     const gleamVersion = await getGleamVersion(gleamSpec)
-    console.log(`##[group]Installing Gleam ${gleamVersion}`)
+    core.startGroup(`Installing Gleam ${gleamVersion}`)
     await installer.installGleam(gleamVersion)
     core.setOutput('gleam-version', gleamVersion)
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/gleam/bin`)
-    console.log('##[endgroup]')
+    core.endGroup()
 
     installed = true
   }
@@ -7396,11 +7392,11 @@ async function maybeInstallRebar3(rebar3Spec) {
     } else {
       rebar3Version = await getRebar3Version(rebar3Spec)
     }
-    console.log(`##[group]Installing rebar3 ${rebar3Version}`)
+    core.startGroup(`Installing rebar3 ${rebar3Version}`)
     await installer.installRebar3(rebar3Version)
     core.setOutput('rebar3-version', rebar3Version)
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/rebar3/bin`)
-    console.log('##[endgroup]')
+    core.endGroup()
 
     installed = true
   }
@@ -7493,16 +7489,16 @@ async function getRebar3Version(r3Spec) {
 
 async function getOTPVersions(osVersion, hexMirrors) {
   let otpVersionsListings
+  let originListing
   if (process.platform === 'linux') {
-    otpVersionsListings = await getWithMirrors(
-      `/builds/otp/${osVersion}/builds.txt`,
-      hexMirrors,
-    )
+    originListing = `/builds/otp/${osVersion}/builds.txt`
+    otpVersionsListings = await getWithMirrors(originListing, hexMirrors)
   } else if (process.platform === 'win32') {
-    const originListing =
+    originListing =
       'https://api.github.com/repos/erlang/otp/releases?per_page=100'
     otpVersionsListings = await get(originListing, [1, 2, 3])
   }
+  debugLog(`OTP versions listings from ${originListing}`, otpVersionsListings)
 
   const otpVersions = new Map()
 
@@ -7519,7 +7515,7 @@ async function getOTPVersions(osVersion, hexMirrors) {
       })
   } else if (process.platform === 'win32') {
     otpVersionsListings.forEach((otpVersionsListing) => {
-      jsonParse(otpVersionsListing)
+      jsonParseAsList(otpVersionsListing)
         .map((x) => x.assets)
         .flat()
         .filter((x) => x.name.match(/^otp_win64_.*.exe$/))
@@ -7566,7 +7562,7 @@ async function getGleamVersions() {
   )
   const gleamVersionsListing = []
   resultJSONs.forEach((resultJSON) => {
-    jsonParse(resultJSON)
+    jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
       .sort()
       .forEach((v) => gleamVersionsListing.push(v))
@@ -7581,7 +7577,7 @@ async function getRebar3Versions() {
   )
   const rebar3VersionsListing = []
   resultJSONs.forEach((resultJSON) => {
-    jsonParse(resultJSON)
+    jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
       .sort()
       .forEach((v) => rebar3VersionsListing.push(v))
@@ -7772,7 +7768,7 @@ function parseVersionFile(versionFilePath0) {
       `The specified version file, ${versionFilePath0}, does not exist`,
     )
   }
-  console.log(`##[group]Parsing version file at ${versionFilePath0}`)
+  core.startGroup(`Parsing version file at ${versionFilePath0}`)
   const appVersions = new Map()
   const versions = fs.readFileSync(versionFilePath, 'utf8')
   // For the time being we parse .tool-versions
@@ -7784,28 +7780,40 @@ function parseVersionFile(versionFilePath0) {
       const app = appVersion[1]
       if (['erlang', 'elixir', 'gleam', 'rebar'].includes(app)) {
         const [, , version] = appVersion
-        console.log(`Consuming ${app} at version ${version}`)
+        core.info(`Consuming ${app} at version ${version}`)
         appVersions.set(app, version)
       }
     }
   })
   if (!appVersions.size) {
-    console.log('There was apparently nothing to consume')
+    core.info('There was apparently nothing to consume')
   } else {
-    console.log('... done!')
+    core.info('... done!')
   }
-  console.log('##[endgroup]')
+  core.endGroup()
 
   return appVersions
 }
 
-function jsonParse(maybeJson) {
+function jsonParseAsList(maybeJson) {
   try {
-    return JSON.parse(maybeJson)
+    const obj = JSON.parse(maybeJson)
+    if (!Array.isArray(obj)) {
+      throw new Error('expected a list!')
+    }
+    return obj
   } catch (exc) {
     throw new Error(
-      `Got an exception when trying to parse non-JSON ${maybeJson}: ${exc}`,
+      `Got an exception when trying to parse non-JSON list ${maybeJson}: ${exc}`,
     )
+  }
+}
+
+function debugLog(groupName, message) {
+  if (process.env.RUNNER_DEBUG) {
+    core.startGroup(`Debugging for ${groupName}`)
+    core.debug(message)
+    core.endGroup()
   }
 }
 

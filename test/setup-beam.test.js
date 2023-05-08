@@ -4,9 +4,11 @@ simulateInput('rebar3-version', '3.20')
 simulateInput('install-rebar', 'true')
 simulateInput('install-hex', 'true')
 simulateInput('github-token', process.env.GITHUB_TOKEN)
+simulateInput('hexpm-mirrors', ['https://builds.hex.pm'])
 
 const assert = require('assert')
 const fs = require('fs')
+const core = require('@actions/core')
 const setupBeam = require('../src/setup-beam')
 const installer = require('../src/installer')
 
@@ -174,6 +176,7 @@ async function testElixirVersions() {
   let expected
   let spec
   let otpVersion
+  let before
   const hexMirrors = ['https://repo.hex.pm']
 
   spec = '1.1.x'
@@ -194,37 +197,37 @@ async function testElixirVersions() {
   got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
 
-  simulateInput('version-type', 'strict')
+  before = simulateInput('version-type', 'strict')
   spec = '1.14.0'
   otpVersion = 'master'
   expected = 'v1.14.0'
   got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
-  simulateInput('version-type', 'loose')
+  simulateInput('version-type', before)
 
-  simulateInput('version-type', 'strict')
+  before = simulateInput('version-type', 'strict')
   spec = 'v1.11.0-rc.0'
   otpVersion = 'OTP-23'
   expected = 'v1.11.0-rc.0-otp-23'
   got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
-  simulateInput('version-type', 'loose')
+  simulateInput('version-type', before)
 
-  simulateInput('version-type', 'strict')
+  before = simulateInput('version-type', 'strict')
   spec = 'v1.11.0'
   otpVersion = '22.3.4.2'
   expected = 'v1.11.0-otp-22'
   got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
-  simulateInput('version-type', 'loose')
+  simulateInput('version-type', before)
 
-  simulateInput('version-type', 'strict')
+  before = simulateInput('version-type', 'strict')
   spec = 'main'
   otpVersion = '23.1'
   expected = 'main-otp-23'
   got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
-  simulateInput('version-type', 'loose')
+  simulateInput('version-type', before)
 }
 
 async function testGleamVersions() {
@@ -245,13 +248,13 @@ async function testGleamVersions() {
   got = await setupBeam.getGleamVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 
-  simulateInput('version-type', 'strict')
+  const before = simulateInput('version-type', 'strict')
   spec = 'v0.14.0-rc2'
   otpVersion = 'OTP-22'
   expected = 'v0.14.0-rc2'
   got = await setupBeam.getGleamVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
-  simulateInput('version-type', 'loose')
+  simulateInput('version-type', before)
 }
 
 async function testRebar3Versions() {
@@ -279,6 +282,7 @@ async function testGetVersionFromSpec() {
   let got
   let expected
   let spec
+  let before
   const versions = [
     '3.2.30.5',
     '3.2.3.5',
@@ -320,19 +324,19 @@ async function testGetVersionFromSpec() {
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
-  simulateInput('version-type', 'strict')
+  before = simulateInput('version-type', 'strict')
   spec = '1'
   expected = '1'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
-  simulateInput('version-type', 'loose')
+  simulateInput('version-type', before)
 
-  simulateInput('version-type', 'strict')
+  before = simulateInput('version-type', 'strict')
   spec = '1.0'
   expected = '1.0'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
-  simulateInput('version-type', 'loose')
+  simulateInput('version-type', before)
 
   spec = '2'
   expected = '2.10'
@@ -359,12 +363,12 @@ async function testGetVersionFromSpec() {
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
-  simulateInput('version-type', 'strict')
+  before = simulateInput('version-type', 'strict')
   spec = '24.0-rc3'
   expected = '24.0-rc3'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
-  simulateInput('version-type', 'loose')
+  simulateInput('version-type', before)
 
   spec = '24.0-rc2'
   expected = '24.0-rc2'
@@ -391,24 +395,24 @@ async function testGetVersionFromSpec() {
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
-  simulateInput('version-type', 'strict')
+  before = simulateInput('version-type', 'strict')
   spec = 'master'
   expected = 'master'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
-  simulateInput('version-type', 'loose')
+  simulateInput('version-type', before)
 
   spec = 'master'
   expected = 'master'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
-  simulateInput('version-type', 'strict')
+  before = simulateInput('version-type', 'strict')
   spec = '22.3.4.2'
   expected = '22.3.4.2'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
-  simulateInput('version-type', 'loose')
+  simulateInput('version-type', before)
 }
 
 async function testParseVersionFile() {
@@ -427,7 +431,7 @@ elixir ${elixir}  # comment, with space
  not-gleam 0.23 # not picked up
 gleam ${gleam} 
 rebar ${rebar3}`
-  const filename = '__tests__/.tool-versions'
+  const filename = 'test/.tool-versions'
   fs.writeFileSync(filename, toolVersions)
   process.env.GITHUB_WORKSPACE = ''
   const appVersions = setupBeam.parseVersionFile(filename)
@@ -454,13 +458,13 @@ rebar ${rebar3}`
 }
 
 function unsimulateInput(key) {
-  const before = process.env[input(key)]
-  simulateInput(key, '')
-  return before
+  return simulateInput(key, '')
 }
 
 function simulateInput(key, value) {
+  const before = process.env[input(key)]
   process.env[input(key)] = value
+  return before
 }
 
 function input(key) {
@@ -470,6 +474,6 @@ function input(key) {
 all()
   .then(() => process.exit(0))
   .catch((err) => {
-    console.error(err)
+    core.error(err)
     process.exit(1)
   })
