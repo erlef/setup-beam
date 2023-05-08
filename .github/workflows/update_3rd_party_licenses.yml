@@ -1,5 +1,5 @@
 ---
-name: update_3rd_party_licenses
+name: Update 3rd party licenses (automation)
 
 on:
   schedule:
