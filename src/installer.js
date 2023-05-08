@@ -37,7 +37,6 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
         cachedPath = await tc.cacheDir(extractPath, 'otp', fullVersion)
       }
 
-      // TODO: Can we cache install?
       await exec(path.join(cachedPath, 'Install'), ['-minimal', cachedPath])
 
       const otpPath = path.join(cachedPath, 'bin')
@@ -59,7 +58,6 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
       const otpDir = path.join(process.env.RUNNER_TEMP, '.setup-beam', 'otp')
       const otpPath = path.join(otpDir, 'bin')
 
-      // TODO: Can we cache install?
       await fs.promises.mkdir(otpDir, { recursive: true })
       await exec(path.join(cachedPath, 'otp.exe'), ['/S', `/D=${otpDir}`])
 
