@@ -1,7 +1,6 @@
 const core = require('@actions/core')
 const { exec } = require('@actions/exec')
 const http = require('@actions/http-client')
-const os = require('os')
 const path = require('path')
 const semver = require('semver')
 const fs = require('fs')
@@ -61,7 +60,6 @@ async function installOTP(otpSpec, osVersion, hexMirrors) {
   core.startGroup(`Installing Erlang/OTP ${otpVersion} - built on ${osVersion}`)
   await installer.installOTP(osVersion, otpVersion, hexMirrors)
   core.setOutput('otp-version', otpVersion)
-  core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/otp/bin`)
   core.endGroup()
 
   return otpVersion
@@ -89,8 +87,6 @@ async function maybeInstallElixir(elixirSpec, otpSpec, hexMirrors) {
       )
       core.info(`##[add-matcher]${elixirMatchers}`)
     }
-    core.addPath(`${os.homedir()}/.mix/escripts`)
-    core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/elixir/bin`)
     core.endGroup()
 
     installed = true
