@@ -10263,7 +10263,6 @@ function maybeCoerced(v) {
 }
 
 function sortVersions(left, right) {
-  let ret = 0
   const newL = verAsComparableStr(left)
   const newR = verAsComparableStr(right)
 
@@ -10275,12 +10274,12 @@ function sortVersions(left, right) {
   }
 
   if (newL < newR) {
-    ret = -1
-  } else if (newL > newR) {
-    ret = 1
+    return -1
   }
-
-  return ret
+  if (newL > newR) {
+    return 1
+  }
+  return 0
 }
 
 function getRunnerOSVersion() {
