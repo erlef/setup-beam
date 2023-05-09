@@ -1,5 +1,5 @@
 ---
-name: update_3rd_party_licenses
+name: Update 3rd party licenses (automation)
 
 on:
   schedule:
@@ -17,3 +17,5 @@ jobs:
           node-version: '14'
       - run:
           ./.github/workflows/update_3rd_party_licenses.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
