@@ -44,7 +44,7 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
       core.addPath(otpPath)
       core.exportVariable('INSTALL_DIR_FOR_OTP', cachedPath)
 
-      console.log('Installed Erlang/OTP version')
+      core.info('Installed Erlang/OTP version')
       await exec(path.join(otpPath, 'erl'), ['-version'])
     } else if (OS === 'win32') {
       if (!cachedPath) {
@@ -64,7 +64,7 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
       core.addPath(otpPath)
       core.exportVariable('INSTALL_DIR_FOR_OTP', otpDir)
 
-      console.log('Installed Erlang/OTP version')
+      core.info('Installed Erlang/OTP version')
       await exec(path.join(otpPath, 'erl'), ['+V'])
     }
   } catch (err) {
