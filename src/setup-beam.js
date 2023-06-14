@@ -170,7 +170,7 @@ async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
   if (isVersion(otpSpec0)) {
     otpSpec = `OTP-${otpSpec0}` // ... it's a version!
   }
-  if (otpVersion === null) {
+  if (otpVersion == null) {
     throw new Error(
       `Requested Erlang/OTP version (${otpSpec0}) not found in version list ` +
         "(should you be using option 'version-type': 'strict'?)",
