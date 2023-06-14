@@ -348,7 +348,7 @@ function isStrictVersion() {
 function getVersionFromSpec(spec, versions, maybePrependWithV0) {
   let version = null
 
-  if (spec.match(/rc/) || isStrictVersion()) {
+  if ((spec.match(/rc/) || isStrictVersion()) && versions.includes(spec)) {
     version = spec
   }
 
