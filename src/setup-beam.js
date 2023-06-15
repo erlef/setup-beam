@@ -348,11 +348,14 @@ function isStrictVersion() {
 function getVersionFromSpec(spec, versions, maybePrependWithV0) {
   let version = null
 
-  if ((spec.match(/rc/) || isStrictVersion()) && versions.includes(spec)) {
-    version = spec
-  }
-
-  if (version === null) {
+  if (spec.match(/rc/) || isStrictVersion()) {
+    // For release candidates or when using version-type: strict,
+    // we just use the spec as the exact version...
+    if (versions.includes(spec)) {
+      // ... but only if it is in the list of available versions
+      version = spec
+    }
+  } else {
     // We keep a map of semver => "spec" in order to use semver ranges to find appropriate versions
     const versionsMap = versions.sort(sortVersions).reduce((acc, v) => {
       if (!v.match(/rc/)) {
