@@ -10081,7 +10081,8 @@ async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
   } else {
     throw new Error(
       `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion0}) not ` +
-        'found in version list (did you check Compatibility between Elixir and Erlang/OTP?)',
+        'found in version list (did you check Compatibility between Elixir and Erlang/OTP?).' +
+        'Elixir and Erlang/OTP compatibility can be found at: https://hexdocs.pm/elixir/compatibility-and-deprecations.html',
     )
   }
 
