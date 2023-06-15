@@ -413,6 +413,13 @@ async function testGetVersionFromSpec() {
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
+
+  before = simulateInput('version-type', 'strict')
+  spec = '22.3.4.3'
+  expected = null
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+  simulateInput('version-type', before)
 }
 
 async function testParseVersionFile() {

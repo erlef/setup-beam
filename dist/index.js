@@ -10247,6 +10247,11 @@ function getVersionFromSpec(spec, versions, maybePrependWithV0) {
   if (maybePrependWithV0 && v != null) {
     v = maybePrependWithV(v)
   }
+
+  if (!versions.includes(v)) {
+    v = null
+  }
+
   return v
 }
 
