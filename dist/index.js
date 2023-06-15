@@ -10247,11 +10247,11 @@ function getVersionFromSpec(spec, versions, maybePrependWithV0) {
     v = maybePrependWithV(v)
   }
 
-  if (versions.includes(v)) {
-    return v
+  if (!versions.includes(v)) {
+    v = null
   }
 
-  return null
+  return v
 }
 
 function maybeCoerced(v) {
