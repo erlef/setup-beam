@@ -165,7 +165,7 @@ async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
   const otpVersions = await getOTPVersions(osVersion, hexMirrors)
   let otpSpec = otpSpec0 // might be a branch (?)
   const spec = otpSpec
-  const versions = Array.from(otpVersions.keys())
+  const versions = otpVersions
   const otpVersion = getVersionFromSpec(spec, versions)
   if (isVersion(otpSpec0)) {
     otpSpec = `OTP-${otpSpec0}` // ... it's a version!
@@ -187,7 +187,7 @@ async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
   const elixirVersions = await getElixirVersions(hexMirrors)
   const exSpec = exSpec0.replace(/-otp-.*$/, '')
   const spec = exSpec
-  const versions = Array.from(elixirVersions.keys())
+  const versions = elixirVersions
   const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
 
   let elixirVersionForDownload = elixirVersionFromSpec
@@ -278,7 +278,7 @@ async function getOTPVersions(osVersion, hexMirrors) {
           .match(/^([^-]+-)?(.+)$/)
         const otpVersion = otpMatch[2]
         debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
-        otpVersions.set(maybeCoerced(otpVersion), otpMatch[0]) // we keep the original for later reference
+        otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
     otpVersionsListings.forEach((otpVersionsListing) => {
@@ -290,7 +290,7 @@ async function getOTPVersions(osVersion, hexMirrors) {
           const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
           const otpVersion = otpMatch[1]
           debugLog('OTP line and parsing', [otpMatch, otpVersion])
-          otpVersions.set(maybeCoerced(otpVersion), otpVersion)
+          otpVersions.set(otpVersion, otpVersion)
         })
     })
   }
@@ -323,7 +323,7 @@ async function getElixirVersions(hexMirrors) {
         // -otp- present (special case)
         otpVersions.push(otpVersion)
       }
-      otpVersionsForElixirMap.set(maybeCoerced(elixirVersion), otpVersions)
+      otpVersionsForElixirMap.set(elixirVersion, otpVersions)
     })
 
   return otpVersionsForElixirMap
@@ -334,11 +334,11 @@ async function getGleamVersions() {
     'https://api.github.com/repos/gleam-lang/gleam/releases?per_page=100',
     [1, 2, 3],
   )
-  const gleamVersionsListing = []
+  const gleamVersionsListing = new Map()
   resultJSONs.forEach((resultJSON) => {
     jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
-      .forEach((ver) => gleamVersionsListing.push(maybeCoerced(ver)))
+      .forEach((ver) => gleamVersionsListing.set(ver, ver))
   })
 
   return gleamVersionsListing
@@ -349,11 +349,11 @@ async function getRebar3Versions() {
     'https://api.github.com/repos/erlang/rebar3/releases?per_page=100',
     [1, 2, 3],
   )
-  const rebar3VersionsListing = []
+  const rebar3VersionsListing = new Map()
   resultJSONs.forEach((resultJSON) => {
     jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
-      .forEach((ver) => rebar3VersionsListing.push(maybeCoerced(ver)))
+      .forEach((ver) => rebar3VersionsListing.set(ver, ver))
   })
 
   return rebar3VersionsListing
@@ -363,50 +363,48 @@ function isStrictVersion() {
   return getInput('version-type', false) === 'strict'
 }
 
-function getVersionFromSpec(spec, versions, maybePrependWithV0) {
-  let version = null
+function getVersionFromSpec(spec0, versions0) {
+  const versions = Array.from(versions0.keys())
+  versions.forEach((version, index, array) => {
+    let manipulatedVersion
+    if (isStrictVersion() || isRC(version)) {
+      manipulatedVersion = maybeRemoveVPrefix(version)
+    } else {
+      manipulatedVersion = maybeCoerced(version)
+    }
+    array.splice(index, 1, manipulatedVersion)
+  })
+  versions.sort(sortVersions)
 
-  if (spec.match(/rc/) || isStrictVersion()) {
-    version = spec
-  }
-  if (version === null) {
-    // We keep a map of semver => "spec" in order to use semver ranges to find appropriate versions
-    const versionsMap = versions.sort(sortVersions).reduce((acc, v) => {
-      if (!v.match(/rc/)) {
-        // release candidates are opt-in
-        acc[maybeCoerced(v)] = v
-      }
-      return acc
-    }, {})
-    const rangeForMax = semver.validRange(spec)
+  let version = null
+  const isStrictVersionOrRC = isStrictVersion() || isRC(spec0)
+  if (isStrictVersionOrRC) {
+    const spec = maybeRemoveVPrefix(spec0)
+    if (versions.includes(spec)) {
+      version = spec
+    }
+  } else {
+    const rangeForMax = semver.validRange(spec0)
 
     if (rangeForMax) {
-      version =
-        versionsMap[semver.maxSatisfying(Object.keys(versionsMap), rangeForMax)]
-    } else {
-      version = versionsMap[maybeCoerced(spec)]
+      version = semver.maxSatisfying(versions, rangeForMax)
+    } else if (semver.validRange(version) === null) {
+      throw new Error(
+        `you have to set version-type=strict when using a semver-invalid version (got ${spec0})`,
+      )
     }
   }
 
-  let v = version === null || version === undefined ? null : version
-  if (maybePrependWithV0 && v != null) {
-    v = maybePrependWithV(v)
-  }
-  if (!versions.includes(v)) {
-    v = null
-  }
-  return v
+  return version || null
 }
 
 function maybeCoerced(v) {
   let ret
   try {
-    if (semver.validRange(v) && !isRC(v)) {
+    if (!isRC(v)) {
       ret = semver.coerce(v).version
-    } else if (isRC(v)) {
-      ret = maybeRemoveVPrefix(v)
     } else {
-      ret = v
+      ret = maybeRemoveVPrefix(v)
     }
   } catch {
     // some stuff can't be coerced, like 'main'
