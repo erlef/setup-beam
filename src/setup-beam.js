@@ -235,7 +235,7 @@ async function getGleamVersion(gleamSpec0) {
     )
   }
 
-  return maybePrependWithV(gleamVersion, gleamVersion)
+  return maybePrependWithV(gleamVersion)
 }
 
 async function getRebar3Version(r3Spec) {
