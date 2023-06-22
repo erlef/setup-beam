@@ -2,12 +2,10 @@
 name: hexpm-mirrors
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["action"]
+    types:
+      - completed
 
 jobs:
   test-failing-first-mirror:

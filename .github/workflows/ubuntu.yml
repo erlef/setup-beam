@@ -2,11 +2,10 @@
 name: ubuntu
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize]
+  workflow_run:
+    workflows: ["action"]
+    types:
+      - completed
 
 jobs:
   integration_test:
