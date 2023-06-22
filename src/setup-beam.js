@@ -164,10 +164,9 @@ async function maybeInstallRebar3(rebar3Spec) {
 async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
   const otpVersions = await getOTPVersions(osVersion, hexMirrors)
   let otpSpec = otpSpec0 // might be a branch (?)
-  const otpVersion = getVersionFromSpec(
-    otpSpec,
-    Array.from(otpVersions.keys()).sort(),
-  )
+  const spec = otpSpec
+  const versions = Array.from(otpVersions.keys())
+  const otpVersion = getVersionFromSpec(spec, versions)
   if (isVersion(otpSpec0)) {
     otpSpec = `OTP-${otpSpec0}` // ... it's a version!
   }
@@ -186,9 +185,10 @@ async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
   const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
   const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
   const elixirVersions = await getElixirVersions(hexMirrors)
-  const semverVersions = Array.from(elixirVersions.keys()).sort()
   const exSpec = exSpec0.replace(/-otp-.*$/, '')
-  const elixirVersionFromSpec = getVersionFromSpec(exSpec, semverVersions, true)
+  const spec = exSpec
+  const versions = Array.from(elixirVersions.keys())
+  const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
 
   let elixirVersionForDownload = elixirVersionFromSpec
   if (isVersion(otpVersionMajor)) {
@@ -225,7 +225,9 @@ async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
 async function getGleamVersion(gleamSpec0) {
   const gleamSpec = gleamSpec0.match(/^v?(.+)$/)
   const gleamVersions = await getGleamVersions()
-  const gleamVersion = getVersionFromSpec(gleamSpec[1], gleamVersions, true)
+  const spec = gleamSpec[1]
+  const versions = gleamVersions
+  const gleamVersion = getVersionFromSpec(spec, versions)
   if (gleamVersion === null) {
     throw new Error(
       `Requested Gleam version (${gleamSpec0}) not found in version list ` +
@@ -238,7 +240,9 @@ async function getGleamVersion(gleamSpec0) {
 
 async function getRebar3Version(r3Spec) {
   const rebar3Versions = await getRebar3Versions()
-  const rebar3Version = getVersionFromSpec(r3Spec, rebar3Versions)
+  const spec = r3Spec
+  const versions = rebar3Versions
+  const rebar3Version = getVersionFromSpec(spec, versions)
   if (rebar3Version === null) {
     throw new Error(
       `Requested rebar3 version (${r3Spec}) not found in version list ` +
