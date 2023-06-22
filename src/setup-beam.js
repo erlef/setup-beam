@@ -278,7 +278,7 @@ async function getOTPVersions(osVersion, hexMirrors) {
           .match(/^([^-]+-)?(.+)$/)
         const otpVersion = otpMatch[2]
         debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
-        otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
+        otpVersions.set(maybeCoerced(otpVersion), otpMatch[0]) // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
     otpVersionsListings.forEach((otpVersionsListing) => {
@@ -290,7 +290,7 @@ async function getOTPVersions(osVersion, hexMirrors) {
           const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
           const otpVersion = otpMatch[1]
           debugLog('OTP line and parsing', [otpMatch, otpVersion])
-          otpVersions.set(otpVersion, otpVersion)
+          otpVersions.set(maybeCoerced(otpVersion), otpVersion)
         })
     })
   }
@@ -316,14 +316,14 @@ async function getElixirVersions(hexMirrors) {
     .forEach((line) => {
       const elixirMatch =
         line.match(/^v?(.+)-otp-([^ ]+)/) || line.match(/^v?([^ ]+)/)
-      const elixirVersion = maybePrependWithV(elixirMatch[1])
+      const elixirVersion = elixirMatch[1]
       const otpVersion = elixirMatch[2]
       const otpVersions = otpVersionsForElixirMap.get(elixirVersion) || []
       if (otpVersion) {
         // -otp- present (special case)
         otpVersions.push(otpVersion)
       }
-      otpVersionsForElixirMap.set(elixirVersion, otpVersions)
+      otpVersionsForElixirMap.set(maybeCoerced(elixirVersion), otpVersions)
     })
 
   return otpVersionsForElixirMap
@@ -338,8 +338,7 @@ async function getGleamVersions() {
   resultJSONs.forEach((resultJSON) => {
     jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
-      .sort()
-      .forEach((v) => gleamVersionsListing.push(v))
+      .forEach((ver) => gleamVersionsListing.push(maybeCoerced(ver)))
   })
 
   return gleamVersionsListing
@@ -354,8 +353,7 @@ async function getRebar3Versions() {
   resultJSONs.forEach((resultJSON) => {
     jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
-      .sort()
-      .forEach((v) => rebar3VersionsListing.push(v))
+      .forEach((ver) => rebar3VersionsListing.push(maybeCoerced(ver)))
   })
 
   return rebar3VersionsListing
@@ -403,7 +401,13 @@ function getVersionFromSpec(spec, versions, maybePrependWithV0) {
 function maybeCoerced(v) {
   let ret
   try {
-    ret = semver.coerce(v).version
+    if (semver.validRange(v) && !isRC(v)) {
+      ret = semver.coerce(v).version
+    } else if (isRC(v)) {
+      ret = maybeRemoveVPrefix(v)
+    } else {
+      ret = v
+    }
   } catch {
     // some stuff can't be coerced, like 'main'
     ret = v
@@ -420,8 +424,8 @@ function sortVersions(left, right) {
     const matchGroups = 5
     const verSpec = /([^.]+)?\.?([^.]+)?\.?([^.]+)?\.?([^.]+)?\.?([^.]+)?/
     const matches = ver.match(verSpec).splice(1, matchGroups)
-    return matches.reduce((acc, v) => acc + (v || '0').padStart(3, '0'), '')
 
+    return matches.reduce((acc, v) => acc + (v || '0').padStart(3, '0'), '')
   }
 
   if (newL < newR) {
@@ -433,6 +437,9 @@ function sortVersions(left, right) {
   return ret
 }
 
+function isRC(ver) {
+  return ver.match(/rc/) !== null
+}
 
 function getRunnerOSVersion() {
   const ImageOSToContainer = {
@@ -510,11 +517,18 @@ async function getWithMirrors(resourcePath, hexMirrors) {
 function maybePrependWithV(v) {
   if (isVersion(v)) {
     return `v${v.replace('v', '')}`
-
-
   }
-  return v
 
+  return v
+}
+
+function maybeRemoveVPrefix(ver) {
+  let ret = ver
+  if (isVersion(ver)) {
+    ret = ver.replace('v', '')
+  }
+
+  return ret
 }
 
 function isVersion(v) {
