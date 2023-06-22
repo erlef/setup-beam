@@ -12,9 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
       - run:
           ./.github/workflows/update_3rd_party_licenses.sh
         env:
