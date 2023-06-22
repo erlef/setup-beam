@@ -163,10 +163,11 @@ async function maybeInstallRebar3(rebar3Spec) {
 async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
   const otpVersions = await getOTPVersions(osVersion, hexMirrors)
   let otpSpec = otpSpec0 // might be a branch (?)
-  const otpVersion = getVersionFromSpec(
-    otpSpec,
-    Array.from(otpVersions.keys()).sort(),
-  )
+  const otpVersion = getVersionFromSpec({
+    spec: otpSpec,
+    versions: Array.from(otpVersions.keys()).sort(),
+    isOTP: true,
+  })
   if (isVersion(otpSpec0)) {
     otpSpec = `OTP-${otpSpec0}` // ... it's a version!
   }
@@ -186,7 +187,11 @@ async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
   const elixirVersions = await getElixirVersions(hexMirrors)
   const semverVersions = Array.from(elixirVersions.keys()).sort()
   const exSpec = exSpec0.replace(/-otp-.*$/, '')
-  const elixirVersionFromSpec = getVersionFromSpec(exSpec, semverVersions, true)
+  const elixirVersionFromSpec = getVersionFromSpec({
+    spec: exSpec,
+    versions: semverVersions,
+    maybePrependWithV: true,
+  })
   let elixirVersionForDownload = elixirVersionFromSpec
   if (isVersion(otpVersionMajor)) {
     elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajor}`
@@ -221,7 +226,11 @@ async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
 async function getGleamVersion(gleamSpec0) {
   const gleamSpec = gleamSpec0.match(/^v?(.+)$/)
   const gleamVersions = await getGleamVersions()
-  const gleamVersion = getVersionFromSpec(gleamSpec[1], gleamVersions, true)
+  const gleamVersion = getVersionFromSpec({
+    spec: gleamSpec[1],
+    versions: gleamVersions,
+    maybePrependWithV: true,
+  })
   if (gleamVersion === null) {
     throw new Error(
       `Requested Gleam version (${gleamSpec0}) not found in version list ` +
@@ -234,7 +243,10 @@ async function getGleamVersion(gleamSpec0) {
 
 async function getRebar3Version(r3Spec) {
   const rebar3Versions = await getRebar3Versions()
-  const rebar3Version = getVersionFromSpec(r3Spec, rebar3Versions)
+  const rebar3Version = getVersionFromSpec({
+    spec: r3Spec,
+    versions: rebar3Versions,
+  })
   if (rebar3Version === null) {
     throw new Error(
       `Requested rebar3 version (${r3Spec}) not found in version list ` +
@@ -347,7 +359,13 @@ function isStrictVersion() {
   return getInput('version-type', false) === 'strict'
 }
 
-function getVersionFromSpec(spec, versions, maybePrependWithV0) {
+function getVersionFromSpec(opts) {
+  const {
+    spec = '',
+    versions = [],
+    maybePrependWithV: maybePrependWithV0 = false,
+    isOTP = false,
+  } = opts
   let version = null
 
   if (spec.match(/rc/) || isStrictVersion()) {
@@ -364,11 +382,11 @@ function getVersionFromSpec(spec, versions, maybePrependWithV0) {
       return acc
     }, {})
     const rangeForMax = semver.validRange(spec)
-    if (rangeForMax) {
+    if (rangeForMax && !(isOTP && isXYZa(spec))) {
       version =
         versionsMap[semver.maxSatisfying(Object.keys(versionsMap), rangeForMax)]
     } else {
-      version = versionsMap[maybeCoerced(spec)]
+      version = versionsMap[maybeCoerced(spec, isOTP)]
     }
   }
 
@@ -384,17 +402,26 @@ function getVersionFromSpec(spec, versions, maybePrependWithV0) {
   return v
 }
 
-function maybeCoerced(v) {
+function maybeCoerced(v, isOTP) {
   let ret
 
   try {
-    ret = semver.coerce(v).version
+    if (isOTP && isXYZa(v)) {
+      // Special (i.e. non-SemVer) Erlang/OTP version expressed as e.g. 25.3.2.1
+      ret = v
+    } else {
+      ret = semver.coerce(v).version
+    }
   } catch {
     // some stuff can't be coerced, like 'master'
     ret = v
   }
 
   return ret
+}
+
+function isXYZa(v) {
+  return /^[^.]+\.[^.]+\.[^.]+\.[^.]+$/.test(v)
 }
 
 function sortVersions(left, right) {

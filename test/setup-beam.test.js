@@ -322,108 +322,113 @@ async function testGetVersionFromSpec() {
 
   spec = '1'
   expected = '1.1.0'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   spec = '1.0'
   expected = '1.0.9'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   before = simulateInput('version-type', 'strict')
   spec = '1'
   expected = '1'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
   before = simulateInput('version-type', 'strict')
   spec = '1.0'
   expected = '1.0'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
   spec = '2'
   expected = '2.10'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   spec = '3'
   expected = '3.4.5.4.1'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   spec = '3.2'
   expected = '3.2.30.5'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   spec = '>20'
   expected = '24.0'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   spec = '24.0'
   expected = '24.0'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   before = simulateInput('version-type', 'strict')
   spec = '24.0-rc3'
   expected = '24.0-rc3'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
   spec = '24.0-rc2'
   expected = '24.0-rc2'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   spec = '22.3'
   expected = '22.3.4.12.1'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   spec = '23.3.3'
   expected = '23.3.3'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   spec = '24'
   expected = '24.0'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   spec = '23.3'
   expected = '23.3.4'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
 
   before = simulateInput('version-type', 'strict')
   spec = 'master'
   expected = 'master'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
   spec = 'master'
   expected = 'master'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
+  assert.deepStrictEqual(got, expected)
+
+  spec = '22.3.4.2'
+  expected = '22.3.4.2'
+  got = setupBeam.getVersionFromSpec({ spec, versions, isOTP: true })
   assert.deepStrictEqual(got, expected)
 
   before = simulateInput('version-type', 'strict')
   spec = '22.3.4.2'
   expected = '22.3.4.2'
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
   before = simulateInput('version-type', 'strict')
   spec = '22.3.4.3'
   expected = null
-  got = setupBeam.getVersionFromSpec(spec, versions)
+  got = setupBeam.getVersionFromSpec({ spec, versions })
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 }
