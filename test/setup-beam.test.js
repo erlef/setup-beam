@@ -107,6 +107,12 @@ async function testOTPVersions() {
   const hexMirrors = ['https://repo.hex.pm', 'https://cdn.jsdelivr.net/hex']
 
   if (process.platform === 'linux') {
+    spec = '25.3.2.1'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-25.3.2.1'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+
     spec = '19.3.x'
     osVersion = 'ubuntu-16.04'
     expected = 'OTP-19.3.6.13'
