@@ -329,24 +329,24 @@ async function testGetVersionFromSpec() {
     ['3.2.3', '3.2.3'],
     ['3.2.30', '3.2.30'],
     ['3.4.5', '3.4.5'],
-    ['master', 'master'],
+    ['main', 'main'],
     ['v11.11.0-rc.0-otp-23', 'v11.11.0-rc.0-otp-23'],
   ])
 
   assert.throws(() => {
-    setupBeam.getVersionFromSpec('master', versions)
+    setupBeam.getVersionFromSpec('main', versions)
   }, 'Error')
 
   assert.throws(() => {
-    setupBeam.getVersionFromSpec('vmaster', versions)
+    setupBeam.getVersionFromSpec('vmain', versions)
   }, 'Error')
 
   assert.throws(() => {
-    setupBeam.getVersionFromSpec('^master', versions)
+    setupBeam.getVersionFromSpec('^main', versions)
   }, 'Error')
 
   assert.throws(() => {
-    setupBeam.getVersionFromSpec('<master', versions)
+    setupBeam.getVersionFromSpec('<main', versions)
   }, 'Error')
 
   spec = '1'
