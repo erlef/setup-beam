@@ -20,6 +20,18 @@ jobs:
       fail-fast: false
       matrix:
         combo:
+          - otp-version: '26.0'
+            elixir-version: 'master'
+            os: 'windows-latest'
+            version-type: 'strict'
+          - otp-version: '26.0'
+            elixir-version: 'v1.14-otp-25'
+            os: 'windows-latest'
+            version-type: 'strict'
+          - otp-version: '26.0'
+            elixir-version: '1.14.5'
+            os: 'windows-latest'
+            version-type: 'strict'
           - otp-version: '25'
             rebar3-version: 'nightly'
             os: 'windows-latest'
@@ -61,6 +73,7 @@ jobs:
           elixir-version: ${{matrix.combo.elixir-version}}
           gleam-version: ${{matrix.combo.gleam-version}}
           rebar3-version: ${{matrix.combo.rebar3-version}}
+          version-type: ${{matrix.combo.version-type}}
       - name: Erlang/OTP version (action)
         run: echo "Erlang/OTP ${{steps.setup-beam.outputs.otp-version}}"
       - name: Elixir version (action)
