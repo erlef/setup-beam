@@ -9719,6 +9719,9 @@ const os = __nccwpck_require__(2037)
  * @param {string[]} hexMirrors
  */
 async function installOTP(osVersion, otpVersion, hexMirrors) {
+  let cmd
+  let args
+
   if (hexMirrors.length === 0) {
     throw new Error(
       `Could not install Erlang/OTP ${otpVersion} from any hex.pm mirror`,
@@ -9743,7 +9746,9 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
         cachedPath = await tc.cacheDir(extractPath, 'otp', fullVersion)
       }
 
-      await exec(path.join(cachedPath, 'Install'), ['-minimal', cachedPath])
+      cmd = path.join(cachedPath, 'Install')
+      args = ['-minimal', cachedPath]
+      await exec(cmd, args)
 
       const otpPath = path.join(cachedPath, 'bin')
 
@@ -9751,7 +9756,9 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
       core.exportVariable('INSTALL_DIR_FOR_OTP', cachedPath)
 
       core.info('Installed Erlang/OTP version')
-      await exec(path.join(otpPath, 'erl'), ['-version'])
+      cmd = path.join(otpPath, 'erl')
+      args = ['-version']
+      await exec(cmd, args)
     } else if (OS === 'win32') {
       if (!cachedPath) {
         const exePath = await tc.downloadTool(
@@ -9765,13 +9772,19 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
       const otpPath = path.join(otpDir, 'bin')
 
       await fs.promises.mkdir(otpDir, { recursive: true })
-      await exec(path.join(cachedPath, 'otp.exe'), ['/S', `/D=${otpDir}`])
+
+      cmd = path.join(cachedPath, 'otp.exe')
+      args = ['/S', `/D=${otpDir}`]
+      await exec(cmd, args)
 
       core.addPath(otpPath)
       core.exportVariable('INSTALL_DIR_FOR_OTP', otpDir)
 
       core.info('Installed Erlang/OTP version')
-      await exec(path.join(otpPath, 'erl'), ['+V'])
+
+      cmd = path.join(otpPath, 'erl.exe')
+      args = ['+V']
+      await exec(cmd, args)
     }
   } catch (err) {
     core.info(`Install OTP failed for mirror ${hexMirror}`)
@@ -9787,6 +9800,10 @@ async function installOTP(osVersion, otpVersion, hexMirrors) {
  * @param {string[]} hexMirrors
  */
 async function installElixir(elixirVersion, hexMirrors) {
+  let cmd
+  let args
+  let options
+
   if (hexMirrors.length === 0) {
     throw new Error(
       `Could not install Elixir ${elixirVersion} from any hex.pm mirror`,
@@ -9796,6 +9813,7 @@ async function installElixir(elixirVersion, hexMirrors) {
 
   try {
     let cachedPath = tc.find('elixir', elixirVersion)
+    const OS = process.platform
 
     if (!cachedPath) {
       const zipPath = await tc.downloadTool(
@@ -9813,7 +9831,21 @@ async function installElixir(elixirVersion, hexMirrors) {
     core.exportVariable('INSTALL_DIR_FOR_ELIXIR', cachedPath)
 
     core.info('Installed Elixir version')
-    await exec(path.join(elixirPath, 'elixir'), ['-v'])
+
+    if (debugLoggingEnabled()) {
+      core.exportVariable('ELIXIR_CLI_ECHO', 'true')
+    }
+
+    if (OS === 'linux') {
+      cmd = path.join(elixirPath, 'elixir')
+      args = ['-v']
+      options = {}
+    } else if (OS === 'win32') {
+      cmd = path.join(elixirPath, 'elixir.bat')
+      args = ['-v']
+      options = { windowsVerbatimArguments: true }
+    }
+    await exec(cmd, args, options)
 
     await fs.promises.mkdir(escriptsPath, { recursive: true })
   } catch (err) {
@@ -9829,12 +9861,18 @@ async function installElixir(elixirVersion, hexMirrors) {
  * @param {string} gleamVersion
  */
 async function installGleam(gleamVersion) {
+  let cmd
+  let args
+
   const OS = process.platform
   if (OS === 'linux') {
-    await exec(__nccwpck_require__.ab + "install-gleam.sh", [gleamVersion])
+    cmd = __nccwpck_require__.ab + "install-gleam.sh"
+    args = [gleamVersion]
+    await exec(__nccwpck_require__.ab + "install-gleam.sh", args)
   } else if (OS === 'win32') {
-    const script = __nccwpck_require__.ab + "install-gleam.ps1"
-    await exec(`pwsh.exe ${script} -VSN:${gleamVersion}`)
+    cmd = `pwsh.exe ${path.join(__dirname, 'install-gleam.ps1')}`
+    args = [`-VSN:${gleamVersion}`]
+    await exec(cmd, args)
   }
 }
 
@@ -9844,12 +9882,18 @@ async function installGleam(gleamVersion) {
  * @param {string} rebar3Version
  */
 async function installRebar3(rebar3Version) {
+  let cmd
+  let args
+
   const OS = process.platform
   if (OS === 'linux') {
-    await exec(__nccwpck_require__.ab + "install-rebar3.sh", [rebar3Version])
+    cmd = __nccwpck_require__.ab + "install-rebar3.sh"
+    args = [rebar3Version]
+    await exec(__nccwpck_require__.ab + "install-rebar3.sh", args)
   } else if (OS === 'win32') {
-    const script = __nccwpck_require__.ab + "install-rebar3.ps1"
-    await exec(`pwsh.exe ${script} -VSN:${rebar3Version}`)
+    cmd = `pwsh.exe ${path.join(__dirname, 'install-rebar3.ps1')}`
+    args = [`-VSN:${rebar3Version}`]
+    await exec(cmd, args)
   }
 }
 
@@ -9859,6 +9903,10 @@ function checkPlatform() {
       '@erlef/setup-beam only supports Ubuntu and Windows at this time',
     )
   }
+}
+
+function debugLoggingEnabled() {
+  return !!process.env.RUNNER_DEBUG
 }
 
 module.exports = {
@@ -10128,7 +10176,6 @@ async function getOTPVersions(osVersion, hexMirrors) {
       'https://api.github.com/repos/erlang/otp/releases?per_page=100'
     otpVersionsListings = await get(originListing, [1, 2, 3])
   }
-  debugLog(`OTP versions listings from ${originListing}`, otpVersionsListings)
 
   const otpVersions = new Map()
 
@@ -10141,6 +10188,7 @@ async function getOTPVersions(osVersion, hexMirrors) {
           .match(/^([^ ]+)?( .+)/)[1]
           .match(/^([^-]+-)?(.+)$/)
         const otpVersion = otpMatch[2]
+        debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
         otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
@@ -10152,10 +10200,17 @@ async function getOTPVersions(osVersion, hexMirrors) {
         .forEach((x) => {
           const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
           const otpVersion = otpMatch[1]
+          debugLog('OTP line and parsing', [otpMatch, otpVersion])
           otpVersions.set(otpVersion, otpVersion)
         })
     })
   }
+
+  debugLog(
+    `OTP versions from ${originListing}`,
+    JSON.stringify([...otpVersions.entries()]),
+  )
+
   return otpVersions
 }
 
@@ -10445,11 +10500,16 @@ function jsonParseAsList(maybeJson) {
 }
 
 function debugLog(groupName, message) {
-  if (process.env.RUNNER_DEBUG) {
-    core.startGroup(`Debugging for ${groupName}`)
-    core.debug(message)
-    core.endGroup()
-  }
+  const group = `Debugging for ${groupName}`
+  core.debug(
+    '┌──────────────────────────────────────────────────────────────────────────',
+  )
+  core.debug(`│ ${group} - start`)
+  core.debug(message)
+  core.debug(`│ ${group} - stop`)
+  core.debug(
+    '└──────────────────────────────────────────────────────────────────────────',
+  )
 }
 
 module.exports = {
