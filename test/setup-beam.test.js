@@ -104,36 +104,53 @@ async function testOTPVersions() {
   let expected
   let spec
   let osVersion
+  let before
   const hexMirrors = ['https://repo.hex.pm', 'https://cdn.jsdelivr.net/hex']
 
   if (process.platform === 'linux') {
+    before = simulateInput('version-type', 'strict')
+    spec = '25.3.2.1'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-25.3.2.1'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+    simulateInput('version-type', before)
+
     spec = '19.3.x'
     osVersion = 'ubuntu-16.04'
-    expected = 'OTP-19.3.6.13'
+    expected = 'OTP-19.3.6'
     got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
     spec = '^19.3.6'
     osVersion = 'ubuntu-16.04'
-    expected = 'OTP-19.3.6.13'
+    expected = 'OTP-19.3.6'
     got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
     spec = '^19.3'
     osVersion = 'ubuntu-18.04'
-    expected = 'OTP-19.3.6.13'
+    expected = 'OTP-19.3.6'
     got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
     spec = '20'
     osVersion = 'ubuntu-20.04'
-    expected = 'OTP-20.3.8.26'
+    expected = 'OTP-20.3.8'
     got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
-    spec = '20.x'
+    before = simulateInput('version-type', 'strict')
+    spec = '20.3.8.26'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.3.8.26'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+    simulateInput('version-type', before)
+
+    spec = '20.x'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-20.3.8'
     got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
 
@@ -291,36 +308,46 @@ async function testGetVersionFromSpec() {
   let expected
   let spec
   let before
-  const versions = [
-    '3.2.30.5',
-    '3.2.3.5',
-    '1',
-    '2',
-    '3.2.3.4.1',
-    '1.0.9',
-    '3.2.3.40.1',
-    '1.0.2',
-    '2.0',
-    '2.10',
-    '2.9',
-    '1.0',
-    '3.2.3.4.2',
-    '1.1.0',
-    '3.4.5.4',
-    '3.4.5.3',
-    '3.4.5.4.1',
-    '24.0-rc3',
-    '24.0-rc2',
-    '24.0',
-    '23.3.4',
-    '23.3.3',
-    '22.3.4.9.1',
-    '22.3.4.12.1',
-    '22.3.4.10.1',
-    'main',
-    'v11.11.0-rc.0-otp-23',
-    '22.3.4.2',
-  ]
+  const versions = new Map([
+    ['1', '1'],
+    ['1.0', '1.0'],
+    ['1.0.0', '1.0.0'],
+    ['1.0.2', '1.0.2'],
+    ['1.0.9', '1.0.9'],
+    ['1.1.0', '1.1.0'],
+    ['2.0.0', '2.0.0'],
+    ['2.10.0', '2.10.0'],
+    ['2.9.0', '2.9.0'],
+    ['22.3.4', '22.3.4'],
+    ['22.3.4.2', '22.3.4.2'],
+    ['23.3.3', '23.3.3'],
+    ['23.3.4', '23.3.4'],
+    ['24.0-rc2', '24.0-rc2'],
+    ['24.0-rc3', '24.0-rc3'],
+    ['24.0.0', '24.0.0'],
+    ['3.2.0', '3.2.0'],
+    ['3.2.3', '3.2.3'],
+    ['3.2.30', '3.2.30'],
+    ['3.4.5', '3.4.5'],
+    ['master', 'master'],
+    ['v11.11.0-rc.0-otp-23', 'v11.11.0-rc.0-otp-23'],
+  ])
+
+  assert.throws(() => {
+    setupBeam.getVersionFromSpec('master', versions)
+  }, 'Error')
+
+  assert.throws(() => {
+    setupBeam.getVersionFromSpec('vmaster', versions)
+  }, 'Error')
+
+  assert.throws(() => {
+    setupBeam.getVersionFromSpec('^master', versions)
+  }, 'Error')
+
+  assert.throws(() => {
+    setupBeam.getVersionFromSpec('<master', versions)
+  }, 'Error')
 
   spec = '1'
   expected = '1.1.0'
@@ -347,27 +374,27 @@ async function testGetVersionFromSpec() {
   simulateInput('version-type', before)
 
   spec = '2'
-  expected = '2.10'
+  expected = '2.10.0'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
   spec = '3'
-  expected = '3.4.5.4.1'
+  expected = '3.4.5'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
   spec = '3.2'
-  expected = '3.2.30.5'
+  expected = '3.2.30'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
   spec = '>20'
-  expected = '24.0'
+  expected = '24.0.0'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
   spec = '24.0'
-  expected = '24.0'
+  expected = '24.0.0'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
@@ -384,7 +411,7 @@ async function testGetVersionFromSpec() {
   assert.deepStrictEqual(got, expected)
 
   spec = '22.3'
-  expected = '22.3.4.12.1'
+  expected = '22.3.4'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
@@ -394,7 +421,7 @@ async function testGetVersionFromSpec() {
   assert.deepStrictEqual(got, expected)
 
   spec = '24'
-  expected = '24.0'
+  expected = '24.0.0'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
