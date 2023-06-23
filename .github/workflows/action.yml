@@ -6,7 +6,8 @@ on:
     branches:
       - main
   pull_request:
-    types: [opened, synchronize]
+    branches:
+      - main
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
