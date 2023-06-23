@@ -2,10 +2,11 @@
 name: windows
 
 on:
-  workflow_run:
-    workflows: ["action"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   integration_test:
