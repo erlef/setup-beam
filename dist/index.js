@@ -10317,7 +10317,7 @@ function maybeCoerced(v) {
   try {
     ret = semver.coerce(v).version
   } catch {
-    // some stuff can't be coerced, like 'master'
+    // some stuff can't be coerced, like 'main'
     ret = v
   }
 

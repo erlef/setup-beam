@@ -21,7 +21,7 @@ jobs:
       matrix:
         combo:
           - otp-version: '26.0'
-            elixir-version: 'master'
+            elixir-version: 'main'
             os: 'windows-latest'
             version-type: 'strict'
           - otp-version: '26.0'
