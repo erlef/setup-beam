@@ -7,7 +7,7 @@
     "format": "prettier src/**/*.js --write && prettier test/**/*.js --write",
     "jslint": "eslint src/**/*.js && eslint test/**/*.js",
     "licenses": "yarn licenses generate-disclaimer > 3RD_PARTY_LICENSES",
-    "markdownlint": "markdownlint *.md",
+    "markdownlint": "markdownlint *.md ./github/**/*.md",
     "shellcheck": "shellcheck src/install-*.sh .github/workflows/*.sh",
     "test": "node test/setup-beam.test.js && node ./test/problem-matchers.test.js",
     "yamllint": "yamllint .github/workflows/**.yml && yamllint .*.yml && yamllint *.yml",
