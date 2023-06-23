@@ -25,7 +25,6 @@ jobs:
         run: git diff --exit-code --ignore-space-at-eol
 
   unit_tests_ubuntu:
-    needs: [check_integrity]
     name: Unit tests (Ubuntu)
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +42,6 @@ jobs:
           version-type: strict
 
   unit_tests_windows:
-    needs: [check_integrity]
     name: Unit tests (Windows)
     runs-on: windows-latest
     steps:
