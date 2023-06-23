@@ -580,7 +580,6 @@ function jsonParseAsList(maybeJson) {
 }
 
 function debugLog(groupName, message) {
-  return
   const group = `Debugging for ${groupName}`
   core.debug(
     '┌──────────────────────────────────────────────────────────────────────────',
