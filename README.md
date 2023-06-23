@@ -44,10 +44,6 @@ For pre-release versions, such as `v1.11.0-rc.0`, use the full version
 specifier (`v1.11.0-rc.0`) and set option `version-type` to `strict`. Pre-release versions are
 opt-in, so `1.11.x` will not match a pre-release.
 
-Because our internal implementation considers most of the versions to be "semantic versioning"
-resolvable, if you want a version like `25.3.2.1` (Erlang/OTP) you also need to use
-`version-type` strict as this falls in the context of what's written above.
-
 In cases where we detect the input is not a semantic version but the version type is not set
 to `strict`, we error out, to force changes on the consumer.
 
