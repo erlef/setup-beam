@@ -256,7 +256,6 @@ async function getOTPVersions(osVersion, hexMirrors) {
       'https://api.github.com/repos/erlang/otp/releases?per_page=100'
     otpVersionsListings = await get(originListing, [1, 2, 3])
   }
-  debugLog(`OTP versions listings from ${originListing}`, otpVersionsListings)
 
   const otpVersions = new Map()
 
@@ -269,6 +268,7 @@ async function getOTPVersions(osVersion, hexMirrors) {
           .match(/^([^ ]+)?( .+)/)[1]
           .match(/^([^-]+-)?(.+)$/)
         const otpVersion = otpMatch[2]
+        debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
         otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
@@ -280,10 +280,17 @@ async function getOTPVersions(osVersion, hexMirrors) {
         .forEach((x) => {
           const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
           const otpVersion = otpMatch[1]
+          debugLog('OTP line and parsing', [otpMatch, otpVersion])
           otpVersions.set(otpVersion, otpVersion)
         })
     })
   }
+
+  debugLog(
+    `OTP versions from ${originListing}`,
+    JSON.stringify([...otpVersions.entries()]),
+  )
+
   return otpVersions
 }
 
@@ -390,7 +397,7 @@ function maybeCoerced(v) {
   try {
     ret = semver.coerce(v).version
   } catch {
-    // some stuff can't be coerced, like 'master'
+    // some stuff can't be coerced, like 'main'
     ret = v
   }
 
@@ -573,11 +580,16 @@ function jsonParseAsList(maybeJson) {
 }
 
 function debugLog(groupName, message) {
-  if (process.env.RUNNER_DEBUG) {
-    core.startGroup(`Debugging for ${groupName}`)
-    core.debug(message)
-    core.endGroup()
-  }
+  const group = `Debugging for ${groupName}`
+  core.debug(
+    '┌──────────────────────────────────────────────────────────────────────────',
+  )
+  core.debug(`│ ${group} - start`)
+  core.debug(message)
+  core.debug(`│ ${group} - stop`)
+  core.debug(
+    '└──────────────────────────────────────────────────────────────────────────',
+  )
 }
 
 module.exports = {

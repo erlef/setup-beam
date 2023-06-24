@@ -20,6 +20,14 @@ jobs:
       fail-fast: false
       matrix:
         combo:
+          - otp-version: '26.0'
+            elixir-version: 'v1.14-otp-25'
+            os: 'ubuntu-latest'
+            version-type: 'strict'
+          - otp-version: '26.0'
+            elixir-version: '1.14.5'
+            os: 'ubuntu-latest'
+            version-type: 'strict'
           - otp-version: '25.2'
             elixir-version: '1.14.3'
             os: 'ubuntu-latest'
@@ -106,7 +114,7 @@ jobs:
           - elixir-version: '1.10.3'
             otp-version: '22.3.4.1'
             os: 'ubuntu-20.04'
-          - elixir-version: 'master'
+          - elixir-version: 'main'
             otp-version: '23.1'
             os:  'ubuntu-20.04'
           - elixir-version: 'main'

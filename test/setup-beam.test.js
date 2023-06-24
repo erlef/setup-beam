@@ -199,7 +199,7 @@ async function testElixirVersions() {
 
   before = simulateInput('version-type', 'strict')
   spec = '1.14.0'
-  otpVersion = 'master'
+  otpVersion = 'main'
   expected = 'v1.14.0'
   got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
   assert.deepStrictEqual(got, expected)
@@ -207,6 +207,14 @@ async function testElixirVersions() {
 
   before = simulateInput('version-type', 'strict')
   spec = 'v1.11.0-rc.0'
+  otpVersion = 'OTP-23'
+  expected = 'v1.11.0-rc.0-otp-23'
+  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  assert.deepStrictEqual(got, expected)
+  simulateInput('version-type', before)
+
+  before = simulateInput('version-type', 'strict')
+  spec = 'v1.11.0-rc.0-otp-23'
   otpVersion = 'OTP-23'
   expected = 'v1.11.0-rc.0-otp-23'
   got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
@@ -309,7 +317,7 @@ async function testGetVersionFromSpec() {
     '22.3.4.9.1',
     '22.3.4.12.1',
     '22.3.4.10.1',
-    'master',
+    'main',
     'v11.11.0-rc.0-otp-23',
     '22.3.4.2',
   ]
@@ -396,16 +404,11 @@ async function testGetVersionFromSpec() {
   assert.deepStrictEqual(got, expected)
 
   before = simulateInput('version-type', 'strict')
-  spec = 'master'
-  expected = 'master'
+  spec = 'main'
+  expected = 'main'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
-
-  spec = 'master'
-  expected = 'master'
-  got = setupBeam.getVersionFromSpec(spec, versions)
-  assert.deepStrictEqual(got, expected)
 
   before = simulateInput('version-type', 'strict')
   spec = '22.3.4.2'
