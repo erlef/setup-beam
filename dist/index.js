@@ -10198,14 +10198,9 @@ async function maybeInstallRebar3(rebar3Spec) {
 
 async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
   const otpVersions = await getOTPVersions(osVersion, hexMirrors)
-  let otpSpec = otpSpec0 // might be a branch (?)
-  const spec = otpSpec
+  const spec = otpSpec0.replace(/^OTP-/, '')
   const versions = otpVersions
   const otpVersion = getVersionFromSpec(spec, versions)
-  if (isVersion(otpSpec0)) {
-    otpSpec = `OTP-${otpSpec0}` // ... it's a version!
-  }
-
   if (otpVersion === null) {
     throw new Error(
       `Requested Erlang/OTP version (${otpSpec0}) not found in version list ` +
@@ -10213,23 +10208,18 @@ async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
     )
   }
 
-  return otpVersions.get(otpVersion) // from the reference, for download
+  return otpVersion // from the reference, for download
 }
 
 async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
   const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
   const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
-  const elixirVersions = await getElixirVersions(hexMirrors)
-  const exSpec = exSpec0.replace(/-otp-.*$/, '')
-  const spec = exSpec
+  const [otpVersionsForElixirMap, elixirVersions] = await getElixirVersions(
+    hexMirrors,
+  )
+  const spec = exSpec0.replace(/-otp-.*$/, '')
   const versions = elixirVersions
   const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
-
-  let elixirVersionForDownload = elixirVersionFromSpec
-  if (isVersion(otpVersionMajor)) {
-    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajor}`
-  }
-
   if (elixirVersionFromSpec === null) {
     throw new Error(
       `Requested Elixir version (${exSpec0}) not found in version list ` +
@@ -10237,7 +10227,7 @@ async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
     )
   }
 
-  const elixirVersionComp = elixirVersions.get(elixirVersionFromSpec)
+  const elixirVersionComp = otpVersionsForElixirMap[elixirVersionFromSpec]
   if (
     (elixirVersionComp && elixirVersionComp.includes(otpVersionMajor)) ||
     !isVersion(otpVersionMajor)
@@ -10254,13 +10244,18 @@ async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
     )
   }
 
+  let elixirVersionForDownload = elixirVersionFromSpec
+
+  if (isVersion(otpVersionMajor)) {
+    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajor}`
+  }
+
   return maybePrependWithV(elixirVersionForDownload)
 }
 
 async function getGleamVersion(gleamSpec0) {
-  const gleamSpec = gleamSpec0.match(/^v?(.+)$/)
   const gleamVersions = await getGleamVersions()
-  const spec = gleamSpec[1]
+  const spec = gleamSpec0
   const versions = gleamVersions
   const gleamVersion = getVersionFromSpec(spec, versions)
   if (gleamVersion === null) {
@@ -10302,7 +10297,7 @@ async function getOTPVersions(osVersion, hexMirrors) {
 
   debugLog(`OTP versions listings from ${originListing}`, otpVersionsListings)
 
-  const otpVersions = new Map()
+  const otpVersions = {}
   if (process.platform === 'linux') {
     otpVersionsListings
       .trim()
@@ -10312,8 +10307,9 @@ async function getOTPVersions(osVersion, hexMirrors) {
           .match(/^([^ ]+)?( .+)/)[1]
           .match(/^([^-]+-)?(.+)$/)
         const otpVersion = otpMatch[2]
+        const otpVersionOrig = otpMatch[0]
         debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
-        otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
+        otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
     otpVersionsListings.forEach((otpVersionsListing) => {
@@ -10325,15 +10321,12 @@ async function getOTPVersions(osVersion, hexMirrors) {
           const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
           const otpVersion = otpMatch[1]
           debugLog('OTP line and parsing', [otpMatch, otpVersion])
-          otpVersions.set(otpVersion, otpVersion)
+          otpVersions[otpVersion] = otpVersion
         })
     })
   }
 
-  debugLog(
-    `OTP versions from ${originListing}`,
-    JSON.stringify([...otpVersions.entries()]),
-  )
+  debugLog(`OTP versions from ${originListing}`, JSON.stringify(otpVersions))
 
   return otpVersions
 }
@@ -10343,7 +10336,8 @@ async function getElixirVersions(hexMirrors) {
     '/builds/elixir/builds.txt',
     hexMirrors,
   )
-  const otpVersionsForElixirMap = new Map()
+  const otpVersionsForElixirMap = {}
+  const elixirVersions = {}
 
   elixirVersionsListings
     .trim()
@@ -10353,15 +10347,16 @@ async function getElixirVersions(hexMirrors) {
         line.match(/^v?(.+)-otp-([^ ]+)/) || line.match(/^v?([^ ]+)/)
       const elixirVersion = elixirMatch[1]
       const otpVersion = elixirMatch[2]
-      const otpVersions = otpVersionsForElixirMap.get(elixirVersion) || []
+      const otpVersions = otpVersionsForElixirMap[elixirVersion] || []
       if (otpVersion) {
         // -otp- present (special case)
         otpVersions.push(otpVersion)
       }
-      otpVersionsForElixirMap.set(elixirVersion, otpVersions)
+      otpVersionsForElixirMap[elixirVersion] = otpVersions
+      elixirVersions[elixirVersion] = elixirVersion
     })
 
-  return otpVersionsForElixirMap
+  return [otpVersionsForElixirMap, elixirVersions]
 }
 
 async function getGleamVersions() {
@@ -10369,11 +10364,15 @@ async function getGleamVersions() {
     'https://api.github.com/repos/gleam-lang/gleam/releases?per_page=100',
     [1, 2, 3],
   )
-  const gleamVersionsListing = new Map()
+  const gleamVersionsListing = {}
   resultJSONs.forEach((resultJSON) => {
     jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
-      .forEach((ver) => gleamVersionsListing.set(ver, ver))
+      .forEach((ver) => {
+        const gleamMatch = ver.match(/^v?([^ ]+)/)
+        const gleamVersion = gleamMatch[1]
+        gleamVersionsListing[gleamVersion] = gleamVersion
+      })
   })
 
   return gleamVersionsListing
@@ -10384,11 +10383,13 @@ async function getRebar3Versions() {
     'https://api.github.com/repos/erlang/rebar3/releases?per_page=100',
     [1, 2, 3],
   )
-  const rebar3VersionsListing = new Map()
+  const rebar3VersionsListing = {}
   resultJSONs.forEach((resultJSON) => {
     jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
-      .forEach((ver) => rebar3VersionsListing.set(ver, ver))
+      .forEach((ver) => {
+        rebar3VersionsListing[ver] = ver
+      })
   })
 
   return rebar3VersionsListing
@@ -10399,34 +10400,53 @@ function isStrictVersion() {
 }
 
 function getVersionFromSpec(spec0, versions0) {
-  const versions = Array.from(versions0.keys())
-  versions.forEach((version, index, array) => {
-    let manipulatedVersion
+  const spec = maybeRemoveVPrefix(spec0)
+
+  const altVersions = {}
+  Object.entries(versions0).forEach(([version, altVersion]) => {
+    let coerced
     if (isStrictVersion() || isRC(version)) {
-      manipulatedVersion = maybeRemoveVPrefix(version)
+      // If `version-type: strict` or version is RC, we just try to remove a potential initial v
+      coerced = maybeRemoveVPrefix(version)
     } else {
-      manipulatedVersion = maybeCoerced(version)
+      // Otherwise, we place the version into a version bucket
+      coerced = maybeCoerced(version)
     }
-    array.splice(index, 1, manipulatedVersion)
+    const alt = (altVersions[coerced] || []).concat(altVersion)
+    alt.sort(sortVersions)
+    altVersions[coerced] = alt
   })
-  versions.sort(sortVersions)
 
+  let versions = Object.keys(altVersions)
+
+  const rangeForMax = semver.validRange(spec0) || maybeCoerced(spec)
+  const rangeMax = semver.maxSatisfying(versions, rangeForMax)
   let version = null
-  const isStrictVersionOrRC = isStrictVersion() || isRC(spec0)
-  if (isStrictVersionOrRC) {
-    const spec = maybeRemoveVPrefix(spec0)
-    if (versions.includes(spec)) {
-      version = spec
-    }
-  } else {
-    const rangeForMax = semver.validRange(spec0)
 
-    if (rangeForMax) {
-      version = semver.maxSatisfying(versions, rangeForMax)
-    } else if (semver.validRange(version) === null) {
-      throw new Error(
-        `you have to set version-type=strict when using a semver-invalid version (got ${spec0})`,
-      )
+  if (isStrictVersion() || isRC(spec0)) {
+    if (versions0[spec]) {
+      // If `version-type: strict` or version is RC, we obtain it directly
+      version = versions0[spec]
+    }
+  } else if (rangeMax !== null) {
+    // Otherwise, we compare alt. versions' semver ranges to this version, from highest to lowest
+    const thatVersion = spec
+    const thatVersionAbc = versionAbc(thatVersion)
+    const thatVersionAbcRange = semver.validRange(thatVersionAbc)
+
+    versions = altVersions[rangeMax]
+    for (let i = versions.length - 1; i >= 0; i -= 1) {
+      const thisVersion = versions[i]
+      const thisVersionAbc = versionAbc(thisVersion)
+      const thisVersionAbcRange = semver.validRange(thisVersionAbc)
+
+      if (
+        thatVersionAbcRange &&
+        semver.intersects(thatVersionAbcRange, thisVersionAbcRange)
+      ) {
+        version = thisVersion
+        break
+      }
     }
   }
 
@@ -10434,7 +10454,7 @@ function getVersionFromSpec(spec0, versions0) {
 }
 
 function maybeCoerced(v) {
-  let ret
+  let ret = null
   try {
     if (!isRC(v)) {
       ret = semver.coerce(v).version
@@ -10454,8 +10474,8 @@ function sortVersions(left, right) {
   const newL = verAsComparableStr(left)
   const newR = verAsComparableStr(right)
   function verAsComparableStr(ver) {
-    const matchGroups = 5
-    const verSpec = /([^.]+)?\.?([^.]+)?\.?([^.]+)?\.?([^.]+)?\.?([^.]+)?/
+    const matchGroups = 6
+    const verSpec = xyzAbcVersion('', '')
     const matches = ver.match(verSpec).splice(1, matchGroups)
 
     return matches.reduce((acc, v) => acc + (v || '0').padStart(3, '0'), '')
@@ -10471,7 +10491,7 @@ function sortVersions(left, right) {
 }
 
 function isRC(ver) {
-  return ver.match(/rc/) !== null
+  return ver.match(xyzAbcVersion('^', '(?:-rc\\.?\\d+)'))
 }
 
 function getRunnerOSVersion() {
@@ -10564,8 +10584,22 @@ function maybeRemoveVPrefix(ver) {
   return ret
 }
 
+function xyzAbcVersion(pref, suf) {
+  // This accounts for stuff like 6.0.2.0.1.0, as proposed by Erlang's
+  // https://www.erlang.org/doc/system_principles/versions.html
+  const dd = '\\.?(\\d+)?'
+  return new RegExp(
+    `${pref}v?(\\d+)${dd}${dd}${dd}${dd}${dd}(?:-rc\\.?\\d+)?(?:-otp-\\d+)?${suf}`,
+  )
+}
+
+function versionAbc(ver) {
+  // For a version like 6.0.2.0.1.0, return 0.1.0
+  return ver.match(/\d+(?:\.[^.]+)?(?:\.[^.]+)?(?:\.)?(.*)/)[1]
+}
+
 function isVersion(v) {
-  return /^v?\d+/.test(v)
+  return v.match(xyzAbcVersion('^', '$')) !== null
 }
 
 function getInput(inputName, required, alternativeName, alternatives) {
