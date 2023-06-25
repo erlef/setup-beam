@@ -3,17 +3,14 @@ env:
   node: true
   es2022: true
 extends:
-  - airbnb
+  - eslint:recommended
 parserOptions:
   ecmaVersion: 2022
 rules:
-  indent: ["warn", 2]
-  max-len: ["warn", 100]
-  no-undef: "error"
-  no-unused-vars: ["error", {"varsIgnorePattern": "^_"}]
+  indent: [warn, 2]
+  max-len: [warn, 100]
   no-use-before-define: 0
   operator-linebreak: 0
-  require-jsdoc: 0
   semi: 0
 
 settings:
