@@ -55,7 +55,11 @@ async function installOTP(otpSpec, osVersion) {
     hexMirrors: hexMirrorsInput(),
     actionTitle: `install Erlang/OTP ${otpVersion}`,
     action: async (hexMirror) => {
-      installer.install('otp', osVersion, otpVersion, hexMirror)
+      await installer.install('otp', {
+        osVersion,
+        toolVersion: otpVersion,
+        hexMirror,
+      })
     },
   })
   core.setOutput('otp-version', otpVersion)
@@ -73,7 +77,10 @@ async function maybeInstallElixir(elixirSpec, otpSpec) {
       hexMirrors: hexMirrorsInput(),
       actionTitle: `install Elixir ${elixirVersion}`,
       action: async (hexMirror) => {
-        installer.install('elixir', elixirVersion, hexMirror)
+        await installer.install('elixir', {
+          toolVersion: elixirVersion,
+          hexMirror,
+        })
       },
     })
     core.setOutput('elixir-version', elixirVersion)
@@ -121,7 +128,7 @@ async function maybeInstallGleam(gleamSpec) {
   if (gleamSpec) {
     const gleamVersion = await getGleamVersion(gleamSpec)
     core.startGroup(`Installing Gleam ${gleamVersion}`)
-    await installer.installGleam(gleamVersion)
+    await installer.install('gleam', { toolVersion: gleamVersion })
     core.setOutput('gleam-version', gleamVersion)
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/gleam/bin`)
     core.endGroup()
@@ -142,7 +149,7 @@ async function maybeInstallRebar3(rebar3Spec) {
       rebar3Version = await getRebar3Version(rebar3Spec)
     }
     core.startGroup(`Installing rebar3 ${rebar3Version}`)
-    await installer.installRebar3(rebar3Version)
+    await installer.install('rebar3', { toolVersion: rebar3Version })
     core.setOutput('rebar3-version', rebar3Version)
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/rebar3/bin`)
     core.endGroup()
@@ -251,7 +258,8 @@ async function getOTPVersions(osVersion) {
       hexMirrors: hexMirrorsInput(),
       actionTitle: `fetch ${originListing}`,
       action: async (hexMirror) => {
-        get(`${hexMirror}${originListing}`, [null])
+        const l = await get(`${hexMirror}${originListing}`, [null])
+        return l
       },
     })
   } else if (process.platform === 'win32') {
@@ -302,7 +310,8 @@ async function getElixirVersions() {
     hexMirrors: hexMirrorsInput(),
     actionTitle: `fetch ${originListing}`,
     action: async (hexMirror) => {
-      get(`${hexMirror}${originListing}`, [null])
+      const l = await get(`${hexMirror}${originListing}`, [null])
+      return l
     },
   })
   const otpVersionsForElixirMap = {}
@@ -649,6 +658,7 @@ function hexMirrorsInput() {
 
 async function doWithMirrors(opts) {
   const { hexMirrors, actionTitle, action } = opts
+  let actionRes
 
   if (hexMirrors.length === 0) {
     throw new Error(`Could not ${actionTitle} from any hex.pm mirror`)
@@ -656,12 +666,18 @@ async function doWithMirrors(opts) {
 
   const [hexMirror, ...hexMirrorsT] = hexMirrors
   try {
-    return await action(hexMirror)
+    actionRes = await action(hexMirror)
   } catch (err) {
     core.info(`Action ${actionTitle} failed for mirror ${hexMirror}`)
     core.info(`${err}\n${err.stack}`)
-    return doWithMirrors({ hexMirrors: hexMirrorsT, actionTitle, action })
+    actionRes = await doWithMirrors({
+      hexMirrors: hexMirrorsT,
+      actionTitle,
+      action,
+    })
   }
+
+  return actionRes
 }
 
 module.exports = {

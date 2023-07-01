@@ -4,7 +4,7 @@ simulateInput('rebar3-version', '3.20')
 simulateInput('install-rebar', 'true')
 simulateInput('install-hex', 'true')
 simulateInput('github-token', process.env.GITHUB_TOKEN)
-simulateInput('hexpm-mirrors', ['https://builds.hex.pm'])
+simulateInput('hexpm-mirrors', 'https://builds.hex.pm', { multiline: true })
 
 const assert = require('assert')
 const fs = require('fs')
@@ -29,73 +29,83 @@ async function all() {
 }
 
 async function testFailInstallOTP() {
-  const otpOSVersion = 'ubuntu-08.04'
-  const otpVersion = 'OTP-23.2'
+  const osVersion = 'ubuntu-08.04'
+  const toolVersion = 'OTP-23.2'
   assert.rejects(
     async () => {
-      await installer.installOTP(otpOSVersion, otpVersion)
+      await installer.install('otp', {
+        hexMirror: 'https://builds.hex.pm',
+        osVersion,
+        toolVersion,
+      })
     },
     (err) => {
       assert.ok(err instanceof Error)
       return true
     },
-    `Installing Erlang/OTP ${otpVersion} over ${otpOSVersion} is supposed to fail`,
+    `Installing Erlang/OTP ${toolVersion} over ${osVersion} is supposed to fail`,
   )
 }
 
 async function testFailInstallElixir() {
-  let exVersion
+  let toolVersion
 
-  exVersion = '0.11'
+  toolVersion = '0.11'
   assert.rejects(
     async () => {
-      await installer.installElixir(exVersion)
+      await installer.install('elixir', {
+        hexMirror: 'https://builds.hex.pm',
+        toolVersion,
+      })
     },
     (err) => {
       assert.ok(err instanceof Error)
       return true
     },
-    `Installing Elixir ${exVersion} is supposed to fail`,
+    `Installing Elixir ${toolVersion} is supposed to fail`,
   )
 
-  exVersion = 'v1.0.0-otp-17'
+  toolVersion = 'v1.0.0-otp-17'
   assert.rejects(
     async () => {
-      await installer.installElixir(exVersion)
+      await installer.install('elixir', {
+        hexMirror: 'https://builds.hex.pm',
+        toolVersion,
+      })
     },
     (err) => {
       assert.ok(err instanceof Error)
       return true
     },
-    `Installing Elixir ${exVersion} is supposed to fail`,
+    `Installing Elixir ${toolVersion} is supposed to fail`,
   )
 }
 
 async function testFailInstallGleam() {
-  const gleamVersion = '0.1.3'
+  const toolVersion = '0.1.3'
   assert.rejects(
     async () => {
-      await installer.installGleam(gleamVersion)
+      await installer.install('gleam', { toolVersion })
     },
     (err) => {
       assert.ok(err instanceof Error)
       return true
     },
-    `Installing Gleam ${gleamVersion} is supposed to fail`,
+    `Installing Gleam ${toolVersion} is supposed to fail`,
   )
 }
 
 async function testFailInstallRebar3() {
-  const r3Version = '0.14.4'
+  const toolVersion = '0.14.4'
   assert.rejects(
     async () => {
-      await installer.installRebar3(r3Version)
+      await installer.install('rebar3', { toolVersion })
     },
     (err) => {
       assert.ok(err instanceof Error)
       return true
     },
-    `Installing rebar3 ${r3Version} is supposed to fail`,
+    `Installing rebar3 ${toolVersion} is supposed to fail`,
   )
 }
 
@@ -105,7 +115,11 @@ async function testOTPVersions() {
   let spec
   let osVersion
   let before
-  const hexMirrors = ['https://repo.hex.pm', 'https://cdn.jsdelivr.net/hex']
+  const hexMirrors = simulateInput(
+    'hexpm-mirrors',
+    'https://repo.hex.pm, https://cdn.jsdelivr.net/hex',
+    { multiline: true },
+  )
 
   if (process.platform === 'linux') {
     before = simulateInput('version-type', 'strict')
@@ -119,25 +133,25 @@ async function testOTPVersions() {
     spec = '19.3.x'
     osVersion = 'ubuntu-16.04'
     expected = 'OTP-19.3.6.13'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '^19.3.6'
     osVersion = 'ubuntu-16.04'
     expected = 'OTP-19.3.6.13'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '^19.3'
     osVersion = 'ubuntu-18.04'
     expected = 'OTP-19.3.6.13'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '20'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.3.8.26'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '20.3.8.26'
@@ -149,19 +163,19 @@ async function testOTPVersions() {
     spec = '20.x'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.3.8.26'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '20.0'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.0.5'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '20.0.x'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.0.5'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
   }
 
@@ -169,21 +183,23 @@ async function testOTPVersions() {
     spec = '24.0.1'
     osVersion = 'windows-latest'
     expected = '24.0.1'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '23.2.x'
     osVersion = 'windows-2016'
     expected = '23.2.7'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '23.0'
     osVersion = 'windows-2019'
     expected = '23.0.4'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
   }
+
+  simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
 }
 
 async function testElixirVersions() {
@@ -192,31 +208,33 @@ async function testElixirVersions() {
   let spec
   let otpVersion
   let before
-  const hexMirrors = ['https://repo.hex.pm']
+  const hexMirrors = simulateInput('hexpm-mirrors', 'https://repo.hex.pm', {
+    multiline: true,
+  })
 
   spec = '1.1.x'
   otpVersion = 'OTP-17'
   expected = 'v1.1.1-otp-17'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '1.10.4'
   otpVersion = 'OTP-23'
   expected = 'v1.10.4-otp-23'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '1.12.1'
   otpVersion = 'OTP-24.0.2'
   expected = 'v1.12.1-otp-24'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 
   before = simulateInput('version-type', 'strict')
   spec = '1.14.0'
   otpVersion = 'main'
   expected = 'v1.14.0'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
@@ -224,7 +242,7 @@ async function testElixirVersions() {
   spec = 'v1.11.0-rc.0'
   otpVersion = 'OTP-23'
   expected = 'v1.11.0-rc.0-otp-23'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
@@ -232,7 +250,7 @@ async function testElixirVersions() {
   spec = 'v1.11.0-rc.0-otp-23'
   otpVersion = 'OTP-23'
   expected = 'v1.11.0-rc.0-otp-23'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
@@ -240,7 +258,7 @@ async function testElixirVersions() {
   spec = 'v1.11.0'
   otpVersion = '22.3.4.2'
   expected = 'v1.11.0-otp-22'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
@@ -248,9 +266,11 @@ async function testElixirVersions() {
   spec = 'main'
   otpVersion = '23.1'
   expected = 'main-otp-23'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
+
+  simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
 }
 
 async function testGleamVersions() {
@@ -499,16 +519,16 @@ rebar ${rebar3}`
   assert.strictEqual(appVersions.get('elixir'), elixir)
 
   assert.ok(async () => {
-    await installer.installOTP(erlang)
+    await installer.install('otp', { toolVersion: erlang })
   })
   assert.ok(async () => {
-    await installer.installElixir(elixir)
+    await installer.install('elixir', { toolVersion: elixir })
   })
   assert.ok(async () => {
-    await installer.installGleam(gleam)
+    await installer.install('gleam', { toolVersion: gleam })
   })
   assert.ok(async () => {
-    await installer.installRebar3(rebar3)
+    await installer.install('rebar3', { toolVersion: rebar3 })
   })
 
   simulateInput('otp-version', otpVersion)
@@ -521,8 +541,17 @@ function unsimulateInput(key) {
   return simulateInput(key, '')
 }
 
-function simulateInput(key, value) {
-  const before = process.env[input(key)]
+function simulateInput(key, value0, opts) {
+  const { multiline } = opts || {}
+  const before = process.env[input(key, opts)]
+  let value = value0
+  if (multiline) {
+    if (value.indexOf(', ') !== -1) {
+      value = value0.replace(/, /g, '\n')
+    } else {
+      value = value0.replace(/\n/g, ', ')
+    }
+  }
   process.env[input(key)] = value
   return before
 }

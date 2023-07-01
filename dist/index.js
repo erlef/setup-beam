@@ -9826,120 +9826,135 @@ const path = __nccwpck_require__(1017)
 const fs = __nccwpck_require__(7147)
 const os = __nccwpck_require__(2037)
 
-/**
- * Install Erlang/OTP.
- *
- * @param {string} osVersion
- * @param {string} otpVersion
- */
-async function installOTP(osVersion, otpVersion, hexMirror) {
-  let cmd
-  let args
+async function install(toolName, opts) {
+  const { osVersion, toolVersion, hexMirror } = opts
+  const versionSpec =
+    osVersion !== undefined ? `${osVersion}/${toolVersion}` : toolVersion
+  const cachePath0 = tc.find(toolName, versionSpec)
+  const processPlatform = process.platform
+  let installOpts
 
-  const fullVersion = `${osVersion}/${otpVersion}`
-  let cachedPath = tc.find('otp', fullVersion)
-  const OS = process.platform
+  // The installOpts object is composed of supported processPlatform keys
+  // (e.g. 'linux', 'win32', or 'all' - in case there's no distinction between platforms)
+  // In each of these keys there's an object with keys:
+  // * downloadToolURL
+  //     - where to fetch the downloadable from
+  // * postDownloadCache
+  //     - what to do with the downloadable (e.g. cache the tool using tc)
+  // * installCmdArgsOptions [optional]
+  //     - return a [cmd, args, options] list to execute the installer
+  // * postInstall
+  ///    - what to execute after installation is concluded (e.g. output the tool version)
 
-  if (OS === 'linux') {
-    if (!cachedPath) {
-      const tarPath = await tc.downloadTool(
-        `${hexMirror}/builds/otp/${fullVersion}.tar.gz`,
-      )
-      const extractPath = await tc.extractTar(tarPath, undefined, [
-        'zx',
-        '--strip-components=1',
-      ])
-      cachedPath = await tc.cacheDir(extractPath, 'otp', fullVersion)
-    }
+  switch (toolName) {
+    case 'otp':
+      installOpts = {
+        linux: {
+          downloadToolURL: `${hexMirror}/builds/otp/${versionSpec}.tar.gz`,
+          postDownloadCache: async (file) => {
+            const dest = undefined
+            const flags = ['zx', '--strip-components=1']
+            const targetDir = await tc.extractTar(file, dest, flags)
+            return tc.cacheDir(targetDir, toolName, versionSpec)
+          },
+          installCmdArgsOptions: (cachePath) => {
+            const cmd = path.join(cachePath, 'Install')
+            const args = ['-minimal', cachePath]
+            const options = {}
+            return [cmd, args, options]
+          },
+          postInstall: async (binFolder) => {
+            core.info('Installed Erlang/OTP version')
+            const cmd = path.join(binFolder, 'erl')
+            const args = ['-version']
+            return exec(cmd, args)
+          },
+        },
+        win32: {
+          downloadToolURL:
+            'https://github.com/erlang/otp/releases/download/' +
+            `OTP-${toolVersion}/otp_win64_${toolVersion}.exe`,
+          postDownloadCache: async (file) => {
+            const targetFile = 'otp.exe'
+            return tc.cacheFile(file, targetFile, toolName, versionSpec)
+          },
+          installCmdArgsOptions: (cachePath) => {
+            const cmd = path.join(cachePath, 'otp.exe')
+            const args = ['/S', `/D=${cachePath}`]
+            const options = {}
+            return [cmd, args, options]
+          },
+          postInstall: async (binFolder) => {
+            core.info('Installed Erlang/OTP version')
+            const cmd = path.join(binFolder, 'erl.exe')
+            const args = ['+V']
+            return exec(cmd, args)
+          },
+        },
+      }
+      break
+    case 'elixir':
+      installOpts = {
+        all: {
+          downloadToolURL: `${hexMirror}/builds/elixir/${toolVersion}.zip`,
+          postDownloadCache: async (file) => {
+            const targetDir = await tc.extractZip(file)
+            return tc.cacheDir(targetDir, toolName, versionSpec)
+          },
+          postInstall: async (binFolder) => {
+            const escriptsPath = path.join(os.homedir(), '.mix', 'escripts')
+            await fs.promises.mkdir(escriptsPath, { recursive: true })
+            core.addPath(escriptsPath)
+            core.info('Installed Elixir version')
+            if (debugLoggingEnabled()) {
+              core.exportVariable('ELIXIR_CLI_ECHO', 'true')
+            }
+            const cmd = path.join(binFolder, 'elixir')
+            const args = ['-v']
+            const options = { windowsVerbatimArguments: true }
+            return exec(cmd, args, options)
+          },
+        },
+      }
+      break
+    case 'gleam':
+      await installGleam(toolVersion)
+      break
+    case 'rebar3':
+      await installRebar3(toolVersion)
+      break
+    default:
+      throw new Error(`no installer for ${toolName}`)
+  }
 
-    cmd = path.join(cachedPath, 'Install')
-    args = ['-minimal', cachedPath]
-    await exec(cmd, args)
-
-    const otpPath = path.join(cachedPath, 'bin')
-
-    core.addPath(otpPath)
-    core.exportVariable('INSTALL_DIR_FOR_OTP', cachedPath)
-
-    core.info('Installed Erlang/OTP version')
-    cmd = path.join(otpPath, 'erl')
-    args = ['-version']
-    await exec(cmd, args)
-  } else if (OS === 'win32') {
-    if (!cachedPath) {
-      const exePath = await tc.downloadTool(
-        'https://github.com/erlang/otp/releases/download/' +
-          `OTP-${otpVersion}/otp_win64_${otpVersion}.exe`,
-      )
-      cachedPath = await tc.cacheFile(exePath, 'otp.exe', 'otp', fullVersion)
-    }
-
-    const otpDir = path.join(process.env.RUNNER_TEMP, '.setup-beam', 'otp')
-    const otpPath = path.join(otpDir, 'bin')
-
-    await fs.promises.mkdir(otpDir, { recursive: true })
-
-    cmd = path.join(cachedPath, 'otp.exe')
-    args = ['/S', `/D=${otpDir}`]
-    await exec(cmd, args)
-
-    core.addPath(otpPath)
-    core.exportVariable('INSTALL_DIR_FOR_OTP', otpDir)
-
-    core.info('Installed Erlang/OTP version')
-
-    cmd = path.join(otpPath, 'erl.exe')
-    args = ['+V']
-    await exec(cmd, args)
+  if (['otp', 'elixir'].includes(toolName)) {
+    // Temp.: this will otherwise break for Gleam and Rebar3
+    await installTool({
+      toolName,
+      installOpts: installOpts.all || installOpts[processPlatform],
+      cachePath0,
+    })
   }
 }
 
-/**
- * Install Elixir.
- *
- * @param {string} elixirVersion
- */
-async function installElixir(elixirVersion, hexMirror) {
-  let cmd
-  let args
-  let options
+async function installTool(opts) {
+  const { toolName, installOpts, cachePath0 } = opts
+  let cachePath = cachePath0
 
-  let cachedPath = tc.find('elixir', elixirVersion)
-  const OS = process.platform
-
-  if (!cachedPath) {
-    const zipPath = await tc.downloadTool(
-      `${hexMirror}/builds/elixir/${elixirVersion}.zip`,
-    )
-    const extractPath = await tc.extractZip(zipPath)
-    cachedPath = await tc.cacheDir(extractPath, 'elixir', elixirVersion)
+  if (cachePath === '') {
+    const file = await tc.downloadTool(installOpts.downloadToolURL)
+    cachePath = await installOpts.postDownloadCache(file)
   }
 
-  const elixirPath = path.join(cachedPath, 'bin')
-  const escriptsPath = path.join(os.homedir(), '.mix', 'escripts')
-
-  core.addPath(elixirPath)
-  core.addPath(escriptsPath)
-  core.exportVariable('INSTALL_DIR_FOR_ELIXIR', cachedPath)
-
-  core.info('Installed Elixir version')
-
-  if (debugLoggingEnabled()) {
-    core.exportVariable('ELIXIR_CLI_ECHO', 'true')
+  if (installOpts.installCmdArgsOptions) {
+    const [cmd, args, options] = installOpts.installCmdArgsOptions(cachePath)
+    await exec(cmd, args, options)
   }
 
-  if (OS === 'linux') {
-    cmd = path.join(elixirPath, 'elixir')
-    args = ['-v']
-    options = {}
-  } else if (OS === 'win32') {
-    cmd = path.join(elixirPath, 'elixir.bat')
-    args = ['-v']
-    options = { windowsVerbatimArguments: true }
-  }
-  await exec(cmd, args, options)
-
-  await fs.promises.mkdir(escriptsPath, { recursive: true })
+  const binFolder = path.join(cachePath, 'bin')
+  core.addPath(binFolder)
+  core.exportVariable(`INSTALL_DIR_FOR_${toolName}`.toUpperCase(), cachePath)
+  await installOpts.postInstall(binFolder)
 }
 
 /**
@@ -9997,10 +10012,7 @@ function debugLoggingEnabled() {
 }
 
 module.exports = {
-  installOTP,
-  installElixir,
-  installGleam,
-  installRebar3,
+  install,
   checkPlatform,
 }
 
@@ -10067,7 +10079,11 @@ async function installOTP(otpSpec, osVersion) {
     hexMirrors: hexMirrorsInput(),
     actionTitle: `install Erlang/OTP ${otpVersion}`,
     action: async (hexMirror) => {
-      installer.install('otp', osVersion, otpVersion, hexMirror)
+      await installer.install('otp', {
+        osVersion,
+        toolVersion: otpVersion,
+        hexMirror,
+      })
     },
   })
   core.setOutput('otp-version', otpVersion)
@@ -10085,7 +10101,10 @@ async function maybeInstallElixir(elixirSpec, otpSpec) {
       hexMirrors: hexMirrorsInput(),
       actionTitle: `install Elixir ${elixirVersion}`,
       action: async (hexMirror) => {
-        installer.install('elixir', elixirVersion, hexMirror)
+        await installer.install('elixir', {
+          toolVersion: elixirVersion,
+          hexMirror,
+        })
       },
     })
     core.setOutput('elixir-version', elixirVersion)
@@ -10128,7 +10147,7 @@ async function maybeInstallGleam(gleamSpec) {
   if (gleamSpec) {
     const gleamVersion = await getGleamVersion(gleamSpec)
     core.startGroup(`Installing Gleam ${gleamVersion}`)
-    await installer.installGleam(gleamVersion)
+    await installer.install('gleam', { toolVersion: gleamVersion })
     core.setOutput('gleam-version', gleamVersion)
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/gleam/bin`)
     core.endGroup()
@@ -10149,7 +10168,7 @@ async function maybeInstallRebar3(rebar3Spec) {
       rebar3Version = await getRebar3Version(rebar3Spec)
     }
     core.startGroup(`Installing rebar3 ${rebar3Version}`)
-    await installer.installRebar3(rebar3Version)
+    await installer.install('rebar3', { toolVersion: rebar3Version })
     core.setOutput('rebar3-version', rebar3Version)
     core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/rebar3/bin`)
     core.endGroup()
@@ -10258,7 +10277,8 @@ async function getOTPVersions(osVersion) {
       hexMirrors: hexMirrorsInput(),
       actionTitle: `fetch ${originListing}`,
       action: async (hexMirror) => {
-        get(`${hexMirror}${originListing}`, [null])
+        const l = await get(`${hexMirror}${originListing}`, [null])
+        return l
       },
     })
   } else if (process.platform === 'win32') {
@@ -10309,7 +10329,8 @@ async function getElixirVersions() {
     hexMirrors: hexMirrorsInput(),
     actionTitle: `fetch ${originListing}`,
     action: async (hexMirror) => {
-      get(`${hexMirror}${originListing}`, [null])
+      const l = await get(`${hexMirror}${originListing}`, [null])
+      return l
     },
   })
   const otpVersionsForElixirMap = {}
@@ -10656,6 +10677,7 @@ function hexMirrorsInput() {
 
 async function doWithMirrors(opts) {
   const { hexMirrors, actionTitle, action } = opts
+  let actionRes
 
   if (hexMirrors.length === 0) {
     throw new Error(`Could not ${actionTitle} from any hex.pm mirror`)
@@ -10663,12 +10685,18 @@ async function doWithMirrors(opts) {
 
   const [hexMirror, ...hexMirrorsT] = hexMirrors
   try {
-    return await action(hexMirror)
+    actionRes = await action(hexMirror)
   } catch (err) {
     core.info(`Action ${actionTitle} failed for mirror ${hexMirror}`)
     core.info(`${err}\n${err.stack}`)
-    return doWithMirrors({ hexMirrors: hexMirrorsT, actionTitle, action })
+    actionRes = await doWithMirrors({
+      hexMirrors: hexMirrorsT,
+      actionTitle,
+      action,
+    })
   }
+
+  return actionRes
 }
 
 module.exports = {
