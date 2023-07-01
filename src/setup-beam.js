@@ -29,24 +29,16 @@ async function main() {
   const elixirSpec = getInput('elixir-version', false, 'elixir', versions)
   const gleamSpec = getInput('gleam-version', false, 'gleam', versions)
   const rebar3Spec = getInput('rebar3-version', false, 'rebar', versions)
-  const hexMirrors = core.getMultilineInput('hexpm-mirrors', {
-    required: false,
-  })
 
   if (otpSpec !== 'false') {
-    await installOTP(otpSpec, osVersion, hexMirrors)
-
-    const elixirInstalled = await maybeInstallElixir(
-      elixirSpec,
-      otpSpec,
-      hexMirrors,
-    )
+    await installOTP(otpSpec, osVersion)
+    const elixirInstalled = await maybeInstallElixir(elixirSpec, otpSpec)
     if (elixirInstalled === true) {
       const shouldMixRebar = getInput('install-rebar', false)
-      await mix(shouldMixRebar, 'rebar', hexMirrors)
+      await mix(shouldMixRebar, 'rebar')
 
       const shouldMixHex = getInput('install-hex', false)
-      await mix(shouldMixHex, 'hex', hexMirrors)
+      await mix(shouldMixHex, 'hex')
     }
   } else if (!gleamSpec) {
     throw new Error('otp-version=false is only available when installing Gleam')
@@ -56,38 +48,36 @@ async function main() {
   await maybeInstallRebar3(rebar3Spec)
 }
 
-async function installOTP(otpSpec, osVersion, hexMirrors) {
-  const otpVersion = await getOTPVersion(otpSpec, osVersion, hexMirrors)
+async function installOTP(otpSpec, osVersion) {
+  const otpVersion = await getOTPVersion(otpSpec, osVersion)
   core.startGroup(`Installing Erlang/OTP ${otpVersion} - built on ${osVersion}`)
-  await installer.installOTP(osVersion, otpVersion, hexMirrors)
+  await doWithMirrors({
+    hexMirrors: hexMirrorsInput(),
+    actionTitle: `install Erlang/OTP ${otpVersion}`,
+    action: async (hexMirror) => {
+      installer.install('otp', osVersion, otpVersion, hexMirror)
+    },
+  })
   core.setOutput('otp-version', otpVersion)
   core.endGroup()
 
   return otpVersion
 }
 
-async function maybeInstallElixir(elixirSpec, otpSpec, hexMirrors) {
+async function maybeInstallElixir(elixirSpec, otpSpec) {
   let installed = false
   if (elixirSpec) {
-    const elixirVersion = await getElixirVersion(
-      elixirSpec,
-      otpSpec,
-      hexMirrors,
-    )
+    const elixirVersion = await getElixirVersion(elixirSpec, otpSpec)
     core.startGroup(`Installing Elixir ${elixirVersion}`)
-    await installer.installElixir(elixirVersion, hexMirrors)
+    await doWithMirrors({
+      hexMirrors: hexMirrorsInput(),
+      actionTitle: `install Elixir ${elixirVersion}`,
+      action: async (hexMirror) => {
+        installer.install('elixir', elixirVersion, hexMirror)
+      },
+    })
     core.setOutput('elixir-version', elixirVersion)
-
-    const disableProblemMatchers = getInput('disable_problem_matchers', false)
-    if (disableProblemMatchers === 'false') {
-      const elixirMatchers = path.join(
-        __dirname,
-        '..',
-        'matchers',
-        'elixir-matchers.json',
-      )
-      core.info(`##[add-matcher]${elixirMatchers}`)
-    }
+    maybeEnableElixirProblemMatchers()
     core.endGroup()
 
     installed = true
@@ -96,30 +86,32 @@ async function maybeInstallElixir(elixirSpec, otpSpec, hexMirrors) {
   return installed
 }
 
-async function mixWithMirrors(cmd, args, hexMirrors) {
-  if (hexMirrors.length === 0) {
-    throw new Error('mix failed with every mirror')
-  }
-
-  const [hexMirror, ...hexMirrorsT] = hexMirrors
-  process.env.HEX_MIRROR = hexMirror
-  try {
-    return await exec(cmd, args)
-  } catch (err) {
-    core.info(
-      `mix failed with mirror ${process.env.HEX_MIRROR} with message ${err.message})`,
+function maybeEnableElixirProblemMatchers() {
+  const disableProblemMatchers = getInput('disable_problem_matchers', false)
+  if (disableProblemMatchers === 'false') {
+    const elixirMatchers = path.join(
+      __dirname,
+      '..',
+      'matchers',
+      'elixir-matchers.json',
     )
+    core.info(`##[add-matcher]${elixirMatchers}`)
   }
-
-  return mixWithMirrors(cmd, args, hexMirrorsT)
 }
 
-async function mix(shouldMix, what, hexMirrors) {
+async function mix(shouldMix, what) {
   if (shouldMix === 'true') {
     const cmd = 'mix'
     const args = [`local.${what}`, '--force']
     core.startGroup(`Running ${cmd} ${args}`)
-    await mixWithMirrors(cmd, args, hexMirrors)
+    await doWithMirrors({
+      hexMirrors: hexMirrorsInput(),
+      actionTitle: `mix ${what}`,
+      action: async (hexMirror) => {
+        process.env.HEX_MIRROR = hexMirror
+        await exec(cmd, args)
+      },
+    })
     core.endGroup()
   }
 }
@@ -161,11 +153,13 @@ async function maybeInstallRebar3(rebar3Spec) {
   return installed
 }
 
-async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
-  const otpVersions = await getOTPVersions(osVersion, hexMirrors)
-  const spec = otpSpec0.replace(/^OTP-/, '')
-  const versions = otpVersions
-  const otpVersion = getVersionFromSpec(spec, versions)
+async function getOTPVersion(otpSpec0, osVersion) {
+  const otpVersions = await getOTPVersions(osVersion)
+  let otpSpec = otpSpec0.replace(/^OTP-/, '')
+  const otpVersion = getVersionFromSpec(
+    otpSpec,
+    Array.from(otpVersions.keys()).sort(),
+  )
   if (otpVersion === null) {
     throw new Error(
       `Requested Erlang/OTP version (${otpSpec0}) not found in version list ` +
@@ -176,15 +170,15 @@ async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
   return otpVersion // from the reference, for download
 }
 
-async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
+async function getElixirVersion(exSpec0, otpVersion0) {
   const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
   const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
-  const [otpVersionsForElixirMap, elixirVersions] = await getElixirVersions(
-    hexMirrors,
-  )
+
+  const [otpVersionsForElixirMap, elixirVersions] = await getElixirVersions()
   const spec = exSpec0.replace(/-otp-.*$/, '')
   const versions = elixirVersions
   const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
+
   if (elixirVersionFromSpec === null) {
     throw new Error(
       `Requested Elixir version (${exSpec0}) not found in version list ` +
@@ -248,12 +242,18 @@ async function getRebar3Version(r3Spec) {
   return rebar3Version
 }
 
-async function getOTPVersions(osVersion, hexMirrors) {
+async function getOTPVersions(osVersion) {
   let otpVersionsListings
   let originListing
   if (process.platform === 'linux') {
     originListing = `/builds/otp/${osVersion}/builds.txt`
-    otpVersionsListings = await getWithMirrors(originListing, hexMirrors)
+    otpVersionsListings = await doWithMirrors({
+      hexMirrors: hexMirrorsInput(),
+      actionTitle: `fetch ${originListing}`,
+      action: async (hexMirror) => {
+        get(`${hexMirror}${originListing}`, [null])
+      },
+    })
   } else if (process.platform === 'win32') {
     originListing =
       'https://api.github.com/repos/erlang/otp/releases?per_page=100'
@@ -296,11 +296,15 @@ async function getOTPVersions(osVersion, hexMirrors) {
   return otpVersions
 }
 
-async function getElixirVersions(hexMirrors) {
-  const elixirVersionsListings = await getWithMirrors(
-    '/builds/elixir/builds.txt',
-    hexMirrors,
-  )
+async function getElixirVersions() {
+  const originListing = '/builds/elixir/builds.txt'
+  const elixirVersionsListings = await doWithMirrors({
+    hexMirrors: hexMirrorsInput(),
+    actionTitle: `fetch ${originListing}`,
+    action: async (hexMirror) => {
+      get(`${hexMirror}${originListing}`, [null])
+    },
+  })
   const otpVersionsForElixirMap = {}
   const elixirVersions = {}
 
@@ -517,21 +521,6 @@ async function get(url0, pageIdxs) {
   return Promise.all(pageIdxs.map(getPage))
 }
 
-async function getWithMirrors(resourcePath, hexMirrors) {
-  if (hexMirrors.length === 0) {
-    throw new Error(`Could not fetch ${resourcePath} from any hex.pm mirror`)
-  }
-
-  const [hexMirror, ...hexMirrorsT] = hexMirrors
-  try {
-    return await get(`${hexMirror}${resourcePath}`, [null])
-  } catch (err) {
-    core.info(`get failed for URL ${hexMirror}${resourcePath}`)
-  }
-
-  return getWithMirrors(resourcePath, hexMirrorsT)
-}
-
 function maybePrependWithV(v) {
   if (isVersion(v)) {
     return `v${v.replace('v', '')}`
@@ -650,6 +639,29 @@ function debugLog(groupName, message) {
   core.debug(
     '└──────────────────────────────────────────────────────────────────────────',
   )
+}
+
+function hexMirrorsInput() {
+  return core.getMultilineInput('hexpm-mirrors', {
+    required: false,
+  })
+}
+
+async function doWithMirrors(opts) {
+  const { hexMirrors, actionTitle, action } = opts
+
+  if (hexMirrors.length === 0) {
+    throw new Error(`Could not ${actionTitle} from any hex.pm mirror`)
+  }
+
+  const [hexMirror, ...hexMirrorsT] = hexMirrors
+  try {
+    return await action(hexMirror)
+  } catch (err) {
+    core.info(`Action ${actionTitle} failed for mirror ${hexMirror}`)
+    core.info(`${err}\n${err.stack}`)
+    return doWithMirrors({ hexMirrors: hexMirrorsT, actionTitle, action })
+  }
 }
 
 module.exports = {
