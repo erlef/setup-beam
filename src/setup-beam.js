@@ -441,6 +441,7 @@ function maybeCoerced(v) {
     }
   } catch {
     // some stuff can't be coerced, like 'main'
+    core.debug(`Was not able to coerce ${v} with semver`)
     ret = v
   }
 
@@ -668,8 +669,10 @@ async function doWithMirrors(opts) {
   try {
     actionRes = await action(hexMirror)
   } catch (err) {
-    core.info(`Action ${actionTitle} failed for mirror ${hexMirror}`)
-    core.info(`${err}\n${err.stack}`)
+    core.info(
+      `Action ${actionTitle} failed for mirror ${hexMirror}, with ${err}`,
+    )
+    core.debug(`Stacktrace: ${err.stack}`)
     actionRes = await doWithMirrors({
       hexMirrors: hexMirrorsT,
       actionTitle,

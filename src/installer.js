@@ -120,9 +120,13 @@ async function installTool(opts) {
   const { toolName, installOpts, cachePath0 } = opts
   let cachePath = cachePath0
 
+  core.debug(`Checking if ${toolName} is already cached...`)
   if (cachePath === '') {
+    core.debug("  ... it isn't!")
     const file = await tc.downloadTool(installOpts.downloadToolURL)
     cachePath = await installOpts.postDownloadCache(file)
+  } else {
+    core.debug(`  ... it is, at ${cachePath}`)
   }
 
   if (installOpts.installCmdArgsOptions) {
@@ -132,7 +136,9 @@ async function installTool(opts) {
 
   const binFolder = path.join(cachePath, 'bin')
   core.addPath(binFolder)
-  core.exportVariable(`INSTALL_DIR_FOR_${toolName}`.toUpperCase(), cachePath)
+  const installDirForVarName = `INSTALL_DIR_FOR_${toolName}`.toUpperCase()
+  core.debug(`Exporting ${installDirForVarName} as ${cachePath}`)
+  core.exportVariable(installDirForVarName, cachePath)
   await installOpts.postInstall(binFolder)
 }
 
