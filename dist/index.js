@@ -9973,7 +9973,38 @@ async function install(toolName, opts) {
             return [cmd, args]
           },
         },
-        win32: {},
+        win32: {
+          downloadToolURL: () => {
+            let zip
+            if (
+              versionSpec === 'nightly' ||
+              semver.gt(versionSpec, 'v0.22.1')
+            ) {
+              zip = `gleam-${versionSpec}-x86_64-pc-windows-msvc.zip`
+            } else {
+              zip = `gleam-${versionSpec}-windows-64bit.zip`
+            }
+
+            return `"https://github.com/gleam-lang/gleam/releases/download/${versionSpec}/${zip}"`
+          },
+          whenNotCached: async (file) => {
+            const dest = 'bin'
+            const targetDir = await tc.extractZip(file, dest)
+            const cachePath = await tc.cacheDir(
+              targetDir,
+              toolName,
+              versionSpec,
+            )
+
+            return cachePath
+          },
+          outputVersion: () => {
+            const cmd = 'gleam'
+            const args = ['--version']
+
+            return [cmd, args]
+          },
+        },
       }
       break
     case 'rebar3':
@@ -9987,7 +10018,7 @@ async function install(toolName, opts) {
 
 async function installTool(opts) {
   const { toolName, versionSpec, installOpts } = opts
-  const platformOpts = installOpts.all || installOpts[process.platform]
+  const platformOpts = installOpts[process.platform] || installOpts.all
   let cachePath = tc.find(toolName, versionSpec)
 
   core.debug(`Checking if ${toolName} is already cached...`)
