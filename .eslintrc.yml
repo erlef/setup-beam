@@ -12,6 +12,7 @@ rules:
   no-use-before-define: 0
   operator-linebreak: 0
   semi: 0
+  implicit-arrow-linebreak: 0
 
 settings:
   react:

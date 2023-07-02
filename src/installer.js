@@ -4,13 +4,12 @@ const tc = require('@actions/tool-cache')
 const path = require('path')
 const fs = require('fs')
 const os = require('os')
+const semver = require('semver')
 
 async function install(toolName, opts) {
   const { osVersion, toolVersion, hexMirror } = opts
   const versionSpec =
     osVersion !== undefined ? `${osVersion}/${toolVersion}` : toolVersion
-  const cachePath0 = tc.find(toolName, versionSpec)
-  const processPlatform = process.platform
   let installOpts
 
   // The installOpts object is composed of supported processPlatform keys
@@ -18,170 +17,178 @@ async function install(toolName, opts) {
   // In each of these keys there's an object with keys:
   // * downloadToolURL
   //     - where to fetch the downloadable from
-  // * postDownloadCache
+  // * whenNotCached
   //     - what to do with the downloadable (e.g. cache the tool using tc)
-  // * installCmdArgsOptions [optional]
-  //     - return a [cmd, args, options] list to execute the installer
-  // * postInstall
-  ///    - what to execute after installation is concluded (e.g. output the tool version)
+  // * outputVersion
+  ///    - configuration elements on how to output the tool version, post-install
 
   switch (toolName) {
     case 'otp':
       installOpts = {
+        tool: 'Erlang/OTP',
         linux: {
-          downloadToolURL: `${hexMirror}/builds/otp/${versionSpec}.tar.gz`,
-          postDownloadCache: async (file) => {
+          downloadToolURL: () =>
+            `${hexMirror}/builds/otp/${versionSpec}.tar.gz`,
+          whenNotCached: async (file) => {
             const dest = undefined
             const flags = ['zx', '--strip-components=1']
             const targetDir = await tc.extractTar(file, dest, flags)
-            return tc.cacheDir(targetDir, toolName, versionSpec)
+            const cachePathNoBin = await tc.cacheDir(
+              targetDir,
+              toolName,
+              versionSpec,
+            )
+
+            const cmd = path.join(cachePathNoBin, 'Install')
+            const args = ['-minimal', cachePathNoBin]
+            await exec(cmd, args)
+
+            const cachePath = path.join(cachePathNoBin, 'bin')
+            return cachePath
           },
-          installCmdArgsOptions: (cachePath) => {
-            const cmd = path.join(cachePath, 'Install')
-            const args = ['-minimal', cachePath]
-            const options = {}
-            return [cmd, args, options]
-          },
-          postInstall: async (binFolder) => {
-            core.info('Installed Erlang/OTP version')
-            const cmd = path.join(binFolder, 'erl')
+          outputVersion: () => {
+            const cmd = 'erl'
             const args = ['-version']
-            return exec(cmd, args)
+
+            return [cmd, args]
           },
         },
         win32: {
-          downloadToolURL:
+          downloadToolURL: () =>
             'https://github.com/erlang/otp/releases/download/' +
             `OTP-${toolVersion}/otp_win64_${toolVersion}.exe`,
-          postDownloadCache: async (file) => {
+          whenNotCached: async (file) => {
             const targetFile = 'otp.exe'
-            return tc.cacheFile(file, targetFile, toolName, versionSpec)
+            const cachePathNoBin = await tc.cacheFile(
+              file,
+              targetFile,
+              toolName,
+              versionSpec,
+            )
+
+            const cmd = path.join(cachePathNoBin, 'otp.exe')
+            const args = ['/S', `/D=${cachePathNoBin}`]
+            await exec(cmd, args)
+
+            const cachePath = path.join(cachePathNoBin, 'bin')
+            return cachePath
           },
-          installCmdArgsOptions: (cachePath) => {
-            const cmd = path.join(cachePath, 'otp.exe')
-            const args = ['/S', `/D=${cachePath}`]
-            const options = {}
-            return [cmd, args, options]
-          },
-          postInstall: async (binFolder) => {
-            core.info('Installed Erlang/OTP version')
-            const cmd = path.join(binFolder, 'erl.exe')
+          outputVersion: () => {
+            const cmd = 'erl.exe'
             const args = ['+V']
-            return exec(cmd, args)
+
+            return [cmd, args]
           },
         },
       }
       break
     case 'elixir':
       installOpts = {
+        tool: 'Elixir',
         all: {
-          downloadToolURL: `${hexMirror}/builds/elixir/${toolVersion}.zip`,
-          postDownloadCache: async (file) => {
+          downloadToolURL: () =>
+            `${hexMirror}/builds/elixir/${versionSpec}.zip`,
+          whenNotCached: async (file) => {
             const targetDir = await tc.extractZip(file)
-            return tc.cacheDir(targetDir, toolName, versionSpec)
-          },
-          postInstall: async (binFolder) => {
+            const cachePathNoBin = await tc.cacheDir(
+              targetDir,
+              toolName,
+              versionSpec,
+            )
+
             const escriptsPath = path.join(os.homedir(), '.mix', 'escripts')
             await fs.promises.mkdir(escriptsPath, { recursive: true })
             core.addPath(escriptsPath)
-            core.info('Installed Elixir version')
+
             if (debugLoggingEnabled()) {
               core.exportVariable('ELIXIR_CLI_ECHO', 'true')
             }
-            const cmd = path.join(binFolder, 'elixir')
+
+            const cachePath = path.join(cachePathNoBin, 'bin')
+            return cachePath
+          },
+          outputVersion: () => {
+            const cmd = 'elixir'
             const args = ['-v']
-            const options = { windowsVerbatimArguments: true }
-            return exec(cmd, args, options)
+
+            return [cmd, args]
           },
         },
       }
       break
     case 'gleam':
-      await installGleam(toolVersion)
+      installOpts = {
+        tool: 'Gleam',
+        linux: {
+          downloadToolURL: () => {
+            let gz
+            if (
+              versionSpec === 'nightly' ||
+              semver.gt(versionSpec, 'v0.22.1')
+            ) {
+              gz = `gleam-${versionSpec}-x86_64-unknown-linux-musl.tar.gz`
+            } else {
+              gz = `gleam-${versionSpec}-linux-amd64.tar.gz`
+            }
+
+            return `https://github.com/gleam-lang/gleam/releases/download/${versionSpec}/${gz}`
+          },
+          whenNotCached: async (file) => {
+            const dest = 'bin'
+            const flags = ['zx']
+            const targetDir = await tc.extractTar(file, dest, flags)
+            const cachePath = await tc.cacheDir(
+              targetDir,
+              toolName,
+              versionSpec,
+            )
+
+            return cachePath
+          },
+          outputVersion: () => {
+            const cmd = 'gleam'
+            const args = ['--version']
+
+            return [cmd, args]
+          },
+        },
+        win32: {},
+      }
       break
     case 'rebar3':
-      await installRebar3(toolVersion)
       break
     default:
       throw new Error(`no installer for ${toolName}`)
   }
 
-  if (['otp', 'elixir'].includes(toolName)) {
-    // Temp.: this will otherwise break for Gleam and Rebar3
-    await installTool({
-      toolName,
-      installOpts: installOpts.all || installOpts[processPlatform],
-      cachePath0,
-    })
-  }
+  await installTool({ toolName, versionSpec, installOpts })
 }
 
 async function installTool(opts) {
-  const { toolName, installOpts, cachePath0 } = opts
-  let cachePath = cachePath0
+  const { toolName, versionSpec, installOpts } = opts
+  const platformOpts = installOpts.all || installOpts[process.platform]
+  let cachePath = tc.find(toolName, versionSpec)
 
   core.debug(`Checking if ${toolName} is already cached...`)
   if (cachePath === '') {
     core.debug("  ... it isn't!")
-    const file = await tc.downloadTool(installOpts.downloadToolURL)
-    cachePath = await installOpts.postDownloadCache(file)
+    const downloadToolURL = platformOpts.downloadToolURL()
+    const file = await tc.downloadTool(downloadToolURL)
+    cachePath = await platformOpts.whenNotCached(file)
   } else {
     core.debug(`  ... it is, at ${cachePath}`)
   }
 
-  if (installOpts.installCmdArgsOptions) {
-    const [cmd, args, options] = installOpts.installCmdArgsOptions(cachePath)
-    await exec(cmd, args, options)
-  }
+  core.debug(`Adding ${cachePath} to system path`)
+  core.addPath(cachePath)
 
-  const binFolder = path.join(cachePath, 'bin')
-  core.addPath(binFolder)
   const installDirForVarName = `INSTALL_DIR_FOR_${toolName}`.toUpperCase()
   core.debug(`Exporting ${installDirForVarName} as ${cachePath}`)
   core.exportVariable(installDirForVarName, cachePath)
-  await installOpts.postInstall(binFolder)
-}
 
-/**
- * Install Gleam.
- *
- * @param {string} gleamVersion
- */
-async function installGleam(gleamVersion) {
-  let cmd
-  let args
-
-  const OS = process.platform
-  if (OS === 'linux') {
-    cmd = path.join(__dirname, 'install-gleam.sh')
-    args = [gleamVersion]
-    await exec(cmd, args)
-  } else if (OS === 'win32') {
-    cmd = `pwsh.exe ${path.join(__dirname, 'install-gleam.ps1')}`
-    args = [`-VSN:${gleamVersion}`]
-    await exec(cmd, args)
-  }
-}
-
-/**
- * Install rebar3.
- *
- * @param {string} rebar3Version
- */
-async function installRebar3(rebar3Version) {
-  let cmd
-  let args
-
-  const OS = process.platform
-  if (OS === 'linux') {
-    cmd = path.join(__dirname, 'install-rebar3.sh')
-    args = [rebar3Version]
-    await exec(cmd, args)
-  } else if (OS === 'win32') {
-    cmd = `pwsh.exe ${path.join(__dirname, 'install-rebar3.ps1')}`
-    args = [`-VSN:${rebar3Version}`]
-    await exec(cmd, args)
-  }
+  core.info(`Installed ${installOpts.tool} version`)
+  const [cmd, args] = platformOpts.outputVersion()
+  await exec(cmd, args)
 }
 
 function checkPlatform() {
