@@ -10039,7 +10039,46 @@ async function install(toolName, opts) {
             return [cmd, args]
           },
         },
-        win32: {},
+        win32: {
+          downloadToolURL: () => {
+            let url
+            if (versionSpec === 'nightly') {
+              url = 'https://s3.amazonaws.com/rebar3-nightly/rebar3'
+            } else {
+              url = `https://github.com/erlang/rebar3/releases/download/${versionSpec}/rebar3`
+            }
+
+            return url
+          },
+          whenNotCached: async (file) => {
+            const folder = path.dirname(file)
+            const filename = path.basename(file)
+            const cachePath = path.join(folder, 'bin')
+            fs.mkdirSync(cachePath)
+            const targetFile = path.join(cachePath, filename)
+            fs.rename(file, targetFile)
+
+            const ps1Filename = path.join(cachePath, 'rebar3.ps1')
+            fs.writeFileSync(
+              ps1Filename,
+              `& escript.exe ${cachePath}/rebar3 \`\${args}`,
+            )
+
+            const cmdFilename = path.join(cachePath, 'rebar3.cmd')
+            fs.writeFileSync(
+              cmdFilename,
+              `@echo off\`r\`nescript.exe ${cachePath}/rebar3 %*`,
+            )
+
+            return cachePath
+          },
+          outputVersion: () => {
+            const cmd = 'rebar3.cmd'
+            const args = ['version']
+
+            return [cmd, args]
+          },
+        },
       }
       break
     default:
