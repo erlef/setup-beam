@@ -10008,6 +10008,39 @@ async function install(toolName, opts) {
       }
       break
     case 'rebar3':
+      installOpts = {
+        tool: 'Rebar3',
+        linux: {
+          downloadToolURL: () => {
+            let url
+            if (versionSpec === 'nightly') {
+              url = 'https://s3.amazonaws.com/rebar3-nightly/rebar3'
+            } else {
+              url = `https://github.com/erlang/rebar3/releases/download/${versionSpec}/rebar3`
+            }
+
+            return url
+          },
+          whenNotCached: async (file) => {
+            const folder = path.dirname(file)
+            const filename = path.basename(file)
+            const cachePath = path.join(folder, 'bin')
+            fs.mkdirSync(cachePath)
+            const targetFile = path.join(cachePath, filename)
+            fs.rename(file, targetFile)
+            fs.chmodSync(targetFile, 0o755)
+
+            return cachePath
+          },
+          outputVersion: () => {
+            const cmd = 'rebar3'
+            const args = ['version']
+
+            return [cmd, args]
+          },
+        },
+        win32: {},
+      }
       break
     default:
       throw new Error(`no installer for ${toolName}`)
