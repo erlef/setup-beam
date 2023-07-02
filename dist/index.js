@@ -9838,9 +9838,14 @@ async function install(toolName, opts) {
   // In each of these keys there's an object with keys:
   // * downloadToolURL
   //     - where to fetch the downloadable from
-  // * whenNotCached
-  //     - what to do with the downloadable (e.g. cache the tool using tc)
-  // * outputVersion
+  // * extract
+  //     - if the downloadable is compressed: how to extract it
+  //       - return ['dir', targetDir]
+  //     - if the downloadable is not compressed: a filename.ext you want to cache it under
+  //       - return ['file', filenameWithExt]
+  // * postExtract
+  //     - stuff to execute outside the cache scope (just after it's created)
+  // * reportVersion
   ///    - configuration elements on how to output the tool version, post-install
 
   switch (toolName) {
@@ -9850,24 +9855,19 @@ async function install(toolName, opts) {
         linux: {
           downloadToolURL: () =>
             `${hexMirror}/builds/otp/${versionSpec}.tar.gz`,
-          whenNotCached: async (file) => {
+          extract: async (file) => {
             const dest = undefined
             const flags = ['zx', '--strip-components=1']
             const targetDir = await tc.extractTar(file, dest, flags)
-            const cachePathNoBin = await tc.cacheDir(
-              targetDir,
-              toolName,
-              versionSpec,
-            )
 
-            const cmd = path.join(cachePathNoBin, 'Install')
-            const args = ['-minimal', cachePathNoBin]
-            await exec(cmd, args)
-
-            const cachePath = path.join(cachePathNoBin, 'bin')
-            return cachePath
+            return ['dir', targetDir]
           },
-          outputVersion: () => {
+          postExtract: async (cachePath) => {
+            const cmd = path.join(cachePath, 'Install')
+            const args = ['-minimal', cachePath]
+            await exec(cmd, args)
+          },
+          reportVersion: () => {
             const cmd = 'erl'
             const args = ['-version']
 
@@ -9878,23 +9878,13 @@ async function install(toolName, opts) {
           downloadToolURL: () =>
             'https://github.com/erlang/otp/releases/download/' +
             `OTP-${toolVersion}/otp_win64_${toolVersion}.exe`,
-          whenNotCached: async (file) => {
-            const targetFile = 'otp.exe'
-            const cachePathNoBin = await tc.cacheFile(
-              file,
-              targetFile,
-              toolName,
-              versionSpec,
-            )
-
-            const cmd = path.join(cachePathNoBin, 'otp.exe')
-            const args = ['/S', `/D=${cachePathNoBin}`]
+          extract: async () => ['file', 'otp.exe'],
+          postExtract: async (cachePath) => {
+            const cmd = path.join(cachePath, 'otp.exe')
+            const args = ['/S', `/D=${cachePath}`]
             await exec(cmd, args)
-
-            const cachePath = path.join(cachePathNoBin, 'bin')
-            return cachePath
           },
-          outputVersion: () => {
+          reportVersion: () => {
             const cmd = 'erl.exe'
             const args = ['+V']
 
@@ -9909,26 +9899,21 @@ async function install(toolName, opts) {
         all: {
           downloadToolURL: () =>
             `${hexMirror}/builds/elixir/${versionSpec}.zip`,
-          whenNotCached: async (file) => {
+          extract: async (file) => {
             const targetDir = await tc.extractZip(file)
-            const cachePathNoBin = await tc.cacheDir(
-              targetDir,
-              toolName,
-              versionSpec,
-            )
 
+            return ['dir', targetDir]
+          },
+          postExtract: async () => {
             const escriptsPath = path.join(os.homedir(), '.mix', 'escripts')
-            await fs.promises.mkdir(escriptsPath, { recursive: true })
+            fs.mkdirSync(escriptsPath, { recursive: true })
             core.addPath(escriptsPath)
 
             if (debugLoggingEnabled()) {
               core.exportVariable('ELIXIR_CLI_ECHO', 'true')
             }
-
-            const cachePath = path.join(cachePathNoBin, 'bin')
-            return cachePath
           },
-          outputVersion: () => {
+          reportVersion: () => {
             const cmd = 'elixir'
             const args = ['-v']
 
@@ -9954,19 +9939,21 @@ async function install(toolName, opts) {
 
             return `https://github.com/gleam-lang/gleam/releases/download/${versionSpec}/${gz}`
           },
-          whenNotCached: async (file) => {
-            const dest = 'bin'
+          extract: async (file) => {
+            const dest = undefined
             const flags = ['zx']
             const targetDir = await tc.extractTar(file, dest, flags)
-            const cachePath = await tc.cacheDir(
-              targetDir,
-              toolName,
-              versionSpec,
-            )
 
-            return cachePath
+            return ['dir', targetDir]
           },
-          outputVersion: () => {
+          postExtract: async (cachePath) => {
+            const bindir = path.join(cachePath, 'bin')
+            const oldPath = path.join(cachePath, 'gleam')
+            const newPath = path.join(bindir, 'gleam')
+            fs.mkdirSync(bindir)
+            fs.renameSync(oldPath, newPath)
+          },
+          reportVersion: () => {
             const cmd = 'gleam'
             const args = ['--version']
 
@@ -9985,21 +9972,22 @@ async function install(toolName, opts) {
               zip = `gleam-${versionSpec}-windows-64bit.zip`
             }
 
-            return `"https://github.com/gleam-lang/gleam/releases/download/${versionSpec}/${zip}"`
+            return `https://github.com/gleam-lang/gleam/releases/download/${versionSpec}/${zip}`
           },
-          whenNotCached: async (file) => {
-            const dest = 'bin'
-            const targetDir = await tc.extractZip(file, dest)
-            const cachePath = await tc.cacheDir(
-              targetDir,
-              toolName,
-              versionSpec,
-            )
+          extract: async (file) => {
+            const targetDir = await tc.extractZip(file)
 
-            return cachePath
+            return ['dir', targetDir]
           },
-          outputVersion: () => {
-            const cmd = 'gleam'
+          postExtract: async (cachePath) => {
+            const bindir = path.join(cachePath, 'bin')
+            const oldPath = path.join(cachePath, 'gleam.exe')
+            const newPath = path.join(bindir, 'gleam.exe')
+            fs.mkdirSync(bindir)
+            fs.renameSync(oldPath, newPath)
+          },
+          reportVersion: () => {
+            const cmd = 'gleam.exe'
             const args = ['--version']
 
             return [cmd, args]
@@ -10021,18 +10009,16 @@ async function install(toolName, opts) {
 
             return url
           },
-          whenNotCached: async (file) => {
-            const folder = path.dirname(file)
-            const filename = path.basename(file)
-            const cachePath = path.join(folder, 'bin')
-            fs.mkdirSync(cachePath)
-            const targetFile = path.join(cachePath, filename)
-            fs.rename(file, targetFile)
-            fs.chmodSync(targetFile, 0o755)
-
-            return cachePath
+          extract: async () => ['file', 'rebar3'],
+          postExtract: async (cachePath) => {
+            const bindir = path.join(cachePath, 'bin')
+            const oldPath = path.join(cachePath, 'rebar3')
+            const newPath = path.join(bindir, 'rebar3')
+            fs.mkdirSync(bindir)
+            fs.renameSync(oldPath, newPath)
+            fs.chmodSync(newPath, 0o755)
           },
-          outputVersion: () => {
+          reportVersion: () => {
             const cmd = 'rebar3'
             const args = ['version']
 
@@ -10050,29 +10036,23 @@ async function install(toolName, opts) {
 
             return url
           },
-          whenNotCached: async (file) => {
-            const folder = path.dirname(file)
-            const filename = path.basename(file)
-            const cachePath = path.join(folder, 'bin')
-            fs.mkdirSync(cachePath)
-            const targetFile = path.join(cachePath, filename)
-            fs.rename(file, targetFile)
+          extract: async () => ['file', 'rebar3'],
+          postExtract: async (cachePath) => {
+            const bindir = path.join(cachePath, 'bin')
+            const oldPath = path.join(cachePath, 'rebar3')
+            fs.mkdirSync(bindir)
+            fs.chmodSync(oldPath, 0o755)
 
-            const ps1Filename = path.join(cachePath, 'rebar3.ps1')
-            fs.writeFileSync(
-              ps1Filename,
-              `& escript.exe ${cachePath}/rebar3 \`\${args}`,
-            )
+            const ps1Filename = path.join(bindir, 'rebar3.ps1')
+            fs.writeFileSync(ps1Filename, `& escript.exe ${oldPath} \${args}`)
 
-            const cmdFilename = path.join(cachePath, 'rebar3.cmd')
+            const cmdFilename = path.join(bindir, 'rebar3.cmd')
             fs.writeFileSync(
               cmdFilename,
-              `@echo off\`r\`nescript.exe ${cachePath}/rebar3 %*`,
+              `@echo off\r\nescript.exe ${oldPath} %*`,
             )
-
-            return cachePath
           },
-          outputVersion: () => {
+          reportVersion: () => {
             const cmd = 'rebar3.cmd'
             const args = ['version']
 
@@ -10093,25 +10073,34 @@ async function installTool(opts) {
   const platformOpts = installOpts[process.platform] || installOpts.all
   let cachePath = tc.find(toolName, versionSpec)
 
-  core.debug(`Checking if ${toolName} is already cached...`)
+  core.debug(`Checking if ${installOpts.tool} is already cached...`)
   if (cachePath === '') {
     core.debug("  ... it isn't!")
     const downloadToolURL = platformOpts.downloadToolURL()
     const file = await tc.downloadTool(downloadToolURL)
-    cachePath = await platformOpts.whenNotCached(file)
+    const [targetElemType, targetElem] = await platformOpts.extract(file)
+
+    if (targetElemType === 'dir') {
+      cachePath = await tc.cacheDir(targetElem, toolName, versionSpec)
+    } else if (targetElemType === 'file') {
+      cachePath = await tc.cacheFile(file, targetElem, toolName, versionSpec)
+    }
   } else {
     core.debug(`  ... it is, at ${cachePath}`)
   }
 
-  core.debug(`Adding ${cachePath} to system path`)
-  core.addPath(cachePath)
+  core.debug('Performing post extract operations...')
+  await platformOpts.postExtract(cachePath)
+
+  core.debug(`Adding ${cachePath}'s bin to system path`)
+  core.addPath(path.join(cachePath, 'bin'))
 
   const installDirForVarName = `INSTALL_DIR_FOR_${toolName}`.toUpperCase()
   core.debug(`Exporting ${installDirForVarName} as ${cachePath}`)
   core.exportVariable(installDirForVarName, cachePath)
 
   core.info(`Installed ${installOpts.tool} version`)
-  const [cmd, args] = platformOpts.outputVersion()
+  const [cmd, args] = platformOpts.reportVersion()
   await exec(cmd, args)
 }
 
@@ -10161,7 +10150,7 @@ async function main() {
         "you have to set version-type=strict if you're using version-file",
       )
     }
-    versions = parseVersionFile(versionFilePath)
+    versions = await parseVersionFile(versionFilePath)
   }
 
   const osVersion = getRunnerOSVersion()
@@ -10720,7 +10709,7 @@ alongside ${alternativeName}=${alternativeValue} \
   return input
 }
 
-function parseVersionFile(versionFilePath0) {
+async function parseVersionFile(versionFilePath0) {
   const versionFilePath = path.join(
     process.env.GITHUB_WORKSPACE,
     versionFilePath0,

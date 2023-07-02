@@ -514,7 +514,7 @@ rebar ${rebar3}`
   const filename = 'test/.tool-versions'
   fs.writeFileSync(filename, toolVersions)
   process.env.GITHUB_WORKSPACE = ''
-  const appVersions = setupBeam.parseVersionFile(filename)
+  const appVersions = await setupBeam.parseVersionFile(filename)
   assert.strictEqual(appVersions.get('erlang'), erlang)
   assert.strictEqual(appVersions.get('elixir'), elixir)
 

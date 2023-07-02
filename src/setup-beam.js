@@ -21,7 +21,7 @@ async function main() {
         "you have to set version-type=strict if you're using version-file",
       )
     }
-    versions = parseVersionFile(versionFilePath)
+    versions = await parseVersionFile(versionFilePath)
   }
 
   const osVersion = getRunnerOSVersion()
@@ -585,7 +585,7 @@ alongside ${alternativeName}=${alternativeValue} \
   return input
 }
 
-function parseVersionFile(versionFilePath0) {
+async function parseVersionFile(versionFilePath0) {
   const versionFilePath = path.join(
     process.env.GITHUB_WORKSPACE,
     versionFilePath0,
