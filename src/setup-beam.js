@@ -979,5 +979,6 @@ module.exports = {
   getGleamVersion,
   getRebar3Version,
   getVersionFromSpec,
+  install,
   parseVersionFile,
 }
