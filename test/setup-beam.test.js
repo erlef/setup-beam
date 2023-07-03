@@ -34,83 +34,83 @@ async function all() {
 }
 
 async function testFailInstallOTP() {
-  const osVersion = 'ubuntu-08.04'
-  const toolVersion = 'OTP-23.2'
+  const otpOSVersion = 'ubuntu-08.04'
+  const otpVersion = 'OTP-23.2'
   assert.rejects(
     async () => {
       await setupBeam.install('otp', {
         hexMirror: 'https://builds.hex.pm',
-        osVersion,
-        toolVersion,
+        otpOSVersion,
+        otpVersion,
       })
     },
     (err) => {
       assert.ok(err instanceof Error)
       return true
     },
-    `Installing Erlang/OTP ${toolVersion} over ${osVersion} is supposed to fail`,
+    `Installing Erlang/OTP ${otpVersion} over ${otpOSVersion} is supposed to fail`,
   )
 }
 
 async function testFailInstallElixir() {
-  let toolVersion
+  let exVersion
 
-  toolVersion = '0.11'
+  exVersion = '0.11'
   assert.rejects(
     async () => {
       await setupBeam.install('elixir', {
         hexMirror: 'https://builds.hex.pm',
-        toolVersion,
+        exVersion,
       })
     },
     (err) => {
       assert.ok(err instanceof Error)
       return true
     },
-    `Installing Elixir ${toolVersion} is supposed to fail`,
+    `Installing Elixir ${exVersion} is supposed to fail`,
   )
 
-  toolVersion = 'v1.0.0-otp-17'
+  exVersion = 'v1.0.0-otp-17'
   assert.rejects(
     async () => {
       await setupBeam.install('elixir', {
         hexMirror: 'https://builds.hex.pm',
-        toolVersion,
+        exVersion,
       })
     },
     (err) => {
       assert.ok(err instanceof Error)
       return true
     },
-    `Installing Elixir ${toolVersion} is supposed to fail`,
+    `Installing Elixir ${exVersion} is supposed to fail`,
   )
 }
 
 async function testFailInstallGleam() {
-  const toolVersion = '0.1.3'
+  const gleamVersion = '0.1.3'
   assert.rejects(
     async () => {
-      await setupBeam.install('gleam', { toolVersion })
+      await setupBeam.install('gleam', { gleamVersion })
     },
     (err) => {
       assert.ok(err instanceof Error)
       return true
     },
-    `Installing Gleam ${toolVersion} is supposed to fail`,
+    `Installing Gleam ${gleamVersion} is supposed to fail`,
   )
 }
 
 async function testFailInstallRebar3() {
-  const toolVersion = '0.14.4'
+  const r3Version = '0.14.4'
   assert.rejects(
     async () => {
-      await setupBeam.install('rebar3', { toolVersion })
+      await setupBeam.install('rebar3', { r3Version })
     },
     (err) => {
       assert.ok(err instanceof Error)
       return true
     },
-    `Installing rebar3 ${toolVersion} is supposed to fail`,
+    `Installing rebar3 ${r3Version} is supposed to fail`,
   )
 }
 
