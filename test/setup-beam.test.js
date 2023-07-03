@@ -10,7 +10,6 @@ const assert = require('assert')
 const fs = require('fs')
 const core = require('@actions/core')
 const setupBeam = require('../src/setup-beam')
-const installer = require('../src/installer')
 const { problemMatcher } = require('../matchers/elixir-matchers.json')
 
 async function all() {
@@ -39,7 +38,7 @@ async function testFailInstallOTP() {
   const toolVersion = 'OTP-23.2'
   assert.rejects(
     async () => {
-      await installer.install('otp', {
+      await setupBeam.install('otp', {
         hexMirror: 'https://builds.hex.pm',
         osVersion,
         toolVersion,
@@ -59,7 +58,7 @@ async function testFailInstallElixir() {
   toolVersion = '0.11'
   assert.rejects(
     async () => {
-      await installer.install('elixir', {
+      await setupBeam.install('elixir', {
         hexMirror: 'https://builds.hex.pm',
         toolVersion,
       })
@@ -74,7 +73,7 @@ async function testFailInstallElixir() {
   toolVersion = 'v1.0.0-otp-17'
   assert.rejects(
     async () => {
-      await installer.install('elixir', {
+      await setupBeam.install('elixir', {
         hexMirror: 'https://builds.hex.pm',
         toolVersion,
       })
@@ -91,7 +90,7 @@ async function testFailInstallGleam() {
   const toolVersion = '0.1.3'
   assert.rejects(
     async () => {
-      await installer.install('gleam', { toolVersion })
+      await setupBeam.install('gleam', { toolVersion })
     },
     (err) => {
       assert.ok(err instanceof Error)
@@ -105,7 +104,7 @@ async function testFailInstallRebar3() {
   const toolVersion = '0.14.4'
   assert.rejects(
     async () => {
-      await installer.install('rebar3', { toolVersion })
+      await setupBeam.install('rebar3', { toolVersion })
     },
     (err) => {
       assert.ok(err instanceof Error)
@@ -525,16 +524,16 @@ rebar ${rebar3}`
   assert.strictEqual(appVersions.get('elixir'), elixir)
 
   assert.ok(async () => {
-    await installer.install('otp', { toolVersion: erlang })
+    await setupBeam.install('otp', { toolVersion: erlang })
   })
   assert.ok(async () => {
-    await installer.install('elixir', { toolVersion: elixir })
+    await setupBeam.install('elixir', { toolVersion: elixir })
   })
   assert.ok(async () => {
-    await installer.install('gleam', { toolVersion: gleam })
+    await setupBeam.install('gleam', { toolVersion: gleam })
   })
   assert.ok(async () => {
-    await installer.install('rebar3', { toolVersion: rebar3 })
+    await setupBeam.install('rebar3', { toolVersion: rebar3 })
   })
 
   simulateInput('otp-version', otpVersion)
