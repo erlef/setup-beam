@@ -9979,11 +9979,9 @@ async function maybeInstallRebar3(rebar3Spec) {
 
 async function getOTPVersion(otpSpec0, osVersion) {
   const otpVersions = await getOTPVersions(osVersion)
-  let otpSpec = otpSpec0.replace(/^OTP-/, '')
-  const otpVersion = getVersionFromSpec(
-    otpSpec,
-    Array.from(otpVersions.keys()).sort(),
-  )
+  let spec = otpSpec0.replace(/^OTP-/, '')
+  const versions = otpVersions
+  const otpVersion = getVersionFromSpec(spec, versions)
   if (otpVersion === null) {
     throw new Error(
       `Requested Erlang/OTP version (${otpSpec0}) not found in version list ` +
