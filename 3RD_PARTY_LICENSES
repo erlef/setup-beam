@@ -1054,7 +1054,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: available-typed-arrays, is-weakref, typed-array-length. A copy of the source code may be downloaded from git+https://github.com/inspect-js/available-typed-arrays.git (available-typed-arrays), git+https://github.com/inspect-js/is-weakref.git (is-weakref), git+https://github.com/inspect-js/typed-array-length.git (typed-array-length). This software contains the following license and notice below:
+The following software may be included in this product: available-typed-arrays, is-weakref, typed-array-byte-offset, typed-array-length. A copy of the source code may be downloaded from git+https://github.com/inspect-js/available-typed-arrays.git (available-typed-arrays), git+https://github.com/inspect-js/is-weakref.git (is-weakref), git+https://github.com/inspect-js/typed-array-byte-offset.git (typed-array-byte-offset), git+https://github.com/inspect-js/typed-array-length.git (typed-array-length). This software contains the following license and notice below:
 
 MIT License
 
