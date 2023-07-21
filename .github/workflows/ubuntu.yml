@@ -6,7 +6,8 @@ on:
     branches:
       - main
   pull_request:
-    types: [opened, synchronize]
+    branches:
+      - main
 
 jobs:
   integration_test:
@@ -111,12 +112,10 @@ jobs:
             otp-version: '22.3.4.1'
             os: 'ubuntu-20.04'
             version-type: 'strict'
-          - elixir-version: '1.10.3'
-            otp-version: '22.3.4.1'
-            os: 'ubuntu-20.04'
           - elixir-version: 'main'
             otp-version: '23.1'
             os:  'ubuntu-20.04'
+            version-type: 'strict'
           - elixir-version: 'main'
             otp-version: '25'
             os:  'ubuntu-20.04'

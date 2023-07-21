@@ -35,15 +35,16 @@ async function main() {
 
   if (otpSpec !== 'false') {
     await installOTP(otpSpec, osVersion, hexMirrors)
+
     const elixirInstalled = await maybeInstallElixir(
       elixirSpec,
       otpSpec,
       hexMirrors,
     )
-
     if (elixirInstalled === true) {
       const shouldMixRebar = getInput('install-rebar', false)
       await mix(shouldMixRebar, 'rebar', hexMirrors)
+
       const shouldMixHex = getInput('install-hex', false)
       await mix(shouldMixHex, 'hex', hexMirrors)
     }
@@ -67,7 +68,6 @@ async function installOTP(otpSpec, osVersion, hexMirrors) {
 
 async function maybeInstallElixir(elixirSpec, otpSpec, hexMirrors) {
   let installed = false
-
   if (elixirSpec) {
     const elixirVersion = await getElixirVersion(
       elixirSpec,
@@ -77,6 +77,7 @@ async function maybeInstallElixir(elixirSpec, otpSpec, hexMirrors) {
     core.startGroup(`Installing Elixir ${elixirVersion}`)
     await installer.installElixir(elixirVersion, hexMirrors)
     core.setOutput('elixir-version', elixirVersion)
+
     const disableProblemMatchers = getInput('disable_problem_matchers', false)
     if (disableProblemMatchers === 'false') {
       const elixirMatchers = path.join(
@@ -99,6 +100,7 @@ async function mixWithMirrors(cmd, args, hexMirrors) {
   if (hexMirrors.length === 0) {
     throw new Error('mix failed with every mirror')
   }
+
   const [hexMirror, ...hexMirrorsT] = hexMirrors
   process.env.HEX_MIRROR = hexMirror
   try {
@@ -108,6 +110,7 @@ async function mixWithMirrors(cmd, args, hexMirrors) {
       `mix failed with mirror ${process.env.HEX_MIRROR} with message ${err.message})`,
     )
   }
+
   return mixWithMirrors(cmd, args, hexMirrorsT)
 }
 
@@ -123,7 +126,6 @@ async function mix(shouldMix, what, hexMirrors) {
 
 async function maybeInstallGleam(gleamSpec) {
   let installed = false
-
   if (gleamSpec) {
     const gleamVersion = await getGleamVersion(gleamSpec)
     core.startGroup(`Installing Gleam ${gleamVersion}`)
@@ -141,7 +143,6 @@ async function maybeInstallGleam(gleamSpec) {
 async function maybeInstallRebar3(rebar3Spec) {
   let installed = false
   let rebar3Version
-
   if (rebar3Spec) {
     if (rebar3Spec === 'nightly') {
       rebar3Version = 'nightly'
@@ -162,14 +163,9 @@ async function maybeInstallRebar3(rebar3Spec) {
 
 async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
   const otpVersions = await getOTPVersions(osVersion, hexMirrors)
-  let otpSpec = otpSpec0 // might be a branch (?)
-  const otpVersion = getVersionFromSpec(
-    otpSpec,
-    Array.from(otpVersions.keys()).sort(),
-  )
-  if (isVersion(otpSpec0)) {
-    otpSpec = `OTP-${otpSpec0}` // ... it's a version!
-  }
+  const spec = otpSpec0.replace(/^OTP-/, '')
+  const versions = otpVersions
+  const otpVersion = getVersionFromSpec(spec, versions)
   if (otpVersion === null) {
     throw new Error(
       `Requested Erlang/OTP version (${otpSpec0}) not found in version list ` +
@@ -177,20 +173,18 @@ async function getOTPVersion(otpSpec0, osVersion, hexMirrors) {
     )
   }
 
-  return otpVersions.get(otpVersion) // from the reference, for download
+  return otpVersion // from the reference, for download
 }
 
 async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
   const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
   const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
-  const elixirVersions = await getElixirVersions(hexMirrors)
-  const semverVersions = Array.from(elixirVersions.keys()).sort()
-  const exSpec = exSpec0.replace(/-otp-.*$/, '')
-  const elixirVersionFromSpec = getVersionFromSpec(exSpec, semverVersions, true)
-  let elixirVersionForDownload = elixirVersionFromSpec
-  if (isVersion(otpVersionMajor)) {
-    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajor}`
-  }
+  const [otpVersionsForElixirMap, elixirVersions] = await getElixirVersions(
+    hexMirrors,
+  )
+  const spec = exSpec0.replace(/-otp-.*$/, '')
+  const versions = elixirVersions
+  const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
   if (elixirVersionFromSpec === null) {
     throw new Error(
       `Requested Elixir version (${exSpec0}) not found in version list ` +
@@ -198,7 +192,7 @@ async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
     )
   }
 
-  const elixirVersionComp = elixirVersions.get(elixirVersionFromSpec)
+  const elixirVersionComp = otpVersionsForElixirMap[elixirVersionFromSpec]
   if (
     (elixirVersionComp && elixirVersionComp.includes(otpVersionMajor)) ||
     !isVersion(otpVersionMajor)
@@ -215,13 +209,20 @@ async function getElixirVersion(exSpec0, otpVersion0, hexMirrors) {
     )
   }
 
+  let elixirVersionForDownload = elixirVersionFromSpec
+
+  if (isVersion(otpVersionMajor)) {
+    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajor}`
+  }
+
   return maybePrependWithV(elixirVersionForDownload)
 }
 
 async function getGleamVersion(gleamSpec0) {
-  const gleamSpec = gleamSpec0.match(/^v?(.+)$/)
   const gleamVersions = await getGleamVersions()
-  const gleamVersion = getVersionFromSpec(gleamSpec[1], gleamVersions, true)
+  const spec = gleamSpec0
+  const versions = gleamVersions
+  const gleamVersion = getVersionFromSpec(spec, versions)
   if (gleamVersion === null) {
     throw new Error(
       `Requested Gleam version (${gleamSpec0}) not found in version list ` +
@@ -229,12 +230,14 @@ async function getGleamVersion(gleamSpec0) {
     )
   }
 
-  return maybePrependWithV(gleamVersion, gleamVersion)
+  return maybePrependWithV(gleamVersion)
 }
 
 async function getRebar3Version(r3Spec) {
   const rebar3Versions = await getRebar3Versions()
-  const rebar3Version = getVersionFromSpec(r3Spec, rebar3Versions)
+  const spec = r3Spec
+  const versions = rebar3Versions
+  const rebar3Version = getVersionFromSpec(spec, versions)
   if (rebar3Version === null) {
     throw new Error(
       `Requested rebar3 version (${r3Spec}) not found in version list ` +
@@ -257,8 +260,9 @@ async function getOTPVersions(osVersion, hexMirrors) {
     otpVersionsListings = await get(originListing, [1, 2, 3])
   }
 
-  const otpVersions = new Map()
+  debugLog(`OTP versions listings from ${originListing}`, otpVersionsListings)
 
+  const otpVersions = {}
   if (process.platform === 'linux') {
     otpVersionsListings
       .trim()
@@ -268,8 +272,9 @@ async function getOTPVersions(osVersion, hexMirrors) {
           .match(/^([^ ]+)?( .+)/)[1]
           .match(/^([^-]+-)?(.+)$/)
         const otpVersion = otpMatch[2]
+        const otpVersionOrig = otpMatch[0]
         debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
-        otpVersions.set(otpVersion, otpMatch[0]) // we keep the original for later reference
+        otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
     otpVersionsListings.forEach((otpVersionsListing) => {
@@ -281,15 +286,12 @@ async function getOTPVersions(osVersion, hexMirrors) {
           const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
           const otpVersion = otpMatch[1]
           debugLog('OTP line and parsing', [otpMatch, otpVersion])
-          otpVersions.set(otpVersion, otpVersion)
+          otpVersions[otpVersion] = otpVersion
         })
     })
   }
 
-  debugLog(
-    `OTP versions from ${originListing}`,
-    JSON.stringify([...otpVersions.entries()]),
-  )
+  debugLog(`OTP versions from ${originListing}`, JSON.stringify(otpVersions))
 
   return otpVersions
 }
@@ -299,7 +301,8 @@ async function getElixirVersions(hexMirrors) {
     '/builds/elixir/builds.txt',
     hexMirrors,
   )
-  const otpVersionsForElixirMap = new Map()
+  const otpVersionsForElixirMap = {}
+  const elixirVersions = {}
 
   elixirVersionsListings
     .trim()
@@ -307,17 +310,18 @@ async function getElixirVersions(hexMirrors) {
     .forEach((line) => {
       const elixirMatch =
         line.match(/^v?(.+)-otp-([^ ]+)/) || line.match(/^v?([^ ]+)/)
-      const elixirVersion = maybePrependWithV(elixirMatch[1])
+      const elixirVersion = elixirMatch[1]
       const otpVersion = elixirMatch[2]
-      const otpVersions = otpVersionsForElixirMap.get(elixirVersion) || []
+      const otpVersions = otpVersionsForElixirMap[elixirVersion] || []
       if (otpVersion) {
         // -otp- present (special case)
         otpVersions.push(otpVersion)
       }
-      otpVersionsForElixirMap.set(elixirVersion, otpVersions)
+      otpVersionsForElixirMap[elixirVersion] = otpVersions
+      elixirVersions[elixirVersion] = elixirVersion
     })
 
-  return otpVersionsForElixirMap
+  return [otpVersionsForElixirMap, elixirVersions]
 }
 
 async function getGleamVersions() {
@@ -325,13 +329,17 @@ async function getGleamVersions() {
     'https://api.github.com/repos/gleam-lang/gleam/releases?per_page=100',
     [1, 2, 3],
   )
-  const gleamVersionsListing = []
+  const gleamVersionsListing = {}
   resultJSONs.forEach((resultJSON) => {
     jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
-      .sort()
-      .forEach((v) => gleamVersionsListing.push(v))
+      .forEach((ver) => {
+        const gleamMatch = ver.match(/^v?([^ ]+)/)
+        const gleamVersion = gleamMatch[1]
+        gleamVersionsListing[gleamVersion] = gleamVersion
+      })
   })
+
   return gleamVersionsListing
 }
 
@@ -340,13 +348,15 @@ async function getRebar3Versions() {
     'https://api.github.com/repos/erlang/rebar3/releases?per_page=100',
     [1, 2, 3],
   )
-  const rebar3VersionsListing = []
+  const rebar3VersionsListing = {}
   resultJSONs.forEach((resultJSON) => {
     jsonParseAsList(resultJSON)
       .map((x) => x.tag_name)
-      .sort()
-      .forEach((v) => rebar3VersionsListing.push(v))
+      .forEach((ver) => {
+        rebar3VersionsListing[ver] = ver
+      })
   })
+
   return rebar3VersionsListing
 }
 
@@ -354,48 +364,68 @@ function isStrictVersion() {
   return getInput('version-type', false) === 'strict'
 }
 
-function getVersionFromSpec(spec, versions, maybePrependWithV0) {
+function getVersionFromSpec(spec0, versions0) {
+  const spec = maybeRemoveVPrefix(spec0)
+
+  const altVersions = {}
+  Object.entries(versions0).forEach(([version, altVersion]) => {
+    let coerced
+    if (isStrictVersion() || isRC(version)) {
+      // If `version-type: strict` or version is RC, we just try to remove a potential initial v
+      coerced = maybeRemoveVPrefix(version)
+    } else {
+      // Otherwise, we place the version into a version bucket
+      coerced = maybeCoerced(version)
+    }
+    const alt = (altVersions[coerced] || []).concat(altVersion)
+    alt.sort(sortVersions)
+    altVersions[coerced] = alt
+  })
+
+  let versions = Object.keys(altVersions)
+
+  const rangeForMax = semver.validRange(spec0) || maybeCoerced(spec)
+  const rangeMax = semver.maxSatisfying(versions, rangeForMax)
   let version = null
 
-  if (spec.match(/rc/) || isStrictVersion()) {
-    version = spec
-  }
+  if (isStrictVersion() || isRC(spec0)) {
+    if (versions0[spec]) {
+      // If `version-type: strict` or version is RC, we obtain it directly
+      version = versions0[spec]
+    }
+  } else if (rangeMax !== null) {
+    // Otherwise, we compare alt. versions' semver ranges to this version, from highest to lowest
+    const thatVersion = spec
+    const thatVersionAbc = versionAbc(thatVersion)
+    const thatVersionAbcRange = semver.validRange(thatVersionAbc)
 
-  if (version === null) {
-    // We keep a map of semver => "spec" in order to use semver ranges to find appropriate versions
-    const versionsMap = versions.sort(sortVersions).reduce((acc, v) => {
-      if (!v.match(/rc/)) {
-        // release candidates are opt-in
-        acc[maybeCoerced(v)] = v
+    versions = altVersions[rangeMax]
+    for (let i = versions.length - 1; i >= 0; i -= 1) {
+      const thisVersion = versions[i]
+      const thisVersionAbc = versionAbc(thisVersion)
+      const thisVersionAbcRange = semver.validRange(thisVersionAbc)
+
+      if (
+        thatVersionAbcRange &&
+        semver.intersects(thatVersionAbcRange, thisVersionAbcRange)
+      ) {
+        version = thisVersion
+        break
       }
-      return acc
-    }, {})
-    const rangeForMax = semver.validRange(spec)
-    if (rangeForMax) {
-      version =
-        versionsMap[semver.maxSatisfying(Object.keys(versionsMap), rangeForMax)]
-    } else {
-      version = versionsMap[maybeCoerced(spec)]
     }
   }
 
-  let v = version === null || version === undefined ? null : version
-  if (maybePrependWithV0 && v != null) {
-    v = maybePrependWithV(v)
-  }
-
-  if (!versions.includes(v)) {
-    v = null
-  }
-
-  return v
+  return version || null
 }
 
 function maybeCoerced(v) {
-  let ret
-
+  let ret = null
   try {
-    ret = semver.coerce(v).version
+    if (!isRC(v)) {
+      ret = semver.coerce(v).version
+    } else {
+      ret = maybeRemoveVPrefix(v)
+    }
   } catch {
     // some stuff can't be coerced, like 'main'
     ret = v
@@ -408,11 +438,11 @@ function sortVersions(left, right) {
   let ret = 0
   const newL = verAsComparableStr(left)
   const newR = verAsComparableStr(right)
-
   function verAsComparableStr(ver) {
-    const matchGroups = 5
-    const verSpec = /([^.]+)?\.?([^.]+)?\.?([^.]+)?\.?([^.]+)?\.?([^.]+)?/
+    const matchGroups = 6
+    const verSpec = xyzAbcVersion('', '')
     const matches = ver.match(verSpec).splice(1, matchGroups)
+
     return matches.reduce((acc, v) => acc + (v || '0').padStart(3, '0'), '')
   }
 
@@ -425,6 +455,10 @@ function sortVersions(left, right) {
   return ret
 }
 
+function isRC(ver) {
+  return ver.match(xyzAbcVersion('^', '(?:-rc\\.?\\d+)'))
+}
+
 function getRunnerOSVersion() {
   const ImageOSToContainer = {
     ubuntu18: 'ubuntu-18.04',
@@ -434,7 +468,6 @@ function getRunnerOSVersion() {
     win22: 'windows-2022',
   }
   const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
-
   if (!containerFromEnvImageOS) {
     throw new Error(
       "Tried to map a target OS from env. variable 'ImageOS' (got " +
@@ -455,7 +488,6 @@ async function get(url0, pageIdxs) {
     const url = new URL(url0)
     const headers = {}
     const GithubToken = getInput('github-token', false)
-
     if (GithubToken && url.host === 'api.github.com') {
       headers.authorization = `Bearer ${GithubToken}`
     }
@@ -468,9 +500,7 @@ async function get(url0, pageIdxs) {
       allowRetries: true,
       maxRetries: 3,
     })
-
     const response = await httpClient.get(url, headers)
-
     if (response.statusCode >= 400 && response.statusCode <= 599) {
       throw new Error(
         `Got ${response.statusCode} from ${url}. Exiting with error`,
@@ -483,6 +513,7 @@ async function get(url0, pageIdxs) {
   if (pageIdxs[0] === null) {
     return getPage(null)
   }
+
   return Promise.all(pageIdxs.map(getPage))
 }
 
@@ -490,12 +521,14 @@ async function getWithMirrors(resourcePath, hexMirrors) {
   if (hexMirrors.length === 0) {
     throw new Error(`Could not fetch ${resourcePath} from any hex.pm mirror`)
   }
+
   const [hexMirror, ...hexMirrorsT] = hexMirrors
   try {
     return await get(`${hexMirror}${resourcePath}`, [null])
   } catch (err) {
     core.info(`get failed for URL ${hexMirror}${resourcePath}`)
   }
+
   return getWithMirrors(resourcePath, hexMirrorsT)
 }
 
@@ -503,11 +536,35 @@ function maybePrependWithV(v) {
   if (isVersion(v)) {
     return `v${v.replace('v', '')}`
   }
+
   return v
 }
 
+function maybeRemoveVPrefix(ver) {
+  let ret = ver
+  if (isVersion(ver)) {
+    ret = ver.replace('v', '')
+  }
+
+  return ret
+}
+
+function xyzAbcVersion(pref, suf) {
+  // This accounts for stuff like 6.0.2.0.1.0, as proposed by Erlang's
+  // https://www.erlang.org/doc/system_principles/versions.html
+  const dd = '\\.?(\\d+)?'
+  return new RegExp(
+    `${pref}v?(\\d+)${dd}${dd}${dd}${dd}${dd}(?:-rc\\.?\\d+)?(?:-otp-\\d+)?${suf}`,
+  )
+}
+
+function versionAbc(ver) {
+  // For a version like 6.0.2.0.1.0, return 0.1.0
+  return ver.match(/\d+(?:\.[^.]+)?(?:\.[^.]+)?(?:\.)?(.*)/)[1]
+}
+
 function isVersion(v) {
-  return /^v?\d+/.test(v)
+  return v.match(xyzAbcVersion('^', '$')) !== null
 }
 
 function getInput(inputName, required, alternativeName, alternatives) {
@@ -525,6 +582,7 @@ alongside ${alternativeName}=${alternativeValue} \
   } else if (!input) {
     input = alternativeValue
   }
+
   return input
 }
 
@@ -538,6 +596,7 @@ function parseVersionFile(versionFilePath0) {
       `The specified version file, ${versionFilePath0}, does not exist`,
     )
   }
+
   core.startGroup(`Parsing version file at ${versionFilePath0}`)
   const appVersions = new Map()
   const versions = fs.readFileSync(versionFilePath, 'utf8')
@@ -571,6 +630,7 @@ function jsonParseAsList(maybeJson) {
     if (!Array.isArray(obj)) {
       throw new Error('expected a list!')
     }
+
     return obj
   } catch (exc) {
     throw new Error(
