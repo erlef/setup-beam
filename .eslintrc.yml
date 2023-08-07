@@ -7,11 +7,12 @@ extends:
 parserOptions:
   ecmaVersion: 2022
 rules:
-  indent: [warn, 2]
+  indent: [warn, 2, {SwitchCase: 1}]
   max-len: [warn, 100]
   no-use-before-define: 0
   operator-linebreak: 0
   semi: 0
+  implicit-arrow-linebreak: 0
 
 settings:
   react:

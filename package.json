@@ -8,8 +8,8 @@
     "jslint": "eslint src/**/*.js && eslint test/**/*.js",
     "licenses": "yarn licenses generate-disclaimer > 3RD_PARTY_LICENSES",
     "markdownlint": "markdownlint *.md ./github/**/*.md",
-    "shellcheck": "shellcheck src/install-*.sh .github/workflows/*.sh",
-    "test": "node test/setup-beam.test.js && node ./test/problem-matchers.test.js",
+    "shellcheck": "shellcheck .github/workflows/*.sh",
+    "test": "node test/setup-beam.test.js",
     "yamllint": "yamllint .github/workflows/**.yml && yamllint .*.yml && yamllint *.yml",
     "build-dist": "npm install && npm run build && npm run format && npm run markdownlint && npm run shellcheck && npm run yamllint && npm run jslint"
   },

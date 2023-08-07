@@ -4,13 +4,13 @@ simulateInput('rebar3-version', '3.20')
 simulateInput('install-rebar', 'true')
 simulateInput('install-hex', 'true')
 simulateInput('github-token', process.env.GITHUB_TOKEN)
-simulateInput('hexpm-mirrors', ['https://builds.hex.pm'])
+simulateInput('hexpm-mirrors', 'https://builds.hex.pm', { multiline: true })
 
 const assert = require('assert')
 const fs = require('fs')
 const core = require('@actions/core')
 const setupBeam = require('../src/setup-beam')
-const installer = require('../src/installer')
+const { problemMatcher } = require('../matchers/elixir-matchers.json')
 
 async function all() {
   await testFailInstallOTP()
@@ -26,6 +26,11 @@ async function all() {
   await testGetVersionFromSpec()
 
   await testParseVersionFile()
+
+  await testElixirMixCompileError()
+  await testElixirMixCompileWarning()
+  await testElixirMixTestFailure()
+  await testElixirCredoOutputDefault()
 }
 
 async function testFailInstallOTP() {
@@ -33,7 +38,11 @@ async function testFailInstallOTP() {
   const otpVersion = 'OTP-23.2'
   assert.rejects(
     async () => {
-      await installer.installOTP(otpOSVersion, otpVersion)
+      await setupBeam.install('otp', {
+        hexMirror: 'https://builds.hex.pm',
+        otpOSVersion,
+        otpVersion,
+      })
     },
     (err) => {
       assert.ok(err instanceof Error)
@@ -49,7 +58,10 @@ async function testFailInstallElixir() {
   exVersion = '0.11'
   assert.rejects(
     async () => {
-      await installer.installElixir(exVersion)
+      await setupBeam.install('elixir', {
+        hexMirror: 'https://builds.hex.pm',
+        exVersion,
+      })
     },
     (err) => {
       assert.ok(err instanceof Error)
@@ -61,7 +73,10 @@ async function testFailInstallElixir() {
   exVersion = 'v1.0.0-otp-17'
   assert.rejects(
     async () => {
-      await installer.installElixir(exVersion)
+      await setupBeam.install('elixir', {
+        hexMirror: 'https://builds.hex.pm',
+        exVersion,
+      })
     },
     (err) => {
       assert.ok(err instanceof Error)
@@ -75,7 +90,7 @@ async function testFailInstallGleam() {
   const gleamVersion = '0.1.3'
   assert.rejects(
     async () => {
-      await installer.installGleam(gleamVersion)
+      await setupBeam.install('gleam', { gleamVersion })
     },
     (err) => {
       assert.ok(err instanceof Error)
@@ -89,7 +104,7 @@ async function testFailInstallRebar3() {
   const r3Version = '0.14.4'
   assert.rejects(
     async () => {
-      await installer.installRebar3(r3Version)
+      await setupBeam.install('rebar3', { r3Version })
     },
     (err) => {
       assert.ok(err instanceof Error)
@@ -105,7 +120,11 @@ async function testOTPVersions() {
   let spec
   let osVersion
   let before
-  const hexMirrors = ['https://repo.hex.pm', 'https://cdn.jsdelivr.net/hex']
+  const hexMirrors = simulateInput(
+    'hexpm-mirrors',
+    'https://repo.hex.pm, https://cdn.jsdelivr.net/hex',
+    { multiline: true },
+  )
 
   if (process.platform === 'linux') {
     before = simulateInput('version-type', 'strict')
@@ -119,25 +138,25 @@ async function testOTPVersions() {
     spec = '19.3.x'
     osVersion = 'ubuntu-16.04'
     expected = 'OTP-19.3.6.13'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '^19.3.6'
     osVersion = 'ubuntu-16.04'
     expected = 'OTP-19.3.6.13'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '^19.3'
     osVersion = 'ubuntu-18.04'
     expected = 'OTP-19.3.6.13'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '20'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.3.8.26'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '20.3.8.26'
@@ -149,19 +168,19 @@ async function testOTPVersions() {
     spec = '20.x'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.3.8.26'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '20.0'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.0.5'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '20.0.x'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-20.0.5'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
   }
 
@@ -169,21 +188,23 @@ async function testOTPVersions() {
     spec = '24.0.1'
     osVersion = 'windows-latest'
     expected = '24.0.1'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '23.2.x'
     osVersion = 'windows-2016'
     expected = '23.2.7'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
 
     spec = '23.0'
     osVersion = 'windows-2019'
     expected = '23.0.4'
-    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
   }
+
+  simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
 }
 
 async function testElixirVersions() {
@@ -192,31 +213,33 @@ async function testElixirVersions() {
   let spec
   let otpVersion
   let before
-  const hexMirrors = ['https://repo.hex.pm']
+  const hexMirrors = simulateInput('hexpm-mirrors', 'https://repo.hex.pm', {
+    multiline: true,
+  })
 
   spec = '1.1.x'
   otpVersion = 'OTP-17'
   expected = 'v1.1.1-otp-17'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '1.10.4'
   otpVersion = 'OTP-23'
   expected = 'v1.10.4-otp-23'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 
   spec = '1.12.1'
   otpVersion = 'OTP-24.0.2'
   expected = 'v1.12.1-otp-24'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
 
   before = simulateInput('version-type', 'strict')
   spec = '1.14.0'
   otpVersion = 'main'
   expected = 'v1.14.0'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
@@ -224,7 +247,7 @@ async function testElixirVersions() {
   spec = 'v1.11.0-rc.0'
   otpVersion = 'OTP-23'
   expected = 'v1.11.0-rc.0-otp-23'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
@@ -232,7 +255,7 @@ async function testElixirVersions() {
   spec = 'v1.11.0-rc.0-otp-23'
   otpVersion = 'OTP-23'
   expected = 'v1.11.0-rc.0-otp-23'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
@@ -240,7 +263,7 @@ async function testElixirVersions() {
   spec = 'v1.11.0'
   otpVersion = '22.3.4.2'
   expected = 'v1.11.0-otp-22'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
@@ -248,9 +271,11 @@ async function testElixirVersions() {
   spec = 'main'
   otpVersion = '23.1'
   expected = 'main-otp-23'
-  got = await setupBeam.getElixirVersion(spec, otpVersion, hexMirrors)
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
+
+  simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
 }
 
 async function testGleamVersions() {
@@ -499,16 +524,16 @@ rebar ${rebar3}`
   assert.strictEqual(appVersions.get('elixir'), elixir)
 
   assert.ok(async () => {
-    await installer.installOTP(erlang)
+    await setupBeam.install('otp', { toolVersion: erlang })
   })
   assert.ok(async () => {
-    await installer.installElixir(elixir)
+    await setupBeam.install('elixir', { toolVersion: elixir })
   })
   assert.ok(async () => {
-    await installer.installGleam(gleam)
+    await setupBeam.install('gleam', { toolVersion: gleam })
   })
   assert.ok(async () => {
-    await installer.installRebar3(rebar3)
+    await setupBeam.install('rebar3', { toolVersion: rebar3 })
   })
 
   simulateInput('otp-version', otpVersion)
@@ -517,12 +542,86 @@ rebar ${rebar3}`
   simulateInput('rebar3-version', rebar3Version)
 }
 
+async function testElixirMixCompileError() {
+  const [matcher] = problemMatcher.find(
+    ({ owner }) => owner === 'elixir-mixCompileError',
+  ).pattern
+
+  const output = '** (CompileError) lib/test.ex:16: undefined function err/0'
+  const [message, , file, line] = output.match(matcher.regexp)
+  assert.equal(file, 'lib/test.ex')
+  assert.equal(line, '16')
+  assert.equal(message, output)
+}
+
+async function testElixirMixCompileWarning() {
+  const [messagePattern, filePattern] = problemMatcher.find(
+    ({ owner }) => owner === 'elixir-mixCompileWarning',
+  ).pattern
+
+  const firstOutput =
+    'warning: variable "err" does not exist and is being expanded to "err()"'
+  const secondOutput = '  lib/test.ex:16: Test.hello/0'
+
+  const [, message] = firstOutput.match(messagePattern.regexp)
+  assert.equal(
+    message,
+    'variable "err" does not exist and is being expanded to "err()"',
+  )
+
+  const [, file, line] = secondOutput.match(filePattern.regexp)
+  assert.equal(file, 'lib/test.ex')
+  assert.equal(line, '16')
+}
+
+async function testElixirMixTestFailure() {
+  const [messagePattern, filePattern] = problemMatcher.find(
+    ({ owner }) => owner === 'elixir-mixTestFailure',
+  ).pattern
+
+  const firstOutput = '1) test throws (TestTest)'
+  const secondOutput = '  test/test_test.exs:9'
+
+  const [, message] = firstOutput.match(messagePattern.regexp)
+  assert.equal(message, 'test throws (TestTest)')
+
+  const [, file, line] = secondOutput.match(filePattern.regexp)
+  assert.equal(file, 'test/test_test.exs')
+  assert.equal(line, '9')
+}
+
+async function testElixirCredoOutputDefault() {
+  const [messagePattern, filePattern] = problemMatcher.find(
+    ({ owner }) => owner === 'elixir-credoOutputDefault',
+  ).pattern
+
+  const firstOutput = '┃ [F] → Function is too complex (CC is 29, max is 9).'
+  const secondOutput = '┃       lib/test.ex:15:7 #(Test.hello)'
+
+  const [, message] = firstOutput.match(messagePattern.regexp)
+  assert.equal(message, 'Function is too complex (CC is 29, max is 9).')
+
+  const [, file, line, column] = secondOutput.match(filePattern.regexp)
+  assert.equal(file, 'lib/test.ex')
+  assert.equal(line, '15')
+  assert.equal(column, '7')
+}
+
 function unsimulateInput(key) {
   return simulateInput(key, '')
 }
 
-function simulateInput(key, value) {
-  const before = process.env[input(key)]
+function simulateInput(key, value0, opts) {
+  const { multiline } = opts || {}
+  const before = process.env[input(key, opts)]
+  let value = value0
+  if (multiline) {
+    if (value.indexOf(', ') !== -1) {
+      value = value0.replace(/, /g, '\n')
+    } else {
+      value = value0.replace(/\n/g, ', ')
+    }
+  }
   process.env[input(key)] = value
   return before
 }
