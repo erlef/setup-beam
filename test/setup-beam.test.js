@@ -510,16 +510,16 @@ async function testParseVersionFile() {
   const elixir = '1.14.1'
   const gleam = '0.23.0'
   const rebar3 = '3.16.0'
-  let toolVersions = `# a comment
-erlang   ${erlang}# comment, no space
-elixir ${elixir}  # comment, with space
+  const toolVersions = `# a comment
+erlang   ref:v${erlang}# comment, no space, and ref:v
+elixir ref:${elixir}  # comment, with space and ref:
  not-gleam 0.23 # not picked up
 gleam ${gleam} 
 rebar ${rebar3}`
   const filename = 'test/.tool-versions'
   fs.writeFileSync(filename, toolVersions)
   process.env.GITHUB_WORKSPACE = ''
-  let appVersions = setupBeam.parseVersionFile(filename)
+  const appVersions = setupBeam.parseVersionFile(filename)
   assert.strictEqual(appVersions.get('erlang'), erlang)
   assert.strictEqual(appVersions.get('elixir'), elixir)
 
@@ -540,13 +540,6 @@ rebar ${rebar3}`
   simulateInput('elixir-version', elixirVersion)
   simulateInput('gleam-version', gleamVersion)
   simulateInput('rebar3-version', rebar3Version)
-
-  // test that elixir ref:v syntax works
-  toolVersions = `erlang ${erlang}\nelixr ref:v${elixir}`
-  fs.writeFileSync(filename, toolVersions)
-  appVersions = setupBeam.parseVersionFile(filename)
-  assert.strictEqual(appVersions.get('erlang'), erlang)
-  assert.strictEqual(appVersions.get('elixir'), elixir)
 }
 
 async function testElixirMixCompileError() {
