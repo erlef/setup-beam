@@ -602,11 +602,11 @@ function parseVersionFile(versionFilePath0) {
   // If we ever start parsing something else, this should
   // become default in a new option named e.g. version-file-type
   versions.split('\n').forEach((line) => {
-    const appVersion = line.match(/^([^ ]+)[ ]+([^ #]+)/)
+    const appVersion = line.match(/^([^ ]+)[ ]+(ref:v)?([^ #]+)/)
     if (appVersion) {
       const app = appVersion[1]
       if (['erlang', 'elixir', 'gleam', 'rebar'].includes(app)) {
-        const [, , version] = appVersion
+        const [, , , version] = appVersion
         core.info(`Consuming ${app} at version ${version}`)
         appVersions.set(app, version)
       }
