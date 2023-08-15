@@ -511,8 +511,8 @@ async function testParseVersionFile() {
   const gleam = '0.23.0'
   const rebar3 = '3.16.0'
   const toolVersions = `# a comment
-erlang   ${erlang}# comment, no space
-elixir ${elixir}  # comment, with space
+erlang   ref:v${erlang}# comment, no space, and ref:v
+elixir ref:${elixir}  # comment, with space and ref:
  not-gleam 0.23 # not picked up
 gleam ${gleam} 
 rebar ${rebar3}`
