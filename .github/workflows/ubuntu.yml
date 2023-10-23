@@ -136,7 +136,7 @@ jobs:
             escript_script: 'protoc-gen-elixir --version'
             os: 'ubuntu-latest'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use erlef/setup-beam
         id: setup-beam
         uses: ./
@@ -203,7 +203,7 @@ jobs:
             rebar3-version: 'nightly'
             os: 'ubuntu-latest'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use erlef/setup-beam
         id: setup-beam
         uses: ./

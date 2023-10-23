@@ -11,7 +11,7 @@ jobs:
     name: Update 3rd party licenses
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run:
           ./.github/workflows/update_3rd_party_licenses.sh
         env:
