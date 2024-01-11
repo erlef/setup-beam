@@ -108,11 +108,11 @@ jobs:
             version-type: 'strict'
           - elixir-version: 'main'
             otp-version: '23.1'
-            os:  'ubuntu-20.04'
+            os: 'ubuntu-20.04'
             version-type: 'strict'
           - elixir-version: 'main'
             otp-version: '25'
-            os:  'ubuntu-20.04'
+            os: 'ubuntu-20.04'
             version-type: 'strict'
           - gleam-version: '0.23'
             otp-version: '24'
@@ -126,7 +126,7 @@ jobs:
             otp-version: false
             os: 'ubuntu-latest'
             disable_problem_matchers: true
-          - gleam-version: '0.22.0' # Version with Gleam's old archive naming convention
+          - gleam-version: '0.22.0'  # Version with Gleam's old archive naming convention
             otp-version: '24'
             os: 'ubuntu-latest'
             disable_problem_matchers: true
