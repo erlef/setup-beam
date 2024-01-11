@@ -15,10 +15,18 @@ jobs:
       - uses: actions/checkout@v3
       - name: Version it!
         run: |
+          # We expect a string such as const setupBeamVersion = 'undefined' in the code
           SHA=$(git rev-parse --short HEAD)
           sed -i'.bak' \
               -e "s/const setupBeamVersion = '.*'/const setupBeamVersion = '${SHA}'/g" \
               dist/index.js
+          # it always starts by being 'undefined'
+          NEWVER=$(grep -oE "const setupBeamVersion = '.*'" dist/index.js | cut -d\' -f2)
+          if [ "$NEWVER" == "undefined" ]; then
+              exit 1
+          else
+              echo "Continuing... new version is ${NEWVER}"
+          fi
           git config user.name "GitHub Actions"
           git config user.email "actions@user.noreply.github.com"
           git add dist/index.js
