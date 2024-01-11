@@ -7,6 +7,23 @@ env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
 jobs:
+  version:
+    name: Version with commit unique id
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Version it!
+        run: |
+          SHA=$(git rev-parse --short HEAD)
+          sed -i'.bak' \
+              -e "s/const setupBeamVersion = '.*'/const setupBeamVersion = '${SHA}'/g" \
+              dist/index.js
+          git config user.name "GitHub Actions"
+          git config user.email "actions@user.noreply.github.com"
+          git add dist/index.js
+          git commit -m "Update setup-beam version output to ${SHA}"
+          git push origin main
   check_integrity:
     name: Expected local npm actions
     runs-on: ubuntu-latest
