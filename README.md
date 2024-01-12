@@ -88,6 +88,21 @@ jobs:
         ...
 ```
 
+### Outputs
+
+The action provides the following outputs:
+
+| Output             | Content
+|-                   |-
+| otp-version        | The Erlang version, e.g. `OTP-26.0`
+| elixir-version     | The Elixir version, e.g. `v1.14-otp-26`
+| gleam-version      | The Gleam version, e.g. `v0.23.0`
+| rebar3-version     | The `rebar3` version, e.g. `3.18.0`
+| setup-beam-version | The commit unique id of the executed action version, e.g. `a34c98f`
+
+accessible as `${{steps.<setup-beam-step-id>.outputs.<Output>}}`,
+e.g. `${{steps.setup-beam.outputs.erlang-version}}`
+
 ### Version file
 
 A version file is specified via input `version-file` (e.g.`.tool-versions`). This

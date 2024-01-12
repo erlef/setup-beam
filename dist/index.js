@@ -9868,6 +9868,10 @@ async function main() {
 
   await maybeInstallGleam(gleamSpec)
   await maybeInstallRebar3(rebar3Spec)
+
+  // undefined is replaced by a function, post- main branch merge
+  const setupBeamVersion = 'undefined'
+  core.setOutput('setup-beam-version', setupBeamVersion)
 }
 
 async function installOTP(otpSpec, osVersion) {

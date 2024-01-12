@@ -58,6 +58,8 @@ outputs:
     description: Exact version of Gleam that was installed
   rebar3-version:
     description: Exact version of rebar3 that was installed
+  setup-beam-version:
+    description: The commit unique id of the execution action version
 runs:
   using: node16
   main: dist/index.js
