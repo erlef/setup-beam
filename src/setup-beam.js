@@ -404,7 +404,7 @@ function getVersionFromSpec(spec0, versions0) {
   const rangeMax = semver.maxSatisfying(versions, rangeForMax)
   let version = null
 
-  if (isStrictVersion() || isRC(spec0)) {
+  if (isStrictVersion() || isRC(spec0) || isKnownBranch(spec0)) {
     if (versions0[spec]) {
       // If `version-type: strict` or version is RC, we obtain it directly
       version = versions0[spec]
@@ -474,6 +474,10 @@ function sortVersions(left, right) {
 
 function isRC(ver) {
   return ver.match(xyzAbcVersion('^', '(?:-rc\\.?\\d+)'))
+}
+
+function isKnownBranch(ver) {
+  return ['main', 'master', 'maint'].includes(ver)
 }
 
 function getRunnerOSVersion() {
