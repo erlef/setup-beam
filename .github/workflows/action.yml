@@ -19,15 +19,18 @@ jobs:
           SHA=$(git rev-parse --short HEAD)
           sed -i'.bak' \
               -e "s/const setupBeamVersion = '.*'/const setupBeamVersion = '${SHA}'/g" \
-              dist/index.js
+              src/setup-beam.js
+          npm run build-dist
           git config user.name "GitHub Actions"
           git config user.email "actions@user.noreply.github.com"
+          git add src/setup-beam.js
           git add dist/index.js
-          git commit -m "Update setup-beam version output to ${SHA}"
+          git commit -m "Automation: update setup-beam version output to ${SHA}"
           git push origin main
   check_integrity:
     name: Expected local npm actions
     runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
