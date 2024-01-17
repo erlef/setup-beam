@@ -182,6 +182,12 @@ async function testOTPVersions() {
     expected = 'OTP-20.0.5'
     got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
+
+    spec = 'maint'
+    osVersion = 'ubuntu-20.04'
+    expected = 'maint'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
   }
 
   if (process.platform === 'win32') {
