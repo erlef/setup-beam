@@ -135,7 +135,7 @@ jobs:
           gleam-version: ${{matrix.combo.gleam-version}}
           rebar3-version: ${{matrix.combo.rebar3-version}}
       - run: env
-      - name: List environment variables
+      - name: Check environment variables
         run: |
           ${INSTALL_DIR_FOR_ELIXIR}/elixir --version
           ${INSTALL_DIR_FOR_GLEAM}/gleam --version
