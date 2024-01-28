@@ -199,7 +199,7 @@ jobs:
       - run: env
       - name: List environment variables
         run: |
-          [ -n "${INSTALL_DIR_FOR_ELIXIR}" ] && echo "${INSTALL_DIR_FOR_ELIXIR}"
-          [ -n "${INSTALL_DIR_FOR_GLEAM}"  ] && echo "${INSTALL_DIR_FOR_GLEAM}"
-          [ -n "${INSTALL_DIR_FOR_OTP}"    ] && echo "${INSTALL_DIR_FOR_OTP}"
-          [ -n "${INSTALL_DIR_FOR_REBAR3}" ] && echo "${INSTALL_DIR_FOR_REBAR3}"
+          ${INSTALL_DIR_FOR_ELIXIR}/elixir --version
+          ${INSTALL_DIR_FOR_GLEAM}/gleam --version
+          ${INSTALL_DIR_FOR_OTP}/erl -version
+          ${INSTALL_DIR_FOR_REBAR3}/rebar3 version
