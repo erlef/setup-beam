@@ -10723,16 +10723,18 @@ async function install(toolName, opts) {
           postExtract: async (cachePath) => {
             const bindir = path.join(cachePath, 'bin')
             const oldPath = path.join(cachePath, 'rebar3')
+            const newPath = path.join(bindir, 'rebar3')
             fs.mkdirSync(bindir)
-            fs.chmodSync(oldPath, 0o755)
+            fs.renameSync(oldPath, newPath)
+            fs.chmodSync(newPath, 0o755)
 
             const ps1Filename = path.join(bindir, 'rebar3.ps1')
-            fs.writeFileSync(ps1Filename, `& escript.exe ${oldPath} \${args}`)
+            fs.writeFileSync(ps1Filename, `& escript.exe ${newPath} \${args}`)
 
             const cmdFilename = path.join(bindir, 'rebar3.cmd')
             fs.writeFileSync(
               cmdFilename,
-              `@echo off\r\nescript.exe ${oldPath} %*`,
+              `@echo off\r\nescript.exe ${newPath} %*`,
             )
           },
           reportVersion: () => {
@@ -10776,11 +10778,12 @@ async function installTool(opts) {
   await platformOpts.postExtract(cachePath)
 
   core.debug(`Adding ${cachePath}'s bin to system path`)
-  core.addPath(path.join(cachePath, 'bin'))
+  const catchPathBin = path.join(cachePath, 'bin')
+  core.addPath(catchPathBin)
 
   const installDirForVarName = `INSTALL_DIR_FOR_${toolName}`.toUpperCase()
-  core.debug(`Exporting ${installDirForVarName} as ${cachePath}`)
-  core.exportVariable(installDirForVarName, cachePath)
+  core.debug(`Exporting ${installDirForVarName} as ${catchPathBin}`)
+  core.exportVariable(installDirForVarName, catchPathBin)
 
   core.info(`Installed ${installOpts.tool} version`)
   const [cmd, args] = platformOpts.reportVersion()
