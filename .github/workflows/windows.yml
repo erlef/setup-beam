@@ -137,8 +137,8 @@ jobs:
       - run: env
       - name: Check environment variables
         run: |
-          ${INSTALL_DIR_FOR_ELIXIR}/elixir --version
-          ${INSTALL_DIR_FOR_GLEAM}/gleam --version
-          ${INSTALL_DIR_FOR_OTP}/erl -version
-          ${INSTALL_DIR_FOR_REBAR3}/rebar3 version
-        shell: bash
+          & "$Env:INSTALL_DIR_FOR_ELIXIR/bin/elixir" "-v"
+          & "$Env:INSTALL_DIR_FOR_GLEAM/bin/gleam.exe" "--version"
+          & "$Env:INSTALL_DIR_FOR_OTP/bin/erl.exe" "+V"
+          & "$Env:INSTALL_DIR_FOR_REBAR3/bin/rebar3.cmd" "version"
+          & "$Env:INSTALL_DIR_FOR_REBAR3/bin/rebar3.ps1" "version"

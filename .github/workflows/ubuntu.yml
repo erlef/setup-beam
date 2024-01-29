@@ -199,7 +199,7 @@ jobs:
       - run: env
       - name: Check environment variables
         run: |
-          ${INSTALL_DIR_FOR_ELIXIR}/elixir --version
-          ${INSTALL_DIR_FOR_GLEAM}/gleam --version
-          ${INSTALL_DIR_FOR_OTP}/erl -version
-          ${INSTALL_DIR_FOR_REBAR3}/rebar3 version
+          ${INSTALL_DIR_FOR_ELIXIR}/bin/elixir -v
+          ${INSTALL_DIR_FOR_GLEAM}/bin/gleam --version
+          ${INSTALL_DIR_FOR_OTP}/bin/erl -version
+          ${INSTALL_DIR_FOR_REBAR3}/bin/rebar3 version

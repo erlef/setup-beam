@@ -9955,7 +9955,6 @@ async function maybeInstallGleam(gleamSpec) {
     core.startGroup(`Installing Gleam ${gleamVersion}`)
     await install('gleam', { toolVersion: gleamVersion })
     core.setOutput('gleam-version', gleamVersion)
-    core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/gleam/bin`)
     core.endGroup()
 
     installed = true
@@ -9976,7 +9975,6 @@ async function maybeInstallRebar3(rebar3Spec) {
     core.startGroup(`Installing rebar3 ${rebar3Version}`)
     await install('rebar3', { toolVersion: rebar3Version })
     core.setOutput('rebar3-version', rebar3Version)
-    core.addPath(`${process.env.RUNNER_TEMP}/.setup-beam/rebar3/bin`)
     core.endGroup()
 
     installed = true
@@ -10782,8 +10780,8 @@ async function installTool(opts) {
   core.addPath(catchPathBin)
 
   const installDirForVarName = `INSTALL_DIR_FOR_${toolName}`.toUpperCase()
-  core.debug(`Exporting ${installDirForVarName} as ${catchPathBin}`)
-  core.exportVariable(installDirForVarName, catchPathBin)
+  core.debug(`Exporting ${installDirForVarName} as ${cachePath}`)
+  core.exportVariable(installDirForVarName, cachePath)
 
   core.info(`Installed ${installOpts.tool} version`)
   const [cmd, args] = platformOpts.reportVersion()
