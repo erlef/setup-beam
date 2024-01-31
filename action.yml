@@ -61,5 +61,5 @@ outputs:
   setup-beam-version:
     description: The commit unique id of the execution action version
 runs:
-  using: node16
+  using: node20
   main: dist/index.js
