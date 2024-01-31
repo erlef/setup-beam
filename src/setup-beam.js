@@ -952,16 +952,25 @@ async function installTool(opts) {
     core.debug(`  ... it is, at ${cachePath}`)
   }
 
-  core.debug('Performing post extract operations...')
-  await platformOpts.postExtract(cachePath)
+  // This makes sure we run, e.g. in Windows, the installer in the runner
+  // We're not caching the install, just the downloaded tool
+  const runnerToolPath = path.join(
+    process.env.RUNNER_TEMP,
+    '.setup-beam',
+    toolName,
+  )
+  fs.cpSync(cachePath, runnerToolPath, { recursive: true })
 
-  core.debug(`Adding ${cachePath}'s bin to system path`)
-  const catchPathBin = path.join(cachePath, 'bin')
-  core.addPath(catchPathBin)
+  core.debug('Performing post extract operations...')
+  await platformOpts.postExtract(runnerToolPath)
+
+  core.debug(`Adding ${runnerToolPath}' bin to system path`)
+  const runnerToolPathBin = path.join(runnerToolPath, 'bin')
+  core.addPath(runnerToolPathBin)
 
   const installDirForVarName = `INSTALL_DIR_FOR_${toolName}`.toUpperCase()
-  core.debug(`Exporting ${installDirForVarName} as ${cachePath}`)
-  core.exportVariable(installDirForVarName, cachePath)
+  core.debug(`Exporting ${installDirForVarName} as ${runnerToolPath}`)
+  core.exportVariable(installDirForVarName, runnerToolPath)
 
   core.info(`Installed ${installOpts.tool} version`)
   const [cmd, args] = platformOpts.reportVersion()
