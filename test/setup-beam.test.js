@@ -25,7 +25,8 @@ async function all() {
 
   await testGetVersionFromSpec()
 
-  await testParseVersionFile()
+  await testParseAsdfVersionFile()
+  await testParseMiseVersionFile()
 
   await testElixirMixCompileError()
   await testElixirMixCompileWarning()
@@ -512,11 +513,12 @@ async function testGetVersionFromSpec() {
   simulateInput('version-type', before)
 }
 
-async function testParseVersionFile() {
+async function testParseAsdfVersionFile() {
   const otpVersion = unsimulateInput('otp-version')
   const elixirVersion = unsimulateInput('elixir-version')
   const gleamVersion = unsimulateInput('gleam-version')
   const rebar3Version = unsimulateInput('rebar3-version')
+  simulateInput('version-file-type', 'asdf')
 
   const erlang = '25.1.1'
   const elixir = '1.14.1'
@@ -548,6 +550,56 @@ rebar ${rebar3}`
     await setupBeam.install('rebar3', { toolVersion: rebar3 })
   })
 
+  unsimulateInput('version-file-type')
+  simulateInput('otp-version', otpVersion)
+  simulateInput('elixir-version', elixirVersion)
+  simulateInput('gleam-version', gleamVersion)
+  simulateInput('rebar3-version', rebar3Version)
+}
+
+async function testParseMiseVersionFile() {
+  const otpVersion = unsimulateInput('otp-version')
+  const elixirVersion = unsimulateInput('elixir-version')
+  const gleamVersion = unsimulateInput('gleam-version')
+  const rebar3Version = unsimulateInput('rebar3-version')
+
+  simulateInput('version-file-type', 'mise')
+
+  const erlang = '25.1.1'
+  const elixir = '1.14.1'
+  const gleam = '0.23.0'
+  const rebar3 = '3.16.0'
+  const toolVersions = `[env]
+hello = "world"
+elixir = "ignored"
+
+[tools]
+erlang = "ref:v${erlang}"
+elixir = { version = "ref:${elixir}" }
+not-gleam = "0.23" # not picked up
+gleam = { version = "${gleam}", other = "values" }
+rebar = [ "${rebar3}" ]`
+  const filename = 'test/.mise.toml'
+  fs.writeFileSync(filename, toolVersions)
+  process.env.GITHUB_WORKSPACE = ''
+  const appVersions = setupBeam.parseVersionFile(filename)
+  assert.strictEqual(appVersions.get('erlang'), erlang)
+  assert.strictEqual(appVersions.get('elixir'), elixir)
+
+  assert.ok(async () => {
+    await setupBeam.install('otp', { toolVersion: erlang })
+  })
+  assert.ok(async () => {
+    await setupBeam.install('elixir', { toolVersion: elixir })
+  })
+  assert.ok(async () => {
+    await setupBeam.install('gleam', { toolVersion: gleam })
+  })
+  assert.ok(async () => {
+    await setupBeam.install('rebar3', { toolVersion: rebar3 })
+  })
+
+  unsimulateInput('version-file-type')
   simulateInput('otp-version', otpVersion)
   simulateInput('elixir-version', elixirVersion)
   simulateInput('gleam-version', gleamVersion)

@@ -2,6 +2,7 @@ const core = require('@actions/core')
 const { exec } = require('@actions/exec')
 const tc = require('@actions/tool-cache')
 const http = require('@actions/http-client')
+const TOML = require('@iarna/toml')
 const path = require('path')
 const semver = require('semver')
 const fs = require('fs')
@@ -603,13 +604,45 @@ function parseVersionFile(versionFilePath0) {
     )
   }
 
-  core.startGroup(`Parsing version file at ${versionFilePath0}`)
+  let type = getInput('version-file-type', false)
+  if (!type) {
+    type = 'asdf'
+    core.warning("version-file-type not set, defaulting to 'asdf'")
+  }
+
+  core.startGroup(`Parsing ${type} version file at ${versionFilePath0}`)
+  const fileData = fs.readFileSync(versionFilePath, 'utf8')
+
+  let appVersions
+  switch (type) {
+    case 'asdf':
+      appVersions = parseAsdfVersionFile(fileData)
+      break
+
+    case 'rtx':
+    case 'mise':
+      appVersions = parseMiseVersionFile(fileData)
+      break
+
+    default:
+      throw new Error(
+        `Unknown version-file-type value '${type}'.  Must be 'asdf' or 'mise'`,
+      )
+  }
+
+  if (!appVersions.size) {
+    core.info('There was apparently nothing to consume')
+  } else {
+    core.info('... done!')
+  }
+  core.endGroup()
+
+  return appVersions
+}
+
+function parseAsdfVersionFile(fileData) {
   const appVersions = new Map()
-  const versions = fs.readFileSync(versionFilePath, 'utf8')
-  // For the time being we parse .tool-versions
-  // If we ever start parsing something else, this should
-  // become default in a new option named e.g. version-file-type
-  versions.split('\n').forEach((line) => {
+  fileData.split('\n').forEach((line) => {
     const appVersion = line.match(/^([^ ]+)[ ]+(ref:v?)?([^ #]+)/)
     if (appVersion) {
       const app = appVersion[1]
@@ -620,13 +653,26 @@ function parseVersionFile(versionFilePath0) {
       }
     }
   })
-  if (!appVersions.size) {
-    core.info('There was apparently nothing to consume')
-  } else {
-    core.info('... done!')
-  }
-  core.endGroup()
+  return appVersions
+}
 
+function parseMiseVersionFile(fileData) {
+  const appVersions = new Map()
+  const toml = TOML.parse(fileData)
+  for (let app of ['erlang', 'elixir', 'gleam', 'rebar']) {
+    let version = toml.tools && toml.tools[app]
+    if (Array.isArray(version)) {
+      version = version[0]
+    }
+    if (typeof version === 'object' && version.version) {
+      version = version.version
+    }
+    if (typeof version === 'string') {
+      version = version.replace(/^ref:v?/, '')
+      core.info(`Consuming ${app} at version ${version}`)
+      appVersions.set(app, version)
+    }
+  }
   return appVersions
 }
 
