@@ -43,7 +43,10 @@ inputs:
       (or not)
     default: false
   version-file:
-    description: a versions file (e.g. as used by `asdf`), which defines inputs
+    description: a versions file (e.g. as used by `asdf` or `mise`), which defines inputs
+    default: ''
+  version-file-type:
+    description: which version file type to use, supported values are `asdf` and `mise`
     default: ''
   hexpm-mirrors:
     description: mirror(s) for hex.pm, one per line

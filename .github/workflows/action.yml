@@ -55,6 +55,14 @@ jobs:
         uses: ./
         with:
           version-file: test/.tool-versions
+          version-file-type: asdf
+          version-type: strict
+      - run: rm -rf /opt/hostedtoolcache
+      - name: .mise.toml test
+        uses: ./
+        with:
+          version-file: test/.mise.toml
+          version-file-type: mise
           version-type: strict
 
   unit_tests_windows:

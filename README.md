@@ -105,8 +105,10 @@ e.g. `${{steps.setup-beam.outputs.erlang-version}}`
 
 ### Version file
 
-A version file is specified via input `version-file` (e.g.`.tool-versions`). This
-allows not having to use YML input for versions, though the action does check (and
+A version file can be used via inputs `version-file` which specifies the file path (e.g.`.tool-versions`)
+and `version-file-type` which can be set to either `asdf` or `mise`.
+
+This allows not having to use YML input for versions, though the action does check (and
 will exit with error) if both inputs are set.
 
 **Note**: if you're using a version file, option `version-type` is checked to be `strict`,
@@ -115,18 +117,19 @@ and will make the action exit with error otherwise.
 The following version file formats are supported:
 
 - `.tool-versions`, as specified by [asdf: Configuration](https://asdf-vm.com/manage/configuration.html)
+- `.mise.toml`, as specified by [mise: Configuration](https://mise.jdx.dev/configuration.html)
 
 Supported version elements are the same as the ones defined for the YML portion of the action,
 with the following correspondence.
 
-#### `.tool-versions` format
+#### Mapping between YML and version file formats
 
-| YML              | `.tool-versions` |
-|-                 |-
-| `otp-version`    | `erlang`
-| `elixir-version` | `elixir`
-| `gleam-version`  | `gleam`
-| `rebar3-version` | `rebar`
+| YML              | `.tool-versions` | `.mise.toml`
+|-                 |-                 |-
+| `otp-version`    | `erlang`         | `erlang`
+| `elixir-version` | `elixir`         | `elixir`
+| `gleam-version`  | `gleam`          | `gleam`
+| `rebar3-version` | `rebar`          | `rebar`
 
 ### Example (Erlang/OTP + Elixir, on Ubuntu)
 
