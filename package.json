@@ -11,7 +11,9 @@
     "shellcheck": "shellcheck .github/workflows/*.sh",
     "test": "node test/setup-beam.test.js",
     "yamllint": "yamllint .github/workflows/**.yml && yamllint .*.yml && yamllint *.yml",
-    "build-dist": "rm -rf ./dist && npm install && npm run build && npm run format && npm run markdownlint && npm run shellcheck && npm run yamllint && npm run jslint"
+    "clean-dist": "rm -rf ./dist",
+    "lint": "npm run markdownlint && npm run shellcheck && npm run yamllint && npm run jslint",
+    "build-dist": "npm run clean-dist && npm install && npm run build && npm run format && npm run lint"
   },
   "dependencies": {
     "@actions/core": "1.10.0",

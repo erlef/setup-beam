@@ -282,6 +282,9 @@ environment variables:
 - `INSTALL_DIR_FOR_GLEAM`: base folder for Gleam
 - `INSTALL_DIR_FOR_REBAR3`: base folder for `rebar3`
 
+In each of these you'll find folder `bin` where the appropriate binaries, platform-dependant,
+are found (i.e. `erl`, `erl.exe`, `rebar3`, `rebar3.exe`, ...).
+
 ## Elixir Problem Matchers
 
 The Elixir Problem Matchers in this repository are adapted from
