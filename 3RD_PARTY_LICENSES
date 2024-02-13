@@ -1566,7 +1566,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -----
 
-The following software may be included in this product: es-errors. A copy of the source code may be downloaded from git+https://github.com/ljharb/es-errors.git. This software contains the following license and notice below:
+The following software may be included in this product: es-define-property, es-errors. A copy of the source code may be downloaded from git+https://github.com/ljharb/es-define-property.git (es-define-property), git+https://github.com/ljharb/es-errors.git (es-errors). This software contains the following license and notice below:
 
 MIT License
 
