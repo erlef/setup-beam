@@ -53,9 +53,9 @@ and Erlang/OTP.
 |-                 |-           |-
 | ubuntu-18.04     | 17 - 25    | ✅
 | ubuntu-20.04     | 20 - 25    | ✅
-| ubuntu-22.04     | 24.2 - 25  | ✅
+| ubuntu-22.04     | 24.2 - 26  | ✅
 | windows-2019     | 21* - 25   | ✅
-| windows-2022     | 21* - 25   | ✅
+| windows-2022     | 21* - 26   | ✅
 
 **Note** *: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3, 22.0, etc.
 
@@ -122,11 +122,11 @@ with the following correspondence.
 #### `.tool-versions` format
 
 | YML              | `.tool-versions` |
-|-                 |-
-| `otp-version`    | `erlang`
-| `elixir-version` | `elixir`
-| `gleam-version`  | `gleam`
-| `rebar3-version` | `rebar`
+|-                 |- |
+| `otp-version`    | `erlang` |
+| `elixir-version` | `elixir` |
+| `gleam-version`  | `gleam` |
+| `rebar3-version` | `rebar` |
 
 ### Example (Erlang/OTP + Elixir, on Ubuntu)
 
@@ -248,7 +248,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: '25'
+          otp-version: '26'
           # Use `cdn.jsdelivr.net/hex` as an alternative to `builds.hex.pm`
           hexpm-mirrors: https://cdn.jsdelivr.net/hex
 ```
@@ -266,7 +266,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: '25'
+          otp-version: '26'
           hexpm-mirrors: |
             https://builds.hex.pm
             https://cdn.jsdelivr.net/hex
