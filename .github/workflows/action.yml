@@ -1,7 +1,7 @@
 ---
 name: action
 
-on: [push, workflow_dispatch]
+on: [push, pull_request, workflow_dispatch]
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
