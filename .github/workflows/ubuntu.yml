@@ -1,7 +1,14 @@
 ---
 name: ubuntu
 
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "*"
+  workflow_dispatch: {}
 
 jobs:
   integration_test:
@@ -174,6 +181,7 @@ jobs:
           mix escript.install --force ${{matrix.combo.escript_packages}}
           ${{matrix.combo.escript_script}}
         if: ${{matrix.combo.escript_packages && matrix.combo.escript_script}}
+
   environment_variables:
     name: Environment variables
     runs-on: ${{matrix.combo.os}}

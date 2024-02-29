@@ -1,7 +1,14 @@
 ---
 name: action
 
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "*"
+  workflow_dispatch: {}
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -27,6 +34,7 @@ jobs:
           git add dist/index.js
           git commit -m "Automation: update setup-beam version output to ${SHA}"
           git push origin main
+
   check_integrity:
     name: Expected local npm actions
     runs-on: ubuntu-latest
