@@ -591,7 +591,7 @@ alongside ${alternativeName}=${alternativeValue} \
 }
 
 function parseVersionFile(versionFilePath0) {
-  const versionFilePath = path.join(
+  const versionFilePath = path.resolve(
     process.env.GITHUB_WORKSPACE,
     versionFilePath0,
   )
