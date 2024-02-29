@@ -8,6 +8,8 @@ simulateInput('hexpm-mirrors', 'https://builds.hex.pm', { multiline: true })
 
 const assert = require('assert')
 const fs = require('fs')
+const os = require('os')
+const path = require('path')
 const core = require('@actions/core')
 const setupBeam = require('../src/setup-beam')
 const { problemMatcher } = require('../matchers/elixir-matchers.json')
@@ -534,6 +536,14 @@ rebar ${rebar3}`
   const appVersions = setupBeam.parseVersionFile(filename)
   assert.strictEqual(appVersions.get('erlang'), erlang)
   assert.strictEqual(appVersions.get('elixir'), elixir)
+
+  const absoluteFilename = path.join(os.tmpdir(), '.tool-versions')
+  fs.writeFileSync(absoluteFilename, toolVersions)
+
+  process.env.GITHUB_WORKSPACE = process.cwd()
+  const absoluteAppVersions = setupBeam.parseVersionFile(absoluteFilename)
+  assert.strictEqual(absoluteAppVersions.get('erlang'), erlang)
+  assert.strictEqual(absoluteAppVersions.get('elixir'), elixir)
 
   assert.ok(async () => {
     await setupBeam.install('otp', { toolVersion: erlang })
