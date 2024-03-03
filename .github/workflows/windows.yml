@@ -22,6 +22,8 @@ jobs:
       fail-fast: false
       matrix:
         combo:
+          - otp-version: 'OTP-27.0-rc1'
+            os: 'windows-latest'
           - otp-version: '26.0'
             elixir-version: 'main'
             os: 'windows-latest'
