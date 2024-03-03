@@ -9885,7 +9885,7 @@ async function main() {
   await maybeInstallRebar3(rebar3Spec)
 
   // undefined is replaced by a function, post- main branch merge
-  const setupBeamVersion = 'cdb7a12'
+  const setupBeamVersion = 'c36fc0c'
   core.setOutput('setup-beam-version', setupBeamVersion)
 }
 
