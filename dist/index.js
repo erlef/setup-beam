@@ -10562,8 +10562,9 @@ async function install(toolName, opts) {
           reportVersion: () => {
             const cmd = 'erl'
             const args = ['-version']
+            const env = {}
 
-            return [cmd, args]
+            return [cmd, args, env]
           },
         },
         win32: {
@@ -10579,8 +10580,9 @@ async function install(toolName, opts) {
           reportVersion: () => {
             const cmd = 'erl.exe'
             const args = ['+V']
+            const env = {}
 
-            return [cmd, args]
+            return [cmd, args, env]
           },
         },
       }
@@ -10608,8 +10610,9 @@ async function install(toolName, opts) {
           reportVersion: () => {
             const cmd = 'elixir'
             const args = ['-v']
+            const env = {}
 
-            return [cmd, args]
+            return [cmd, args, env]
           },
         },
       }
@@ -10648,8 +10651,9 @@ async function install(toolName, opts) {
           reportVersion: () => {
             const cmd = 'gleam'
             const args = ['--version']
+            const env = {}
 
-            return [cmd, args]
+            return [cmd, args, env]
           },
         },
         win32: {
@@ -10681,8 +10685,9 @@ async function install(toolName, opts) {
           reportVersion: () => {
             const cmd = 'gleam.exe'
             const args = ['--version']
+            const env = {}
 
-            return [cmd, args]
+            return [cmd, args, env]
           },
         },
       }
@@ -10713,8 +10718,12 @@ async function install(toolName, opts) {
           reportVersion: () => {
             const cmd = 'rebar3'
             const args = ['version']
+            const env = {
+              REBAR_GLOBAL_CONFIG_DIR: '/fake-dir',
+              REBAR_CONFIG: 'fake.config',
+            }
 
-            return [cmd, args]
+            return [cmd, args, env]
           },
         },
         win32: {
@@ -10749,8 +10758,9 @@ async function install(toolName, opts) {
           reportVersion: () => {
             const cmd = 'rebar3.cmd'
             const args = ['version']
+            const env = {}
 
-            return [cmd, args]
+            return [cmd, args, env]
           },
         },
       }
@@ -10804,8 +10814,8 @@ async function installTool(opts) {
   core.exportVariable(installDirForVarName, runnerToolPath)
 
   core.info(`Installed ${installOpts.tool} version`)
-  const [cmd, args] = platformOpts.reportVersion()
-  await exec(cmd, args)
+  const [cmd, args, env] = platformOpts.reportVersion()
+  await exec(cmd, args, { env: { ...process.env, ...env } })
 }
 
 function checkPlatform() {
