@@ -196,6 +196,12 @@ async function testOTPVersions() {
     expected = 'master'
     got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
+
+    spec = 'latest'
+    osVersion = 'ubuntu-22.04'
+    expected = '26.2.5'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
   }
 
   if (process.platform === 'win32') {
@@ -288,6 +294,12 @@ async function testElixirVersions() {
   got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
+
+  spec = 'latest'
+  otpVersion = 'latest'
+  expected = 'v1.16.2-otp-26.2.5'
+  got = await setupBeam.getElixirVersion(spec, otpVersion)
+  assert.deepStrictEqual(got, expected)
 
   simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
 }

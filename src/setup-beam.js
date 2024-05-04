@@ -164,8 +164,8 @@ async function maybeInstallRebar3(rebar3Spec) {
 }
 
 async function getOTPVersion(otpSpec0, osVersion) {
-  const otpVersions = await getOTPVersions(osVersion)
-  let spec = otpSpec0.replace(/^OTP-/, '')
+  const [otpVersions, latest] = await getOTPVersions(osVersion)
+  const spec = otpSpec0 === "latest" ? latest : otpSpec0.replace(/^OTP-/, '')
   const versions = otpVersions
   const otpVersion = getVersionFromSpec(spec, versions)
   if (otpVersion === null) {
@@ -182,8 +182,8 @@ async function getElixirVersion(exSpec0, otpVersion0) {
   const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
   const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
 
-  const [otpVersionsForElixirMap, elixirVersions] = await getElixirVersions()
-  const spec = exSpec0.replace(/-otp-.*$/, '')
+  const [otpVersionsForElixirMap, elixirVersions, latest] = await getElixirVersions()
+  const spec = exSpec0 === "latest" ? latest : exSpec0.replace(/-otp-.*$/, '')
   const versions = elixirVersions
   const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
 
@@ -250,6 +250,12 @@ async function getRebar3Version(r3Spec) {
   return rebar3Version
 }
 
+async function getLatestOTPVersions() {
+  const response = await fetch("https://api.github.com/repos/erlang/otp/releases/latest")
+  const json = await response.json();
+  return json.tag_name
+}
+
 async function getOTPVersions(osVersion) {
   let otpVersionsListings
   let originListing
@@ -301,8 +307,14 @@ async function getOTPVersions(osVersion) {
   }
 
   debugLog(`OTP versions from ${originListing}`, JSON.stringify(otpVersions))
+  const otpLatest = await getLatestOTPVersions()
+  return [otpVersions, otpLatest]
+}
 
-  return otpVersions
+async function getLatestElixirVersions() {
+  const response = await fetch("https://api.github.com/repos/elixir-lang/elixir/releases/latest")
+  const json = await response.json();
+  return json.tag_name
 }
 
 async function getElixirVersions() {
@@ -335,7 +347,8 @@ async function getElixirVersions() {
       elixirVersions[elixirVersion] = elixirVersion
     })
 
-  return [otpVersionsForElixirMap, elixirVersions]
+  const elixirLatest = await getLatestElixirVersions()
+  return [otpVersionsForElixirMap, elixirVersions, elixirLatest]
 }
 
 async function getGleamVersions() {
