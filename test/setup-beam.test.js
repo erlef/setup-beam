@@ -295,13 +295,13 @@ async function testElixirVersions() {
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
 
+  simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
+
   spec = 'latest'
-  otpVersion = 'latest'
-  expected = 'v1.16.2-otp-26.2.5'
+  otpVersion = '26.2.5'
+  expected = 'v1.16.2-otp-26'
   got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
-
-  simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
 }
 
 async function testGleamVersions() {
@@ -329,6 +329,13 @@ async function testGleamVersions() {
   got = await setupBeam.getGleamVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
+
+  spec = 'latest'
+  otpVersion = 'OTP-24'
+  expected = 'v0.13.2'
+  got = await setupBeam.getGleamVersion(spec, otpVersion)
+
+  assert.deepStrictEqual(got, expected)
 }
 
 async function testRebar3Versions() {
@@ -347,6 +354,11 @@ async function testRebar3Versions() {
   assert.deepStrictEqual(got, expected)
 
   spec = '3.10'
+  expected = '3.10.0'
+  got = await setupBeam.getRebar3Version(spec)
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'latest'
   expected = '3.10.0'
   got = await setupBeam.getRebar3Version(spec)
   assert.deepStrictEqual(got, expected)

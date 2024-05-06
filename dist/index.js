@@ -9995,8 +9995,8 @@ async function maybeInstallRebar3(rebar3Spec) {
 }
 
 async function getOTPVersion(otpSpec0, osVersion) {
-  const otpVersions = await getOTPVersions(osVersion)
-  let spec = otpSpec0.replace(/^OTP-/, '')
+  const [otpVersions, latest] = await getOTPVersions(osVersion)
+  const spec = otpSpec0 === 'latest' ? latest : otpSpec0.replace(/^OTP-/, '')
   const versions = otpVersions
   const otpVersion = getVersionFromSpec(spec, versions)
   if (otpVersion === null) {
@@ -10013,8 +10013,9 @@ async function getElixirVersion(exSpec0, otpVersion0) {
   const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
   const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
 
-  const [otpVersionsForElixirMap, elixirVersions] = await getElixirVersions()
-  const spec = exSpec0.replace(/-otp-.*$/, '')
+  const [otpVersionsForElixirMap, elixirVersions, latest] =
+    await getElixirVersions()
+  const spec = exSpec0 === 'latest' ? latest : exSpec0.replace(/-otp-.*$/, '')
   const versions = elixirVersions
   const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
 
@@ -10052,8 +10053,8 @@ async function getElixirVersion(exSpec0, otpVersion0) {
 }
 
 async function getGleamVersion(gleamSpec0) {
-  const gleamVersions = await getGleamVersions()
-  const spec = gleamSpec0
+  const [gleamVersions, latest] = await getGleamVersions()
+  const spec = gleamSpec0 === 'latest' ? latest : gleamSpec0
   const versions = gleamVersions
   const gleamVersion = getVersionFromSpec(spec, versions)
   if (gleamVersion === null) {
@@ -10067,8 +10068,8 @@ async function getGleamVersion(gleamSpec0) {
 }
 
 async function getRebar3Version(r3Spec) {
-  const rebar3Versions = await getRebar3Versions()
-  const spec = r3Spec
+  const [rebar3Versions, latest] = await getRebar3Versions()
+  const spec = r3Spec === 'latest' ? latest : r3Spec
   const versions = rebar3Versions
   const rebar3Version = getVersionFromSpec(spec, versions)
   if (rebar3Version === null) {
@@ -10132,8 +10133,8 @@ async function getOTPVersions(osVersion) {
   }
 
   debugLog(`OTP versions from ${originListing}`, JSON.stringify(otpVersions))
-
-  return otpVersions
+  const otpLatest = await getLatestVersion('erlang', 'otp')
+  return [otpVersions, otpLatest]
 }
 
 async function getElixirVersions() {
@@ -10166,7 +10167,8 @@ async function getElixirVersions() {
       elixirVersions[elixirVersion] = elixirVersion
     })
 
-  return [otpVersionsForElixirMap, elixirVersions]
+  const elixirLatest = await getLatestVersion('elixir-lang', 'elixir')
+  return [otpVersionsForElixirMap, elixirVersions, elixirLatest]
 }
 
 async function getGleamVersions() {
@@ -10185,7 +10187,8 @@ async function getGleamVersions() {
       })
   })
 
-  return gleamVersionsListing
+  const gleamLatest = await getLatestVersion('gleam-lang', 'gleam')
+  return [gleamVersionsListing, gleamLatest]
 }
 
 async function getRebar3Versions() {
@@ -10202,11 +10205,20 @@ async function getRebar3Versions() {
       })
   })
 
-  return rebar3VersionsListing
+  const rebar3Latest = await getLatestVersion('erlang', 'rebar3')
+  return [rebar3VersionsListing, rebar3Latest]
 }
 
 function isStrictVersion() {
   return getInput('version-type', false) === 'strict'
+}
+
+async function getLatestVersion(owner, repo) {
+  const response = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/releases/latest`,
+  )
+  const json = await response.json()
+  return json.tag_name
 }
 
 function getVersionFromSpec(spec0, versions0) {
