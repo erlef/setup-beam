@@ -332,7 +332,7 @@ async function testGleamVersions() {
 
   spec = 'latest'
   otpVersion = 'OTP-24'
-  expected = 'v0.13.2'
+  expected = 'v1.1.0'
   got = await setupBeam.getGleamVersion(spec, otpVersion)
 
   assert.deepStrictEqual(got, expected)
@@ -359,7 +359,7 @@ async function testRebar3Versions() {
   assert.deepStrictEqual(got, expected)
 
   spec = 'latest'
-  expected = '3.10.0'
+  expected = '3.23.0'
   got = await setupBeam.getRebar3Version(spec)
   assert.deepStrictEqual(got, expected)
 }
