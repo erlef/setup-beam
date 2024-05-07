@@ -318,27 +318,32 @@ async function getElixirVersions() {
       return l
     },
   })
-  const latest = await getLatestVersion('elixir-lang', 'elixir')
+  let versons = elixirVersionsListings.trim().split('\n')
+  const result = versons
+    .map((a) => a.split(' '))
+    .filter((a) => a[0].match(/main/g) == null)
+    .filter((a) => a[0].match(/master/g) == null)
+    .sort((a, b) =>
+      semver.compare(semver.coerce(a[0]).version, semver.coerce(b[0]).version),
+    )
+  const latest = result.reverse()[0][0]
   const match =
     latest.match(/^v?(.+)-otp-([^ ]+)/) || latest.match(/^v?([^ ]+)/)
   const otpVersionsForElixirMap = { latest: match[2] }
   const elixirVersions = { latest: match[1] }
-  elixirVersionsListings
-    .trim()
-    .split('\n')
-    .forEach((line) => {
-      const elixirMatch =
-        line.match(/^v?(.+)-otp-([^ ]+)/) || line.match(/^v?([^ ]+)/)
-      const elixirVersion = elixirMatch[1]
-      const otpVersion = elixirMatch[2]
-      const otpVersions = otpVersionsForElixirMap[elixirVersion] || []
-      if (otpVersion) {
-        // -otp- present (special case)
-        otpVersions.push(otpVersion)
-      }
-      otpVersionsForElixirMap[elixirVersion] = otpVersions
-      elixirVersions[elixirVersion] = elixirVersion
-    })
+  versons.forEach((line) => {
+    const elixirMatch =
+      line.match(/^v?(.+)-otp-([^ ]+)/) || line.match(/^v?([^ ]+)/)
+    const elixirVersion = elixirMatch[1]
+    const otpVersion = elixirMatch[2]
+    const otpVersions = otpVersionsForElixirMap[elixirVersion] || []
+    if (otpVersion) {
+      // -otp- present (special case)
+      otpVersions.push(otpVersion)
+    }
+    otpVersionsForElixirMap[elixirVersion] = otpVersions
+    elixirVersions[elixirVersion] = elixirVersion
+  })
 
   return [otpVersionsForElixirMap, elixirVersions]
 }
