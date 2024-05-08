@@ -86,6 +86,17 @@ async function testFailInstallElixir() {
     },
     `Installing Elixir ${exVersion} is supposed to fail`,
   )
+
+  exVersion = 'latest'
+  let otpVersion = await setupBeam.getOTPVersion(exVersion, 'ubuntu-08.04')
+  assert.throws(await setupBeam.getElixirVersion(exVersion, otpVersion), {
+    message: /compatibility/,
+  })
+
+  otpVersion = await setupBeam.getOTPVersion(exVersion, 'windows-2019')
+  assert.throws(await setupBeam.getElixirVersion(exVersion, otpVersion), {
+    message: /compatibility/,
+  })
 }
 
 async function testFailInstallGleam() {
@@ -552,7 +563,7 @@ async function testParseVersionFile() {
 erlang   ref:v${erlang}# comment, no space, and ref:v
 elixir ref:${elixir}  # comment, with space and ref:
  not-gleam 0.23 # not picked up
-gleam ${gleam} 
+gleam ${gleam}
 rebar ${rebar3}`
   const filename = 'test/.tool-versions'
   fs.writeFileSync(filename, toolVersions)

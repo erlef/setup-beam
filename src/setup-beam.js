@@ -179,42 +179,41 @@ async function getOTPVersion(otpSpec0, osVersion) {
 }
 
 async function getElixirVersion(exSpec0, otpVersion0) {
-  const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
-  const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
-
   const [otpVersionsForElixirMap, elixirVersions] = await getElixirVersions()
+  let otpVersion = semver.coerce(otpVersion0, { includePrerelease: true })
+  otpVersion = otpVersion ? `${otpVersion.major}` : otpVersion0
   const spec = exSpec0.replace(/-otp-.*$/, '')
   const versions = elixirVersions
   const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
 
   if (elixirVersionFromSpec === null) {
     throw new Error(
-      `Requested Elixir version (${exSpec0}) not found in version list ` +
+      `Requested Elixir version (${elixirVersionFromSpec}) not found in version list ` +
         "(should you be using option 'version-type': 'strict'?)",
     )
   }
 
   const elixirVersionComp = otpVersionsForElixirMap[elixirVersionFromSpec]
   if (
-    (elixirVersionComp && elixirVersionComp.includes(otpVersionMajor)) ||
-    !isVersion(otpVersionMajor)
+    (elixirVersionComp && elixirVersionComp.includes(otpVersion)) ||
+    !isVersion(otpVersion)
   ) {
     core.info(
-      `Using Elixir ${elixirVersionFromSpec} (built for Erlang/OTP ${otpVersionMajor})`,
+      `Using Elixir ${elixirVersionFromSpec} (built for Erlang/OTP ${otpVersion})`,
     )
   } else {
     throw new Error(
-      `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion0}) not ` +
-        'found in version list (did you check Compatibility between Elixir and Erlang/OTP?).' +
-        'Elixir and Erlang/OTP compatibility can be found at: ' +
+      `Requested Elixir / Erlang/OTP version (${elixirVersionFromSpec} / ${otpVersion}) not ` +
+        `found in version list [${elixirVersionComp}].\n` +
+        `Elixir and Erlang/OTP compatibility can be found at: ` +
         'https://hexdocs.pm/elixir/compatibility-and-deprecations.html',
     )
   }
 
   let elixirVersionForDownload = elixirVersionFromSpec
 
-  if (isVersion(otpVersionMajor)) {
-    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajor}`
+  if (isVersion(otpVersion)) {
+    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersion}`
   }
 
   return maybePrependWithV(elixirVersionForDownload)
@@ -268,24 +267,22 @@ async function getOTPVersions(osVersion) {
       'https://api.github.com/repos/erlang/otp/releases?per_page=100'
     otpVersionsListings = await get(originListing, [1, 2, 3])
   }
-  const latest = await getLatestVersion('erlang', 'otp')
 
   debugLog(`OTP versions listings from ${originListing}`, otpVersionsListings)
 
-  const otpVersions = {
-    latest: latest.match(/^([^ ]+)?( .+)/)[1].match(/^([^-]+-)?(.+)$/),
-  }
+  const otpVersions = {}
+  let latest
   if (process.platform === 'linux') {
     otpVersionsListings
       .trim()
       .split('\n')
       .forEach((line) => {
-        const otpMatch = line
-          .match(/^([^ ]+)?( .+)/)[1]
-          .match(/^([^-]+-)?(.+)$/)
-        const otpVersion = otpMatch[2]
-        const otpVersionOrig = otpMatch[0]
-        debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
+        const otpVersionOrig = line.split(' ')[0]
+        const otpVersion = semver.coerce(otpVersionOrig, {
+          includePrerelease: true,
+        }).major
+        latest = latest && semver.gt(latest, otpVersion) ? latest : otpVersion
+        debugLog('OTP line and parsing', [line, otpVersion, otpVersionOrig])
         otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
@@ -296,12 +293,18 @@ async function getOTPVersions(osVersion) {
         .filter((x) => x.name.match(/^otp_win64_.*.exe$/))
         .forEach((x) => {
           const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
-          const otpVersion = otpMatch[1]
-          debugLog('OTP line and parsing', [otpMatch, otpVersion])
+          const otpVersionOrig = otpMatch[1]
+          const otpVersion = semver.coerce(otpVersionOrig, {
+            includePrerelease: true,
+          }).version
+          latest = latest && semver.gt(latest, otpVersion) ? latest : otpVersion
+          debugLog('OTP line and parsing', [otpVersionOrig, otpVersion])
           otpVersions[otpVersion] = otpVersion
         })
     })
   }
+
+  otpVersions.latest = latest
 
   debugLog(`OTP versions from ${originListing}`, JSON.stringify(otpVersions))
 
@@ -318,33 +321,49 @@ async function getElixirVersions() {
       return l
     },
   })
-  let versons = elixirVersionsListings.trim().split('\n')
-  const result = versons
-    .map((a) => a.split(' '))
-    .filter((a) => a[0].match(/main/g) == null)
-    .filter((a) => a[0].match(/master/g) == null)
-    .sort((a, b) =>
-      semver.compare(semver.coerce(a[0]).version, semver.coerce(b[0]).version),
-    )
-  const latest = result.reverse()[0][0]
-  const match =
-    latest.match(/^v?(.+)-otp-([^ ]+)/) || latest.match(/^v?([^ ]+)/)
-  const otpVersionsForElixirMap = { latest: match[2] }
-  const elixirVersions = { latest: match[1] }
-  versons.forEach((line) => {
-    const elixirMatch =
-      line.match(/^v?(.+)-otp-([^ ]+)/) || line.match(/^v?([^ ]+)/)
-    const elixirVersion = elixirMatch[1]
-    const otpVersion = elixirMatch[2]
-    const otpVersions = otpVersionsForElixirMap[elixirVersion] || []
-    if (otpVersion) {
-      // -otp- present (special case)
-      otpVersions.push(otpVersion)
-    }
-    otpVersionsForElixirMap[elixirVersion] = otpVersions
-    elixirVersions[elixirVersion] = elixirVersion
-  })
+  let latest, otp_latest
+  const otpVersionsForElixirMap = {}
+  const elixirVersions = {}
+  elixirVersionsListings
+    .trim()
+    .split('\n')
+    .forEach((line) => {
+      let elixirVersionOrig = line.split(' ')[0].split('otp')
+      let elixirVersion, otpVersion
 
+      if (elixirVersionOrig[1]) {
+        otpVersion = semver.coerce(elixirVersionOrig[1], {
+          includePrerelease: false,
+          rtl: true,
+        })
+        otp_latest =
+          otp_latest && semver.gt(otp_latest, otpVersion)
+            ? otp_latest
+            : otpVersion
+      }
+
+      if (elixirVersionOrig[0].match(/main|master/g) == null) {
+        elixirVersion = semver.coerce(elixirVersionOrig[0], {
+          includePrerelease: true,
+        }).version
+        latest =
+          latest && semver.gt(latest, elixirVersion) ? latest : elixirVersion
+      } else {
+        elixirVersion = elixirVersionOrig[0]
+          .match(/main|master/g)[0]
+          .replace('-', '')
+      }
+      const otpVersions = otpVersionsForElixirMap[elixirVersion] || []
+      if (otpVersion) {
+        // -otp- present (special case)
+        otpVersions.push(`${otpVersion.major}`)
+      }
+      otpVersionsForElixirMap[elixirVersion] = otpVersions
+      elixirVersions[elixirVersion] = elixirVersion
+    })
+
+  otpVersionsForElixirMap[latest] = otp_latest.version
+  elixirVersions.latest = latest
   return [otpVersionsForElixirMap, elixirVersions]
 }
 
