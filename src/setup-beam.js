@@ -379,6 +379,14 @@ function isStrictVersion() {
 }
 
 function getVersionFromSpec(spec0, versions0) {
+  let latest
+  Object.keys(versions0).forEach((version) => {
+    if (version.match(/main|master|nightly|latest/g) == null) {
+      version = semver.coerce(version, { includePrerelease: true })
+      latest = latest && semver.gt(latest, version) ? latest : version
+    }
+  })
+  versions0.latest = latest.version
   const spec = maybeRemoveVPrefix(spec0)
 
   const altVersions = {}
@@ -475,7 +483,7 @@ function isRC(ver) {
 }
 
 function isKnownBranch(ver) {
-  return ['main', 'master', 'maint'].includes(ver)
+  return ['main', 'master', 'maint', 'latest'].includes(ver)
 }
 
 function getRunnerOSVersion() {
