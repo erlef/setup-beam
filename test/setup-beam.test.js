@@ -130,6 +130,13 @@ async function testOTPVersions() {
 
   if (process.platform === 'linux') {
     before = simulateInput('version-type', 'strict')
+    spec = '26'
+    osVersion = 'ubuntu-24.04'
+    expected = 'OTP-26.0'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+
+    simulateInput('version-type', before)
     spec = '25.3.2.1'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-25.3.2.1'

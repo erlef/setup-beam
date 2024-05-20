@@ -10314,6 +10314,7 @@ function getRunnerOSVersion() {
     ubuntu18: 'ubuntu-18.04',
     ubuntu20: 'ubuntu-20.04',
     ubuntu22: 'ubuntu-22.04',
+    ubuntu24: 'ubuntu-24.04',
     win19: 'windows-2019',
     win22: 'windows-2022',
   }
