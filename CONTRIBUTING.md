@@ -27,6 +27,13 @@ Here are a few things you can do that will increase the likelihood of your pull 
 - Write a [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 - Execute `npm run build-dist` and fix any issues arising from that
 
+## Running tests
+
+When running tests locally, a valid classic GitHub token with the `repo` scope is required for tests to pass.
+
+- Export the token in the current shell: `export GITHUB_TOKEN=<contents>`
+- Run tests `npm test`
+
 ## Resources
 
 - [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
