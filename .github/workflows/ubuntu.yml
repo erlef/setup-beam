@@ -23,6 +23,7 @@ jobs:
       matrix:
         combo:
           - otp-version: '27'
+            elixir-version: 'v1.17.0-rc1'
             rebar3-version: '3.23'
             os: 'ubuntu-latest'
           - otp-version: '26.0'
