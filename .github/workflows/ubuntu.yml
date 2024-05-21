@@ -22,7 +22,8 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          - otp-version: 'OTP-27.0-rc1'
+          - otp-version: '27'
+            rebar3-version: '3.23'
             os: 'ubuntu-latest'
           - otp-version: '26.0'
             elixir-version: 'v1.14-otp-25'
