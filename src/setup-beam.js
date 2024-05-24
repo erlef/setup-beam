@@ -499,7 +499,9 @@ function getRunnerOSVersion() {
         "']",
     )
   }
-
+  if (['ARM', 'ARM64'].includes(process.env.RUNNER_ARCH)) {
+    containerFromEnvImageOS = `arm64/${containerFromEnvImageOS}`
+  }
   return containerFromEnvImageOS
 }
 
