@@ -10318,7 +10318,7 @@ function getRunnerOSVersion() {
     win19: 'windows-2019',
     win22: 'windows-2022',
   }
-  const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
+  let containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
   if (!containerFromEnvImageOS) {
     throw new Error(
       "Tried to map a target OS from env. variable 'ImageOS' (got " +
@@ -10330,7 +10330,9 @@ function getRunnerOSVersion() {
         "']",
     )
   }
-
+  if (['ARM', 'ARM64'].includes(process.env.RUNNER_ARCH)) {
+    containerFromEnvImageOS = `arm64/${containerFromEnvImageOS}`
+  }
   return containerFromEnvImageOS
 }
 
