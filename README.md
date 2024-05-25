@@ -49,13 +49,14 @@ opt-in, so `1.11.x` will not match a pre-release.
 This list presents the known working version combos between the target operating system
 and Erlang/OTP.
 
-| Operating system | Erlang/OTP | Status
-|-                 |-           |-
-| ubuntu-18.04     | 17 - 25    | ✅
-| ubuntu-20.04     | 20 - 25    | ✅
-| ubuntu-22.04     | 24.2 - 26  | ✅
-| windows-2019     | 21* - 25   | ✅
-| windows-2022     | 21* - 26   | ✅
+| Operating system | Erlang/OTP  | Status
+|-                 |-            |-
+| ubuntu-18.04     | 17.0 - 25.3 | ✅
+| ubuntu-20.04     | 20.0 - 27   | ✅
+| ubuntu-22.04     | 24.2 - 27   | ✅
+| ubuntu-24.04     | 24.3 - 27   | ✅
+| windows-2019     | 21* - 25    | ✅
+| windows-2022     | 21* - 27    | ✅
 
 **Note** *: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3, 22.0, etc.
 
