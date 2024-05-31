@@ -10864,6 +10864,8 @@ module.exports = {
   getGleamVersion,
   getRebar3Version,
   getVersionFromSpec,
+  githubAMDRunnerArchs,
+  githubARMRunnerArchs,
   install,
   parseVersionFile,
 }
