@@ -502,7 +502,11 @@ function getRunnerOSArchitecture() {
     return 'amd64'
   }
 
-  return ''
+  throw new Error(
+    'Invalid Github runner architecture, expected one of ' +
+      `${githubAMDRunnerArchs().concat(githubARMRunnerArchs()).join(', ')} ` +
+      `but got process.env.RUNNER_ARCH = ${process.env.RUNNER_ARCH}`,
+  )
 }
 
 function getRunnerOSVersion() {

@@ -19,6 +19,7 @@ async function all() {
   await testFailInstallElixir()
   await testFailInstallGleam()
   await testFailInstallRebar3()
+  await testFailGetOTPVersion()
 
   await testOTPVersions()
   await testLinuxARM64OTPVersions()
@@ -423,6 +424,32 @@ async function testLinuxAMD64OTPVersions() {
   }
 
   simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
+}
+
+async function testFailGetOTPVersion() {
+  const hexMirrors = simulateInput(
+    'hexpm-mirrors',
+    'https://repo.hex.pm, https://cdn.jsdelivr.net/hex',
+    { multiline: true },
+  )
+
+  process.env.RUNNER_ARCH = 'invalid'
+
+  if (process.platform === 'linux') {
+    const spec = '26'
+    const osVersion = 'ubuntu-24.04'
+
+    assert.rejects(
+      async () => {
+        await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+      },
+      (err) => {
+        assert.ok(err instanceof Error)
+        return true
+      },
+      `Fetching OTP Version with invalid Github runner architecture is supposed to fail`,
+    )
+  }
 }
 
 async function testElixirVersions() {
