@@ -10086,11 +10086,7 @@ async function getOTPVersions(osVersion) {
   let originListing
   if (process.platform === 'linux') {
     let osArchitecture = getRunnerOSArchitecture()
-    if (osArchitecture.length > 0) {
-      osArchitecture = `${osArchitecture}/`
-    }
-
-    originListing = `/builds/otp/${osArchitecture}${osVersion}/builds.txt`
+    originListing = `/builds/otp/${osArchitecture}/${osVersion}/builds.txt`
     otpVersionsListings = await doWithMirrors({
       hexMirrors: hexMirrorsInput(),
       actionTitle: `fetch ${originListing}`,
