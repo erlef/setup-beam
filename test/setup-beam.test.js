@@ -19,6 +19,7 @@ const matrix = {
     'ubuntu-18.04': parseBuild('test/otp/ubuntu-18.04/builds.txt'),
     'ubuntu-20.04': parseBuild('test/otp/ubuntu-20.04/builds.txt'),
     'ubuntu-22.04': parseBuild('test/otp/ubuntu-22.04/builds.txt'),
+    'ubuntu-24.04': parseBuild('test/otp/ubuntu-24.04/builds.txt'),
     windows: parseReleases('test/otp/releases.json'),
   },
   elixir: parseBuild('test/elixir/builds.txt'),
@@ -435,7 +436,7 @@ async function testGetVersionFromSpec() {
     '12.1.2.3',
     '12.1.2.3.0',
   ]
-  const versions = {}
+  let versions = {}
   versions0.forEach((version) => {
     versions[version] = version
   })
@@ -568,32 +569,74 @@ async function testGetVersionFromSpec() {
   simulateInput('version-type', before)
 
   spec = 'latest'
-  expected = '24.0.0'
+  expected = '24.0'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  versions = {
+    '27.0.0-rc3': '27.0.0-rc3',
+    '27.0.0-rc2': '27.0.0-rc2',
+  }
+  spec = 'latest'
+  expected = '27.0.0-rc3'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  versions = {
+    '27.0.0-rc3': '27.0.0-rc3',
+    '27.0.0-rc2': '27.0.0-rc2',
+    '27.0.0': '27.0.0',
+  }
+  spec = 'latest'
+  expected = '27.0.0'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  versions = { '25.3.2.8': '25.3.2.8', '25.3.2.12': '25.3.2.12' }
+  spec = 'latest'
+  expected = '25.3.2.12'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
   spec = 'latest'
-  got = setupBeam.getVersionFromSpec(spec, [
-    { '22.3.4.2.1.0.1': '22.3.4.2.1.0.1', '22.3.4.2.1.0.0': '22.3.4.2.1.0.0' },
-  ])
-  assert.deepStrictEqual(got, '22.3.4.2.1.0.1')
-
+  expected = 'OTP-26.2.1'
   got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-18.04'])
-  assert.deepStrictEqual(got, '26.2.1')
-  expected = '27.0.0'
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'latest'
+  expected = 'OTP-27.0-rc3'
   got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-20.04'])
   assert.deepStrictEqual(got, expected)
+
+  spec = 'latest'
+  expected = 'OTP-27.0-rc3'
   got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
   assert.deepStrictEqual(got, expected)
+
+  spec = 'latest'
+  expected = 'OTP-27.0'
+  got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-24.04'])
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'latest'
+  expected = '27.0-rc3'
   got = setupBeam.getVersionFromSpec(spec, matrix.otp.windows)
   assert.deepStrictEqual(got, expected)
 
+  spec = 'latest'
+  expected = 'v1.16.2'
   got = setupBeam.getVersionFromSpec(spec, matrix.elixir)
-  assert.deepStrictEqual(got, '1.16.2')
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'latest'
+  expected = 'v1.1.0'
   got = setupBeam.getVersionFromSpec(spec, matrix.gleam)
-  assert.deepStrictEqual(got, '1.1.0')
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'latest'
+  expected = '3.23.0'
   got = setupBeam.getVersionFromSpec(spec, matrix.rebar3)
-  assert.deepStrictEqual(got, '6.0.0')
+  assert.deepStrictEqual(got, expected)
 }
 
 async function testParseVersionFile() {
@@ -610,8 +653,7 @@ async function testParseVersionFile() {
 erlang   ref:v${erlang}# comment, no space, and ref:v
 elixir ref:${elixir}  # comment, with space and ref:
  not-gleam 0.23 # not picked up
-gleam ${gleam}
-rebar ${rebar3}`
+gleam ${gleam} \nrebar ${rebar3}`
   const filename = 'test/.tool-versions'
   fs.writeFileSync(filename, toolVersions)
   process.env.GITHUB_WORKSPACE = ''
