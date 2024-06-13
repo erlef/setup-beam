@@ -44,7 +44,7 @@ jobs:
           - otp-version: '24.0.2'
             rebar3-version: '3.16'
             os: 'windows-2019'
-          - otp-version: '24.0.2'
+          - otp-version: '26.2.5'
             rebar3-version: 'nightly'
             os: 'windows-2019'
           - otp-version: '23.0'
@@ -131,9 +131,9 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          - otp-version: '24'
-            elixir-version: 'v1.12'
-            gleam-version: '0.23.0-rc1'
+          - otp-version: '25'
+            elixir-version: 'v1.14'
+            gleam-version: '1.0.0'
             rebar3-version: 'nightly'
             os: 'windows-latest'
     steps:
