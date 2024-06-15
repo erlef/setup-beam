@@ -27,24 +27,44 @@ workflow by:
 
 See [action.yml](action.yml) for the action's specification.
 
-**Note**: the Erlang/OTP release version specification is [relatively
-complex](http://erlang.org/doc/system_principles/versions.html#version-scheme).
-For best results, we recommend specifying exact
+### Input versioning
+
+Input (tools') versions are controlled via `with:` (check the examples below).
+
+#### Strict versions
+
+The Erlang/OTP release version specification, for example, is [relatively
+complex](http://erlang.org/doc/system_principles/versions.html#version-scheme), so,
+for best results, we recommend specifying exact
 versions, and setting option `version-type` to `strict`.
+
+#### Version ranges
+
 However, values like `22.x`, or even `>22`, are also accepted, and we attempt to resolve them
 according to semantic versioning rules. This implicitly means `version-type` is `loose`,
 which is also the default value for this option.
+
+#### Specify versions as strings, not numbers
 
 Additionally, it is recommended that one specifies versions
 using YAML strings, as these examples do, so that numbers like `23.0` don't
 end up being parsed as `23`, which is not equivalent.
 
+#### Pre-release versions
+
 For pre-release versions, such as `v1.11.0-rc.0`, use the full version
 specifier (`v1.11.0-rc.0`) and set option `version-type` to `strict`. Pre-release versions are
 opt-in, so `1.11.x` will not match a pre-release.
 
-Use `latest` for the latest version; the latest version is calculated based on all the retrieved
-versions. Please take a look at the test cases for examples.
+#### "Latest" versions
+
+Set a tool's version to `latest` to retrieve the latest version of a given tool.
+The latest version is (locally) calculated by the action based on the (retrieved) versions
+it knows (**note**: it is not the same as [GitHub considers it](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
+and some repositories might propose).
+
+If in doubt do a test run and compare the obtained release with the one you were expecting to
+be the latest.
 
 ### Compatibility between Operating System and Erlang/OTP
 
