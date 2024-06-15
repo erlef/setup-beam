@@ -1,5 +1,4 @@
-<!-- markdownlint-disable MD013 -->
-# setup-beam [![GitHub Actions][action-img]][action] [![GitHub Actions][ubuntu-img]][ubuntu] [![GitHub Actions][windows-img]][windows]
+# setup-beam [![Action][action-img]][action]&nbsp;[![Ubuntu][ubuntu-img]][ubuntu]&nbsp;[![Windows][windows-img]][windows]
 
 [action]: https://github.com/erlef/setup-beam/actions/workflows/action.yml
 [action-img]: https://github.com/erlef/setup-beam/actions/workflows/action.yml/badge.svg
@@ -44,7 +43,8 @@ For pre-release versions, such as `v1.11.0-rc.0`, use the full version
 specifier (`v1.11.0-rc.0`) and set option `version-type` to `strict`. Pre-release versions are
 opt-in, so `1.11.x` will not match a pre-release.
 
-Use `latest` for the latest version; the latest version is calculated based on all the retrieved versions. Please take a look at the test cases for examples.
+Use `latest` for the latest version; the latest version is calculated based on all the retrieved
+versions. Please take a look at the test cases for examples.
 
 ### Compatibility between Operating System and Erlang/OTP
 
@@ -60,7 +60,8 @@ and Erlang/OTP.
 | windows-2019     | 21* - 25    | ✅
 | windows-2022     | 21* - 27    | ✅
 
-**Note** *: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3, 22.0, etc.
+**Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
+22.0, etc.
 
 ### Self-hosted runners
 
@@ -96,13 +97,13 @@ jobs:
 
 The action provides the following outputs:
 
-| Output             | Content
-|-                   |-
-| otp-version        | The Erlang version, e.g. `OTP-26.0`
-| elixir-version     | The Elixir version, e.g. `v1.14-otp-26`
-| gleam-version      | The Gleam version, e.g. `v0.23.0`
-| rebar3-version     | The `rebar3` version, e.g. `3.18.0`
-| setup-beam-version | The commit unique id of the executed action version, e.g. `a34c98f`
+| Output               | Content
+|-                     |-
+| `otp-version`        | The Erlang version, e.g. `OTP-26.0`
+| `elixir-version`     | The Elixir version, e.g. `v1.14-otp-26`
+| `gleam-version`      | The Gleam version, e.g. `v0.23.0`
+| `rebar3-version`     | The `rebar3` version, e.g. `3.18.0`
+| `setup-beam-version` | The commit unique id of the executed action version, e.g. `a34c98f`
 
 accessible as `${{steps.<setup-beam-step-id>.outputs.<Output>}}`,
 e.g. `${{steps.setup-beam.outputs.erlang-version}}`
@@ -125,12 +126,12 @@ with the following correspondence.
 
 #### `.tool-versions` format
 
-| YML              | `.tool-versions` |
-|-                 |- |
-| `otp-version`    | `erlang` |
-| `elixir-version` | `elixir` |
-| `gleam-version`  | `gleam` |
-| `rebar3-version` | `rebar` |
+| YML              | `.tool-versions`
+|-                 |-
+| `otp-version`    | `erlang`
+| `elixir-version` | `elixir`
+| `gleam-version`  | `gleam`
+| `rebar3-version` | `rebar`
 
 ### Example (Erlang/OTP + Elixir, on Ubuntu)
 
