@@ -44,6 +44,8 @@ For pre-release versions, such as `v1.11.0-rc.0`, use the full version
 specifier (`v1.11.0-rc.0`) and set option `version-type` to `strict`. Pre-release versions are
 opt-in, so `1.11.x` will not match a pre-release.
 
+Use `latest` for the latest version; the latest version is calculated based on all the retrieved versions. Please take a look at the test cases for examples.
+
 ### Compatibility between Operating System and Erlang/OTP
 
 This list presents the known working version combos between the target operating system

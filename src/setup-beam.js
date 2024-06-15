@@ -378,7 +378,34 @@ function isStrictVersion() {
   return getInput('version-type', false) === 'strict'
 }
 
+function gt(left, right) {
+  return semver.gt(parseVersion(left), parseVersion(right))
+}
+
+function validVersion(v) {
+  return (
+    v.match(/main|master|nightly|latest/g) == null &&
+    !v.startsWith('a') &&
+    !v.startsWith('b')
+  )
+}
+
+function parseVersion(v) {
+  v = v.includes('rc') ? v : v.split('.')
+  if (v instanceof Array) {
+    v = `${[v.shift(), v.shift(), v.shift()].join('.')}+${v.join('.')}`
+  }
+  return semver.coerce(v, { includePrerelease: true, loose: true })
+}
+
 function getVersionFromSpec(spec0, versions0) {
+  let latest
+  Object.keys(versions0).forEach((v) => {
+    if (validVersion(v)) {
+      latest = latest && gt(latest, v) ? latest : v
+    }
+  })
+  versions0.latest = latest
   const spec = maybeRemoveVPrefix(spec0)
 
   const altVersions = {}
@@ -475,7 +502,7 @@ function isRC(ver) {
 }
 
 function isKnownBranch(ver) {
-  return ['main', 'master', 'maint'].includes(ver)
+  return ['main', 'master', 'maint', 'latest'].includes(ver)
 }
 
 function getRunnerOSVersion() {
