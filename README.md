@@ -73,12 +73,12 @@ and Erlang/OTP.
 
 | Operating system | Erlang/OTP  | Status
 |-                 |-            |-
-| ubuntu-18.04     | 17.0 - 25.3 | ✅
-| ubuntu-20.04     | 20.0 - 27   | ✅
-| ubuntu-22.04     | 24.2 - 27   | ✅
-| ubuntu-24.04     | 24.3 - 27   | ✅
-| windows-2019     | 21* - 25    | ✅
-| windows-2022     | 21* - 27    | ✅
+| `ubuntu-18.04`   | 17.0 - 25.3 | ✅
+| `ubuntu-20.04`   | 20.0 - 27   | ✅
+| `ubuntu-22.04`   | 24.2 - 27   | ✅
+| `ubuntu-24.04`   | 24.3 - 27   | ✅
+| `windows-2019`   | 21* - 25    | ✅
+| `windows-2022`   | 21* - 27    | ✅
 
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
@@ -88,14 +88,14 @@ and Erlang/OTP.
 Self-hosted runners need to set env. variable `ImageOS` to one of the following, since the action
 uses that to download assets:
 
-| ImageOS  | Operating system
-|-         |-
-| ubuntu18 | ubuntu-18.04
-| ubuntu20 | ubuntu-20.04
-| ubuntu22 | ubuntu-22.04
-| ubuntu24 | ubuntu-24.04
-| win19    | windows-2019
-| win22    | windows-2022
+| ImageOS    | Operating system
+|-           |-
+| `ubuntu18` | `ubuntu-18.04`
+| `ubuntu20` | `ubuntu-20.04`
+| `ubuntu22` | `ubuntu-22.04`
+| `ubuntu24` | `ubuntu-24.04`
+| `win19`    | `windows-2019`
+| `win22`    | `windows-2022`
 
 as per the following example:
 
