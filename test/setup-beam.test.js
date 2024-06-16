@@ -474,12 +474,6 @@ async function testLinuxAMD64OTPVersions() {
 }
 
 async function testFailGetOTPVersion() {
-  const hexMirrors = simulateInput(
-    'hexpm-mirrors',
-    'https://repo.hex.pm, https://cdn.jsdelivr.net/hex',
-    { multiline: true },
-  )
-
   const previousRunnerArch = process.env.RUNNER_ARCH
   process.env.RUNNER_ARCH = 'invalid'
 
