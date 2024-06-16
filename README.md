@@ -1,5 +1,4 @@
-<!-- markdownlint-disable MD013 -->
-# setup-beam [![GitHub Actions][action-img]][action] [![GitHub Actions][ubuntu-img]][ubuntu] [![GitHub Actions][windows-img]][windows]
+# setup-beam [![Action][action-img]][action]&nbsp;[![Ubuntu][ubuntu-img]][ubuntu]&nbsp;[![Windows][windows-img]][windows]
 
 [action]: https://github.com/erlef/setup-beam/actions/workflows/action.yml
 [action-img]: https://github.com/erlef/setup-beam/actions/workflows/action.yml/badge.svg
@@ -28,23 +27,44 @@ workflow by:
 
 See [action.yml](action.yml) for the action's specification.
 
-**Note**: the Erlang/OTP release version specification is [relatively
-complex](http://erlang.org/doc/system_principles/versions.html#version-scheme).
-For best results, we recommend specifying exact
+### Input versioning
+
+Input (tools') versions are controlled via `with:` (check the examples below).
+
+#### Strict versions
+
+The Erlang/OTP release version specification, for example, is [relatively
+complex](http://erlang.org/doc/system_principles/versions.html#version-scheme), so,
+for best results, we recommend specifying exact
 versions, and setting option `version-type` to `strict`.
+
+#### Version ranges
+
 However, values like `22.x`, or even `>22`, are also accepted, and we attempt to resolve them
 according to semantic versioning rules. This implicitly means `version-type` is `loose`,
 which is also the default value for this option.
+
+#### Specify versions as strings, not numbers
 
 Additionally, it is recommended that one specifies versions
 using YAML strings, as these examples do, so that numbers like `23.0` don't
 end up being parsed as `23`, which is not equivalent.
 
+#### Pre-release versions
+
 For pre-release versions, such as `v1.11.0-rc.0`, use the full version
 specifier (`v1.11.0-rc.0`) and set option `version-type` to `strict`. Pre-release versions are
 opt-in, so `1.11.x` will not match a pre-release.
 
-Use `latest` for the latest version; the latest version is calculated based on all the retrieved versions. Please take a look at the test cases for examples.
+#### "Latest" versions
+
+Set a tool's version to `latest` to retrieve the latest version of a given tool.
+The latest version is (locally) calculated by the action based on the (retrieved) versions
+it knows (**note**: it is not the same as [GitHub considers it](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
+and some repositories might propose).
+
+If in doubt do a test run and compare the obtained release with the one you were expecting to
+be the latest.
 
 ### Compatibility between Operating System and Erlang/OTP
 
@@ -53,28 +73,29 @@ and Erlang/OTP.
 
 | Operating system | Erlang/OTP  | Status
 |-                 |-            |-
-| ubuntu-18.04     | 17.0 - 25.3 | ✅
-| ubuntu-20.04     | 20.0 - 27   | ✅
-| ubuntu-22.04     | 24.2 - 27   | ✅
-| ubuntu-24.04     | 24.3 - 27   | ✅
-| windows-2019     | 21* - 25    | ✅
-| windows-2022     | 21* - 27    | ✅
+| `ubuntu-18.04`   | 17.0 - 25.3 | ✅
+| `ubuntu-20.04`   | 20.0 - 27   | ✅
+| `ubuntu-22.04`   | 24.2 - 27   | ✅
+| `ubuntu-24.04`   | 24.3 - 27   | ✅
+| `windows-2019`   | 21* - 25    | ✅
+| `windows-2022`   | 21* - 27    | ✅
 
-**Note** *: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3, 22.0, etc.
+**Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
+22.0, etc.
 
 ### Self-hosted runners
 
 Self-hosted runners need to set env. variable `ImageOS` to one of the following, since the action
 uses that to download assets:
 
-| ImageOS  | Operating system
-|-         |-
-| ubuntu18 | ubuntu-18.04
-| ubuntu20 | ubuntu-20.04
-| ubuntu22 | ubuntu-22.04
-| ubuntu24 | ubuntu-24.04
-| win19    | windows-2019
-| win22    | windows-2022
+| ImageOS    | Operating system
+|-           |-
+| `ubuntu18` | `ubuntu-18.04`
+| `ubuntu20` | `ubuntu-20.04`
+| `ubuntu22` | `ubuntu-22.04`
+| `ubuntu24` | `ubuntu-24.04`
+| `win19`    | `windows-2019`
+| `win22`    | `windows-2022`
 
 as per the following example:
 
@@ -96,13 +117,13 @@ jobs:
 
 The action provides the following outputs:
 
-| Output             | Content
-|-                   |-
-| otp-version        | The Erlang version, e.g. `OTP-26.0`
-| elixir-version     | The Elixir version, e.g. `v1.14-otp-26`
-| gleam-version      | The Gleam version, e.g. `v0.23.0`
-| rebar3-version     | The `rebar3` version, e.g. `3.18.0`
-| setup-beam-version | The commit unique id of the executed action version, e.g. `a34c98f`
+| Output               | Content
+|-                     |-
+| `otp-version`        | The Erlang version, e.g. `OTP-26.0`
+| `elixir-version`     | The Elixir version, e.g. `v1.14-otp-26`
+| `gleam-version`      | The Gleam version, e.g. `v0.23.0`
+| `rebar3-version`     | The `rebar3` version, e.g. `3.18.0`
+| `setup-beam-version` | The commit unique id of the executed action version, e.g. `a34c98f`
 
 accessible as `${{steps.<setup-beam-step-id>.outputs.<Output>}}`,
 e.g. `${{steps.setup-beam.outputs.erlang-version}}`
@@ -125,12 +146,12 @@ with the following correspondence.
 
 #### `.tool-versions` format
 
-| YML              | `.tool-versions` |
-|-                 |- |
-| `otp-version`    | `erlang` |
-| `elixir-version` | `elixir` |
-| `gleam-version`  | `gleam` |
-| `rebar3-version` | `rebar` |
+| YML              | `.tool-versions`
+|-                 |-
+| `otp-version`    | `erlang`
+| `elixir-version` | `elixir`
+| `gleam-version`  | `gleam`
+| `rebar3-version` | `rebar`
 
 ### Example (Erlang/OTP + Elixir, on Ubuntu)
 
