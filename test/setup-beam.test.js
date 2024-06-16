@@ -174,6 +174,9 @@ async function testOTPVersions() {
   )
 
   if (process.platform === 'linux') {
+    const previousRunnerArch = process.env.RUNNER_ARCH
+    process.env.RUNNER_ARCH = 'X64'
+
     before = simulateInput('version-type', 'strict')
     spec = '26'
     osVersion = 'ubuntu-24.04'
@@ -255,6 +258,8 @@ async function testOTPVersions() {
     expected = 'master'
     got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
+
+    process.env.RUNNER_ARCH = previousRunnerArch
   }
 
   if (process.platform === 'win32') {
