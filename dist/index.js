@@ -9160,7 +9160,9 @@ async function main() {
 
 async function installOTP(otpSpec, osVersion) {
   const otpVersion = await getOTPVersion(otpSpec, osVersion)
-  core.startGroup(`Installing Erlang/OTP ${otpVersion} - built on ${osVersion}`)
+  core.startGroup(
+    `Installing Erlang/OTP ${otpVersion} - built on ${getRunnerOSArchitecture()}/${osVersion}`,
+  )
   await doWithMirrors({
     hexMirrors: hexMirrorsInput(),
     actionTitle: `install Erlang/OTP ${otpVersion}`,
@@ -9354,7 +9356,7 @@ async function getOTPVersions(osVersion) {
   let otpVersionsListings
   let originListing
   if (process.platform === 'linux') {
-    originListing = `/builds/otp/${osVersion}/builds.txt`
+    originListing = `/builds/otp/${getRunnerOSArchitecture()}/${osVersion}/builds.txt`
     otpVersionsListings = await doWithMirrors({
       hexMirrors: hexMirrorsInput(),
       actionTitle: `fetch ${originListing}`,
@@ -9605,6 +9607,32 @@ function isKnownBranch(ver) {
   return ['main', 'master', 'maint', 'latest'].includes(ver)
 }
 
+function githubARMRunnerArchs() {
+  return ['ARM', 'ARM64']
+}
+
+function githubAMDRunnerArchs() {
+  return ['X86', 'X64']
+}
+
+function getRunnerOSArchitecture() {
+  // These options come from:
+  // https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+  if (githubARMRunnerArchs().includes(process.env.RUNNER_ARCH)) {
+    return 'arm64'
+  }
+
+  if (githubAMDRunnerArchs().includes(process.env.RUNNER_ARCH)) {
+    return 'amd64'
+  }
+
+  throw new Error(
+    'Invalid Github runner architecture, expected one of ' +
+      `${githubAMDRunnerArchs().concat(githubARMRunnerArchs()).join(', ')} ` +
+      `but got process.env.RUNNER_ARCH = ${process.env.RUNNER_ARCH}`,
+  )
+}
+
 function getRunnerOSVersion() {
   const ImageOSToContainer = {
     ubuntu18: 'ubuntu-18.04',
@@ -9843,7 +9871,7 @@ async function install(toolName, opts) {
         tool: 'Erlang/OTP',
         linux: {
           downloadToolURL: () =>
-            `${hexMirror}/builds/otp/${versionSpec}.tar.gz`,
+            `${hexMirror}/builds/otp/${getRunnerOSArchitecture()}/${versionSpec}.tar.gz`,
           extract: async (file) => {
             const dest = undefined
             const flags = ['zx', '--strip-components=1']
@@ -10133,6 +10161,8 @@ module.exports = {
   getGleamVersion,
   getRebar3Version,
   getVersionFromSpec,
+  githubAMDRunnerArchs,
+  githubARMRunnerArchs,
   install,
   parseVersionFile,
 }

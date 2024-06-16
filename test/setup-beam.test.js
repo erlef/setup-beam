@@ -61,8 +61,11 @@ async function all() {
   await testFailInstallElixir()
   await testFailInstallGleam()
   await testFailInstallRebar3()
+  await testFailGetOTPVersion()
 
   await testOTPVersions()
+  await testLinuxARM64OTPVersions()
+  await testLinuxAMD64OTPVersions()
   await testElixirVersions()
   await testGleamVersions()
   await testRebar3Versions()
@@ -171,6 +174,9 @@ async function testOTPVersions() {
   )
 
   if (process.platform === 'linux') {
+    const previousRunnerArch = process.env.RUNNER_ARCH
+    process.env.RUNNER_ARCH = 'X64'
+
     before = simulateInput('version-type', 'strict')
     spec = '26'
     osVersion = 'ubuntu-24.04'
@@ -252,6 +258,8 @@ async function testOTPVersions() {
     expected = 'master'
     got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
     assert.deepStrictEqual(got, expected)
+
+    process.env.RUNNER_ARCH = previousRunnerArch
   }
 
   if (process.platform === 'win32') {
@@ -275,6 +283,222 @@ async function testOTPVersions() {
   }
 
   simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
+}
+
+async function testLinuxARM64OTPVersions() {
+  let got
+  let expected
+  let spec
+  let osVersion
+  let before
+  const hexMirrors = simulateInput(
+    'hexpm-mirrors',
+    'https://repo.hex.pm, https://cdn.jsdelivr.net/hex',
+    { multiline: true },
+  )
+
+  const arm64Options = setupBeam.githubARMRunnerArchs()
+  process.env.RUNNER_ARCH =
+    arm64Options[Math.floor(Math.random() * arm64Options.length)]
+
+  if (process.platform === 'linux') {
+    before = simulateInput('version-type', 'strict')
+    spec = '26'
+    osVersion = 'ubuntu-24.04'
+    expected = 'maint-26'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+
+    simulateInput('version-type', before)
+    spec = '27.0'
+    osVersion = 'ubuntu-24.04'
+    expected = 'OTP-27.0'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+
+    simulateInput('version-type', before)
+    spec = '25.3.2.1'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-25.3.2.1'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+    simulateInput('version-type', before)
+
+    spec = '20'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-20.3.8.26'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '20.3.8.26'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-20.3.8.26'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '20.x'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-20.3.8.26'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '20.0'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-20.0.5'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '20.0.x'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-20.0.5'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = 'maint'
+    osVersion = 'ubuntu-22.04'
+    expected = 'maint'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+
+    spec = 'master'
+    osVersion = 'ubuntu-22.04'
+    expected = 'master'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+  }
+
+  simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
+}
+
+async function testLinuxAMD64OTPVersions() {
+  let got
+  let expected
+  let spec
+  let osVersion
+  let before
+  const hexMirrors = simulateInput(
+    'hexpm-mirrors',
+    'https://repo.hex.pm, https://cdn.jsdelivr.net/hex',
+    { multiline: true },
+  )
+
+  const amd64Options = setupBeam.githubAMDRunnerArchs()
+  process.env.RUNNER_ARCH =
+    amd64Options[Math.floor(Math.random() * amd64Options.length)]
+
+  if (process.platform === 'linux') {
+    before = simulateInput('version-type', 'strict')
+    spec = '26'
+    osVersion = 'ubuntu-24.04'
+    expected = 'maint-26'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+
+    simulateInput('version-type', before)
+    spec = '27.0'
+    osVersion = 'ubuntu-24.04'
+    expected = 'OTP-27.0'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+
+    simulateInput('version-type', before)
+    spec = '25.3.2.1'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-25.3.2.1'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+
+    simulateInput('version-type', before)
+    spec = '19.3.x'
+    osVersion = 'ubuntu-16.04'
+    expected = 'OTP-19.3.6.13'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '^19.3.6'
+    osVersion = 'ubuntu-16.04'
+    expected = 'OTP-19.3.6.13'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '^19.3'
+    osVersion = 'ubuntu-18.04'
+    expected = 'OTP-19.3.6.13'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '20'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-20.3.8.26'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '20.3.8.26'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-20.3.8.26'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '20.x'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-20.3.8.26'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '20.0'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-20.0.5'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '20.0.x'
+    osVersion = 'ubuntu-20.04'
+    expected = 'OTP-20.0.5'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = 'maint'
+    osVersion = 'ubuntu-22.04'
+    expected = 'maint'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+
+    spec = 'master'
+    osVersion = 'ubuntu-22.04'
+    expected = 'master'
+    got = await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+    assert.deepStrictEqual(got, expected)
+  }
+
+  simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
+}
+
+async function testFailGetOTPVersion() {
+  const hexMirrors = simulateInput(
+    'hexpm-mirrors',
+    'https://repo.hex.pm, https://cdn.jsdelivr.net/hex',
+    { multiline: true },
+  )
+
+  const previousRunnerArch = process.env.RUNNER_ARCH
+  process.env.RUNNER_ARCH = 'invalid'
+
+  if (process.platform === 'linux') {
+    const spec = '26'
+    const osVersion = 'ubuntu-24.04'
+
+    assert.rejects(
+      async () => {
+        await setupBeam.getOTPVersion(spec, osVersion, hexMirrors)
+      },
+      (err) => {
+        assert.ok(err instanceof Error)
+        return true
+      },
+      `Fetching OTP Version with invalid Github runner architecture is supposed to fail`,
+    )
+  }
+  process.env.RUNNER_ARCH = previousRunnerArch
 }
 
 async function testElixirVersions() {
