@@ -475,6 +475,7 @@ async function testFailGetOTPVersion() {
     { multiline: true },
   )
 
+  const previousRunnerArch = process.env.RUNNER_ARCH
   process.env.RUNNER_ARCH = 'invalid'
 
   if (process.platform === 'linux') {
@@ -492,6 +493,7 @@ async function testFailGetOTPVersion() {
       `Fetching OTP Version with invalid Github runner architecture is supposed to fail`,
     )
   }
+  process.env.RUNNER_ARCH = previousRunnerArch
 }
 
 async function testElixirVersions() {
