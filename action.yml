@@ -1,5 +1,5 @@
 ---
-name: Setup Erlang/OTP with optional Elixir (and mix) and/or rebar3
+name: setup-beam
 description: >
   Set up a specific version of Erlang/OTP, Elixir, and/or rebar3
   and add the command-line tools to the PATH
