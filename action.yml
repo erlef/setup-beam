@@ -1,8 +1,9 @@
 ---
 name: setup-beam
 description: >
-  Set up a specific version of Erlang/OTP, Elixir, and/or rebar3
-  and add the command-line tools to the PATH
+  Set up a BEAM-based CI environment, with Erlang/OTP as a base followed, optionally, by other
+  elements, like Elixir, Gleam, `rebar3` or `hex`, on top of that. Check the [README](https://github.com/erlef/setup-beam)
+  for updated information.
 author: Erlang Ecosystem Foundation
 branding:
   color: blue
