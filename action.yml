@@ -1,7 +1,7 @@
 ---
 name: setup-beam
 description: >
-  Set up an Erlang/OTP based CI environment with support for languages and tooling such as Elixir, Gleam, rebar3, and `hex`.
+  Set up an Erlang/OTP based CI environment with support for languages and tooling such as Elixir, Gleam, Rebar3, and `hex`.
 author: Erlang Ecosystem Foundation
 branding:
   color: blue
