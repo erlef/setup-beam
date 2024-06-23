@@ -165,7 +165,7 @@ jobs:
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
       matrix:
-        otp: ['21.3', '21.3', '22.2']
+        otp: ['21.1', '22.2', '23.3']
         elixir: ['1.8.2', '1.9.4']
     steps:
       - uses: actions/checkout@v4
@@ -189,7 +189,7 @@ jobs:
     name: Erlang/OTP ${{matrix.otp}} / rebar3 ${{matrix.rebar3}}
     strategy:
       matrix:
-        otp: ['21.3', '21.3', '22.2']
+        otp: ['21.1', '22.2', '23.3']
         rebar3: ['3.14.1', '3.14.3']
     steps:
       - uses: actions/checkout@v4
