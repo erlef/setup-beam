@@ -153,8 +153,6 @@ with the following correspondence.
 | `gleam-version`  | `gleam`
 | `rebar3-version` | `rebar`
 
-**Note**: the `otp-version: false` input is only applicable when installing Gleam.
-
 ### Alternative hex.pm mirrors
 
 It is possible to use alternative hex.pm mirror(s), in their declared order, with
@@ -317,6 +315,8 @@ jobs:
           gleam-version: '0.23.0-rc1'
       - run: gleam check
 ```
+
+**Note**: the `otp-version: false` input is only applicable when installing Gleam.
 
 ## The project
 
