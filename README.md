@@ -337,7 +337,3 @@ The scripts and documentation in this project are released under the [MIT licens
 ## Contributing
 
 Check out [this doc](CONTRIBUTING.md).
-
-## Current Status
-
-This action is in active development.
