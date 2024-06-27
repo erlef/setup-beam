@@ -318,7 +318,9 @@ jobs:
       - run: gleam check
 ```
 
-## Action versioning
+## The project
+
+### Versioning
 
 `setup-beam` has three version paths, described below, for example version `1.8.0`:
 
@@ -330,10 +332,18 @@ We make a real effort to not introduce incompatibilities without changing the ma
 version number. To be extra safe against changes causing issues in your CI you should specify
 an exact version with `@vx.y.z`.
 
-## License
+### License
 
 The scripts and documentation in this project are released under the [MIT license](LICENSE.md).
 
-## Contributing
+### Contributing
 
 Check out [this doc](CONTRIBUTING.md).
+
+### Code of Conduct
+
+This project's code of conduct is made explicit in [CODE_OF_CONDUCT.md](https://github.com/erlef/setup-beam/blob/main/CODE_OF_CONDUCT.md).
+
+### Security
+
+This project's security policy is made explicit in [SECURITY.md](https://github.com/erlef/setup-beam/blob/main/SECURITY.md).
