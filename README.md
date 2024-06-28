@@ -153,110 +153,7 @@ with the following correspondence.
 | `gleam-version`  | `gleam`
 | `rebar3-version` | `rebar`
 
-### Example (Erlang/OTP + Elixir, on Ubuntu)
-
-```yaml
-# create this in .github/workflows/ci.yml
-on: push
-
-jobs:
-  test:
-    runs-on: ubuntu-20.04
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
-    strategy:
-      matrix:
-        otp: ['21.1', '22.2', '23.3']
-        elixir: ['1.8.2', '1.9.4']
-    steps:
-      - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
-      - run: mix deps.get
-      - run: mix test
-```
-
-### Example (Erlang/OTP + `rebar3`, on Ubuntu)
-
-```yaml
-# create this in .github/workflows/ci.yml
-on: push
-
-jobs:
-  test:
-    runs-on: ubuntu-20.04
-    name: Erlang/OTP ${{matrix.otp}} / rebar3 ${{matrix.rebar3}}
-    strategy:
-      matrix:
-        otp: ['21.1', '22.2', '23.3']
-        rebar3: ['3.14.1', '3.14.3']
-    steps:
-      - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: ${{matrix.otp}}
-          rebar3-version: ${{matrix.rebar3}}
-      - run: rebar3 ct
-```
-
-### Example (Erlang/OTP + `rebar3`, on Windows)
-
-```yaml
-# create this in .github/workflows/ci.yml
-on: push
-
-jobs:
-  test:
-    runs-on: windows-2022
-    steps:
-      - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: '24'
-          rebar3-version: '3.16.1'
-      - run: rebar3 ct
-```
-
-### Example (Gleam on Ubuntu)
-
-```yaml
-# create this in .github/workflows/ci.yml
-on: push
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: '24'
-          gleam-version: '0.23.0-rc1'
-      - run: gleam test
-```
-
-### Example (Gleam on Ubuntu without OTP)
-
-```yaml
-# create this in .github/workflows/ci.yml
-on: push
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: false
-          gleam-version: '0.23.0-rc1'
-      - run: gleam check
-```
-
-**Note**: the `otp-version: false` input is only applicable when installing Gleam.
-
-## Alternative hex.pm mirrors
+### Alternative hex.pm mirrors
 
 It is possible to use alternative hex.pm mirror(s), in their declared order, with
 option `hexpm-mirrors`. By default, the action will use `builds.hex.pm`.
@@ -297,7 +194,7 @@ jobs:
             https://cdn.jsdelivr.net/hex
 ```
 
-## Environment variables
+### Environment variables
 
 Base installation folders (useful for e.g. fetching headers for NIFs) are available in the following
 environment variables:
@@ -310,13 +207,120 @@ environment variables:
 In each of these you'll find folder `bin` where the appropriate binaries, platform-dependant,
 are found (i.e. `erl`, `erl.exe`, `rebar3`, `rebar3.exe`, ...).
 
-## Elixir Problem Matchers
+### Elixir Problem Matchers
 
 The Elixir Problem Matchers in this repository are adapted from
 [here](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118).
 See [MATCHER_NOTICE](MATCHER_NOTICE.md) for license details.
 
-## Action versioning
+## Examples
+
+### Erlang/OTP + Elixir, on Ubuntu
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    strategy:
+      matrix:
+        otp: ['21.1', '22.2', '23.3']
+        elixir: ['1.8.2', '1.9.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - run: mix deps.get
+      - run: mix test
+```
+
+### Erlang/OTP + `rebar3`, on Ubuntu
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    name: Erlang/OTP ${{matrix.otp}} / rebar3 ${{matrix.rebar3}}
+    strategy:
+      matrix:
+        otp: ['21.1', '22.2', '23.3']
+        rebar3: ['3.14.1', '3.14.3']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          rebar3-version: ${{matrix.rebar3}}
+      - run: rebar3 ct
+```
+
+### Erlang/OTP + `rebar3`, on Windows
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '24'
+          rebar3-version: '3.16.1'
+      - run: rebar3 ct
+```
+
+### Gleam on Ubuntu
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '24'
+          gleam-version: '0.23.0-rc1'
+      - run: gleam test
+```
+
+### Gleam on Ubuntu without OTP
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: false
+          gleam-version: '0.23.0-rc1'
+      - run: gleam check
+```
+
+**Note**: the `otp-version: false` input is only applicable when installing Gleam.
+
+## The project
+
+### Versioning
 
 `setup-beam` has three version paths, described below, for example version `1.8.0`:
 
@@ -328,14 +332,18 @@ We make a real effort to not introduce incompatibilities without changing the ma
 version number. To be extra safe against changes causing issues in your CI you should specify
 an exact version with `@vx.y.z`.
 
-## License
+### License
 
 The scripts and documentation in this project are released under the [MIT license](LICENSE.md).
 
-## Contributing
+### Contributing
 
 Check out [this doc](CONTRIBUTING.md).
 
-## Current Status
+### Code of Conduct
 
-This action is in active development.
+This project's code of conduct is made explicit in [CODE_OF_CONDUCT.md](https://github.com/erlef/setup-beam/blob/main/CODE_OF_CONDUCT.md).
+
+### Security
+
+This project's security policy is made explicit in [SECURITY.md](https://github.com/erlef/setup-beam/blob/main/SECURITY.md).
