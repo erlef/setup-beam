@@ -183,15 +183,17 @@ async function testOTPVersions() {
     expected = 'maint-26'
     got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
-
     simulateInput('version-type', before)
+
+    before = simulateInput('version-type', 'strict')
     spec = '27.0'
     osVersion = 'ubuntu-24.04'
     expected = 'OTP-27.0'
     got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
-
     simulateInput('version-type', before)
+
+    before = simulateInput('version-type', 'strict')
     spec = '25.3.2.1'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-25.3.2.1'
@@ -308,15 +310,17 @@ async function testLinuxARM64OTPVersions() {
     expected = 'maint-26'
     got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
-
     simulateInput('version-type', before)
+
+    before = simulateInput('version-type', 'strict')
     spec = '27.0'
     osVersion = 'ubuntu-24.04'
     expected = 'OTP-27.0'
     got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
-
     simulateInput('version-type', before)
+
+    before = simulateInput('version-type', 'strict')
     spec = '25.3.2.1'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-25.3.2.1'
@@ -393,22 +397,24 @@ async function testLinuxAMD64OTPVersions() {
     expected = 'maint-26'
     got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
-
     simulateInput('version-type', before)
+
+    before = simulateInput('version-type', 'strict')
     spec = '27.0'
     osVersion = 'ubuntu-24.04'
     expected = 'OTP-27.0'
     got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
-
     simulateInput('version-type', before)
+
+    before = simulateInput('version-type', 'strict')
     spec = '25.3.2.1'
     osVersion = 'ubuntu-20.04'
     expected = 'OTP-25.3.2.1'
     got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
-
     simulateInput('version-type', before)
+
     spec = '19.3.x'
     osVersion = 'ubuntu-16.04'
     expected = 'OTP-19.3.6.13'
@@ -562,6 +568,7 @@ async function testElixirVersions() {
   got = await setupBeam.getElixirVersion(spec, otpVersion)
   assert.deepStrictEqual(got, expected)
   simulateInput('version-type', before)
+
   simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
 }
 
