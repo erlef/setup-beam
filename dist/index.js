@@ -9536,6 +9536,8 @@ function getVersionFromSpec(spec0, versions0) {
       // If `version-type: strict` or version is RC, we obtain it directly
       version = versions0[spec]
     }
+  } else if (spec0 === 'latest') {
+    version = versions0[versions0.latest]
   } else if (rangeMax !== null) {
     // Otherwise, we compare alt. versions' semver ranges to this version, from highest to lowest
     const thatVersion = spec
@@ -9604,7 +9606,7 @@ function isRC(ver) {
 }
 
 function isKnownBranch(ver) {
-  return ['main', 'master', 'maint', 'latest'].includes(ver)
+  return ['main', 'master', 'maint'].includes(ver)
 }
 
 function githubARMRunnerArchs() {
