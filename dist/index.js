@@ -9106,11 +9106,12 @@ exports["default"] = _default;
 const core = __nccwpck_require__(2186)
 const { exec } = __nccwpck_require__(1514)
 const tc = __nccwpck_require__(7784)
-const http = __nccwpck_require__(6255)
 const path = __nccwpck_require__(1017)
 const semver = __nccwpck_require__(1383)
 const fs = __nccwpck_require__(7147)
 const os = __nccwpck_require__(2037)
+
+const MAX_HTTP_RETRIES = 3
 
 main().catch((err) => {
   core.setFailed(err.message)
@@ -9361,8 +9362,7 @@ async function getOTPVersions(osVersion) {
       hexMirrors: hexMirrorsInput(),
       actionTitle: `fetch ${originListing}`,
       action: async (hexMirror) => {
-        const l = await get(`${hexMirror}${originListing}`, [null])
-        return l
+        return get(`${hexMirror}${originListing}`, [])
       },
     })
   } else if (process.platform === 'win32') {
@@ -9413,8 +9413,7 @@ async function getElixirVersions() {
     hexMirrors: hexMirrorsInput(),
     actionTitle: `fetch ${originListing}`,
     action: async (hexMirror) => {
-      const l = await get(`${hexMirror}${originListing}`, [null])
-      return l
+      return get(`${hexMirror}${originListing}`, [])
     },
   })
   const otpVersionsForElixirMap = {}
@@ -9660,38 +9659,50 @@ function getRunnerOSVersion() {
   return containerFromEnvImageOS
 }
 
+async function getUrlResponse(url, headers, attempt = 1) {
+  try {
+    const response = await fetch(url, { headers })
+    const contentType = response.headers.get('content-type') || ''
+
+    if (!response.ok) {
+      throw new Error(`Got ${response.statusCode} from ${url}`)
+    }
+
+    if (contentType.indexOf('application/json') !== -1) {
+      return response.json()
+    } else {
+      return response.text()
+    }
+  } catch (err) {
+    if (attempt >= MAX_HTTP_RETRIES) {
+      core.debug(`Error during fetch. Retrying in 1000ms: ${err}`)
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      return getUrlResponse(url, headers, attempt + 1)
+    } else {
+      throw err
+    }
+  }
+}
+
 async function get(url0, pageIdxs) {
-  async function getPage(pageIdx) {
-    const url = new URL(url0)
-    const headers = {}
-    const GithubToken = getInput('github-token', false)
-    if (GithubToken && url.host === 'api.github.com') {
-      headers.authorization = `Bearer ${GithubToken}`
-    }
-
-    if (pageIdx !== null) {
-      url.searchParams.append('page', pageIdx)
-    }
-
-    const httpClient = new http.HttpClient('setup-beam', [], {
-      allowRetries: true,
-      maxRetries: 3,
-    })
-    const response = await httpClient.get(url, headers)
-    if (response.statusCode >= 400 && response.statusCode <= 599) {
-      throw new Error(
-        `Got ${response.statusCode} from ${url}. Exiting with error`,
-      )
-    }
-
-    return response.readBody()
+  const url = new URL(url0)
+  const headers = {}
+  const GithubToken = getInput('github-token', false)
+  if (GithubToken && url.host === 'api.github.com') {
+    headers.authorization = `Bearer ${GithubToken}`
   }
 
-  if (pageIdxs[0] === null) {
-    return getPage(null)
+  if (pageIdxs.length === 0) {
+    return getUrlResponse(url, headers)
+  } else {
+    return Promise.all(
+      pageIdxs.map((page) => {
+        const urlWithPage = new URL(url)
+        urlWithPage.searchParams.append('page', page)
+        return getUrlResponse(urlWithPage, headers)
+      }),
+    )
   }
-
-  return Promise.all(pageIdxs.map(getPage))
 }
 
 function maybePrependWithV(v) {
