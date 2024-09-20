@@ -561,7 +561,10 @@ function getRunnerOSVersion() {
 
 async function getUrlResponse(url, headers, attempt = 1) {
   try {
-    const response = await fetch(url, { headers })
+    const response = await fetch(url, {
+      headers,
+      signal: AbortSignal.timeout(10000),
+    })
     const contentType = response.headers.get('content-type') || ''
 
     if (!response.ok) {
@@ -1057,6 +1060,7 @@ function debugLoggingEnabled() {
 }
 
 module.exports = {
+  get,
   getOTPVersion,
   getElixirVersion,
   getGleamVersion,
