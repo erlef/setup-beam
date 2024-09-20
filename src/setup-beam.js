@@ -574,7 +574,7 @@ async function getUrlResponse(url, headers, attempt = 1) {
       return response.text()
     }
   } catch (err) {
-    if (attempt >= MAX_HTTP_RETRIES) {
+    if (attempt <= MAX_HTTP_RETRIES) {
       core.debug(`Error during fetch. Retrying in 1000ms: ${err}`)
       await new Promise((resolve) => setTimeout(resolve, 1000))
       return getUrlResponse(url, headers, attempt + 1)
