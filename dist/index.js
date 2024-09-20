@@ -9665,7 +9665,7 @@ async function getUrlResponse(url, headers, attempt = 1) {
     const contentType = response.headers.get('content-type') || ''
 
     if (!response.ok) {
-      throw new Error(`Got ${response.statusCode} from ${url}`)
+      throw new Error(response.statusText)
     }
 
     if (contentType.indexOf('application/json') !== -1) {
@@ -9674,9 +9674,12 @@ async function getUrlResponse(url, headers, attempt = 1) {
       return response.text()
     }
   } catch (err) {
+    core.debug(`Error fetching from ${url}: ${err}`)
+
     if (attempt <= MAX_HTTP_RETRIES) {
-      core.debug(`Error during fetch. Retrying in 1000ms: ${err}`)
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const delay = attempt * 2 * 1000
+      core.debug(`Error during fetch. Retrying in ${delay}ms`)
+      await new Promise((resolve) => setTimeout(resolve, delay))
       return getUrlResponse(url, headers, attempt + 1)
     } else {
       throw err
