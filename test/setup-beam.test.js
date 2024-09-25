@@ -874,7 +874,7 @@ async function testParseVersionFile() {
   const erlang = '27'
   const elixir = '1.17.0'
   const gleam = '0.23.0'
-  const rebar3 = '3.23'
+  const rebar3 = '3.24.0'
   const toolVersions = `# a comment
 erlang   ref:v${erlang}# comment, no space, and ref:v
 elixir ref:${elixir}  # comment, with space and ref:
