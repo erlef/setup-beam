@@ -7,7 +7,7 @@ on:
       - main
   pull_request:
     branches:
-      - "*"
+      - '*'
   workflow_dispatch: {}
 
 env:
@@ -62,6 +62,7 @@ jobs:
         id: setup-beam
         uses: ./
         with:
+          install-rebar: false
           version-file: test/.tool-versions
           version-type: strict
 
