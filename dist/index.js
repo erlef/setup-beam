@@ -10040,7 +10040,7 @@ async function install(toolName, opts) {
             const bindir = path.join(cachePath, 'bin')
             const oldPath = path.join(cachePath, 'rebar3')
             const newPath = path.join(bindir, 'rebar3')
-            fs.mkdirSync(bindir)
+            fs.mkdirSync(bindir, { recursive: true })
             fs.renameSync(oldPath, newPath)
             fs.chmodSync(newPath, 0o755)
           },
