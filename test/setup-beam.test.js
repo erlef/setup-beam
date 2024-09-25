@@ -871,10 +871,10 @@ async function testParseVersionFile() {
   const gleamVersion = unsimulateInput('gleam-version')
   const rebar3Version = unsimulateInput('rebar3-version')
 
-  const erlang = '25.1.1'
-  const elixir = '1.14.1'
+  const erlang = '27'
+  const elixir = '1.17.0'
   const gleam = '0.23.0'
-  const rebar3 = '3.16.0'
+  const rebar3 = '3.23'
   const toolVersions = `# a comment
 erlang   ref:v${erlang}# comment, no space, and ref:v
 elixir ref:${elixir}  # comment, with space and ref:
