@@ -7,6 +7,7 @@ simulateInput('github-token', process.env.GITHUB_TOKEN)
 simulateInput('hexpm-mirrors', 'https://builds.hex.pm', { multiline: true })
 
 const assert = require('assert')
+const http = require('http')
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
@@ -71,8 +72,8 @@ async function all() {
   await testRebar3Versions()
 
   await testGetVersionFromSpec()
-
   await testParseVersionFile()
+  await testGetRetry()
 
   await testElixirMixCompileError()
   await testElixirMixCompileWarning()
@@ -870,10 +871,10 @@ async function testParseVersionFile() {
   const gleamVersion = unsimulateInput('gleam-version')
   const rebar3Version = unsimulateInput('rebar3-version')
 
-  const erlang = '25.1.1'
-  const elixir = '1.14.1'
+  const erlang = '27'
+  const elixir = '1.17.0'
   const gleam = '0.23.0'
-  const rebar3 = '3.16.0'
+  const rebar3 = '3.24.0'
   const toolVersions = `# a comment
 erlang   ref:v${erlang}# comment, no space, and ref:v
 elixir ref:${elixir}  # comment, with space and ref:
@@ -911,6 +912,28 @@ gleam ${gleam} \nrebar ${rebar3}`
   simulateInput('elixir-version', elixirVersion)
   simulateInput('gleam-version', gleamVersion)
   simulateInput('rebar3-version', rebar3Version)
+}
+
+async function testGetRetry() {
+  let attempt = 0
+  const server = http.createServer((req, res) => {
+    attempt++
+    if (attempt == 2) {
+      res.write('correct!')
+      res.end()
+    }
+  })
+
+  try {
+    server.listen(0)
+    const port = server.address().port
+
+    const response = await setupBeam.get(`http://localhost:${port}`, [])
+    assert.equal(response, 'correct!')
+    assert.equal(attempt, 2)
+  } finally {
+    server.close()
+  }
 }
 
 async function testElixirMixCompileError() {

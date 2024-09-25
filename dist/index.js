@@ -9106,11 +9106,12 @@ exports["default"] = _default;
 const core = __nccwpck_require__(2186)
 const { exec } = __nccwpck_require__(1514)
 const tc = __nccwpck_require__(7784)
-const http = __nccwpck_require__(6255)
 const path = __nccwpck_require__(1017)
 const semver = __nccwpck_require__(1383)
 const fs = __nccwpck_require__(7147)
 const os = __nccwpck_require__(2037)
+
+const MAX_HTTP_RETRIES = 3
 
 main().catch((err) => {
   core.setFailed(err.message)
@@ -9361,8 +9362,7 @@ async function getOTPVersions(osVersion) {
       hexMirrors: hexMirrorsInput(),
       actionTitle: `fetch ${originListing}`,
       action: async (hexMirror) => {
-        const l = await get(`${hexMirror}${originListing}`, [null])
-        return l
+        return get(`${hexMirror}${originListing}`, [])
       },
     })
   } else if (process.platform === 'win32') {
@@ -9389,7 +9389,7 @@ async function getOTPVersions(osVersion) {
       })
   } else if (process.platform === 'win32') {
     otpVersionsListings.forEach((otpVersionsListing) => {
-      jsonParseAsList(otpVersionsListing)
+      otpVersionsListing
         .map((x) => x.assets)
         .flat()
         .filter((x) => x.name.match(/^otp_win64_.*.exe$/))
@@ -9413,8 +9413,7 @@ async function getElixirVersions() {
     hexMirrors: hexMirrorsInput(),
     actionTitle: `fetch ${originListing}`,
     action: async (hexMirror) => {
-      const l = await get(`${hexMirror}${originListing}`, [null])
-      return l
+      return get(`${hexMirror}${originListing}`, [])
     },
   })
   const otpVersionsForElixirMap = {}
@@ -9447,7 +9446,7 @@ async function getGleamVersions() {
   )
   const gleamVersionsListing = {}
   resultJSONs.forEach((resultJSON) => {
-    jsonParseAsList(resultJSON)
+    resultJSON
       .map((x) => x.tag_name)
       .forEach((ver) => {
         const gleamMatch = ver.match(/^v?([^ ]+)/)
@@ -9466,7 +9465,7 @@ async function getRebar3Versions() {
   )
   const rebar3VersionsListing = {}
   resultJSONs.forEach((resultJSON) => {
-    jsonParseAsList(resultJSON)
+    resultJSON
       .map((x) => x.tag_name)
       .forEach((ver) => {
         rebar3VersionsListing[ver] = ver
@@ -9660,38 +9659,56 @@ function getRunnerOSVersion() {
   return containerFromEnvImageOS
 }
 
-async function get(url0, pageIdxs) {
-  async function getPage(pageIdx) {
-    const url = new URL(url0)
-    const headers = {}
-    const GithubToken = getInput('github-token', false)
-    if (GithubToken && url.host === 'api.github.com') {
-      headers.authorization = `Bearer ${GithubToken}`
-    }
-
-    if (pageIdx !== null) {
-      url.searchParams.append('page', pageIdx)
-    }
-
-    const httpClient = new http.HttpClient('setup-beam', [], {
-      allowRetries: true,
-      maxRetries: 3,
+async function getUrlResponse(url, headers, attempt = 1) {
+  try {
+    const response = await fetch(url, {
+      headers,
+      signal: AbortSignal.timeout(10000),
     })
-    const response = await httpClient.get(url, headers)
-    if (response.statusCode >= 400 && response.statusCode <= 599) {
-      throw new Error(
-        `Got ${response.statusCode} from ${url}. Exiting with error`,
-      )
+    const contentType = response.headers.get('content-type') || ''
+
+    if (!response.ok) {
+      throw new Error(response.statusText)
     }
 
-    return response.readBody()
+    if (contentType.indexOf('application/json') !== -1) {
+      return response.json()
+    } else {
+      return response.text()
+    }
+  } catch (err) {
+    core.debug(`Error fetching from ${url}: ${err}`)
+
+    if (attempt <= MAX_HTTP_RETRIES) {
+      const delay = attempt * 2 * 1000
+      core.debug(`Error during fetch. Retrying in ${delay}ms`)
+      await new Promise((resolve) => setTimeout(resolve, delay))
+      return getUrlResponse(url, headers, attempt + 1)
+    } else {
+      throw err
+    }
+  }
+}
+
+async function get(url0, pageIdxs) {
+  const url = new URL(url0)
+  const headers = {}
+  const GithubToken = getInput('github-token', false)
+  if (GithubToken && url.host === 'api.github.com') {
+    headers.authorization = `Bearer ${GithubToken}`
   }
 
-  if (pageIdxs[0] === null) {
-    return getPage(null)
+  if (pageIdxs.length === 0) {
+    return getUrlResponse(url, headers)
+  } else {
+    return Promise.all(
+      pageIdxs.map((page) => {
+        const urlWithPage = new URL(url)
+        urlWithPage.searchParams.append('page', page)
+        return getUrlResponse(urlWithPage, headers)
+      }),
+    )
   }
-
-  return Promise.all(pageIdxs.map(getPage))
 }
 
 function maybePrependWithV(v) {
@@ -9784,21 +9801,6 @@ function parseVersionFile(versionFilePath0) {
   core.endGroup()
 
   return appVersions
-}
-
-function jsonParseAsList(maybeJson) {
-  try {
-    const obj = JSON.parse(maybeJson)
-    if (!Array.isArray(obj)) {
-      throw new Error('expected a list!')
-    }
-
-    return obj
-  } catch (exc) {
-    throw new Error(
-      `Got an exception when trying to parse non-JSON list ${maybeJson}: ${exc}`,
-    )
-  }
 }
 
 function debugLog(groupName, message) {
@@ -10158,6 +10160,7 @@ function debugLoggingEnabled() {
 }
 
 module.exports = {
+  get,
   getOTPVersion,
   getElixirVersion,
   getGleamVersion,

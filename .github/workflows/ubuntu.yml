@@ -7,7 +7,7 @@ on:
       - main
   pull_request:
     branches:
-      - "*"
+      - '*'
   workflow_dispatch: {}
 
 jobs:
@@ -50,10 +50,6 @@ jobs:
           - otp-version: '25'
             os: 'ubuntu-24.04'
           - otp-version: '25'
-            elixir-version: '1.16'
-            rebar3-version: '3'
-            os: 'ubuntu-22.04'
-          - otp-version: '24'
             elixir-version: '1.16'
             rebar3-version: '3'
             os: 'ubuntu-22.04'
@@ -121,7 +117,7 @@ jobs:
             otp-version: false
             os: 'ubuntu-latest'
             disable_problem_matchers: true
-          - gleam-version: '0.22.0'  # Version with Gleam's old archive naming convention
+          - gleam-version: '0.22.0' # Version with Gleam's old archive naming convention
             otp-version: '24'
             os: 'ubuntu-latest'
             disable_problem_matchers: true
