@@ -121,7 +121,7 @@ The action provides the following outputs:
 |-                     |-
 | `otp-version`        | The Erlang version, e.g. `OTP-26.0`
 | `elixir-version`     | The Elixir version, e.g. `v1.14-otp-26`
-| `gleam-version`      | The Gleam version, e.g. `v0.23.0`
+| `gleam-version`      | The Gleam version, e.g. `v1.5.1`
 | `rebar3-version`     | The `rebar3` version, e.g. `3.18.0`
 | `setup-beam-version` | The commit unique id of the executed action version, e.g. `a34c98f`
 
@@ -293,8 +293,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: '24'
-          gleam-version: '0.23.0-rc1'
+          otp-version: '27'
+          gleam-version: '1.5.1'
       - run: gleam test
 ```
 
@@ -312,7 +312,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: false
-          gleam-version: '0.23.0-rc1'
+          gleam-version: '1.5.1'
       - run: gleam check
 ```
 
