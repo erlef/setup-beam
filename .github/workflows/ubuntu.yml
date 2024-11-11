@@ -109,6 +109,14 @@ jobs:
             otp-version: '24'
             os: 'ubuntu-latest'
             disable_problem_matchers: true
+          - gleam-version: '1.5.1'
+            otp-version: '27'
+            os: 'ubuntu-latest'
+            disable_problem_matchers: true
+          - gleam-version: '1.5.1'
+            otp-version: false
+            os: 'ubuntu-latest'
+            disable_problem_matchers: true
           - gleam-version: '0.23.0-rc1'
             otp-version: '24'
             os: 'ubuntu-latest'
