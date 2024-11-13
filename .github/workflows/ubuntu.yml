@@ -105,20 +105,12 @@ jobs:
             otp-version: '25'
             os: 'ubuntu-20.04'
             version-type: 'strict'
-          - gleam-version: '0.23'
-            otp-version: '24'
+          - gleam-version: '1.5.1'
+            otp-version: '27'
             os: 'ubuntu-latest'
             disable_problem_matchers: true
-          - gleam-version: '0.23.0-rc1'
-            otp-version: '24'
-            os: 'ubuntu-latest'
-            disable_problem_matchers: true
-          - gleam-version: '0.23.0-rc1'
+          - gleam-version: '1.5.1'
             otp-version: false
-            os: 'ubuntu-latest'
-            disable_problem_matchers: true
-          - gleam-version: '0.22.0' # Version with Gleam's old archive naming convention
-            otp-version: '24'
             os: 'ubuntu-latest'
             disable_problem_matchers: true
           - elixir-version: 'v1.13'
@@ -168,12 +160,12 @@ jobs:
         if: ${{matrix.combo.rebar3-version}}
       - name: Format Gleam project (without installing Erlang/OTP)
         run: |
-          cd test/projects/gleam_gleam
+          cd test/projects/gleamgleam
           gleam format
         if: ${{ matrix.combo.gleam-version && !matrix.combo.otp-version }}
       - name: Run Gleam project tests (without `rebar3`)
         run: |
-          cd test/projects/gleam_gleam
+          cd test/projects/gleamgleam
           gleam test
         if: ${{ matrix.combo.gleam-version && matrix.combo.otp-version && !matrix.combo.rebar3-version }}
       - name: Run escript
