@@ -262,6 +262,59 @@ jobs:
       - run: rebar3 ct
 ```
 
+### Compatibility
+
+One can run matrix-style testing but with pinned compatible versions in the following manner:
+
+```yaml
+  test:
+    runs-on: ${{matrix.erlang.os}}
+    name: Erlang/OTP ${{matrix.erlang.otp}} / rebar3 ${{matrix.erlang.rebar3}}
+    strategy:
+      matrix:
+        erlang:
+          - otp: "17"
+            rebar3: "3.10.0"
+            os: ubuntu-18.04
+          - otp: "18"
+            rebar3: "3.11.1"
+            os: ubuntu-18.04
+          - otp: "19"
+            rebar3: "3.15.2"
+            os: ubuntu-18.04
+          - otp: "20.3.8.26"
+            rebar3: "3.15.2"
+            os: ubuntu-18.04
+          - otp: "21.3.8.17"
+            rebar3: "3.15.2"
+            os: ubuntu-20.04
+          - otp: "22.3.4.9"
+            rebar3: "3.16.1"
+            os: ubuntu-20.04
+          - otp: "23.3.4.5"
+            rebar3: "3.16.1"
+            os: ubuntu-22.04
+          - otp: "24.3.4.17"
+            rebar3: "3.16.1"
+            os: ubuntu-22.04
+          - otp: "25.3.2.15"
+            rebar3: "3.22.1"
+            os: ubuntu-24.04
+          - otp: "26.2.5.5"
+            rebar3: "3.22.1"
+            os: ubuntu-24.04
+          - otp: "27.1.2"
+            rebar3: "3.22.1"
+            os: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.erlang.otp}}
+          rebar3-version: ${{matrix.erlang.rebar3}}
+      - run: rebar3 eunit
+```
+
 ### Erlang/OTP + `rebar3`, on Windows
 
 ```yaml
