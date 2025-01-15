@@ -290,7 +290,7 @@ async function getOTPVersions(osVersion) {
       })
   } else if (process.platform === 'win32') {
     const file_regex = new RegExp(
-      `^otp_win${getInput('otp-architecture')}_(.*).exe$/`,
+      `^otp_win${getInput('otp-architecture')}_(.*).exe$`,
     )
     otpVersionsListings.forEach((otpVersionsListing) => {
       otpVersionsListing
