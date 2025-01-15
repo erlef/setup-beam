@@ -19,6 +19,9 @@ inputs:
   otp-version:
     description: Version range or exact version of Erlang/OTP to use,
       or false when installing only Gleam without OTP
+  otp-architecture:
+    description: 32 or 64, to specify the architecture of the OTP to install. Only applies to Windows.
+    default: 64
   elixir-version:
     description: Version range or exact version of Elixir to use
   gleam-version:

@@ -14,6 +14,7 @@ main().catch((err) => {
 
 async function main() {
   checkPlatform()
+  checkOtpArchitecture()
 
   const versionFilePath = getInput('version-file', false)
   let versions
@@ -288,13 +289,16 @@ async function getOTPVersions(osVersion) {
         otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
+    const file_regex = new RegExp(
+      `^otp_win${getInput('otp-architecture')}_(.*).exe$/`,
+    )
     otpVersionsListings.forEach((otpVersionsListing) => {
       otpVersionsListing
         .map((x) => x.assets)
         .flat()
-        .filter((x) => x.name.match(/^otp_win64_.*.exe$/))
+        .filter((x) => x.name.match(file_regex))
         .forEach((x) => {
-          const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
+          const otpMatch = x.name.match(file_regex)
           const otpVersion = otpMatch[1]
           debugLog('OTP line and parsing', [otpMatch, otpVersion])
           otpVersions[otpVersion] = otpVersion
@@ -799,7 +803,9 @@ async function install(toolName, opts) {
         win32: {
           downloadToolURL: () =>
             'https://github.com/erlang/otp/releases/download/' +
-            `OTP-${toolVersion}/otp_win64_${toolVersion}.exe`,
+            `OTP-${toolVersion}/otp_win${getInput(
+              'otp-architecture',
+            )}_${toolVersion}.exe`,
           extract: async () => ['file', 'otp.exe'],
           postExtract: async (cachePath) => {
             const cmd = path.join(cachePath, 'otp.exe')
@@ -1052,6 +1058,21 @@ function checkPlatform() {
     throw new Error(
       '@erlef/setup-beam only supports Ubuntu and Windows at this time',
     )
+  }
+}
+
+function checkOtpArchitecture() {
+  if (process.platform !== 'win32' && getInput('otp-architecture') == '32') {
+    throw new Error(
+      '@erlef/setup-beam only supports otp-architecture=32 on Windows',
+    )
+  }
+
+  if (
+    getInput('otp-architecture') !== '32' &&
+    getInput('otp-architecture') !== '64'
+  ) {
+    throw new Error('otp-architecture must be 32 or 64')
   }
 }
 

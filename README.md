@@ -71,14 +71,14 @@ be the latest.
 This list presents the known working version combos between the target operating system
 and Erlang/OTP.
 
-| Operating system | Erlang/OTP  | Status
-|-                 |-            |-
-| `ubuntu-18.04`   | 17.0 - 25.3 | ✅
-| `ubuntu-20.04`   | 21.0 - 27   | ✅
-| `ubuntu-22.04`   | 24.2 - 27   | ✅
-| `ubuntu-24.04`   | 24.3 - 27   | ✅
-| `windows-2019`   | 21* - 25    | ✅
-| `windows-2022`   | 21* - 27    | ✅
+| Operating system | Erlang/OTP   | OTP Architecture | Status
+|-                 |-             |                  |-
+| `ubuntu-18.04`   | 17.0 - 25.3  | 32 bit           | ✅
+| `ubuntu-20.04`   | 21.0 - 27    | 32 bit           | ✅
+| `ubuntu-22.04`   | 24.2 - 27    | 32 bit           | ✅
+| `ubuntu-24.04`   | 24.3 - 27    | 32/64 bit        | ✅
+| `windows-2019`   | 21\* - 25    | 32/64 bit        | ✅
+| `windows-2022`   | 21\* - 27    | 32/64 bit        | ✅
 
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
@@ -192,6 +192,24 @@ jobs:
           hexpm-mirrors: |
             https://builds.hex.pm
             https://cdn.jsdelivr.net/hex
+```
+
+### OTP Architecture
+
+On Windows you can specify the OTP architecture to install.
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '26'
+          otp-architecture: '32'
 ```
 
 ### Environment variables
