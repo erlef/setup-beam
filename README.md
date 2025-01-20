@@ -73,12 +73,12 @@ and Erlang/OTP.
 
 | Operating system | Erlang/OTP   | OTP Architecture | Status
 |-                 |-             |                  |-
-| `ubuntu-18.04`   | 17.0 - 25.3  | 32 bit           | ✅
-| `ubuntu-20.04`   | 21.0 - 27    | 32 bit           | ✅
-| `ubuntu-22.04`   | 24.2 - 27    | 32 bit           | ✅
-| `ubuntu-24.04`   | 24.3 - 27    | 32/64 bit        | ✅
-| `windows-2019`   | 21\* - 25    | 32/64 bit        | ✅
-| `windows-2022`   | 21\* - 27    | 32/64 bit        | ✅
+| `ubuntu-18.04`   | 17.0 - 25.3  | x86_64, arm64    | ✅
+| `ubuntu-20.04`   | 21.0 - 27    | x86_64, arm64    | ✅
+| `ubuntu-22.04`   | 24.2 - 27    | x86_64, arm64    | ✅
+| `ubuntu-24.04`   | 24.3 - 27    | x86_64, arm64    | ✅
+| `windows-2019`   | 21\* - 25    | x86_64, x86      | ✅
+| `windows-2022`   | 21\* - 27    | x86_64, x86      | ✅
 
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
