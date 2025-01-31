@@ -1,4 +1,5 @@
 simulateInput('otp-version', '25.1.2')
+simulateInput('otp-architecture', '64')
 simulateInput('elixir-version', '1.14.2')
 simulateInput('rebar3-version', '3.20')
 simulateInput('install-rebar', 'true')
@@ -283,6 +284,29 @@ async function testOTPVersions() {
     expected = '23.0.4'
     got = await setupBeam.getOTPVersion(spec, osVersion)
     assert.deepStrictEqual(got, expected)
+
+    // Check we get the same results for 32-bit OTP
+    before = simulateInput('otp-architecture', '32')
+
+    spec = '24.0.1'
+    osVersion = 'windows-latest'
+    expected = '24.0.1'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '23.2.x'
+    osVersion = 'windows-2016'
+    expected = '23.2.7'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    spec = '23.0'
+    osVersion = 'windows-2019'
+    expected = '23.0.4'
+    got = await setupBeam.getOTPVersion(spec, osVersion)
+    assert.deepStrictEqual(got, expected)
+
+    simulateInput('otp-architecture', before)
   }
 
   simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
