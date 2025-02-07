@@ -72,7 +72,7 @@ This list presents the known working version combos between the target operating
 and Erlang/OTP.
 
 | Operating system | Erlang/OTP   | OTP Architecture | Status
-|-                 |-             |                  |-
+|-                 |-             | -                |-
 | `ubuntu-18.04`   | 17.0 - 25.3  | x86_64, arm64    | ✅
 | `ubuntu-20.04`   | 21.0 - 27    | x86_64, arm64    | ✅
 | `ubuntu-22.04`   | 24.2 - 27    | x86_64, arm64    | ✅
