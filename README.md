@@ -273,18 +273,6 @@ One can run matrix-style testing but with pinned compatible versions in the foll
     strategy:
       matrix:
         erlang:
-          - otp: "17"
-            rebar3: "3.10.0"
-            os: ubuntu-18.04
-          - otp: "18"
-            rebar3: "3.11.1"
-            os: ubuntu-18.04
-          - otp: "19"
-            rebar3: "3.15.2"
-            os: ubuntu-18.04
-          - otp: "20.3.8.26"
-            rebar3: "3.15.2"
-            os: ubuntu-18.04
           - otp: "21.3.8.17"
             rebar3: "3.15.2"
             os: ubuntu-20.04
