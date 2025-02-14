@@ -307,7 +307,7 @@ One can run matrix-style testing but with pinned compatible versions in the foll
             rebar3: "3.22.1"
             os: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.erlang.otp}}
