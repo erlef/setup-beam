@@ -66,6 +66,10 @@ and some repositories might propose).
 If in doubt do a test run and compare the obtained release with the one you were expecting to
 be the latest.
 
+#### "Stable" versions
+
+Similar to `latest`, except that the latest `stable` version is chosen. This means no release candidates.
+
 ### Compatibility between Operating System and Erlang/OTP
 
 This list presents the known working version combos between the target operating system

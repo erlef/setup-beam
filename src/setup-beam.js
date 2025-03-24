@@ -405,12 +405,17 @@ function parseVersion(v) {
 
 function getVersionFromSpec(spec0, versions0) {
   let latest
+  let stable
   Object.keys(versions0).forEach((v) => {
     if (validVersion(v)) {
       latest = latest && gt(latest, v) ? latest : v
+      if (!isRC(version)) {
+        stable = stable && gt(stable, v) ? stable : v
+      }
     }
   })
   versions0.latest = latest
+  versions0.stable = stable
   const spec = maybeRemoveVPrefix(spec0)
 
   const altVersions = {}
@@ -441,6 +446,8 @@ function getVersionFromSpec(spec0, versions0) {
     }
   } else if (spec0 === 'latest') {
     version = versions0[versions0.latest]
+  } else if (spec0 === 'stable') {
+    version = versions0[versions0.stable]
   } else if (rangeMax !== null) {
     // Otherwise, we compare alt. versions' semver ranges to this version, from highest to lowest
     const thatVersion = spec
