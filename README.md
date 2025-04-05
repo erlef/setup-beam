@@ -56,15 +56,20 @@ For pre-release versions, such as `v1.11.0-rc.0`, use the full version
 specifier (`v1.11.0-rc.0`) and set option `version-type` to `strict`. Pre-release versions are
 opt-in, so `1.11.x` will not match a pre-release.
 
-#### "Latest" versions
+#### "Stable" versions
 
-Set a tool's version to `latest` to retrieve the latest version of a given tool.
+Set a tool's version to `stable` to retrieve the latest non-RC version of a given tool.
 The latest version is (locally) calculated by the action based on the (retrieved) versions
 it knows (**note**: it is not the same as [GitHub considers it](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 and some repositories might propose).
 
 If in doubt do a test run and compare the obtained release with the one you were expecting to
 be the latest.
+
+#### "Edge" versions
+
+Similar to `stable`, except that release candidates are also considered.
+Currently, the same behaviour can be achieved with the deprecated `latest` alias.
 
 ### Compatibility between Operating System and Erlang/OTP
 
