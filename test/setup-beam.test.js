@@ -823,6 +823,11 @@ async function testGetVersionFromSpec() {
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
+  spec = 'edge'
+  expected = '24.0'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
   spec = 'stable'
   expected = '24.0'
   got = setupBeam.getVersionFromSpec(spec, versions)
@@ -833,6 +838,11 @@ async function testGetVersionFromSpec() {
     '27.0.0-rc2': '27.0.0-rc2',
   }
   spec = 'latest'
+  expected = '27.0.0-rc3'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'edge'
   expected = '27.0.0-rc3'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
@@ -852,8 +862,18 @@ async function testGetVersionFromSpec() {
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
 
+  spec = 'edge'
+  expected = '27.0.0'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
   versions = { '25.3.2.8': '25.3.2.8', '25.3.2.12': '25.3.2.12' }
   spec = 'latest'
+  expected = '25.3.2.12'
+  got = setupBeam.getVersionFromSpec(spec, versions)
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'edge'
   expected = '25.3.2.12'
   got = setupBeam.getVersionFromSpec(spec, versions)
   assert.deepStrictEqual(got, expected)
@@ -863,7 +883,17 @@ async function testGetVersionFromSpec() {
   got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-18.04'])
   assert.deepStrictEqual(got, expected)
 
+  spec = 'edge'
+  expected = 'OTP-26.2.1'
+  got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-18.04'])
+  assert.deepStrictEqual(got, expected)
+
   spec = 'latest'
+  expected = 'OTP-27.0-rc3'
+  got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-20.04'])
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'edge'
   expected = 'OTP-27.0-rc3'
   got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-20.04'])
   assert.deepStrictEqual(got, expected)
@@ -878,12 +908,22 @@ async function testGetVersionFromSpec() {
   got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
   assert.deepStrictEqual(got, expected)
 
+  spec = 'edge'
+  expected = 'OTP-27.0-rc3'
+  got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
+  assert.deepStrictEqual(got, expected)
+
   spec = 'stable'
   expected = 'OTP-26.2.5'
   got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
   assert.deepStrictEqual(got, expected)
 
   spec = 'latest'
+  expected = 'OTP-27.0'
+  got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-24.04'])
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'edge'
   expected = 'OTP-27.0'
   got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-24.04'])
   assert.deepStrictEqual(got, expected)
@@ -898,7 +938,17 @@ async function testGetVersionFromSpec() {
   got = setupBeam.getVersionFromSpec(spec, matrix.otp.windows)
   assert.deepStrictEqual(got, expected)
 
+  spec = 'edge'
+  expected = '27.0-rc3'
+  got = setupBeam.getVersionFromSpec(spec, matrix.otp.windows)
+  assert.deepStrictEqual(got, expected)
+
   spec = 'latest'
+  expected = 'v1.16.2'
+  got = setupBeam.getVersionFromSpec(spec, matrix.elixir)
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'edge'
   expected = 'v1.16.2'
   got = setupBeam.getVersionFromSpec(spec, matrix.elixir)
   assert.deepStrictEqual(got, expected)
@@ -908,7 +958,17 @@ async function testGetVersionFromSpec() {
   got = setupBeam.getVersionFromSpec(spec, matrix.gleam)
   assert.deepStrictEqual(got, expected)
 
+  spec = 'edge'
+  expected = 'v1.1.0'
+  got = setupBeam.getVersionFromSpec(spec, matrix.gleam)
+  assert.deepStrictEqual(got, expected)
+
   spec = 'latest'
+  expected = '3.23.0'
+  got = setupBeam.getVersionFromSpec(spec, matrix.rebar3)
+  assert.deepStrictEqual(got, expected)
+
+  spec = 'edge'
   expected = '3.23.0'
   got = setupBeam.getVersionFromSpec(spec, matrix.rebar3)
   assert.deepStrictEqual(got, expected)
