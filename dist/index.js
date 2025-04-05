@@ -9489,7 +9489,7 @@ function gt(left, right) {
 
 function validVersion(v) {
   return (
-    v.match(/main|master|nightly|latest/g) == null &&
+    v.match(/main|master|nightly|latest|stable|edge/g) == null &&
     !v.startsWith('a') &&
     !v.startsWith('b')
   )
@@ -9612,7 +9612,7 @@ function sortVersions(left, right) {
 }
 
 function isRC(ver) {
-  return ver.match(xyzAbcVersion('^', '(?:-rc\\.?\\d+)'))
+  return ver.match(xyzAbcVersion('', '(?:-rc\\.?\\d+)'))
 }
 
 function isKnownBranch(ver) {
