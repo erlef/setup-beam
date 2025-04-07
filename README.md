@@ -69,7 +69,7 @@ be the latest.
 #### "Edge" versions
 
 Similar to `stable`, except that release candidates are also considered.
-Currently, the same behaviour can be achieved with the deprecated `latest` alias.
+To target these, set a tool's version to `edge` (same behaviour as deprecated `latest`).
 
 ### Compatibility between Operating System and Erlang/OTP
 
