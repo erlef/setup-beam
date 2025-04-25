@@ -6,6 +6,8 @@ const semver = require('semver')
 const fs = require('fs')
 const os = require('os')
 
+const { getRunnerOSVersion } = require('./lib/getRunnerOSVersion')
+
 const MAX_HTTP_RETRIES = 3
 
 main().catch((err) => {
@@ -27,7 +29,7 @@ async function main() {
     versions = parseVersionFile(versionFilePath)
   }
 
-  const osVersion = getRunnerOSVersion()
+  const osVersion = getRunnerOSVersion(process.env.ImageOS)
   const otpSpec = getInput('otp-version', true, 'erlang', versions)
   const elixirSpec = getInput('elixir-version', false, 'elixir', versions)
   const gleamSpec = getInput('gleam-version', false, 'gleam', versions)
@@ -536,31 +538,6 @@ function getRunnerOSArchitecture() {
       `${githubAMDRunnerArchs().concat(githubARMRunnerArchs()).join(', ')} ` +
       `but got process.env.RUNNER_ARCH = ${process.env.RUNNER_ARCH}`,
   )
-}
-
-function getRunnerOSVersion() {
-  const ImageOSToContainer = {
-    ubuntu18: 'ubuntu-18.04',
-    ubuntu20: 'ubuntu-20.04',
-    ubuntu22: 'ubuntu-22.04',
-    ubuntu24: 'ubuntu-24.04',
-    win19: 'windows-2019',
-    win22: 'windows-2022',
-  }
-  const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
-  if (!containerFromEnvImageOS) {
-    throw new Error(
-      "Tried to map a target OS from env. variable 'ImageOS' (got " +
-        `${process.env.ImageOS}` +
-        "), but failed. If you're using a " +
-        "self-hosted runner, you should set 'env': 'ImageOS': ... to one of the following: " +
-        "['" +
-        `${Object.keys(ImageOSToContainer).join("', '")}` +
-        "']",
-    )
-  }
-
-  return containerFromEnvImageOS
 }
 
 async function getUrlResponse(url, headers, attempt = 1) {
