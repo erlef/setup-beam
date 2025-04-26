@@ -871,10 +871,10 @@ describe('version file', () => {
     const gleam = '0.23.0'
     const rebar3 = '3.24.0'
     const toolVersions = `# a comment
-  erlang   ref:v${erlang}# comment, no space, and ref:v
-  elixir ref:${elixir}  # comment, with space and ref:
-   not-gleam 0.23 # not picked up
-  gleam ${gleam} \nrebar ${rebar3}`
+erlang   ref:v${erlang}# comment, no space, and ref:v
+elixir ref:${elixir}  # comment, with space and ref:
+ not-gleam 0.23 # not picked up
+gleam ${gleam} \nrebar ${rebar3}`
     const filename = 'test/.tool-versions'
     fs.writeFileSync(filename, toolVersions)
     process.env.GITHUB_WORKSPACE = ''
