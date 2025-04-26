@@ -106,7 +106,7 @@ jobs:
   test:
     runs-on: self-hosted
     env:
-      ImageOS: ubuntu20 # equivalent to runs-on ubuntu-20.04
+      ImageOS: ubuntu24 # equivalent to runs-on ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
@@ -241,12 +241,12 @@ on: push
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
       matrix:
-        otp: ['21.1', '22.2', '23.3']
-        elixir: ['1.8.2', '1.9.4']
+        otp: ['25.3.2', '26.2.5', '27.3.3']
+        elixir: ['1.17.3', '1.18.3']
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
@@ -265,12 +265,12 @@ on: push
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     name: Erlang/OTP ${{matrix.otp}} / rebar3 ${{matrix.rebar3}}
     strategy:
       matrix:
-        otp: ['21.1', '22.2', '23.3']
-        rebar3: ['3.14.1', '3.14.3']
+        otp: ['25.3.2', '26.2.5', '27.3.3']
+        rebar3: ['3.23.0', '3.24.0']
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
@@ -312,7 +312,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: '27'
-          gleam-version: '1.5.1'
+          gleam-version: '1.9.0'
       - run: gleam test
 ```
 
@@ -330,7 +330,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: false
-          gleam-version: '1.5.1'
+          gleam-version: '1.9.0'
       - run: gleam check
 ```
 
