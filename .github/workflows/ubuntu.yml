@@ -105,11 +105,11 @@ jobs:
             otp-version: '25'
             os: 'ubuntu-20.04'
             version-type: 'strict'
-          - gleam-version: '1.5.1'
+          - gleam-version: '1.9.0'
             otp-version: '27'
             os: 'ubuntu-latest'
             disable_problem_matchers: true
-          - gleam-version: '1.5.1'
+          - gleam-version: '1.9.0'
             otp-version: false
             os: 'ubuntu-latest'
             disable_problem_matchers: true

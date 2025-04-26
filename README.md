@@ -312,7 +312,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: '27'
-          gleam-version: '1.5.1'
+          gleam-version: '1.9.0'
       - run: gleam test
 ```
 
@@ -330,7 +330,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: false
-          gleam-version: '1.5.1'
+          gleam-version: '1.9.0'
       - run: gleam check
 ```
 

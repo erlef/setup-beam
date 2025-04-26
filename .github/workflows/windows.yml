@@ -58,7 +58,7 @@ jobs:
             otp-version: '24'
             rebar3-version: '3.15'
             os: 'windows-latest'
-          - gleam-version: '1.5.1'
+          - gleam-version: '1.9.0'
             otp-version: '27'
             os: 'windows-latest'
           - elixir-version: 'v1.13'
