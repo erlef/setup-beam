@@ -9,7 +9,7 @@
     "licenses": "yarn licenses generate-disclaimer > 3RD_PARTY_LICENSES",
     "markdownlint": "markdownlint *.md ./github/**/*.md",
     "shellcheck": "shellcheck .github/workflows/*.sh",
-    "test": "node test/setup-beam.test.js",
+    "test": "node --test",
     "yamllint": "yamllint .github/workflows/**.yml && yamllint .*.yml && yamllint *.yml",
     "clean-dist": "rm -rf ./dist",
     "lint": "npm run markdownlint && npm run shellcheck && npm run yamllint && npm run jslint",
