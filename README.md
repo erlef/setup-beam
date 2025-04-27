@@ -56,9 +56,9 @@ For pre-release versions, such as `v1.11.0-rc.0`, use the full version
 specifier (`v1.11.0-rc.0`) and set option `version-type` to `strict`. Pre-release versions are
 opt-in, so `1.11.x` will not match a pre-release.
 
-#### "Latest" versions
+#### "latest" versions
 
-Set a tool's version to `latest` to retrieve the latest version of a given tool.
+Set a tool's version to `latest` to retrieve the latest non-RC version of a given tool.
 The latest version is (locally) calculated by the action based on the (retrieved) versions
 it knows (**note**: it is not the same as [GitHub considers it](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 and some repositories might propose).
@@ -66,19 +66,24 @@ and some repositories might propose).
 If in doubt do a test run and compare the obtained release with the one you were expecting to
 be the latest.
 
+#### "latest-rc" versions
+
+Similar to `latest`, except that release candidates are also considered.
+To target these, set a tool's version to `latest-rc`.
+
 ### Compatibility between Operating System and Erlang/OTP
 
 This list presents the known working version combos between the target operating system
 and Erlang/OTP.
 
-| Operating system | Erlang/OTP   | OTP Architecture | Status
-|-                 |-             | -                |-
-| `ubuntu-18.04`   | 17.0 - 25.3  | x86_64, arm64    | ✅
-| `ubuntu-20.04`   | 21.0 - 27    | x86_64, arm64    | ✅
-| `ubuntu-22.04`   | 24.2 - 27    | x86_64, arm64    | ✅
-| `ubuntu-24.04`   | 24.3 - 27    | x86_64, arm64    | ✅
-| `windows-2019`   | 21\* - 25    | x86_64, x86      | ✅
-| `windows-2022`   | 21\* - 27    | x86_64, x86      | ✅
+| Operating system | Erlang/OTP  | OTP Architecture | Status |
+| ---------------- | ----------- | ---------------- | ------ |
+| `ubuntu-18.04`   | 17.0 - 25.3 | x86_64, arm64    | ✅     |
+| `ubuntu-20.04`   | 21.0 - 27   | x86_64, arm64    | ✅     |
+| `ubuntu-22.04`   | 24.2 - 27   | x86_64, arm64    | ✅     |
+| `ubuntu-24.04`   | 24.3 - 27   | x86_64, arm64    | ✅     |
+| `windows-2019`   | 21\* - 25   | x86_64, x86      | ✅     |
+| `windows-2022`   | 21\* - 27   | x86_64, x86      | ✅     |
 
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
@@ -88,14 +93,14 @@ and Erlang/OTP.
 Self-hosted runners need to set env. variable `ImageOS` to one of the following, since the action
 uses that to download assets:
 
-| ImageOS    | Operating system
-|-           |-
-| `ubuntu18` | `ubuntu-18.04`
-| `ubuntu20` | `ubuntu-20.04`
-| `ubuntu22` | `ubuntu-22.04`
-| `ubuntu24` | `ubuntu-24.04`
-| `win19`    | `windows-2019`
-| `win22`    | `windows-2022`
+| ImageOS    | Operating system |
+| ---------- | ---------------- |
+| `ubuntu18` | `ubuntu-18.04`   |
+| `ubuntu20` | `ubuntu-20.04`   |
+| `ubuntu22` | `ubuntu-22.04`   |
+| `ubuntu24` | `ubuntu-24.04`   |
+| `win19`    | `windows-2019`   |
+| `win22`    | `windows-2022`   |
 
 as per the following example:
 
@@ -117,13 +122,13 @@ jobs:
 
 The action provides the following outputs:
 
-| Output               | Content
-|-                     |-
-| `otp-version`        | The Erlang version, e.g. `OTP-26.0`
-| `elixir-version`     | The Elixir version, e.g. `v1.14-otp-26`
-| `gleam-version`      | The Gleam version, e.g. `v1.5.1`
-| `rebar3-version`     | The `rebar3` version, e.g. `3.18.0`
-| `setup-beam-version` | The commit unique id of the executed action version, e.g. `a34c98f`
+| Output               | Content                                                             |
+| -------------------- | ------------------------------------------------------------------- |
+| `otp-version`        | The Erlang version, e.g. `OTP-26.0`                                 |
+| `elixir-version`     | The Elixir version, e.g. `v1.14-otp-26`                             |
+| `gleam-version`      | The Gleam version, e.g. `v1.5.1`                                    |
+| `rebar3-version`     | The `rebar3` version, e.g. `3.18.0`                                 |
+| `setup-beam-version` | The commit unique id of the executed action version, e.g. `a34c98f` |
 
 accessible as `${{steps.<setup-beam-step-id>.outputs.<Output>}}`,
 e.g. `${{steps.setup-beam.outputs.erlang-version}}`
@@ -146,12 +151,12 @@ with the following correspondence.
 
 #### `.tool-versions` format
 
-| YML              | `.tool-versions`
-|-                 |-
-| `otp-version`    | `erlang`
-| `elixir-version` | `elixir`
-| `gleam-version`  | `gleam`
-| `rebar3-version` | `rebar`
+| YML              | `.tool-versions` |
+| ---------------- | ---------------- |
+| `otp-version`    | `erlang`         |
+| `elixir-version` | `elixir`         |
+| `gleam-version`  | `gleam`          |
+| `rebar3-version` | `rebar`          |
 
 ### Alternative hex.pm mirrors
 
