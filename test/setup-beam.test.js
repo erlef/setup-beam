@@ -511,6 +511,12 @@ describe('.getOTPVersion(_) - Elixir', () => {
     got = await setupBeam.getElixirVersion(spec, otpVersion)
     assert.deepStrictEqual(got, expected)
 
+    spec = '1.16.2-otp-26'
+    otpVersion = 'OTP-27'
+    expected = 'v1.16.2-otp-26'
+    got = await setupBeam.getElixirVersion(spec, otpVersion)
+    assert.deepStrictEqual(got, expected)
+
     spec = '1.12.1'
     otpVersion = 'OTP-24.0.2'
     expected = 'v1.12.1-otp-24'

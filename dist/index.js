@@ -9284,7 +9284,13 @@ async function getOTPVersion(otpSpec0, osVersion) {
 
 async function getElixirVersion(exSpec0, otpVersion0) {
   const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
-  const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
+  let otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
+
+  const userSuppliedOtp = exSpec0.match(/-otp-(\d+)/)?.[1] ?? null
+
+  if (userSuppliedOtp && isVersion(userSuppliedOtp)) {
+    otpVersionMajor = userSuppliedOtp
+  }
 
   const [otpVersionsForElixirMap, elixirVersions] = await getElixirVersions()
   const spec = exSpec0.replace(/-otp-.*$/, '')
