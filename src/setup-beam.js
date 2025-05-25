@@ -580,14 +580,10 @@ function getRunnerOSArchitecture() {
 function getRunnerOSVersion() {
   // List from https://github.com/actions/runner-images?tab=readme-ov-file#available-images
   const ImageOSToContainer = {
-    ubuntu18: 'ubuntu-18.04', // no longer supported by GHA
-    ubuntu20: 'ubuntu-20.04', // no longer supported by GHA
     ubuntu22: 'ubuntu-22.04',
     ubuntu24: 'ubuntu-24.04',
     win19: 'windows-2019',
     win22: 'windows-2022',
-    // The default, from GHA, for macos is always macOS but if we're using
-    // that we can't target a specific build
     macos13: 'macOS-13',
     macos14: 'macOS-14',
     macos15: 'macOS-15',

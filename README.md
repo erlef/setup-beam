@@ -71,17 +71,15 @@ be the latest.
 This list presents the known working version combos between the target operating system
 and Erlang/OTP.
 
-| Operating system | Erlang/OTP   | OTP Architecture | Status | Supported by GHA?
-|-                 |-             | -                |-       |-
-| `ubuntu-18.04`   | 17.0 - 26.2  | x86_64, arm64    | ✅     | ❌
-| `ubuntu-20.04`   | 20.0 - 28    | x86_64, arm64    | ✅     | ❌
-| `ubuntu-22.04`   | 24.2 - 28    | x86_64, arm64    | ✅     | ✅
-| `ubuntu-24.04`   | 24.3 - 28    | x86_64, arm64    | ✅     | ✅
-| `windows-2019`   | 21\* - 25    | x86_64, x86      | ✅     | ✅
-| `windows-2022`   | 21\* - 28    | x86_64, x86      | ✅     | ✅
-| `macOS-13`       | 25.0 - 28    | x86_64, x86      | ✅     | ✅
-| `macOS-14`       | 25.0 - 28    | x86_64, arm64    | ✅     | ✅
-| `macOS-15`       | 25.0 - 28    | x86_64, arm64    | ✅     | ✅
+| Operating system | Erlang/OTP   | OTP Architecture | Status
+|-                 |-             | -                |-
+| `ubuntu-22.04`   | 24.2 - 28    | x86_64, arm64    | ✅
+| `ubuntu-24.04`   | 24.3 - 28    | x86_64, arm64    | ✅
+| `windows-2019`   | 21\* - 25    | x86_64, x86      | ✅
+| `windows-2022`   | 21\* - 28    | x86_64, x86      | ✅
+| `macOS-13`       | 25.0 - 28    | x86_64, x86      | ✅
+| `macOS-14`       | 25.0 - 28    | x86_64, arm64    | ✅
+| `macOS-15`       | 25.0 - 28    | x86_64, arm64    | ✅
 
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
@@ -93,8 +91,6 @@ uses that to download assets:
 
 | ImageOS            | Operating system
 |-                   |-
-| `ubuntu18`         | `ubuntu-18.04`
-| `ubuntu20`         | `ubuntu-20.04`
 | `ubuntu22`         | `ubuntu-22.04`
 | `ubuntu24`         | `ubuntu-24.04`
 | `win19`            | `windows-2019`
