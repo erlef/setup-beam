@@ -145,11 +145,11 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          - otp-version: '25'
-            elixir-version: 'v1.14'
-            gleam-version: '1.0.0'
-            rebar3-version: 'nightly'
-            os: 'ubuntu-latest'
+          - otp-version: latest
+            elixir-version: latest
+            gleam-version: latest
+            rebar3-version: latest
+            os: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Use erlef/setup-beam
