@@ -41,9 +41,9 @@ jobs:
           - otp-version: '24.0.2'
             rebar3-version: '3.16'
             os: 'windows-2019'
-          - otp-version: latest
-            rebar3-version: 'nightly'
-            os: windows-latest
+          - otp-version: 'latest'
+            rebar3-version: 'latest'
+            os: 'windows-latest'
           - otp-version: '23.0'
             rebar3-version: '3.15'
             os: 'windows-2019'

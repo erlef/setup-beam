@@ -63,9 +63,9 @@ jobs:
             rebar3-version: '3.18.0'
             os: 'ubuntu-latest'
             version-type: 'strict'
-          - otp-version: latest
-            rebar3-version: nightly
-            os: ubuntu-latest
+          - otp-version: 'latest'
+            rebar3-version: 'latest'
+            os: 'ubuntu-latest'
           - gleam-version: '1.9.0'
             otp-version: '27'
             os: 'ubuntu-latest'
