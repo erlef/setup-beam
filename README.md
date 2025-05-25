@@ -1,4 +1,4 @@
-# setup-beam [![Action][action-img]][action]&nbsp;[![Ubuntu][ubuntu-img]][ubuntu]&nbsp;[![Windows][windows-img]][windows]
+# setup-beam [![Action][action-img]][action]&nbsp;[![Ubuntu][ubuntu-img]][ubuntu]&nbsp;[![Windows][windows-img]][windows]&nbsp;[![macOS][macos-img]][macos]
 
 [action]: https://github.com/erlef/setup-beam/actions/workflows/action.yml
 [action-img]: https://github.com/erlef/setup-beam/actions/workflows/action.yml/badge.svg
@@ -6,6 +6,8 @@
 [ubuntu-img]: https://github.com/erlef/setup-beam/actions/workflows/ubuntu.yml/badge.svg
 [windows]: https://github.com/erlef/setup-beam/actions/workflows/windows.yml
 [windows-img]: https://github.com/erlef/setup-beam/actions/workflows/windows.yml/badge.svg
+[macos]: https://github.com/erlef/setup-beam/actions/workflows/macos.yml
+[macos-img]: https://github.com/erlef/setup-beam/actions/workflows/macos.yml/badge.svg
 
 This action sets up an Erlang/OTP environment for use in a GitHub Actions
 workflow by:
@@ -20,8 +22,6 @@ workflow by:
   [problem matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) show
   warnings and errors on pull requests
 - optionally, using a version file (as explained in "Version file", below), to identify versions
-
-**Note**: currently, this action only supports Actions' `ubuntu-` and `windows-` runtimes.
 
 ## Usage
 
@@ -71,14 +71,17 @@ be the latest.
 This list presents the known working version combos between the target operating system
 and Erlang/OTP.
 
-| Operating system | Erlang/OTP   | OTP Architecture | Status
-|-                 |-             | -                |-
-| `ubuntu-18.04`   | 17.0 - 25.3  | x86_64, arm64    | ✅
-| `ubuntu-20.04`   | 21.0 - 27    | x86_64, arm64    | ✅
-| `ubuntu-22.04`   | 24.2 - 27    | x86_64, arm64    | ✅
-| `ubuntu-24.04`   | 24.3 - 27    | x86_64, arm64    | ✅
-| `windows-2019`   | 21\* - 25    | x86_64, x86      | ✅
-| `windows-2022`   | 21\* - 27    | x86_64, x86      | ✅
+| Operating system | Erlang/OTP   | OTP Architecture | Status | Supported by GHA?
+|-                 |-             | -                |-       |-
+| `ubuntu-18.04`   | 17.0 - 26.2  | x86_64, arm64    | ✅     | ❌
+| `ubuntu-20.04`   | 20.0 - 28    | x86_64, arm64    | ✅     | ❌
+| `ubuntu-22.04`   | 24.2 - 28    | x86_64, arm64    | ✅     | ✅
+| `ubuntu-24.04`   | 24.3 - 28    | x86_64, arm64    | ✅     | ✅
+| `windows-2019`   | 21\* - 25    | x86_64, x86      | ✅     | ✅
+| `windows-2022`   | 21\* - 28    | x86_64, x86      | ✅     | ✅
+| `macOS-13`       | 25.0 - 28    | x86_64, x86      | ✅     | ✅
+| `macOS-14`       | 25.0 - 28    | x86_64, arm64    | ✅     | ✅
+| `macOS-15`       | 25.0 - 28    | x86_64, arm64    | ✅     | ✅
 
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
@@ -88,14 +91,17 @@ and Erlang/OTP.
 Self-hosted runners need to set env. variable `ImageOS` to one of the following, since the action
 uses that to download assets:
 
-| ImageOS    | Operating system
-|-           |-
-| `ubuntu18` | `ubuntu-18.04`
-| `ubuntu20` | `ubuntu-20.04`
-| `ubuntu22` | `ubuntu-22.04`
-| `ubuntu24` | `ubuntu-24.04`
-| `win19`    | `windows-2019`
-| `win22`    | `windows-2022`
+| ImageOS            | Operating system
+|-                   |-
+| `ubuntu18`         | `ubuntu-18.04`
+| `ubuntu20`         | `ubuntu-20.04`
+| `ubuntu22`         | `ubuntu-22.04`
+| `ubuntu24`         | `ubuntu-24.04`
+| `win19`            | `windows-2019`
+| `win22`            | `windows-2022`
+| `macos13`          | `macOS-13`
+| `macos14`          | `macOS-14`
+| `macos15`          | `macOS-15`
 
 as per the following example:
 
@@ -295,6 +301,24 @@ jobs:
         with:
           otp-version: '24'
           rebar3-version: '3.16.1'
+      - run: rebar3 ct
+```
+
+### Erlang/OTP + `rebar3`, on macOS
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '28'
+          rebar3-version: '3.25'
       - run: rebar3 ct
 ```
 

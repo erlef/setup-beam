@@ -13,7 +13,6 @@ main().catch((err) => {
 })
 
 async function main() {
-  checkPlatform()
   checkOtpArchitecture()
 
   const versionFilePath = getInput('version-file', false)
@@ -269,7 +268,7 @@ async function getOTPVersions(osVersion) {
       hexMirrors: hexMirrorsInput(),
       actionTitle: `fetch ${originListing}`,
       action: async (hexMirror) => {
-        return get(`${hexMirror}${originListing}`, [])
+        return get(`${hexMirror}${originListing}`)
       },
     })
   } else if (process.platform === 'win32') {
@@ -323,7 +322,7 @@ async function getElixirVersions() {
     hexMirrors: hexMirrorsInput(),
     actionTitle: `fetch ${originListing}`,
     action: async (hexMirror) => {
-      return get(`${hexMirror}${originListing}`, [])
+      return get(`${hexMirror}${originListing}`)
     },
   })
   const otpVersionsForElixirMap = {}
@@ -545,9 +544,10 @@ function getRunnerOSArchitecture() {
 }
 
 function getRunnerOSVersion() {
+  // List from https://github.com/actions/runner-images?tab=readme-ov-file#available-images
   const ImageOSToContainer = {
-    ubuntu18: 'ubuntu-18.04',
-    ubuntu20: 'ubuntu-20.04',
+    ubuntu18: 'ubuntu-18.04', // no longer supported by GHA
+    ubuntu20: 'ubuntu-20.04', // no longer supported by GHA
     ubuntu22: 'ubuntu-22.04',
     ubuntu24: 'ubuntu-24.04',
     win19: 'windows-2019',
@@ -608,7 +608,7 @@ async function get(url0, pageIdxs) {
     headers.authorization = `Bearer ${GithubToken}`
   }
 
-  if (pageIdxs.length === 0) {
+  if ((pageIdxs || []).length === 0) {
     return getUrlResponse(url, headers)
   } else {
     return Promise.all(
@@ -1057,14 +1057,6 @@ async function installTool(opts) {
   core.info(`Installed ${installOpts.tool} version`)
   const [cmd, args, env] = platformOpts.reportVersion()
   await exec(cmd, args, { env: { ...process.env, ...env } })
-}
-
-function checkPlatform() {
-  if (process.platform !== 'linux' && process.platform !== 'win32') {
-    throw new Error(
-      '@erlef/setup-beam only supports Ubuntu and Windows at this time',
-    )
-  }
 }
 
 function checkOtpArchitecture() {
