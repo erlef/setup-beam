@@ -395,7 +395,7 @@ function gt(left, right) {
 
 function validVersion(v) {
   return (
-    v.match(/main|master|nightly|latest/g) == null &&
+    v.match(/main|master|nightly|latest|latest-rc/g) == null &&
     !v.startsWith('a') &&
     !v.startsWith('b')
   )
@@ -411,12 +411,17 @@ function parseVersion(v) {
 
 function getVersionFromSpec(spec0, versions0) {
   let latest
+  let latestRC
   Object.keys(versions0).forEach((v) => {
     if (validVersion(v)) {
-      latest = latest && gt(latest, v) ? latest : v
+      latestRC = latestRC && gt(latestRC, v) ? latestRC : v
+      if (!isRC(v)) {
+        latest = latest && gt(latest, v) ? latest : v
+      }
     }
   })
   versions0.latest = latest
+  versions0.latestRC = latestRC
   const spec = maybeRemoveVPrefix(spec0)
 
   const altVersions = {}
@@ -445,6 +450,8 @@ function getVersionFromSpec(spec0, versions0) {
       // If `version-type: strict` or version is RC, we obtain it directly
       version = versions0[spec]
     }
+  } else if (spec0 === 'latest-rc') {
+    version = versions0[versions0.latestRC]
   } else if (spec0 === 'latest') {
     version = versions0[versions0.latest]
   } else if (rangeMax !== null) {
@@ -511,7 +518,7 @@ function sortVersions(left, right) {
 }
 
 function isRC(ver) {
-  return ver.match(xyzAbcVersion('^', '(?:-rc\\.?\\d+)'))
+  return ver.match(xyzAbcVersion('', '(?:-rc\\.?\\d+)'))
 }
 
 function isKnownBranch(ver) {
