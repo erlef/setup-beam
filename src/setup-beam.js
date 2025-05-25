@@ -5,6 +5,7 @@ const path = require('path')
 const semver = require('semver')
 const fs = require('fs')
 const os = require('os')
+const csv = require('csv-parse/sync')
 
 const MAX_HTTP_RETRIES = 3
 
@@ -275,6 +276,21 @@ async function getOTPVersions(osVersion) {
     originListing =
       'https://api.github.com/repos/erlang/otp/releases?per_page=100'
     otpVersionsListings = await get(originListing, [1, 2, 3])
+  } else if (process.platform === 'darwin') {
+    const arch = getRunnerOSArchitecture()
+    let targetArch
+    switch (arch) {
+      case 'amd64':
+        targetArch = 'x86_64'
+        break
+      case 'arm64':
+        targetArch = 'aarch64'
+        break
+    }
+    originListing =
+      `https://raw.githubusercontent.com/erlef/otp_builds/refs/heads/main` +
+      `/builds/${targetArch}-apple-darwin.csv`
+    otpVersionsListings = await get(originListing)
   }
 
   debugLog(`OTP versions listings from ${originListing}`, otpVersionsListings)
@@ -309,6 +325,18 @@ async function getOTPVersions(osVersion) {
           otpVersions[otpVersion] = otpVersion
         })
     })
+  } else if (process.platform === 'darwin') {
+    csv
+      .parse(otpVersionsListings, {
+        columns: true,
+      })
+      .forEach((line) => {
+        const otpMatch = line.ref_name.match(/^([^-]+-)?(.+)$/)
+        const otpVersion = otpMatch[2]
+        const otpVersionOrig = otpMatch[0]
+        debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
+        otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
+      })
   }
 
   debugLog(`OTP versions from ${originListing}`, JSON.stringify(otpVersions))
@@ -552,6 +580,11 @@ function getRunnerOSVersion() {
     ubuntu24: 'ubuntu-24.04',
     win19: 'windows-2019',
     win22: 'windows-2022',
+    // The default, from GHA, for macos is always macOS but if we're using
+    // that we can't target a specific build
+    macos13: 'macOS-13',
+    macos14: 'macOS-14',
+    macos15: 'macOS-15',
   }
   const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
   if (!containerFromEnvImageOS) {
@@ -826,6 +859,28 @@ async function install(toolName, opts) {
             return [cmd, args, env]
           },
         },
+        darwin: {
+          downloadToolURL: () =>
+            `https://github.com/erlef/otp_builds/releases/download/` +
+            `${toolVersion}/${toolVersion}-macos-${getRunnerOSArchitecture()}.tar.gz`,
+          extract: async (file) => {
+            const dest = undefined
+            const flags = ['zx']
+            const targetDir = await tc.extractTar(file, dest, flags)
+
+            return ['dir', targetDir]
+          },
+          postExtract: async (/*cachePath*/) => {
+            // nothing to do
+          },
+          reportVersion: () => {
+            const cmd = 'erl'
+            const args = ['-version']
+            const env = {}
+
+            return [cmd, args, env]
+          },
+        },
       }
       break
     case 'elixir':
@@ -932,6 +987,7 @@ async function install(toolName, opts) {
           },
         },
       }
+      installOpts.darwin = installOpts.linux
       break
     case 'rebar3':
       installOpts = {
@@ -1005,6 +1061,7 @@ async function install(toolName, opts) {
           },
         },
       }
+      installOpts.darwin = installOpts.linux
       break
     default:
       throw new Error(`no installer for ${toolName}`)

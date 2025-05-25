@@ -17,9 +17,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['ubuntu-22.04', 'windows-2022']
-        otp-version: ['24']
-        elixir-version: ['v1.14', '']
+        os: ['ubuntu-24.04', 'windows-2022', 'macos-15']
+        otp-version: ['27']
+        elixir-version: ['v1.18', '']
         install-rebar: [true, false]
         install-hex: [true, false]
     steps:

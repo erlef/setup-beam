@@ -15,6 +15,7 @@ const path = require('path')
 const setupBeam = require('../src/setup-beam')
 const { problemMatcher } = require('../matchers/elixir-matchers.json')
 const { describe, it } = require('node:test')
+const csv = require('csv-parse/sync')
 
 const matrix = {
   otp: {
@@ -23,6 +24,8 @@ const matrix = {
     'ubuntu-22.04': parseBuild('test/otp/ubuntu-22.04/builds.txt'),
     'ubuntu-24.04': parseBuild('test/otp/ubuntu-24.04/builds.txt'),
     windows: parseReleases('test/otp/releases.json'),
+    'macos-aarch64': parseCsv('test/otp/macos/aarch64-apple-darwin.csv'),
+    'macos-x86_64': parseCsv('test/otp/macos/x86_64-apple-darwin.csv'),
   },
   elixir: parseBuild('test/elixir/builds.txt'),
   gleam: parseReleases('test/gleam/releases.json'),
@@ -56,6 +59,15 @@ function parseReleases(version) {
     json.map((x) => (versions[x.tag_name] = x.tag_name))
     return versions
   }
+}
+
+function parseCsv(file) {
+  let versions = {}
+  let fileH = fs.readFileSync(file, 'utf8')
+  csv
+    .parse(fileH, { columns: true })
+    .forEach((line) => (versions[line.ref_name] = line.ref_name))
+  return versions
 }
 
 describe('OTP install', () => {
@@ -460,6 +472,36 @@ describe('.getOTPVersion(_) - Erlang', () => {
     })
   }
 
+  if (process.platform === 'darwin') {
+    it('is Ok for known macos ARM64 version', async () => {
+      const arm64Options = setupBeam.githubARMRunnerArchs()
+      process.env.RUNNER_ARCH =
+        arm64Options[Math.floor(Math.random() * arm64Options.length)]
+
+      before = simulateInput('version-type', 'strict')
+      spec = '28.0'
+      osVersion = 'macos-15-arm64'
+      expected = 'OTP-28.0'
+      got = await setupBeam.getOTPVersion(spec, osVersion)
+      assert.deepStrictEqual(got, expected)
+      simulateInput('version-type', before)
+    })
+
+    it('is Ok for known macos AMD64 version', async () => {
+      const amd64Options = setupBeam.githubARMRunnerArchs()
+      process.env.RUNNER_ARCH =
+        amd64Options[Math.floor(Math.random() * amd64Options.length)]
+
+      before = simulateInput('version-type', 'strict')
+      spec = '28.0'
+      osVersion = 'macos-15'
+      expected = 'OTP-28.0'
+      got = await setupBeam.getOTPVersion(spec, osVersion)
+      assert.deepStrictEqual(got, expected)
+      simulateInput('version-type', before)
+    })
+  }
+
   simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
   process.env.RUNNER_ARCH = previousRunnerArch
 })
@@ -846,6 +888,16 @@ describe('.getVersionFromSpec(_)', () => {
     spec = 'latest'
     expected = '27.0-rc3'
     got = setupBeam.getVersionFromSpec(spec, matrix.otp.windows)
+    assert.deepStrictEqual(got, expected)
+
+    spec = 'latest'
+    expected = 'OTP-28.0'
+    got = setupBeam.getVersionFromSpec(spec, matrix.otp['macos-aarch64'])
+    assert.deepStrictEqual(got, expected)
+
+    spec = 'latest'
+    expected = 'OTP-28.0'
+    got = setupBeam.getVersionFromSpec(spec, matrix.otp['macos-x86_64'])
     assert.deepStrictEqual(got, expected)
 
     spec = 'latest'
