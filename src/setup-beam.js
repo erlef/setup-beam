@@ -541,8 +541,14 @@ function isRC(ver) {
   return ver.match(xyzAbcVersion('^', '(?:-rc\\.?\\d+)'))
 }
 
+const knownBranches = ['main', 'master', 'maint']
+
 function isKnownBranch(ver) {
-  return ['main', 'master', 'maint'].includes(ver)
+  return knownBranches.includes(ver)
+}
+
+function isKnownVerBranch(ver) {
+  return knownBranches.some((b) => ver.match(b))
 }
 
 function githubARMRunnerArchs() {
@@ -860,9 +866,17 @@ async function install(toolName, opts) {
           },
         },
         darwin: {
-          downloadToolURL: () =>
-            `https://github.com/erlef/otp_builds/releases/download/` +
-            `${toolVersion}/${toolVersion}-macos-${getRunnerOSArchitecture()}.tar.gz`,
+          downloadToolURL: (versionSpec) => {
+            let suffix = ''
+            if (isKnownVerBranch(versionSpec)) {
+              // for these otp_builds adds `-latest` in the folder path
+              suffix = '-latest'
+            }
+            return (
+              `https://github.com/erlef/otp_builds/releases/download/` +
+              `${toolVersion}${suffix}/${toolVersion}-macos-${getRunnerOSArchitecture()}.tar.gz`
+            )
+          },
           extract: async (file) => {
             const dest = undefined
             const flags = ['zx']
@@ -1078,7 +1092,7 @@ async function installTool(opts) {
   core.debug(`Checking if ${installOpts.tool} is already cached...`)
   if (cachePath === '') {
     core.debug("  ... it isn't!")
-    const downloadToolURL = platformOpts.downloadToolURL()
+    const downloadToolURL = platformOpts.downloadToolURL(versionSpec)
     const file = await tc.downloadTool(downloadToolURL)
     const [targetElemType, targetElem] = await platformOpts.extract(file)
 
