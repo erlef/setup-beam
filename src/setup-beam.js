@@ -38,11 +38,12 @@ async function main() {
     const elixirInstalled = await maybeInstallElixir(elixirSpec, otpSpec)
     if (elixirInstalled === true) {
       const shouldMixRebar = getInput('install-rebar', false)
-      await mix(shouldMixRebar, 'rebar')
+      const mixRebarPath = getInput('mix-rebar-path', false)
+      await mix(shouldMixRebar, 'rebar', `rebar3 ${mixRebarPath}`)
 
       const shouldMixHex = getInput('install-hex', false)
-      const hexVersion = getInput('hex-version', false)
-      await mix(shouldMixHex, 'hex', hexVersion)
+      const mixHexVersion = getInput('mix-hex-version', false)
+      await mix(shouldMixHex, 'hex', mixHexVersion)
     }
   } else if (!gleamSpec) {
     throw new Error('otp-version=false is only available when installing Gleam')

@@ -46,8 +46,12 @@ inputs:
     default: true
     required: false
 
-  hex-version:
-    description: Exact hex-version to install
+  mix-hex-version:
+    description: Exact local.hex to install
+    required: false
+
+  mix-rebar-path:
+    description: Exact local.rebar local path to install from
     required: false
 
   install-rebar:

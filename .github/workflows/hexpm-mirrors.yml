@@ -22,9 +22,12 @@ jobs:
         elixir-version: ['v1.18', '']
         install-rebar: [true, false]
         install-hex: [true, false]
-        hex-version: '2.2.1'
+        mix-hex-version: ['2.2.1']
     steps:
       - uses: actions/checkout@v4
+      - run: |
+          echo "path=${RUNNER_TEMP}/.setup-beam/rebar3" >>"${GITHUB_OUTPUT}"
+        id: mix-rebar
       - name: Use erlef/setup-beam
         id: setup-beam
         uses: ./
@@ -33,7 +36,8 @@ jobs:
           elixir-version: ${{matrix.elixir-version}}
           install-rebar: ${{matrix.install-rebar}}
           install-hex: ${{matrix.install-hex}}
-          hex-version: ${{matrix.hex-version}}
+          mix-hex-version: ${{matrix.mix-hex-version}}
+          mix-rebar-path: ${{steps.mix-rebar.outputs.path}}
           hexpm-mirrors: |
             https://mirror.invalid
             https://cdn.jsdelivr.net/hex
