@@ -78,7 +78,7 @@ async function main() {
     if (elixirInstalled === true) {
       const shouldMixRebar = getInput('install-rebar', false)
       const mixRebarPath = getInput('mix-rebar-path', false)
-      await mix(shouldMixRebar, 'rebar', `rebar3 ${mixRebarPath}`)
+      await mix(shouldMixRebar, 'rebar', mixRebarPath)
 
       const shouldMixHex = getInput('install-hex', false)
       const mixHexVersion = getInput('mix-hex-version', false)
@@ -153,8 +153,14 @@ function maybeEnableElixirProblemMatchers() {
 
 async function mix(shouldMix, what, version) {
   if (shouldMix === 'true') {
+    if (what == 'rebar' && version) {
+      version = `rebar3 ${version}` // it's actually a path
+    }
     const cmd = 'mix'
-    const args = [`local.${what}`, '--force', '--if-missing', version]
+    const args = [`local.${what}`, '--force', '--if-missing']
+    if (version) {
+      args.push(version)
+    }
     core.startGroup(`Running ${cmd} ${args}`)
     await doWithMirrors({
       hexMirrors: hexMirrorsInput(),
