@@ -66,6 +66,7 @@ jobs:
         id: setup-beam
         uses: ./
         with:
+          otp-version: latest
           install-rebar: false
           version-file: test/.tool-versions
           version-type: strict
