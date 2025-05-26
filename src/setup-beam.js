@@ -119,14 +119,14 @@ function maybeEnableElixirProblemMatchers() {
 
 async function mix(shouldMix, what, version) {
   if (shouldMix === 'true') {
-    if (what == 'rebar' && version) {
-      version = `rebar3 ${version}` // it's actually a path
-    }
-    const cmd = 'mix'
     const args = [`local.${what}`, '--force', '--if-missing']
+    if (what == 'rebar' && version) {
+      args.push('rebar3')
+    }
     if (version) {
       args.push(version)
     }
+    const cmd = 'mix'
     core.startGroup(`Running ${cmd} ${args}`)
     await doWithMirrors({
       hexMirrors: hexMirrorsInput(),
