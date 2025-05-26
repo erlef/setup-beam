@@ -168,9 +168,8 @@ async function maybeInstallRebar3(rebar3Spec) {
 }
 
 async function getOTPVersion(otpSpec0, osVersion) {
-  const [otpVersions, originListing, hexMirrors] = await getOTPVersions(
-    osVersion,
-  )
+  const [otpVersions, originListing, hexMirrors] =
+    await getOTPVersions(osVersion)
   let spec = otpSpec0.replace(/^OTP-/, '')
   const versions = otpVersions
   const otpVersion = getVersionFromSpec(spec, versions)
