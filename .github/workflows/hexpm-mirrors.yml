@@ -22,6 +22,7 @@ jobs:
         elixir-version: ['v1.18', '']
         install-rebar: [true, false]
         install-hex: [true, false]
+        hex-version: '2.2.1'
     steps:
       - uses: actions/checkout@v4
       - name: Use erlef/setup-beam
@@ -32,6 +33,7 @@ jobs:
           elixir-version: ${{matrix.elixir-version}}
           install-rebar: ${{matrix.install-rebar}}
           install-hex: ${{matrix.install-hex}}
+          hex-version: ${{matrix.hex-version}}
           hexpm-mirrors: |
             https://mirror.invalid
             https://cdn.jsdelivr.net/hex

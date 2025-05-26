@@ -16,7 +16,7 @@ workflow by:
 - optionally, installing [Elixir](https://elixir-lang.org/)
 - optionally, installing [Gleam](https://gleam.run/)
 - optionally, installing [`rebar3`](https://www.rebar3.org/)
-- optionally, installing [`hex`](https://hex.pm/)
+- optionally, installing [`hex`](https://hex.pm/) (with an optional specific version)
 - optionally, opting for strict or loose version matching
 - optionally, having
   [problem matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) show

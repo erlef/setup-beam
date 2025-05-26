@@ -46,6 +46,10 @@ inputs:
     default: true
     required: false
 
+  hex-version:
+    description: Exact hex-version to install
+    required: false
+
   install-rebar:
     description: Whether to install Rebar (with mix local.rebar
       when installing Elixir)

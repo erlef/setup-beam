@@ -80,7 +80,8 @@ async function main() {
       await mix(shouldMixRebar, 'rebar')
 
       const shouldMixHex = getInput('install-hex', false)
-      await mix(shouldMixHex, 'hex')
+      const hexVersion = getInput('hex-version', false)
+      await mix(shouldMixHex, 'hex', hexVersion)
     }
   } else if (!gleamSpec) {
     throw new Error('otp-version=false is only available when installing Gleam')
@@ -149,10 +150,10 @@ function maybeEnableElixirProblemMatchers() {
   }
 }
 
-async function mix(shouldMix, what) {
+async function mix(shouldMix, what, version) {
   if (shouldMix === 'true') {
     const cmd = 'mix'
-    const args = [`local.${what}`, '--force']
+    const args = [`local.${what}`, '--force', '--if-missing', version]
     core.startGroup(`Running ${cmd} ${args}`)
     await doWithMirrors({
       hexMirrors: hexMirrorsInput(),
