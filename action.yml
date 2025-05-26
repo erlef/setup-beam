@@ -1,11 +1,15 @@
 ---
 name: setup-beam
+
 description: >
   Set up a BEAM-based CI environment, supporting languages and tools such as Erlang/OTP, Elixir, Gleam, `rebar3`, and `hex`.
+
 author: Erlang Ecosystem Foundation
+
 branding:
   color: blue
   icon: code
+
 inputs:
   github-token:
     description: >
@@ -16,52 +20,81 @@ inputs:
       have to manually pass an automatically generated token via their environment settings within a workflow.
       [Learn more about automatically generated tokens](https://docs.github.com/en/actions/security-guides/automatic-token-authentication)
     default: ${{ github.token }}
+    required: false
+
   otp-version:
     description: Version range or exact version of Erlang/OTP to use,
       or false when installing only Gleam without OTP
+    required: true
+
   otp-architecture:
     description: 32 or 64, to specify the architecture of the OTP to install. Only applies to Windows.
     default: 64
+    required: false
+
   elixir-version:
     description: Version range or exact version of Elixir to use
+    required: false
+
   gleam-version:
     description: Version range or exact version of Gleam to use
+    required: false
+
   install-hex:
     description: Whether to install Hex (with mix local.hex
       when installing Elixir)
     default: true
+    required: false
+
   install-rebar:
     description: Whether to install Rebar (with mix local.rebar
       when installing Elixir)
     default: true
+    required: false
+
   rebar3-version:
     description: Version range or exact version of rebar3 to use (or nightly)
+    required: false
+
   version-type:
     description: strict means the versions are take as-are; loose means we try
       to guess versions based on semver rules
     default: loose
+    required: false
+
   disable_problem_matchers:
     description: whether to have the problem matchers present in the results
       (or not)
     default: false
+    required: false
+
   version-file:
     description: a versions file (e.g. as used by `asdf`), which defines inputs
     default: ''
+    required: false
+
   hexpm-mirrors:
     description: mirror(s) for hex.pm, one per line
     default: |
         https://builds.hex.pm
+    required: false
+
 outputs:
   elixir-version:
     description: Exact version of Elixir that was installed
+
   otp-version:
     description: Exact version of Erlang/OTP that was installed
+
   gleam-version:
     description: Exact version of Gleam that was installed
+
   rebar3-version:
     description: Exact version of rebar3 that was installed
+
   setup-beam-version:
     description: The commit unique id of the execution action version
+
 runs:
   using: node20
   main: dist/index.js
