@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "ncc build src/setup-beam.js --no-cache",
-    "format": "prettier src/**/*.js test/**/*.js *.js --write",
-    "eslint": "eslint src/**/*.js test/**/*.js *.js",
+    "format": "prettier src/**/*.js test/**/*.js *.mjs --write",
+    "eslint": "eslint src/**/*.js test/**/*.js *.mjs",
     "licenses": "yarn licenses generate-disclaimer > 3RD_PARTY_LICENSES",
     "markdownlint": "markdownlint *.md ./github/**/*.md",
     "shellcheck": "shellcheck .github/workflows/*.sh",
