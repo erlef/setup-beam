@@ -6,6 +6,7 @@ const semver = require('semver')
 const fs = require('fs')
 const os = require('os')
 const csv = require('csv-parse/sync')
+const _ = require('lodash')
 
 const MAX_HTTP_RETRIES = 3
 
@@ -273,6 +274,10 @@ async function getRebar3Version(r3Spec) {
   return rebar3Version
 }
 
+function otpArchitecture() {
+  return getInput('otp-architecture', false)
+}
+
 async function getOTPVersions(osVersion) {
   let otpVersionsListings
   let originListing
@@ -328,7 +333,10 @@ async function getOTPVersions(osVersion) {
         otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
-    const file_regex = new RegExp(`^otp_win${otpArch()}_(.*).exe$`)
+    const otpArch = otpArchitecture()
+    const file_regex = new RegExp(
+      `^otp_win${_.escapeRegExp(otpArch)}_(.*).exe$`,
+    )
     otpVersionsListings.forEach((otpVersionsListing) => {
       otpVersionsListing
         .map((x) => x.assets)
@@ -860,9 +868,13 @@ async function install(toolName, opts) {
           },
         },
         win32: {
-          downloadToolURL: () =>
-            'https://github.com/erlang/otp/releases/download/' +
-            `OTP-${toolVersion}/otp_win${otpArch()}_${toolVersion}.exe`,
+          downloadToolURL: () => {
+            const otpArch = otpArchitecture()
+            return (
+              'https://github.com/erlang/otp/releases/download/' +
+              `OTP-${toolVersion}/otp_win${_.escapeRegExp(otpArch)}_${toolVersion}.exe`
+            )
+          },
           extract: async () => ['file', 'otp.exe'],
           postExtract: async (cachePath) => {
             const cmd = path.join(cachePath, 'otp.exe')
@@ -1143,7 +1155,7 @@ async function installTool(opts) {
 }
 
 function checkOtpArchitecture() {
-  const otpArch = otpArch()
+  const otpArch = otpArchitecture()
 
   if (process.platform !== 'win32' && otpArch == '32') {
     throw new Error(
@@ -1151,13 +1163,9 @@ function checkOtpArchitecture() {
     )
   }
 
-  if (['32', '64'].includes(otpArch)) {
+  if (!['32', '64'].includes(otpArch)) {
     throw new Error('otp-architecture must be 32 or 64')
   }
-}
-
-function otpArch() {
-  return getInput('otp-architecture', false)
 }
 
 function debugLoggingEnabled() {
