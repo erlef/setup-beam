@@ -328,9 +328,7 @@ async function getOTPVersions(osVersion) {
         otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
-    const file_regex = new RegExp(
-      `^otp_win${getInput('otp-architecture', false)}_(.*).exe$`,
-    )
+    const file_regex = new RegExp(`^otp_win${otpArch()}_(.*).exe$`)
     otpVersionsListings.forEach((otpVersionsListing) => {
       otpVersionsListing
         .map((x) => x.assets)
@@ -864,10 +862,7 @@ async function install(toolName, opts) {
         win32: {
           downloadToolURL: () =>
             'https://github.com/erlang/otp/releases/download/' +
-            `OTP-${toolVersion}/otp_win${getInput(
-              'otp-architecture',
-              false,
-            )}_${toolVersion}.exe`,
+            `OTP-${toolVersion}/otp_win${otpArch()}_${toolVersion}.exe`,
           extract: async () => ['file', 'otp.exe'],
           postExtract: async (cachePath) => {
             const cmd = path.join(cachePath, 'otp.exe')
@@ -1148,21 +1143,21 @@ async function installTool(opts) {
 }
 
 function checkOtpArchitecture() {
-  if (
-    process.platform !== 'win32' &&
-    getInput('otp-architecture', false) == '32'
-  ) {
+  const otpArch = otpArch()
+
+  if (process.platform !== 'win32' && otpArch == '32') {
     throw new Error(
       '@erlef/setup-beam only supports otp-architecture=32 on Windows',
     )
   }
 
-  if (
-    getInput('otp-architecture', false) !== '32' &&
-    getInput('otp-architecture', false) !== '64'
-  ) {
+  if (['32', '64'].includes(otpArch)) {
     throw new Error('otp-architecture must be 32 or 64')
   }
+}
+
+function otpArch() {
+  return getInput('otp-architecture', false)
 }
 
 function debugLoggingEnabled() {
