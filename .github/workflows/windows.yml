@@ -145,3 +145,4 @@ jobs:
           & "$Env:INSTALL_DIR_FOR_OTP/bin/erl.exe" "+V"
           & "$Env:INSTALL_DIR_FOR_REBAR3/bin/rebar3.cmd" "version"
           & "$Env:INSTALL_DIR_FOR_REBAR3/bin/rebar3.ps1" "version"
+        shell: pwsh
