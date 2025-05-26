@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          echo "path=${RUNNER_TEMP}/.setup-beam/rebar3" >>"${GITHUB_OUTPUT}"
+          echo "path=${RUNNER_TEMP}/.setup-beam/rebar3/bin/rebar3" >>"${GITHUB_OUTPUT}"
         id: mix-rebar
       - name: Use erlef/setup-beam
         id: setup-beam
