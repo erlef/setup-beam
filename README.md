@@ -360,7 +360,7 @@ Check out [this doc](CONTRIBUTING.md).
 
 ### Code of Conduct
 
-This project's code of conduct is made explicit in [CODE_OF_CONDUCT.md](https://github.com/erlef/setup-beam/blob/main/CODE_OF_CONDUCT.md).
+This project's code of conduct is made explicit in [CODE_OF_CONDUCT.md](https://github.com/erlef/.github/blob/main/CODE_OF_CONDUCT.md).
 
 ### Security
 
