@@ -9268,18 +9268,28 @@ async function maybeInstallRebar3(rebar3Spec) {
 }
 
 async function getOTPVersion(otpSpec0, osVersion) {
-  const otpVersions = await getOTPVersions(osVersion)
+  const [otpVersions, originListing, hexMirrors] = await getOTPVersions(
+    osVersion,
+  )
   let spec = otpSpec0.replace(/^OTP-/, '')
   const versions = otpVersions
   const otpVersion = getVersionFromSpec(spec, versions)
+
   if (otpVersion === null) {
     throw new Error(
-      `Requested Erlang/OTP version (${otpSpec0}) not found in version list ` +
-        "(should you be using option 'version-type': 'strict'?)",
+      requestedVersionFor('Erlang/OTP', otpSpec0, originListing, hexMirrors),
     )
   }
 
   return otpVersion // from the reference, for download
+}
+
+function requestedVersionFor(tool, version, originListing, mirrors) {
+  return (
+    `Requested ${tool} version (${version}) not found in version list, ` +
+    `at ${originListing}${mirrors ? `, with mirrors ${mirrors}` : ''}; ` +
+    "should you be using option 'version-type': 'strict'?"
+  )
 }
 
 async function getElixirVersion(exSpec0, otpVersion0) {
@@ -9292,15 +9302,15 @@ async function getElixirVersion(exSpec0, otpVersion0) {
     otpVersionMajor = userSuppliedOtp
   }
 
-  const [otpVersionsForElixirMap, elixirVersions] = await getElixirVersions()
+  const [otpVersionsForElixirMap, elixirVersions, originListing, hexMirrors] =
+    await getElixirVersions()
   const spec = exSpec0.replace(/-otp-.*$/, '')
   const versions = elixirVersions
   const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
 
   if (elixirVersionFromSpec === null) {
     throw new Error(
-      `Requested Elixir version (${exSpec0}) not found in version list ` +
-        "(should you be using option 'version-type': 'strict'?)",
+      requestedVersionFor('Elixir', exSpec0, originListing, hexMirrors),
     )
   }
 
@@ -9331,30 +9341,26 @@ async function getElixirVersion(exSpec0, otpVersion0) {
 }
 
 async function getGleamVersion(gleamSpec0) {
-  const gleamVersions = await getGleamVersions()
+  const [gleamVersions, originListing] = await getGleamVersions()
   const spec = gleamSpec0
   const versions = gleamVersions
   const gleamVersion = getVersionFromSpec(spec, versions)
+
   if (gleamVersion === null) {
-    throw new Error(
-      `Requested Gleam version (${gleamSpec0}) not found in version list ` +
-        "(should you be using option 'version-type': 'strict'?)",
-    )
+    throw new Error(requestedVersionFor('Gleam', gleamSpec0, originListing))
   }
 
   return maybePrependWithV(gleamVersion)
 }
 
 async function getRebar3Version(r3Spec) {
-  const rebar3Versions = await getRebar3Versions()
+  const [rebar3Versions, originListing] = await getRebar3Versions()
   const spec = r3Spec
   const versions = rebar3Versions
   const rebar3Version = getVersionFromSpec(spec, versions)
+
   if (rebar3Version === null) {
-    throw new Error(
-      `Requested rebar3 version (${r3Spec}) not found in version list ` +
-        "(should you be using option 'version-type': 'strict'?)",
-    )
+    throw new Error(requestedVersionFor('rebar3', r3Spec, originListing))
   }
 
   return rebar3Version
@@ -9363,10 +9369,12 @@ async function getRebar3Version(r3Spec) {
 async function getOTPVersions(osVersion) {
   let otpVersionsListings
   let originListing
+  let hexMirrors = null
   if (process.platform === 'linux') {
     originListing = `/builds/otp/${getRunnerOSArchitecture()}/${osVersion}/builds.txt`
+    hexMirrors = hexMirrorsInput()
     otpVersionsListings = await doWithMirrors({
-      hexMirrors: hexMirrorsInput(),
+      hexMirrors,
       actionTitle: `fetch ${originListing}`,
       action: async (hexMirror) => {
         return get(`${hexMirror}${originListing}`, [])
@@ -9378,7 +9386,10 @@ async function getOTPVersions(osVersion) {
     otpVersionsListings = await get(originListing, [1, 2, 3])
   }
 
-  debugLog(`OTP versions listings from ${originListing}`, otpVersionsListings)
+  debugLog(
+    `OTP versions listings from ${originListing}, mirrors ${hexMirrors}`,
+    otpVersionsListings,
+  )
 
   const otpVersions = {}
   if (process.platform === 'linux') {
@@ -9412,15 +9423,19 @@ async function getOTPVersions(osVersion) {
     })
   }
 
-  debugLog(`OTP versions from ${originListing}`, JSON.stringify(otpVersions))
+  debugLog(
+    `OTP versions from ${originListing}, mirrors ${hexMirrors}`,
+    JSON.stringify(otpVersions),
+  )
 
-  return otpVersions
+  return [otpVersions, originListing, hexMirrors]
 }
 
 async function getElixirVersions() {
   const originListing = '/builds/elixir/builds.txt'
+  const hexMirrors = hexMirrorsInput()
   const elixirVersionsListings = await doWithMirrors({
-    hexMirrors: hexMirrorsInput(),
+    hexMirrors,
     actionTitle: `fetch ${originListing}`,
     action: async (hexMirror) => {
       return get(`${hexMirror}${originListing}`, [])
@@ -9446,14 +9461,13 @@ async function getElixirVersions() {
       elixirVersions[elixirVersion] = elixirVersion
     })
 
-  return [otpVersionsForElixirMap, elixirVersions]
+  return [otpVersionsForElixirMap, elixirVersions, originListing, hexMirrors]
 }
 
 async function getGleamVersions() {
-  const resultJSONs = await get(
-    'https://api.github.com/repos/gleam-lang/gleam/releases?per_page=100',
-    [1, 2, 3],
-  )
+  const originListing =
+    'https://api.github.com/repos/gleam-lang/gleam/releases?per_page=100'
+  const resultJSONs = await get(originListing, [1, 2, 3])
   const gleamVersionsListing = {}
   resultJSONs.forEach((resultJSON) => {
     resultJSON
@@ -9465,14 +9479,13 @@ async function getGleamVersions() {
       })
   })
 
-  return gleamVersionsListing
+  return [gleamVersionsListing, originListing]
 }
 
 async function getRebar3Versions() {
-  const resultJSONs = await get(
-    'https://api.github.com/repos/erlang/rebar3/releases?per_page=100',
-    [1, 2, 3],
-  )
+  const originListing =
+    'https://api.github.com/repos/erlang/rebar3/releases?per_page=100'
+  const resultJSONs = await get(originListing, [1, 2, 3])
   const rebar3VersionsListing = {}
   resultJSONs.forEach((resultJSON) => {
     resultJSON
@@ -9482,7 +9495,7 @@ async function getRebar3Versions() {
       })
   })
 
-  return rebar3VersionsListing
+  return [rebar3VersionsListing, originListing]
 }
 
 function isStrictVersion() {
