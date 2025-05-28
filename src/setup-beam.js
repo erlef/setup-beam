@@ -38,12 +38,12 @@ async function main() {
     await installOTP(otpSpec, osVersion)
     const elixirInstalled = await maybeInstallElixir(elixirSpec, otpSpec)
     if (elixirInstalled === true) {
-      const shouldMixRebar = getInput('install-rebar', false)
       const mixRebarPath = getInput('mix-rebar-path', false)
+      const shouldMixRebar = mixRebarPath !== 'none'
       await mix(shouldMixRebar, 'rebar', mixRebarPath)
 
-      const shouldMixHex = getInput('install-hex', false)
       const mixHexVersion = getInput('mix-hex-version', false)
+      const shouldMixHex = mixHexVersion !== 'none'
       await mix(shouldMixHex, 'hex', mixHexVersion)
     }
   } else if (!gleamSpec) {
@@ -119,12 +119,12 @@ function maybeEnableElixirProblemMatchers() {
 }
 
 async function mix(shouldMix, what, version) {
-  if (shouldMix === 'true') {
+  if (shouldMix) {
     const args = [`local.${what}`, '--force', '--if-missing']
-    if (what == 'rebar' && version) {
-      args.push('rebar3')
-    }
-    if (version) {
+    if (version !== 'latest') {
+      if (what == 'rebar') {
+        args.push('rebar3')
+      }
       args.push(version)
     }
     const cmd = 'mix'

@@ -20,32 +20,31 @@ jobs:
         os: ['ubuntu-24.04', 'windows-2022', 'macos-15']
         otp-version: ['27']
         elixir-version: ['v1.18', '']
-        install-rebar: [true, false]
-        install-hex: [true, false]
-        mix-hex-version: ['2.2.1']
+        mix-hex-version: ['latest', 'none']
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          echo "path=${RUNNER_TEMP}/.setup-beam/rebar3/bin/rebar3" >>"${GITHUB_OUTPUT}"
-        id: mix-rebar
       - name: Use erlef/setup-beam
         id: setup-beam
         uses: ./
         with:
           otp-version: ${{matrix.otp-version}}
           elixir-version: ${{matrix.elixir-version}}
-          install-rebar: ${{matrix.install-rebar}}
-          install-hex: ${{matrix.install-hex}}
           hexpm-mirrors: |
             https://mirror.invalid
             https://cdn.jsdelivr.net/hex
             https://builds.hex.pm
+      - run: |
+          if [[ "${{matrix.os}}" =~ windows ]]; then
+            echo "path=latest" >>"${GITHUB_OUTPUT}"
+          else
+            echo "path=${RUNNER_TEMP}/.setup-beam/rebar3/bin/rebar3" >>"${GITHUB_OUTPUT}"
+          fi
+        id: mix-rebar
+        shell: bash
       - name: Install local.hex and local.rebar
         uses: ./
         with:
           otp-version: ${{matrix.otp-version}}
           elixir-version: ${{matrix.elixir-version}}
-          install-rebar: ${{matrix.install-rebar}}
-          install-hex: ${{matrix.install-hex}}
           mix-hex-version: ${{matrix.mix-hex-version}}
           mix-rebar-path: ${{steps.mix-rebar.outputs.path}}

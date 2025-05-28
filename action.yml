@@ -40,24 +40,14 @@ inputs:
     description: Version range or exact version of Gleam to use
     required: false
 
-  install-hex:
-    description: Whether to install Hex (with mix local.hex
-      when installing Elixir)
-    default: true
-    required: false
-
   mix-hex-version:
-    description: Exact local.hex to install
+    description: Exact local.hex version to install
+    default: latest # use none to not install local.hex
     required: false
 
   mix-rebar-path:
     description: Exact local.rebar local path to install from
-    required: false
-
-  install-rebar:
-    description: Whether to install Rebar (with mix local.rebar
-      when installing Elixir)
-    default: true
+    default: latest # use none to not install local.rebar
     required: false
 
   rebar3-version:
