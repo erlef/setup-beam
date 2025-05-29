@@ -5,6 +5,7 @@ const path = require('path')
 const semver = require('semver')
 const fs = require('fs')
 const os = require('os')
+const csv = require('csv-parse/sync')
 
 const MAX_HTTP_RETRIES = 3
 
@@ -13,7 +14,6 @@ main().catch((err) => {
 })
 
 async function main() {
-  checkPlatform()
   checkOtpArchitecture()
 
   const versionFilePath = getInput('version-file', false)
@@ -277,13 +277,28 @@ async function getOTPVersions(osVersion) {
       hexMirrors,
       actionTitle: `fetch ${originListing}`,
       action: async (hexMirror) => {
-        return get(`${hexMirror}${originListing}`, [])
+        return get(`${hexMirror}${originListing}`)
       },
     })
   } else if (process.platform === 'win32') {
     originListing =
       'https://api.github.com/repos/erlang/otp/releases?per_page=100'
     otpVersionsListings = await get(originListing, [1, 2, 3])
+  } else if (process.platform === 'darwin') {
+    const arch = getRunnerOSArchitecture()
+    let targetArch
+    switch (arch) {
+      case 'amd64':
+        targetArch = 'x86_64'
+        break
+      case 'arm64':
+        targetArch = 'aarch64'
+        break
+    }
+    originListing =
+      `https://raw.githubusercontent.com/erlef/otp_builds/refs/heads/main` +
+      `/builds/${targetArch}-apple-darwin.csv`
+    otpVersionsListings = await get(originListing)
   }
 
   debugLog(
@@ -321,6 +336,18 @@ async function getOTPVersions(osVersion) {
           otpVersions[otpVersion] = otpVersion
         })
     })
+  } else if (process.platform === 'darwin') {
+    csv
+      .parse(otpVersionsListings, {
+        columns: true,
+      })
+      .forEach((line) => {
+        const otpMatch = line.ref_name.match(/^([^-]+-)?(.+)$/)
+        const otpVersion = otpMatch[2]
+        const otpVersionOrig = otpMatch[0]
+        debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
+        otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
+      })
   }
 
   debugLog(
@@ -338,7 +365,7 @@ async function getElixirVersions() {
     hexMirrors,
     actionTitle: `fetch ${originListing}`,
     action: async (hexMirror) => {
-      return get(`${hexMirror}${originListing}`, [])
+      return get(`${hexMirror}${originListing}`)
     },
   })
   const otpVersionsForElixirMap = {}
@@ -527,8 +554,14 @@ function isRC(ver) {
   return ver.match(xyzAbcVersion('^', '(?:-rc\\.?\\d+)'))
 }
 
+const knownBranches = ['main', 'master', 'maint']
+
 function isKnownBranch(ver) {
-  return ['main', 'master', 'maint'].includes(ver)
+  return knownBranches.includes(ver)
+}
+
+function isKnownVerBranch(ver) {
+  return knownBranches.some((b) => ver.match(b))
 }
 
 function githubARMRunnerArchs() {
@@ -558,13 +591,15 @@ function getRunnerOSArchitecture() {
 }
 
 function getRunnerOSVersion() {
+  // List from https://github.com/actions/runner-images?tab=readme-ov-file#available-images
   const ImageOSToContainer = {
-    ubuntu18: 'ubuntu-18.04',
-    ubuntu20: 'ubuntu-20.04',
     ubuntu22: 'ubuntu-22.04',
     ubuntu24: 'ubuntu-24.04',
     win19: 'windows-2019',
     win22: 'windows-2022',
+    macos13: 'macOS-13',
+    macos14: 'macOS-14',
+    macos15: 'macOS-15',
   }
   const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
   if (!containerFromEnvImageOS) {
@@ -621,7 +656,7 @@ async function get(url0, pageIdxs) {
     headers.authorization = `Bearer ${GithubToken}`
   }
 
-  if (pageIdxs.length === 0) {
+  if ((pageIdxs || []).length === 0) {
     return getUrlResponse(url, headers)
   } else {
     return Promise.all(
@@ -839,6 +874,36 @@ async function install(toolName, opts) {
             return [cmd, args, env]
           },
         },
+        darwin: {
+          downloadToolURL: (versionSpec) => {
+            let suffix = ''
+            if (isKnownVerBranch(versionSpec)) {
+              // for these otp_builds adds `-latest` in the folder path
+              suffix = '-latest'
+            }
+            return (
+              `https://github.com/erlef/otp_builds/releases/download/` +
+              `${toolVersion}${suffix}/${toolVersion}-macos-${getRunnerOSArchitecture()}.tar.gz`
+            )
+          },
+          extract: async (file) => {
+            const dest = undefined
+            const flags = ['zx']
+            const targetDir = await tc.extractTar(file, dest, flags)
+
+            return ['dir', targetDir]
+          },
+          postExtract: async (/*cachePath*/) => {
+            // nothing to do
+          },
+          reportVersion: () => {
+            const cmd = 'erl'
+            const args = ['-version']
+            const env = {}
+
+            return [cmd, args, env]
+          },
+        },
       }
       break
     case 'elixir':
@@ -945,6 +1010,7 @@ async function install(toolName, opts) {
           },
         },
       }
+      installOpts.darwin = installOpts.linux
       break
     case 'rebar3':
       installOpts = {
@@ -1018,6 +1084,7 @@ async function install(toolName, opts) {
           },
         },
       }
+      installOpts.darwin = installOpts.linux
       break
     default:
       throw new Error(`no installer for ${toolName}`)
@@ -1034,7 +1101,7 @@ async function installTool(opts) {
   core.debug(`Checking if ${installOpts.tool} is already cached...`)
   if (cachePath === '') {
     core.debug("  ... it isn't!")
-    const downloadToolURL = platformOpts.downloadToolURL()
+    const downloadToolURL = platformOpts.downloadToolURL(versionSpec)
     const file = await tc.downloadTool(downloadToolURL)
     const [targetElemType, targetElem] = await platformOpts.extract(file)
 
@@ -1070,14 +1137,6 @@ async function installTool(opts) {
   core.info(`Installed ${installOpts.tool} version`)
   const [cmd, args, env] = platformOpts.reportVersion()
   await exec(cmd, args, { env: { ...process.env, ...env } })
-}
-
-function checkPlatform() {
-  if (process.platform !== 'linux' && process.platform !== 'win32') {
-    throw new Error(
-      '@erlef/setup-beam only supports Ubuntu and Windows at this time',
-    )
-  }
 }
 
 function checkOtpArchitecture() {

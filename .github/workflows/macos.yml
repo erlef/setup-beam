@@ -1,0 +1,137 @@
+---
+name: macos
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch: {}
+
+jobs:
+  integration_test:
+    name: >
+      OTP ${{matrix.combo.otp-version}},
+      Elixir ${{matrix.combo.elixir-version}},
+      rebar3 ${{matrix.combo.rebar3-version}}
+    runs-on: ${{matrix.combo.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        combo:
+          - otp-version: '27'
+            elixir-version: 'v1.17.0'
+            rebar3-version: '3.23'
+            os: 'macos-latest'
+          - otp-version: '26.0'
+            elixir-version: 'v1.14-otp-25'
+            os: 'macos-latest'
+            version-type: 'strict'
+          - otp-version: '26.0'
+            elixir-version: '1.14.5'
+            os: 'macos-latest'
+            version-type: 'strict'
+          - otp-version: '25.2'
+            elixir-version: '1.14.2'
+            os: 'macos-latest'
+          - otp-version: '25.2'
+            elixir-version: '1.14.3'
+            os: 'macos-latest'
+            version-type: 'strict'
+          - otp-version: '27'
+            os: 'macos-15'
+            version-type: 'strict'
+          - otp-version: '26'
+            os: 'macos-15'
+            version-type: 'strict'
+          - otp-version: '25'
+            os: 'macos-15'
+          - otp-version: '26'
+            elixir-version: '1.16'
+            rebar3-version: '3.25'
+            os: 'macos-14'
+          - otp-version: '25.0'
+            elixir-version: 'v1.13.4-otp-25'
+            rebar3-version: '3.18.0'
+            os: 'macos-latest'
+            version-type: 'strict'
+          - otp-version: '25.0'
+            elixir-version: 'v1.13.4'
+            rebar3-version: '3.18.0'
+            os: 'macos-latest'
+            version-type: 'strict'
+          - otp-version: 'latest'
+            rebar3-version: 'latest'
+            os: 'macos-latest'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use erlef/setup-beam
+        id: setup-beam
+        uses: ./
+        with:
+          otp-version: ${{matrix.combo.otp-version}}
+          elixir-version: ${{matrix.combo.elixir-version}}
+          rebar3-version: ${{matrix.combo.rebar3-version}}
+          version-type: ${{matrix.combo.version-type}}
+      - name: Erlang/OTP version (action)
+        run: echo "Erlang/OTP ${{steps.setup-beam.outputs.otp-version}}"
+        if: ${{matrix.combo.otp-version}}
+      - name: Elixir version (action)
+        run: echo "Elixir ${{steps.setup-beam.outputs.elixir-version}}"
+        if: ${{matrix.combo.elixir-version}}
+      - name: rebar3 version (action)
+        run: echo "rebar3 ${{steps.setup-beam.outputs.rebar3-version}}"
+        if: ${{matrix.combo.rebar3-version}}
+      - name: mix version and help (CLI)
+        run: |
+          mix -v
+          mix help local.rebar
+          mix help local.hex
+        if: ${{matrix.combo.elixir-version}}
+      - name: Run Elixir/Mix project tests
+        run: |
+          cd test/projects/elixir_mix
+          mix deps.get
+          mix test
+        if: ${{matrix.combo.elixir-version}}
+      - name: Run Erlang/rebar3 project tests
+        run: |
+          cd test/projects/erlang_rebar3
+          rebar3 ct
+        if: ${{matrix.combo.rebar3-version}}
+      - name: Run escript
+        run: |
+          mix escript.install --force ${{matrix.combo.escript_packages}}
+          ${{matrix.combo.escript_script}}
+        if: ${{matrix.combo.escript_packages && matrix.combo.escript_script}}
+
+  environment_variables:
+    name: Environment variables
+    runs-on: ${{matrix.combo.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        combo:
+          - otp-version: latest
+            elixir-version: latest
+            rebar3-version: nightly
+            os: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use erlef/setup-beam
+        id: setup-beam
+        uses: ./
+        with:
+          otp-version: ${{matrix.combo.otp-version}}
+          elixir-version: ${{matrix.combo.elixir-version}}
+          rebar3-version: ${{matrix.combo.rebar3-version}}
+      - run: env
+      - name: Check environment variables
+        run: |
+          ${INSTALL_DIR_FOR_ELIXIR}/bin/elixir -v
+          ${INSTALL_DIR_FOR_OTP}/bin/erl -version
+          ${INSTALL_DIR_FOR_REBAR3}/bin/rebar3 version
