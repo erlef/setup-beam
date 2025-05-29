@@ -29,22 +29,8 @@ jobs:
         with:
           otp-version: ${{matrix.otp-version}}
           elixir-version: ${{matrix.elixir-version}}
+          mix-hex-version: ${{matrix.mix-hex-version}}
           hexpm-mirrors: |
             https://mirror.invalid
             https://cdn.jsdelivr.net/hex
             https://builds.hex.pm
-      - run: |
-          if [[ "${{matrix.os}}" =~ windows ]]; then
-            echo "path=latest" >>"${GITHUB_OUTPUT}"
-          else
-            echo "path=${RUNNER_TEMP}/.setup-beam/rebar3/bin/rebar3" >>"${GITHUB_OUTPUT}"
-          fi
-        id: mix-rebar
-        shell: bash
-      - name: Install local.hex and local.rebar
-        uses: ./
-        with:
-          otp-version: ${{matrix.otp-version}}
-          elixir-version: ${{matrix.elixir-version}}
-          mix-hex-version: ${{matrix.mix-hex-version}}
-          mix-rebar-path: ${{steps.mix-rebar.outputs.path}}

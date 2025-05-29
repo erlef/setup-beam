@@ -64,6 +64,8 @@ jobs:
             rebar3-version: '3.18.0'
             os: 'macos-latest'
             version-type: 'strict'
+            escript_packages: 'hex protobuf'
+            escript_script: 'protoc-gen-elixir --version'
           - otp-version: 'latest'
             rebar3-version: 'latest'
             os: 'macos-latest'
@@ -132,6 +134,6 @@ jobs:
       - run: env
       - name: Check environment variables
         run: |
-          ${INSTALL_DIR_FOR_ELIXIR}/bin/elixir -v
-          ${INSTALL_DIR_FOR_OTP}/bin/erl -version
-          ${INSTALL_DIR_FOR_REBAR3}/bin/rebar3 version
+          "${INSTALL_DIR_FOR_ELIXIR}"/bin/elixir -v
+          "${INSTALL_DIR_FOR_OTP}"/bin/erl -version
+          "${INSTALL_DIR_FOR_REBAR3}"/bin/rebar3 version
