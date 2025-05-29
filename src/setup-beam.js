@@ -196,7 +196,8 @@ async function getElixirVersion(exSpec0, otpVersion0) {
   const otpVersion = otpVersion0.match(/^(?:OTP-)?(.+)$/)[1]
   let otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
 
-  const userSuppliedOtp = exSpec0.match(/-otp-(\d+)/)?.[1] ?? null
+  const otpSuffix = /-otp-(\d+)/
+  const userSuppliedOtp = exSpec0.match(otpSuffix)?.[1] ?? null
 
   if (userSuppliedOtp && isVersion(userSuppliedOtp)) {
     otpVersionMajor = userSuppliedOtp
@@ -204,7 +205,7 @@ async function getElixirVersion(exSpec0, otpVersion0) {
 
   const [otpVersionsForElixirMap, elixirVersions, originListing, hexMirrors] =
     await getElixirVersions()
-  const spec = exSpec0.replace(/-otp-.*$/, '')
+  const spec = exSpec0.replace(otpSuffix, '')
   const versions = elixirVersions
   const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
 
