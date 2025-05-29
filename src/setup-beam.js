@@ -6,6 +6,7 @@ const semver = require('semver')
 const fs = require('fs')
 const os = require('os')
 const csv = require('csv-parse/sync')
+const _ = require('lodash')
 
 const MAX_HTTP_RETRIES = 3
 
@@ -168,9 +169,8 @@ async function maybeInstallRebar3(rebar3Spec) {
 }
 
 async function getOTPVersion(otpSpec0, osVersion) {
-  const [otpVersions, originListing, hexMirrors] = await getOTPVersions(
-    osVersion,
-  )
+  const [otpVersions, originListing, hexMirrors] =
+    await getOTPVersions(osVersion)
   let spec = otpSpec0.replace(/^OTP-/, '')
   const versions = otpVersions
   const otpVersion = getVersionFromSpec(spec, versions)
@@ -266,6 +266,10 @@ async function getRebar3Version(r3Spec) {
   return rebar3Version
 }
 
+function otpArchitecture() {
+  return getInput('otp-architecture', false)
+}
+
 async function getOTPVersions(osVersion) {
   let otpVersionsListings
   let originListing
@@ -321,8 +325,9 @@ async function getOTPVersions(osVersion) {
         otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
+    const otpArch = otpArchitecture()
     const file_regex = new RegExp(
-      `^otp_win${getInput('otp-architecture')}_(.*).exe$`,
+      `^otp_win${_.escapeRegExp(otpArch)}_(.*).exe$`,
     )
     otpVersionsListings.forEach((otpVersionsListing) => {
       otpVersionsListing
@@ -855,11 +860,13 @@ async function install(toolName, opts) {
           },
         },
         win32: {
-          downloadToolURL: () =>
-            'https://github.com/erlang/otp/releases/download/' +
-            `OTP-${toolVersion}/otp_win${getInput(
-              'otp-architecture',
-            )}_${toolVersion}.exe`,
+          downloadToolURL: () => {
+            const otpArch = otpArchitecture()
+            return (
+              'https://github.com/erlang/otp/releases/download/' +
+              `OTP-${toolVersion}/otp_win${_.escapeRegExp(otpArch)}_${toolVersion}.exe`
+            )
+          },
           extract: async () => ['file', 'otp.exe'],
           postExtract: async (cachePath) => {
             const cmd = path.join(cachePath, 'otp.exe')
@@ -1140,16 +1147,15 @@ async function installTool(opts) {
 }
 
 function checkOtpArchitecture() {
-  if (process.platform !== 'win32' && getInput('otp-architecture') == '32') {
+  const otpArch = otpArchitecture()
+
+  if (process.platform !== 'win32' && otpArch == '32') {
     throw new Error(
       '@erlef/setup-beam only supports otp-architecture=32 on Windows',
     )
   }
 
-  if (
-    getInput('otp-architecture') !== '32' &&
-    getInput('otp-architecture') !== '64'
-  ) {
+  if (!['32', '64'].includes(otpArch)) {
     throw new Error('otp-architecture must be 32 or 64')
   }
 }

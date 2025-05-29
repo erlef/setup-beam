@@ -16,7 +16,8 @@ workflow by:
 - optionally, installing [Elixir](https://elixir-lang.org/)
 - optionally, installing [Gleam](https://gleam.run/)
 - optionally, installing [`rebar3`](https://www.rebar3.org/)
-- optionally, installing [`hex`](https://hex.pm/)
+- optionally, installing [`local.hex`](https://hex.pm/)
+- optionally, installing [`local.rebar`](https://www.rebar3.org/)
 - optionally, opting for strict or loose version matching
 - optionally, having
   [problem matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) show
@@ -230,7 +231,7 @@ are found (i.e. `erl`, `erl.exe`, `rebar3`, `rebar3.exe`, ...).
 ### Elixir Problem Matchers
 
 The Elixir Problem Matchers in this repository are adapted from
-[here](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118).
+[vscode-elixir/package.json](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118).
 See [MATCHER_NOTICE](MATCHER_NOTICE.md) for license details.
 
 ## Examples

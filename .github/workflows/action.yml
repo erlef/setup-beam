@@ -52,6 +52,16 @@ jobs:
       - name: Check if build left artifacts
         run: git diff --exit-code --ignore-space-at-eol
 
+  check_action:
+    name: Action
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: raven-actions/actionlint@v2
+
   unit_tests_ubuntu:
     name: Unit tests (Ubuntu)
     runs-on: ubuntu-latest
