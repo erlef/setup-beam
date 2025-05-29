@@ -1,6 +1,9 @@
 ---
 name: windows
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
