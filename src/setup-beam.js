@@ -193,7 +193,7 @@ function requestedVersionFor(tool, version, originListing, mirrors) {
 }
 
 async function getElixirVersion(exSpec0, otpVersion0) {
-  const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
+  const otpVersion = otpVersion0.match(/^(?:OTP-)?(.+)$/)[1]
   let otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
 
   const userSuppliedOtp = exSpec0.match(/-otp-(\d+)/)?.[1] ?? null
