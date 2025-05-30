@@ -193,10 +193,11 @@ function requestedVersionFor(tool, version, originListing, mirrors) {
 }
 
 const knownBranches = ['main', 'master', 'maint']
+const nonSpecificVersions = ['nightly', 'latest']
 
 async function getElixirVersion(exSpec0, otpVersion0) {
   const otpVersion = otpVersion0.match(/^(?:OTP-)?(.+)$/)[1]
-  const regex = `^(\\d{1,3}|${knownBranches.join('|')})?.*$`
+  const regex = `^(\\d{1,3}|${knownBranches.join('|')}|${nonSpecificVersions.join('|')})?.*$`
   let otpVersionMajor = otpVersion.match(new RegExp(regex))[1]
 
   const otpSuffix = /-otp-(\d+)/
@@ -444,7 +445,9 @@ function gt(left, right) {
 
 function validVersion(v) {
   return (
-    v.match(/main|master|nightly|latest/g) == null &&
+    v.match(
+      new RegExp(`${knownBranches.join('|')}|${nonSpecificVersions.join('|')}`),
+    ) == null &&
     !v.startsWith('a') &&
     !v.startsWith('b')
   )
