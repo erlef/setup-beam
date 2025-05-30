@@ -64,7 +64,7 @@ jobs:
             escript_script: 'protoc-gen-elixir --version'
             os: 'windows-latest'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
       - name: Use erlef/setup-beam
         id: setup-beam
         uses: ./
@@ -131,7 +131,7 @@ jobs:
             rebar3-version: nightly
             os: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
       - name: Use erlef/setup-beam
         id: setup-beam
         uses: ./
