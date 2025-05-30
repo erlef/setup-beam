@@ -26067,9 +26067,12 @@ function requestedVersionFor(tool, version, originListing, mirrors) {
   )
 }
 
+const knownBranches = ['main', 'master', 'maint']
+
 async function getElixirVersion(exSpec0, otpVersion0) {
   const otpVersion = otpVersion0.match(/^(?:OTP-)?(.+)$/)[1]
-  let otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
+  const regex = `^(\\d{1,3}|${knownBranches.join('|')})?.*$`
+  let otpVersionMajor = otpVersion.match(new RegExp(regex))[1]
 
   const otpSuffix = /-otp-(\d+)/
   const userSuppliedOtp = exSpec0.match(otpSuffix)?.[1] ?? null
@@ -26434,8 +26437,6 @@ function sortVersions(left, right) {
 function isRC(ver) {
   return ver.match(xyzAbcVersion('^', '(?:-rc\\.?\\d+)'))
 }
-
-const knownBranches = ['main', 'master', 'maint']
 
 function isKnownBranch(ver) {
   return knownBranches.includes(ver)
