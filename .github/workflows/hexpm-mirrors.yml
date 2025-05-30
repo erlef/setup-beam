@@ -1,6 +1,9 @@
 ---
 name: hexpm-mirrors
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:

@@ -1,6 +1,9 @@
 ---
 name: Update 3rd party licenses (automation)
 
+permissions:
+  contents: write
+
 on:
   schedule:
     - cron: '0 12 * * *'
