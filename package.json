@@ -10,7 +10,7 @@
     "markdownlint": "markdownlint *.md ./github/**/*.md",
     "shellcheck": "shellcheck .github/workflows/*.sh",
     "test": "node --test --test-reporter=spec",
-    "yamllint": "eslint .github/workflows/**.yml .*.yml *.yml",
+    "yamllint": "eslint .github/workflows/**.yml .github/*.yml .*.yml *.yml",
     "clean-dist": "rm -rf ./dist",
     "lint": "npm run markdownlint && npm run shellcheck && npm run yamllint && npm run eslint",
     "build-dist": "npm run clean-dist && npm install && npm run build && npm run format && npm run lint"
