@@ -119,9 +119,9 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          - otp-version: latest
-            elixir-version: latest
-            rebar3-version: nightly
+          - otp-version: 27
+            elixir-version: 1.19
+            rebar3-version: 3.24
             os: macos-latest
     steps:
       - uses: actions/checkout@v4.2.2

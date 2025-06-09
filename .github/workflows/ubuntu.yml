@@ -145,10 +145,10 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          - otp-version: latest
-            elixir-version: latest
-            gleam-version: latest
-            rebar3-version: nightly
+          - otp-version: 27
+            elixir-version: 1.19
+            gleam-version: 1.10
+            rebar3-version: 3.24
             os: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.2
