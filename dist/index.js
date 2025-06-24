@@ -26486,17 +26486,33 @@ function getRunnerOSVersion() {
     macos14: 'macOS-14',
     macos15: 'macOS-15',
   }
+  const deprecatedImageOSToContainer = {
+    ubuntu18: 'ubuntu-18.04',
+    ubuntu20: 'ubuntu-20.04',
+  }
   const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
   if (!containerFromEnvImageOS) {
-    throw new Error(
-      "Tried to map a target OS from env. variable 'ImageOS' (got " +
-        `${process.env.ImageOS}` +
-        "), but failed. If you're using a " +
-        "self-hosted runner, you should set 'env': 'ImageOS': ... to one of the following: " +
-        "['" +
-        `${Object.keys(ImageOSToContainer).join("', '")}` +
-        "']",
-    )
+    const deprecatedContainerFromEnvImageOS =
+      deprecatedImageOSToContainer[process.env.ImageOS]
+    if (deprecatedContainerFromEnvImageOS) {
+      core.warning(
+        `You are using deprecated ImageOS ${deprecatedContainerFromEnvImageOS}. ` +
+          'Support for maintenance is very limited. Consider a non-deprecated version as ' +
+          'mentioned in the README.md.',
+      )
+
+      return deprecatedContainerFromEnvImageOS
+    } else {
+      throw new Error(
+        "Tried to map a target OS from env. variable 'ImageOS' (got " +
+          `${process.env.ImageOS}` +
+          "), but failed. If you're using a " +
+          "self-hosted runner, you should set 'env': 'ImageOS': ... to one of the following: " +
+          "['" +
+          `${Object.keys(ImageOSToContainer).join("', '")}` +
+          "']",
+      )
+    }
   }
 
   return containerFromEnvImageOS
