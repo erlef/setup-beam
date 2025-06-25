@@ -448,6 +448,7 @@ function validVersion(v) {
     v.match(
       new RegExp(`${knownBranches.join('|')}|${nonSpecificVersions.join('|')}`),
     ) == null &&
+    // these ones are for rebar3, which has alpha and beta releases
     !v.startsWith('a') &&
     !v.startsWith('b')
   )
