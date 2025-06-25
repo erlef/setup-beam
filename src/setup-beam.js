@@ -475,7 +475,12 @@ function getVersionFromSpec(spec0, versions0) {
   const altVersions = {}
   Object.entries(versions0).forEach(([version, altVersion]) => {
     let coerced
-    if (isStrictVersion() || isRC(version)) {
+    if (
+      isStrictVersion() ||
+      isRC(version) ||
+      isKnownBranch(version) ||
+      isKnownVerBranch(version)
+    ) {
       // If `version-type: strict` or version is RC, we just try to remove a potential initial v
       coerced = maybeRemoveVPrefix(version)
     } else {
