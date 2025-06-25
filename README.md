@@ -53,21 +53,25 @@ end up being parsed as `23`, which is not equivalent.
 
 #### Pre-release versions
 
-For pre-release versions, such as `v1.11.0-rc.0`, use the full version
-specifier (`v1.11.0-rc.0`) and set option `version-type` to `strict`. Pre-release versions are
-opt-in (unless you're using `latest`), so `1.11.x` will not match a pre-release.
+To use a pre-release version such as `v1.11.0-rc.0`, specify the exact version
+(`v1.11.0-rc.0`) and set `version-type` to `strict`.
+Note that pre-release versions are opt-in by default.
+Patterns like `1.11.x` do not include pre-release versions unless `latest` is specified.
 
 #### "Latest" versions
 
-Set a tool's version to `latest` to retrieve the latest version of a given tool; this includes
-release candidates. If you want to exclude release candidates, but still target the latest "stable"
-release, use a range such as `> 0`.
-The latest version is (locally) calculated by the action based on the (retrieved) versions
-it knows (**note**: it is not the same as [GitHub considers it](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
-and some repositories might propose).
+To retrieve the most recent available version of a tool, set the version to `latest`.
+This may include pre-release versions such as release candidates.
 
-If in doubt do a test run and compare the obtained release with the one you were expecting to
-be the latest.
+If you want to target only the latest stable release and exclude pre-releases, use a
+version range like `> 0` instead.
+
+Note that the `latest` version is determined locally by the action based on the versions it
+has retrieved. This may differ from how [GitHub defines "latest"](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository),
+and some repositories may present different interpretations.
+
+If you're unsure, perform a test run and compare the resolved version against the version you
+expect to be considered the latest.
 
 ### Compatibility between Operating System and Erlang/OTP
 
