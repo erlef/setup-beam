@@ -493,9 +493,14 @@ function getVersionFromSpec(spec0, versions0) {
   const rangeMax = semver.maxSatisfying(versions, rangeForMax)
   let version = null
 
-  if (isStrictVersion() || isRC(spec0) || isKnownBranch(spec0)) {
+  if (
+    isStrictVersion() ||
+    isRC(spec0) ||
+    isKnownBranch(spec0) ||
+    isKnownVerBranch(spec0)
+  ) {
     if (versions0[spec]) {
-      // If `version-type: strict` or version is RC, we obtain it directly
+      // We obtain it directly
       version = versions0[spec]
     }
   } else if (spec0 === 'latest') {
