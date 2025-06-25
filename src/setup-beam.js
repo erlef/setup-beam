@@ -718,7 +718,7 @@ function xyzAbcVersion(pref, suf) {
   // https://www.erlang.org/doc/system_principles/versions.html
   const dd = '\\.?(\\d+)?'
   return new RegExp(
-    `${pref}v?(\\d+)${dd}${dd}${dd}${dd}${dd}(?:-rc\\.?\\d+)?(?:-otp-\\d+)?${suf}`,
+    `${pref}(?:OTP-)?v?(\\d+)${dd}${dd}${dd}${dd}${dd}(?:-rc\\.?\\d+)?(?:-otp-\\d+)?${suf}`,
   )
 }
 
