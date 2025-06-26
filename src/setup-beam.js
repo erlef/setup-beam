@@ -448,6 +448,7 @@ function validVersion(v) {
     v.match(
       new RegExp(`${knownBranches.join('|')}|${nonSpecificVersions.join('|')}`),
     ) == null &&
+    // these ones are for rebar3, which has alpha and beta releases
     !v.startsWith('a') &&
     !v.startsWith('b')
   )
@@ -474,7 +475,12 @@ function getVersionFromSpec(spec0, versions0) {
   const altVersions = {}
   Object.entries(versions0).forEach(([version, altVersion]) => {
     let coerced
-    if (isStrictVersion() || isRC(version)) {
+    if (
+      isStrictVersion() ||
+      isRC(version) ||
+      isKnownBranch(version) ||
+      isKnownVerBranch(version)
+    ) {
       // If `version-type: strict` or version is RC, we just try to remove a potential initial v
       coerced = maybeRemoveVPrefix(version)
     } else {
@@ -492,9 +498,14 @@ function getVersionFromSpec(spec0, versions0) {
   const rangeMax = semver.maxSatisfying(versions, rangeForMax)
   let version = null
 
-  if (isStrictVersion() || isRC(spec0) || isKnownBranch(spec0)) {
+  if (
+    isStrictVersion() ||
+    isRC(spec0) ||
+    isKnownBranch(spec0) ||
+    isKnownVerBranch(spec0)
+  ) {
     if (versions0[spec]) {
-      // If `version-type: strict` or version is RC, we obtain it directly
+      // We obtain it directly
       version = versions0[spec]
     }
   } else if (spec0 === 'latest') {
@@ -717,7 +728,7 @@ function xyzAbcVersion(pref, suf) {
   // https://www.erlang.org/doc/system_principles/versions.html
   const dd = '\\.?(\\d+)?'
   return new RegExp(
-    `${pref}v?(\\d+)${dd}${dd}${dd}${dd}${dd}(?:-rc\\.?\\d+)?(?:-otp-\\d+)?${suf}`,
+    `${pref}(?:OTP-)?v?(\\d+)${dd}${dd}${dd}${dd}${dd}(?:-rc\\.?\\d+)?(?:-otp-\\d+)?${suf}`,
   )
 }
 

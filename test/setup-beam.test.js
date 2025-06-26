@@ -875,9 +875,29 @@ describe('.getVersionFromSpec(_)', () => {
     got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-20.04'])
     assert.deepStrictEqual(got, expected)
 
+    spec = 'maint-24'
+    expected = 'maint-24'
+    got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
+    assert.deepStrictEqual(got, expected)
+
+    spec = '> 0'
+    expected = 'OTP-26.2.5'
+    got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
+    assert.deepStrictEqual(got, expected)
+
     spec = 'latest'
     expected = 'OTP-27.0-rc3'
     got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
+    assert.deepStrictEqual(got, expected)
+
+    spec = 'maint-26'
+    expected = 'maint-26'
+    got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
+    assert.deepStrictEqual(got, expected)
+
+    spec = '> 0'
+    expected = 'OTP-27.0'
+    got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-24.04'])
     assert.deepStrictEqual(got, expected)
 
     spec = 'latest'
