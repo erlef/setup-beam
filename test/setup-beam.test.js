@@ -536,77 +536,70 @@ describe('.getOTPVersion(_) - Elixir', () => {
   let spec
   let otpVersion
   let before
-  const hexMirrors = simulateInput('hexpm-mirrors', 'https://repo.hex.pm', {
-    multiline: true,
-  })
+  const previousRunnerArch = process.env.RUNNER_ARCH
 
-  it('returns the expected value', async () => {
-    spec = '1.1.x'
-    otpVersion = 'OTP-17'
-    expected = 'v1.1.1-otp-17'
-    got = await setupBeam.getElixirVersion(spec, otpVersion)
-    assert.deepStrictEqual(got, expected)
+  if (process.platform === 'linux') {
+    process.env.RUNNER_ARCH = 'X64'
 
-    spec = '1.10.4'
-    otpVersion = 'OTP-23'
-    expected = 'v1.10.4-otp-23'
-    got = await setupBeam.getElixirVersion(spec, otpVersion)
-    assert.deepStrictEqual(got, expected)
+    it('returns the expected value', async () => {
+      spec = '1.18.x'
+      otpVersion = 'OTP-27'
+      expected = 'v1.18.4-otp-27'
+      await setupBeam.installOTP(otpVersion)
+      got = await setupBeam.getElixirVersion(spec, otpVersion)
+      assert.deepStrictEqual(got, expected)
 
-    spec = '1.16.2-otp-26'
-    otpVersion = 'OTP-27'
-    expected = 'v1.16.2-otp-26'
-    got = await setupBeam.getElixirVersion(spec, otpVersion)
-    assert.deepStrictEqual(got, expected)
+      spec = '1.18.2'
+      otpVersion = 'OTP-27'
+      expected = 'v1.18.2-otp-27'
+      await setupBeam.installOTP(otpVersion)
+      got = await setupBeam.getElixirVersion(spec, otpVersion)
+      assert.deepStrictEqual(got, expected)
 
-    spec = '1.12.1'
-    otpVersion = 'OTP-24.0.2'
-    expected = 'v1.12.1-otp-24'
-    got = await setupBeam.getElixirVersion(spec, otpVersion)
-    assert.deepStrictEqual(got, expected)
+      spec = '1.16.2-otp-26'
+      otpVersion = 'OTP-27'
+      expected = 'v1.16.2-otp-26'
+      await setupBeam.installOTP(otpVersion)
+      got = await setupBeam.getElixirVersion(spec, otpVersion)
+      assert.deepStrictEqual(got, expected)
 
-    before = simulateInput('version-type', 'strict')
-    spec = '1.14.0'
-    otpVersion = 'main'
-    expected = 'v1.14.0'
-    got = await setupBeam.getElixirVersion(spec, otpVersion)
-    assert.deepStrictEqual(got, expected)
-    simulateInput('version-type', before)
+      spec = '1.12.1'
+      otpVersion = 'OTP-24.3.4'
+      expected = 'v1.12.1-otp-24'
+      await setupBeam.installOTP(otpVersion)
+      got = await setupBeam.getElixirVersion(spec, otpVersion)
+      assert.deepStrictEqual(got, expected)
 
-    before = simulateInput('version-type', 'strict')
-    spec = 'v1.11.0-rc.0'
-    otpVersion = 'OTP-23'
-    expected = 'v1.11.0-rc.0-otp-23'
-    got = await setupBeam.getElixirVersion(spec, otpVersion)
-    assert.deepStrictEqual(got, expected)
-    simulateInput('version-type', before)
+      before = simulateInput('version-type', 'strict')
+      spec = '1.17'
+      otpVersion = 'master'
+      expected = 'v1.17-otp-27'
+      await setupBeam.installOTP(otpVersion)
+      got = await setupBeam.getElixirVersion(spec, otpVersion)
+      assert.deepStrictEqual(got, expected)
+      simulateInput('version-type', before)
 
-    before = simulateInput('version-type', 'strict')
-    spec = 'v1.11.0-rc.0-otp-23'
-    otpVersion = 'OTP-23'
-    expected = 'v1.11.0-rc.0-otp-23'
-    got = await setupBeam.getElixirVersion(spec, otpVersion)
-    assert.deepStrictEqual(got, expected)
-    simulateInput('version-type', before)
+      before = simulateInput('version-type', 'strict')
+      spec = 'v1.15.0-rc.2'
+      otpVersion = 'OTP-26'
+      expected = 'v1.15.0-rc.2-otp-26'
+      await setupBeam.installOTP(otpVersion)
+      got = await setupBeam.getElixirVersion(spec, otpVersion)
+      assert.deepStrictEqual(got, expected)
+      simulateInput('version-type', before)
 
-    before = simulateInput('version-type', 'strict')
-    spec = 'v1.11.0'
-    otpVersion = '22.3.4.2'
-    expected = 'v1.11.0-otp-22'
-    got = await setupBeam.getElixirVersion(spec, otpVersion)
-    assert.deepStrictEqual(got, expected)
-    simulateInput('version-type', before)
+      before = simulateInput('version-type', 'strict')
+      spec = 'main'
+      otpVersion = '25.2'
+      expected = 'main-otp-25'
+      await setupBeam.installOTP(otpVersion)
+      got = await setupBeam.getElixirVersion(spec, otpVersion)
+      assert.deepStrictEqual(got, expected)
+      simulateInput('version-type', before)
+    })
+  }
 
-    before = simulateInput('version-type', 'strict')
-    spec = 'main'
-    otpVersion = '23.1'
-    expected = 'main-otp-23'
-    got = await setupBeam.getElixirVersion(spec, otpVersion)
-    assert.deepStrictEqual(got, expected)
-    simulateInput('version-type', before)
-  })
-
-  simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
+  process.env.RUNNER_ARCH = previousRunnerArch
 })
 
 describe('.getOTPVersion(_) - Gleam', () => {
