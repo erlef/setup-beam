@@ -10,9 +10,11 @@ const _ = require('lodash')
 
 const MAX_HTTP_RETRIES = 3
 
-main().catch((err) => {
-  core.setFailed(err.message)
-})
+if (process.env.NODE_ENV !== 'test') {
+  main().catch((err) => {
+    core.setFailed(err.message)
+  })
+}
 
 async function main() {
   checkOtpArchitecture()
@@ -1198,13 +1200,17 @@ function debugLoggingEnabled() {
 
 module.exports = {
   get,
-  getOTPVersion,
   getElixirVersion,
   getGleamVersion,
+  getOTPVersion,
   getRebar3Version,
   getVersionFromSpec,
   githubAMDRunnerArchs,
   githubARMRunnerArchs,
   install,
+  installOTP,
+  maybeInstallElixir,
+  maybeInstallGleam,
+  maybeInstallRebar3,
   parseVersionFile,
 }

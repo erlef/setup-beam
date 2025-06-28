@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test'
+
 simulateInput('otp-version', '25.1.2')
 simulateInput('otp-architecture', '64')
 simulateInput('elixir-version', '1.14.2')
