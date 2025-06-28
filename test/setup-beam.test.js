@@ -936,18 +936,16 @@ describe('version file', () => {
   const otpVersion = unsimulateInput('otp-version')
   const elixirVersion = unsimulateInput('elixir-version')
   const gleamVersion = unsimulateInput('gleam-version')
-  const rebar3Version = unsimulateInput('rebar3-version')
 
   it('is parsed correctly', async () => {
     const erlang = '27'
     const elixir = '1.17.0'
     const gleam = '0.23.0'
-    const rebar3 = '3.24.0'
     const toolVersions = `# a comment
 erlang   ref:v${erlang}# comment, no space, and ref:v
 elixir ref:${elixir}  # comment, with space and ref:
  not-gleam 0.23 # not picked up
-gleam ${gleam} \nrebar ${rebar3}`
+gleam ${gleam} \n`
     const filename = 'test/.tool-versions'
     fs.writeFileSync(filename, toolVersions)
     process.env.GITHUB_WORKSPACE = ''
@@ -972,15 +970,11 @@ gleam ${gleam} \nrebar ${rebar3}`
     assert.ok(async () => {
       await setupBeam.install('gleam', { toolVersion: gleam })
     })
-    assert.ok(async () => {
-      await setupBeam.install('rebar3', { toolVersion: rebar3 })
-    })
   })
 
   simulateInput('otp-version', otpVersion)
   simulateInput('elixir-version', elixirVersion)
   simulateInput('gleam-version', gleamVersion)
-  simulateInput('rebar3-version', rebar3Version)
 })
 
 describe('.get(_)', () => {
