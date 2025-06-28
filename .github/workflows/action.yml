@@ -76,6 +76,7 @@ jobs:
         uses: ./
         with:
           install-rebar: false
+          install-hex: false
           version-file: test/.tool-versions
           version-type: strict
 
