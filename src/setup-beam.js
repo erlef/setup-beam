@@ -10,9 +10,11 @@ const _ = require('lodash')
 
 const MAX_HTTP_RETRIES = 3
 
-main().catch((err) => {
-  core.setFailed(err.message)
-})
+if (process.env.NODE_ENV !== 'test') {
+  main().catch((err) => {
+    core.setFailed(err.message)
+  })
+}
 
 async function main() {
   checkOtpArchitecture()
@@ -28,15 +30,14 @@ async function main() {
     versions = parseVersionFile(versionFilePath)
   }
 
-  const osVersion = getRunnerOSVersion()
   const otpSpec = getInput('otp-version', true, 'erlang', versions)
   const elixirSpec = getInput('elixir-version', false, 'elixir', versions)
   const gleamSpec = getInput('gleam-version', false, 'gleam', versions)
   const rebar3Spec = getInput('rebar3-version', false, 'rebar', versions)
 
   if (otpSpec !== 'false') {
-    await installOTP(otpSpec, osVersion)
-    const elixirInstalled = await maybeInstallElixir(elixirSpec, otpSpec)
+    await installOTP(otpSpec)
+    const elixirInstalled = await maybeInstallElixir(elixirSpec)
     if (elixirInstalled === true) {
       const shouldMixRebar = getInput('install-rebar', false)
       await mix(shouldMixRebar, 'rebar')
@@ -56,7 +57,8 @@ async function main() {
   core.setOutput('setup-beam-version', setupBeamVersion)
 }
 
-async function installOTP(otpSpec, osVersion) {
+async function installOTP(otpSpec) {
+  const osVersion = getRunnerOSVersion()
   const otpVersion = await getOTPVersion(otpSpec, osVersion)
   core.startGroup(
     `Installing Erlang/OTP ${otpVersion} - built on ${getRunnerOSArchitecture()}/${osVersion}`,
@@ -78,10 +80,10 @@ async function installOTP(otpSpec, osVersion) {
   return otpVersion
 }
 
-async function maybeInstallElixir(elixirSpec, otpSpec) {
+async function maybeInstallElixir(elixirSpec) {
   let installed = false
   if (elixirSpec) {
-    const elixirVersion = await getElixirVersion(elixirSpec, otpSpec)
+    const elixirVersion = await getElixirVersion(elixirSpec)
     core.startGroup(`Installing Elixir ${elixirVersion}`)
     await doWithMirrors({
       hexMirrors: hexMirrorsInput(),
@@ -195,16 +197,30 @@ function requestedVersionFor(tool, version, originListing, mirrors) {
 const knownBranches = ['main', 'master', 'maint']
 const nonSpecificVersions = ['nightly', 'latest']
 
-async function getElixirVersion(exSpec0, otpVersion0) {
-  const otpVersion = otpVersion0.match(/^(?:OTP-)?(.+)$/)[1]
-  const regex = `^(\\d{1,3}|${knownBranches.join('|')}|${nonSpecificVersions.join('|')})?.*$`
-  let otpVersionMajor = otpVersion.match(new RegExp(regex))[1]
-
+async function getElixirVersion(exSpec0) {
   const otpSuffix = /-otp-(\d+)/
   const userSuppliedOtp = exSpec0.match(otpSuffix)?.[1] ?? null
+  let otpVersionMajor = ''
 
   if (userSuppliedOtp && isVersion(userSuppliedOtp)) {
     otpVersionMajor = userSuppliedOtp
+  } else {
+    let cmd = 'erl'
+    if (process.platform === 'win32') {
+      cmd = 'erl.exe'
+    }
+    const args = [
+      '-noshell',
+      '-eval',
+      'io:format(erlang:system_info(otp_release)), halt().',
+    ]
+    await exec(cmd, args, {
+      listeners: {
+        stdout: (data) => {
+          otpVersionMajor = data.toString()
+        },
+      },
+    })
   }
 
   const [otpVersionsForElixirMap, elixirVersions, originListing, hexMirrors] =
@@ -219,17 +235,29 @@ async function getElixirVersion(exSpec0, otpVersion0) {
     )
   }
 
-  const elixirVersionComp = otpVersionsForElixirMap[elixirVersionFromSpec]
-  if (
-    (elixirVersionComp && elixirVersionComp.includes(otpVersionMajor)) ||
-    !isVersion(otpVersionMajor)
-  ) {
-    core.info(
-      `Using Elixir ${elixirVersionFromSpec} (built for Erlang/OTP ${otpVersionMajor})`,
-    )
-  } else {
+  let foundCombo = false
+  let otpVersionMajorIter = parseInt(otpVersionMajor)
+  let otpVersionsMajor = []
+  while (otpVersionMajorIter > otpVersionMajor - 3) {
+    otpVersionMajorIter += ''
+    otpVersionsMajor.push(otpVersionMajorIter)
+    const elixirVersionComp = otpVersionsForElixirMap[elixirVersionFromSpec]
+    if (
+      (elixirVersionComp && elixirVersionComp.includes(otpVersionMajorIter)) ||
+      !isVersion(otpVersionMajorIter)
+    ) {
+      core.info(
+        `Using Elixir ${elixirVersionFromSpec} (built for Erlang/OTP ${otpVersionMajorIter})`,
+      )
+      foundCombo = true
+      break
+    }
+    otpVersionMajorIter = parseInt(otpVersionMajorIter) - 1
+  }
+
+  if (!foundCombo) {
     throw new Error(
-      `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion0}) not ` +
+      `Requested Elixir / Erlang/OTP version (${exSpec0} / tried ${otpVersionsMajor}) not ` +
         'found in version list (did you check Compatibility between Elixir and Erlang/OTP?).' +
         'Elixir and Erlang/OTP compatibility can be found at: ' +
         'https://hexdocs.pm/elixir/compatibility-and-deprecations.html',
@@ -238,8 +266,8 @@ async function getElixirVersion(exSpec0, otpVersion0) {
 
   let elixirVersionForDownload = elixirVersionFromSpec
 
-  if (isVersion(otpVersionMajor)) {
-    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajor}`
+  if (isVersion(otpVersionMajorIter)) {
+    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajorIter}`
   }
 
   return maybePrependWithV(elixirVersionForDownload)
@@ -1198,13 +1226,17 @@ function debugLoggingEnabled() {
 
 module.exports = {
   get,
-  getOTPVersion,
   getElixirVersion,
   getGleamVersion,
+  getOTPVersion,
   getRebar3Version,
   getVersionFromSpec,
   githubAMDRunnerArchs,
   githubARMRunnerArchs,
   install,
+  installOTP,
+  maybeInstallElixir,
+  maybeInstallGleam,
+  maybeInstallRebar3,
   parseVersionFile,
 }
