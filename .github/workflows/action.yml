@@ -90,6 +90,14 @@ jobs:
           node-version: '20'
       - run: npm install --production
       - run: npm test
+      - name: .tool-versions test
+        id: setup-beam
+        uses: ./
+        with:
+          install-rebar: false
+          install-hex: false
+          version-file: test/.tool-versions
+          version-type: strict
 
   unit_tests_macos:
     name: Unit tests (macOS)

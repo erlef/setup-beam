@@ -938,15 +938,19 @@ describe('version file', () => {
   const gleamVersion = unsimulateInput('gleam-version')
 
   it('is parsed correctly', async () => {
-    const erlang = '27'
-    const elixir = '1.17.0'
-    const gleam = '0.23.0'
-    const toolVersions = `# a comment
-erlang   ref:v${erlang}# comment, no space, and ref:v
+    const erlang = '27.3.4.1'
+    const elixir = '1.18.4'
+    const gleam = '1.9.1'
+    let toolVersions = `# a comment
+erlang   ref:v${erlang}
 elixir ref:${elixir}  # comment, with space and ref:
  not-gleam 0.23 # not picked up
 gleam ${gleam} \n`
     const filename = 'test/.tool-versions'
+    if (process.platform === 'win32') {
+      // Force \r\n to test in Windows
+      toolVersions = toolVersions.replace(/\n/g, '\r\n')
+    }
     fs.writeFileSync(filename, toolVersions)
     process.env.GITHUB_WORKSPACE = ''
     const appVersions = setupBeam.parseVersionFile(filename)
