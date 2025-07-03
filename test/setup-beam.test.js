@@ -180,7 +180,7 @@ describe('.getOTPVersion(_) - Erlang', () => {
 
     it('is Ok for known linux version', async () => {
       before = simulateInput('version-type', 'strict')
-      spec = '26'
+      spec = 'maint-26'
       osVersion = 'ubuntu-24.04'
       expected = 'maint-26'
       got = await setupBeam.getOTPVersion(spec, osVersion)
@@ -317,7 +317,7 @@ describe('.getOTPVersion(_) - Erlang', () => {
         arm64Options[Math.floor(Math.random() * arm64Options.length)]
 
       before = simulateInput('version-type', 'strict')
-      spec = '26'
+      spec = 'maint-26'
       osVersion = 'ubuntu-24.04'
       expected = 'maint-26'
       got = await setupBeam.getOTPVersion(spec, osVersion)
@@ -389,7 +389,7 @@ describe('.getOTPVersion(_) - Erlang', () => {
         amd64Options[Math.floor(Math.random() * amd64Options.length)]
 
       before = simulateInput('version-type', 'strict')
-      spec = '26'
+      spec = 'maint-26'
       osVersion = 'ubuntu-24.04'
       expected = 'maint-26'
       got = await setupBeam.getOTPVersion(spec, osVersion)
@@ -590,7 +590,7 @@ describe('.getOTPVersion(_) - Elixir', () => {
 
       before = simulateInput('version-type', 'strict')
       spec = 'v1.15.0-rc.2'
-      otpVersion = 'OTP-26'
+      otpVersion = 'OTP-26.0'
       expected = 'v1.15.0-rc.2-otp-26'
       await setupBeam.installOTP(otpVersion)
       got = await setupBeam.getElixirVersion(spec, otpVersion)
