@@ -26680,7 +26680,7 @@ function parseVersionFile(versionFilePath0) {
   // For the time being we parse .tool-versions
   // If we ever start parsing something else, this should
   // become default in a new option named e.g. version-file-type
-  versions.split('\n').forEach((line) => {
+  versions.split(/\r?\n/).forEach((line) => {
     const appVersion = line.match(/^([^ ]+)[ ]+(ref:v?)?([^ #]+)/)
     if (appVersion) {
       const app = appVersion[1]
