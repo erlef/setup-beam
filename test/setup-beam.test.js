@@ -624,6 +624,12 @@ describe('.getOTPVersion(_) - Gleam', () => {
     got = await setupBeam.getGleamVersion(spec, otpVersion)
     assert.deepStrictEqual(got, expected)
 
+    spec = 'nightly'
+    otpVersion = '28'
+    expected = 'nightly'
+    got = await setupBeam.getGleamVersion(spec, otpVersion)
+    assert.deepStrictEqual(got, expected)
+
     spec = '0.13.2'
     otpVersion = 'OTP-24'
     expected = 'v0.13.2'
