@@ -77,7 +77,7 @@ describe('OTP install', () => {
     const otpOSVersion = 'ubuntu-08.04'
     const otpVersion = 'OTP-23.2'
 
-    assert.rejects(
+    await assert.rejects(
       async () => {
         await setupBeam.install('otp', {
           hexMirror: 'https://builds.hex.pm',
@@ -97,7 +97,7 @@ describe('OTP install', () => {
 describe('Elixir install', () => {
   it('fails for version 0.11 without OTP', async () => {
     const exVersion = '0.11'
-    assert.rejects(
+    await assert.rejects(
       async () => {
         await setupBeam.install('elixir', {
           hexMirror: 'https://builds.hex.pm',
@@ -114,7 +114,7 @@ describe('Elixir install', () => {
 
   it('fails for version 1.0.0 on OTP 17 (without OTP)', async () => {
     const exVersion = 'v1.0.0-otp-17'
-    assert.rejects(
+    await assert.rejects(
       async () => {
         await setupBeam.install('elixir', {
           hexMirror: 'https://builds.hex.pm',
@@ -133,7 +133,7 @@ describe('Elixir install', () => {
 describe('Gleam install', () => {
   it('fails for unknown OTP', async () => {
     const gleamVersion = '0.1.3'
-    assert.rejects(
+    await assert.rejects(
       async () => {
         await setupBeam.install('gleam', { gleamVersion })
       },
@@ -149,7 +149,7 @@ describe('Gleam install', () => {
 describe('rebar3 install', () => {
   it('fails for unknown OTP', async () => {
     const r3Version = '0.14.4'
-    assert.rejects(
+    await assert.rejects(
       async () => {
         await setupBeam.install('rebar3', { r3Version })
       },
@@ -493,7 +493,7 @@ describe('OTP arch-specific install', () => {
       const spec = '26'
       const osVersion = 'ubuntu-24.04'
 
-      assert.rejects(
+      await assert.rejects(
         async () => {
           await setupBeam.getOTPVersion(spec, osVersion)
         },
