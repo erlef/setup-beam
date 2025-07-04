@@ -303,6 +303,41 @@ describe('.getOTPVersion(_) - Erlang', () => {
   }
 
   if (process.platform === 'linux') {
+    it('is main-... only if strict/maint-... is used as input', async () => {
+      const arm64Options = setupBeam.githubARMRunnerArchs()
+      process.env.RUNNER_ARCH =
+        arm64Options[Math.floor(Math.random() * arm64Options.length)]
+
+      before = simulateInput('version-type', 'strict')
+      await assert.rejects(
+        async () => {
+          await setupBeam.getOTPVersion('27', 'ubuntu-24.04')
+        },
+        (err) => {
+          assert.ok(err instanceof Error)
+          return true
+        },
+        `Fetching strict OTP version maint-<v> with input <v> is supposed to fail`,
+      )
+      simulateInput('version-type', before)
+
+      before = simulateInput('version-type', 'strict')
+      assert.strictEqual(
+        await setupBeam.getOTPVersion('maint-27', 'ubuntu-24.04'),
+        'maint-27',
+      )
+      simulateInput('version-type', before)
+
+      before = simulateInput('version-type', 'loose')
+      assert.strictEqual(
+        await setupBeam.getOTPVersion('maint-27', 'ubuntu-24.04'),
+        'maint-27',
+      )
+      simulateInput('version-type', before)
+
+      process.env.RUNNER_ARCH = previousRunnerArch
+    })
+
     it('is Ok for known linux ARM64 version', async () => {
       const arm64Options = setupBeam.githubARMRunnerArchs()
       process.env.RUNNER_ARCH =
@@ -451,6 +486,35 @@ describe('.getOTPVersion(_) - Erlang', () => {
   }
 
   if (process.platform === 'darwin') {
+    it('is main-... only if strict/maint-... is used as input', async () => {
+      const arm64Options = setupBeam.githubARMRunnerArchs()
+      process.env.RUNNER_ARCH =
+        arm64Options[Math.floor(Math.random() * arm64Options.length)]
+
+      before = simulateInput('version-type', 'strict')
+      await assert.rejects(
+        async () => {
+          await setupBeam.getOTPVersion('27')
+        },
+        (err) => {
+          assert.ok(err instanceof Error)
+          return true
+        },
+        `Fetching strict OTP version maint-<v> with input <v> is supposed to fail`,
+      )
+      simulateInput('version-type', before)
+
+      before = simulateInput('version-type', 'strict')
+      assert.strictEqual(await setupBeam.getOTPVersion('maint-27'), 'maint-27')
+      simulateInput('version-type', before)
+
+      before = simulateInput('version-type', 'loose')
+      assert.strictEqual(await setupBeam.getOTPVersion('maint-27'), 'maint-27')
+      simulateInput('version-type', before)
+
+      process.env.RUNNER_ARCH = previousRunnerArch
+    })
+
     it('is Ok for known macos ARM64 version', async () => {
       const arm64Options = setupBeam.githubARMRunnerArchs()
       process.env.RUNNER_ARCH =
