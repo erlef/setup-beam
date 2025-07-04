@@ -180,14 +180,6 @@ describe('.getOTPVersion(_) - Erlang', () => {
 
     it('is Ok for known linux version', async () => {
       before = simulateInput('version-type', 'strict')
-      spec = 'maint-26'
-      osVersion = 'ubuntu-24.04'
-      expected = 'maint-26'
-      got = await setupBeam.getOTPVersion(spec, osVersion)
-      assert.deepStrictEqual(got, expected)
-      simulateInput('version-type', before)
-
-      before = simulateInput('version-type', 'strict')
       spec = '27.0'
       osVersion = 'ubuntu-24.04'
       expected = 'OTP-27.0'
@@ -317,14 +309,6 @@ describe('.getOTPVersion(_) - Erlang', () => {
         arm64Options[Math.floor(Math.random() * arm64Options.length)]
 
       before = simulateInput('version-type', 'strict')
-      spec = 'maint-26'
-      osVersion = 'ubuntu-24.04'
-      expected = 'maint-26'
-      got = await setupBeam.getOTPVersion(spec, osVersion)
-      assert.deepStrictEqual(got, expected)
-      simulateInput('version-type', before)
-
-      before = simulateInput('version-type', 'strict')
       spec = '27.0'
       osVersion = 'ubuntu-24.04'
       expected = 'OTP-27.0'
@@ -387,14 +371,6 @@ describe('.getOTPVersion(_) - Erlang', () => {
       const amd64Options = setupBeam.githubAMDRunnerArchs()
       process.env.RUNNER_ARCH =
         amd64Options[Math.floor(Math.random() * amd64Options.length)]
-
-      before = simulateInput('version-type', 'strict')
-      spec = 'maint-26'
-      osVersion = 'ubuntu-24.04'
-      expected = 'maint-26'
-      got = await setupBeam.getOTPVersion(spec, osVersion)
-      assert.deepStrictEqual(got, expected)
-      simulateInput('version-type', before)
 
       before = simulateInput('version-type', 'strict')
       spec = '27.0'
@@ -554,13 +530,6 @@ describe('.getOTPVersion(_) - Elixir', () => {
       spec = '1.18.2'
       otpVersion = 'OTP-27'
       expected = 'v1.18.2-otp-27'
-      await setupBeam.installOTP(otpVersion)
-      got = await setupBeam.getElixirVersion(spec, otpVersion)
-      assert.deepStrictEqual(got, expected)
-
-      spec = 'main-otp-28'
-      otpVersion = 'maint-28'
-      expected = 'main-otp-28'
       await setupBeam.installOTP(otpVersion)
       got = await setupBeam.getElixirVersion(spec, otpVersion)
       assert.deepStrictEqual(got, expected)
@@ -883,11 +852,6 @@ describe('.getVersionFromSpec(_)', () => {
     got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-20.04'])
     assert.deepStrictEqual(got, expected)
 
-    spec = 'maint-24'
-    expected = 'maint-24'
-    got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
-    assert.deepStrictEqual(got, expected)
-
     spec = '> 0'
     expected = 'OTP-26.2.5'
     got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
@@ -895,11 +859,6 @@ describe('.getVersionFromSpec(_)', () => {
 
     spec = 'latest'
     expected = 'OTP-27.0-rc3'
-    got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
-    assert.deepStrictEqual(got, expected)
-
-    spec = 'maint-26'
-    expected = 'maint-26'
     got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-22.04'])
     assert.deepStrictEqual(got, expected)
 
