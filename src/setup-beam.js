@@ -1169,6 +1169,7 @@ async function installTool(opts) {
   if (cachePath === '') {
     core.debug("  ... it isn't!")
     const downloadToolURL = platformOpts.downloadToolURL(versionSpec)
+    core.info(`Downloading ${downloadToolURL}`)
     const file = await tc.downloadTool(downloadToolURL)
     const [targetElemType, targetElem] = await platformOpts.extract(file)
 
