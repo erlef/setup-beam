@@ -170,10 +170,14 @@ async function maybeInstallRebar3(rebar3Spec) {
   return installed
 }
 
+function maybeRemoveOTPPrefix(otpSpec) {
+  return otpSpec.replace(/^OTP-/, '')
+}
+
 async function getOTPVersion(otpSpec0, osVersion) {
   const [otpVersions, originListing, hexMirrors] =
     await getOTPVersions(osVersion)
-  let spec = otpSpec0.replace(/^OTP-/, '')
+  let spec = maybeRemoveOTPPrefix(otpSpec0)
   const versions = otpVersions
   const otpVersion = getVersionFromSpec(spec, versions)
 
@@ -349,12 +353,9 @@ async function getOTPVersions(osVersion) {
       .trim()
       .split('\n')
       .forEach((line) => {
-        const otpMatch = line
-          .match(/^([^ ]+)?( .+)/)[1]
-          .match(/^([^-]+-)?(.+)$/)
-        const otpVersion = otpMatch[2]
-        const otpVersionOrig = otpMatch[0]
-        debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
+        const otpVersionOrig = line.match(/^([^ ]+)?( .+)/)[1]
+        const otpVersion = maybeRemoveOTPPrefix(otpVersionOrig)
+        debugLog('OTP line and parsing', [line, otpVersion, otpVersionOrig])
         otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
@@ -368,10 +369,10 @@ async function getOTPVersions(osVersion) {
         .flat()
         .filter((x) => x.name.match(file_regex))
         .forEach((x) => {
-          const otpMatch = x.name.match(file_regex)
-          const otpVersion = otpMatch[1]
-          debugLog('OTP line and parsing', [otpMatch, otpVersion])
-          otpVersions[otpVersion] = otpVersion
+          const otpVersionOrig = x.name.match(file_regex)[1]
+          const otpVersion = otpVersionOrig
+          debugLog('OTP line and parsing', [x.name, otpVersion, otpVersionOrig])
+          otpVersions[otpVersion] = otpVersionOrig
         })
     })
   } else if (process.platform === 'darwin') {
@@ -380,10 +381,9 @@ async function getOTPVersions(osVersion) {
         columns: true,
       })
       .forEach((line) => {
-        const otpMatch = line.ref_name.match(/^([^-]+-)?(.+)$/)
-        const otpVersion = otpMatch[2]
-        const otpVersionOrig = otpMatch[0]
-        debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
+        const otpVersionOrig = line.ref_name
+        const otpVersion = maybeRemoveOTPPrefix(otpVersionOrig)
+        debugLog('OTP line and parsing', [line, otpVersion, otpVersionOrig])
         otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
       })
   }
@@ -509,7 +509,8 @@ function getVersionFromSpec(spec0, versions0) {
       isKnownBranch(version) ||
       isKnownVerBranch(version)
     ) {
-      // If `version-type: strict` or version is RC, we just try to remove a potential initial v
+      // If `version-type: strict`, version is an RC, or version is "a branch"
+      // we just try to remove a potential initial v
       coerced = maybeRemoveVPrefix(version)
     } else {
       // Otherwise, we place the version into a version bucket
@@ -526,18 +527,19 @@ function getVersionFromSpec(spec0, versions0) {
   const rangeMax = semver.maxSatisfying(versions, rangeForMax)
   let version = null
 
-  if (
+  if (spec0 === 'latest') {
+    version = versions0[versions0.latest]
+  } else if (
     isStrictVersion() ||
     isRC(spec0) ||
     isKnownBranch(spec0) ||
-    isKnownVerBranch(spec0)
+    isKnownVerBranch(spec0) ||
+    spec0 === 'nightly'
   ) {
     if (versions0[spec]) {
       // We obtain it directly
       version = versions0[spec]
     }
-  } else if (spec0 === 'latest') {
-    version = versions0[versions0.latest]
   } else if (rangeMax !== null) {
     // Otherwise, we compare alt. versions' semver ranges to this version, from highest to lowest
     const thatVersion = spec
