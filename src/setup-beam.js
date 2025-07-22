@@ -191,11 +191,21 @@ async function getOTPVersion(otpSpec0, osVersion) {
 }
 
 function requestedVersionFor(tool, version, originListing, mirrors) {
-  return (
-    `Requested ${tool} version (${version}) not found in version list, ` +
-    `at ${originListing}${mirrors ? `, with mirrors ${mirrors}` : ''}; ` +
-    "should you be using option 'version-type': 'strict'?"
-  )
+  const isStrictVersion = isStrictVersion()
+
+  let versionType = 'loose'
+  if (isStrictVersion) {
+    versionType = 'strict'
+  }
+
+  let ret =
+    `Requested ${versionType} ${tool} version (${version}) not found in version list, ` +
+    `at ${originListing}${mirrors ? `, with mirrors ${mirrors}` : ''}.`
+  if (!isStrictVersion) {
+    ret = `${ret} Should you be using option 'version-type': 'strict'?`
+  }
+
+  return ret
 }
 
 const knownBranches = ['main', 'master', 'maint']
