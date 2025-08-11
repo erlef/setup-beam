@@ -26,7 +26,7 @@ jobs:
         install-rebar: [true, false]
         install-hex: [true, false]
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4.3.0
       - name: Use erlef/setup-beam
         id: setup-beam
         uses: ./
