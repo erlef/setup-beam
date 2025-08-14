@@ -8,10 +8,12 @@ import * as tc from '@actions/tool-cache'
 import * as semver from 'semver'
 import * as csv from 'csv-parse/sync'
 import _ from 'lodash'
+const toml = require('toml')
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const MAX_HTTP_RETRIES = 3
+const APPS = ['erlang', 'elixir', 'gleam', 'rebar']
 
 if (process.env.NODE_ENV !== 'test') {
   main().catch((err) => {
@@ -23,6 +25,7 @@ async function main() {
   checkOtpArchitecture()
 
   const versionFilePath = getInput('version-file', false)
+
   let versions
   if (versionFilePath) {
     if (!isStrictVersion()) {
@@ -30,7 +33,9 @@ async function main() {
         "you have to set version-type=strict if you're using version-file",
       )
     }
-    versions = parseVersionFile(versionFilePath)
+
+    const versionFileType = getInput('version-file-type', '.tool-versions')
+    versions = parseVersionFile(versionFilePath, versionFileType)
   }
 
   const otpSpec = getInput('otp-version', true, 'erlang', versions)
@@ -802,28 +807,14 @@ alongside ${alternativeName}=${alternativeValue} \
   return input
 }
 
-function parseVersionFile(versionFilePath0) {
-  const versionFilePath = path.resolve(
-    process.env.GITHUB_WORKSPACE,
-    versionFilePath0,
-  )
-  if (!fs.existsSync(versionFilePath)) {
-    throw new Error(
-      `The specified version file, ${versionFilePath0}, does not exist`,
-    )
-  }
-
-  core.startGroup(`Parsing version file at ${versionFilePath0}`)
+function parseToolVersionsFile(versionFilePath) {
   const appVersions = new Map()
   const versions = fs.readFileSync(versionFilePath, 'utf8')
-  // For the time being we parse .tool-versions
-  // If we ever start parsing something else, this should
-  // become default in a new option named e.g. version-file-type
   versions.split(/\r?\n/).forEach((line) => {
     const appVersion = line.match(/^([^ ]+)[ ]+(ref:v?)?([^ #]+)/)
     if (appVersion) {
       const app = appVersion[1]
-      if (['erlang', 'elixir', 'gleam', 'rebar'].includes(app)) {
+      if (APPS.includes(app)) {
         const [, , , version] = appVersion
         core.info(`Consuming ${app} at version ${version}`)
         appVersions.set(app, version)
@@ -838,6 +829,44 @@ function parseVersionFile(versionFilePath0) {
   core.endGroup()
 
   return appVersions
+}
+
+function parseMiseTomlFile(versionFilePath) {
+  const appVersions = new Map()
+  const miseToml = fs.readFileSync(versionFilePath, 'utf8')
+  const miseTomlParsed = toml.parse(miseToml)
+  for (const app in miseTomlParsed.tools) {
+    if (APPS.includes(app)) {
+      const appVersion = miseTomlParsed.tools[app]
+      const version =
+        typeof appVersion == 'object' ? appVersion.version : appVersion
+
+      core.info(`Consuming ${app} at version ${version}`)
+      appVersions.set(app, version)
+    }
+  }
+
+  return appVersions
+}
+
+function parseVersionFile(versionFilePath0, versionFileType) {
+  const versionFilePath = path.resolve(
+    process.env.GITHUB_WORKSPACE,
+    versionFilePath0,
+  )
+  if (!fs.existsSync(versionFilePath)) {
+    throw new Error(
+      `The specified version file, ${versionFilePath0}, does not exist`,
+    )
+  }
+  core.startGroup(`Parsing ${versionFileType} file at ${versionFilePath0}`)
+
+  switch (versionFileType) {
+    case '.tool-versions':
+      return parseToolVersionsFile(versionFilePath)
+    case 'mise.toml':
+      return parseMiseTomlFile(versionFilePath)
+  }
 }
 
 function debugLog(groupName, message) {
