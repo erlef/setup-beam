@@ -32,7 +32,8 @@
     "markdownlint-cli": "0.47.0",
     "prettier": "3.6.2",
     "shellcheck": "4.1.0",
-    "yarn": "1.22.22"
+    "yarn": "1.22.22",
+    "toml": "^3.0.0"
   },
   "engines": {
     "node": ">=20"

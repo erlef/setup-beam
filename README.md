@@ -141,6 +141,7 @@ e.g. `${{steps.setup-beam.outputs.erlang-version}}`
 
 ### Version file
 
+A version file type is specified via input `version-file-type` (defaults to `.tool-versions`).
 A version file is specified via input `version-file` (e.g.`.tool-versions`). This
 allows not having to use YML input for versions, though the action does check (and
 will exit with error) if both inputs are set.
@@ -148,9 +149,10 @@ will exit with error) if both inputs are set.
 **Note**: if you're using a version file, option `version-type` is checked to be `strict`,
 and will make the action exit with error otherwise.
 
-The following version file formats are supported:
+The following are supported `version-file-type` inputs:
 
 - `.tool-versions`, as specified by [asdf: Configuration](https://asdf-vm.com/manage/configuration.html)
+- `mise.toml`, as specified by [mise-en-place](https://mise.jdx.dev/configuration.html#tools-dev-tools)
 
 Supported version elements are the same as the ones defined for the YML portion of the action,
 with the following correspondence.

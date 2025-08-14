@@ -968,7 +968,7 @@ describe('.getVersionFromSpec(_)', () => {
   })
 })
 
-describe('version file', () => {
+describe('.tool-versions file', () => {
   const otpVersion = unsimulateInput('otp-version')
   const elixirVersion = unsimulateInput('elixir-version')
   const gleamVersion = unsimulateInput('gleam-version')
@@ -989,7 +989,7 @@ gleam ${gleam} \n`
     }
     fs.writeFileSync(filename, toolVersions)
     process.env.GITHUB_WORKSPACE = ''
-    const appVersions = setupBeam.parseVersionFile(filename)
+    const appVersions = setupBeam.parseVersionFile(filename, '.tool-versions')
     assert.strictEqual(appVersions.get('erlang'), erlang)
     assert.strictEqual(appVersions.get('elixir'), elixir)
 
@@ -997,7 +997,62 @@ gleam ${gleam} \n`
     fs.writeFileSync(absoluteFilename, toolVersions)
 
     process.env.GITHUB_WORKSPACE = process.cwd()
-    const absoluteAppVersions = setupBeam.parseVersionFile(absoluteFilename)
+    const absoluteAppVersions = setupBeam.parseVersionFile(
+      absoluteFilename,
+      '.tool-versions',
+    )
+    assert.strictEqual(absoluteAppVersions.get('erlang'), erlang)
+    assert.strictEqual(absoluteAppVersions.get('elixir'), elixir)
+
+    assert.ok(async () => {
+      await setupBeam.install('otp', { toolVersion: erlang })
+    })
+    assert.ok(async () => {
+      await setupBeam.install('elixir', { toolVersion: elixir })
+    })
+    assert.ok(async () => {
+      await setupBeam.install('gleam', { toolVersion: gleam })
+    })
+  })
+
+  simulateInput('otp-version', otpVersion)
+  simulateInput('elixir-version', elixirVersion)
+  simulateInput('gleam-version', gleamVersion)
+})
+
+describe('mise.toml file', () => {
+  const otpVersion = unsimulateInput('otp-version')
+  const elixirVersion = unsimulateInput('elixir-version')
+  const gleamVersion = unsimulateInput('gleam-version')
+
+  it('is parsed correctly', async () => {
+    const erlang = '27.3.4.1'
+    const elixir = '1.18.4'
+    const gleam = '1.9.1'
+    let miseToml = `[tools]
+"erlang" = "${erlang}"
+elixir = { version = "${elixir}", postinstall="mix deps.get" }  # comment, with space and ref:
+"not-gleam" = 0.23 # not picked up
+"gleam" = "${gleam}" \n`
+    const filename = 'test/mise.toml'
+    if (process.platform === 'win32') {
+      // Force \r\n to test in Windows
+      miseToml = miseToml.replace(/\n/g, '\r\n')
+    }
+    fs.writeFileSync(filename, miseToml)
+    process.env.GITHUB_WORKSPACE = ''
+    const appVersions = setupBeam.parseVersionFile(filename, 'mise.toml')
+    assert.strictEqual(appVersions.get('erlang'), erlang)
+    assert.strictEqual(appVersions.get('elixir'), elixir)
+
+    const absoluteFilename = path.join(os.tmpdir(), 'mise.toml')
+    fs.writeFileSync(absoluteFilename, miseToml)
+
+    process.env.GITHUB_WORKSPACE = process.cwd()
+    const absoluteAppVersions = setupBeam.parseVersionFile(
+      absoluteFilename,
+      'mise.toml',
+    )
     assert.strictEqual(absoluteAppVersions.get('erlang'), erlang)
     assert.strictEqual(absoluteAppVersions.get('elixir'), elixir)
 
