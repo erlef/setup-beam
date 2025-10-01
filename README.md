@@ -84,6 +84,7 @@ and Erlang/OTP.
 | `ubuntu-24.04`   | 24.3 - 28    | x86_64, arm64    | ✅
 | `windows-2019`   | 21\* - 25    | x86_64, x86      | ✅
 | `windows-2022`   | 21\* - 28    | x86_64, x86      | ✅
+| `windows-2025`   | 21\* - 28    | x86_64, x86      | ✅
 | `macOS-13`       | 25.0 - 28    | x86_64, arm64    | ✅
 | `macOS-14`       | 25.0 - 28    | x86_64, arm64    | ✅
 | `macOS-15`       | 25.0 - 28    | x86_64, arm64    | ✅
@@ -102,6 +103,7 @@ uses that to download assets:
 | `ubuntu24`         | `ubuntu-24.04`
 | `win19`            | `windows-2019`
 | `win22`            | `windows-2022`
+| `win25`            | `windows-2025`
 | `macos13`          | `macOS-13`
 | `macos14`          | `macOS-14`
 | `macos15`          | `macOS-15`
@@ -297,7 +299,7 @@ on: push
 
 jobs:
   test:
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
