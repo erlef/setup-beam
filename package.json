@@ -4,31 +4,35 @@
   "private": true,
   "scripts": {
     "build": "ncc build src/setup-beam.js --no-cache",
-    "format": "prettier src/**/*.js --write && prettier test/**/*.js --write",
-    "jslint": "eslint src/**/*.js && eslint test/**/*.js",
+    "format": "prettier src/**/*.js test/**/*.js *.mjs --write",
+    "eslint": "eslint src/**/*.js test/**/*.js *.mjs",
     "licenses": "yarn licenses generate-disclaimer > 3RD_PARTY_LICENSES",
     "markdownlint": "markdownlint *.md ./github/**/*.md",
     "shellcheck": "shellcheck .github/workflows/*.sh",
-    "test": "node test/setup-beam.test.js",
-    "yamllint": "yamllint .github/workflows/**.yml && yamllint .*.yml && yamllint *.yml",
+    "test": "node --test --test-reporter=spec",
+    "yamllint": "eslint .github/workflows/**.yml .github/*.yml .*.yml *.yml",
     "clean-dist": "rm -rf ./dist",
-    "lint": "npm run markdownlint && npm run shellcheck && npm run yamllint && npm run jslint",
+    "lint": "npm run markdownlint && npm run shellcheck && npm run yamllint && npm run eslint",
     "build-dist": "npm run clean-dist && npm install && npm run build && npm run format && npm run lint"
   },
   "dependencies": {
-    "@actions/core": "1.10.0",
+    "@actions/core": "1.11.1",
     "@actions/exec": "1.1.1",
-    "@actions/tool-cache": "2.0.1",
-    "semver": "7.6.2"
+    "@actions/tool-cache": "2.0.2",
+    "csv-parse": "6.1.0",
+    "semver": "7.7.2",
+    "lodash": "4.17.21"
   },
   "devDependencies": {
-    "@vercel/ncc": "0.36.1",
-    "eslint": "8.43.0",
-    "markdownlint-cli": "0.35.0",
-    "prettier": "2.8.8",
-    "shellcheck": "2.2.0",
-    "yaml-lint": "1.7.0",
-    "yarn": "1.22.19"
+    "@vercel/ncc": "0.38.3",
+    "eslint": "9.31.0",
+    "@eslint/js": "9.31.0",
+    "globals": "16.3.0",
+    "markdownlint-cli": "0.45.0",
+    "prettier": "3.6.2",
+    "shellcheck": "3.1.0",
+    "eslint-plugin-yml": "1.18.0",
+    "yarn": "1.22.22"
   },
   "engines": {
     "node": ">=20"

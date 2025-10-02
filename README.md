@@ -1,4 +1,4 @@
-# setup-beam [![Action][action-img]][action]&nbsp;[![Ubuntu][ubuntu-img]][ubuntu]&nbsp;[![Windows][windows-img]][windows]
+# setup-beam [![Action][action-img]][action]&nbsp;[![Ubuntu][ubuntu-img]][ubuntu]&nbsp;[![Windows][windows-img]][windows]&nbsp;[![macOS][macos-img]][macos]
 
 [action]: https://github.com/erlef/setup-beam/actions/workflows/action.yml
 [action-img]: https://github.com/erlef/setup-beam/actions/workflows/action.yml/badge.svg
@@ -6,6 +6,8 @@
 [ubuntu-img]: https://github.com/erlef/setup-beam/actions/workflows/ubuntu.yml/badge.svg
 [windows]: https://github.com/erlef/setup-beam/actions/workflows/windows.yml
 [windows-img]: https://github.com/erlef/setup-beam/actions/workflows/windows.yml/badge.svg
+[macos]: https://github.com/erlef/setup-beam/actions/workflows/macos.yml
+[macos-img]: https://github.com/erlef/setup-beam/actions/workflows/macos.yml/badge.svg
 
 This action sets up an Erlang/OTP environment for use in a GitHub Actions
 workflow by:
@@ -14,14 +16,13 @@ workflow by:
 - optionally, installing [Elixir](https://elixir-lang.org/)
 - optionally, installing [Gleam](https://gleam.run/)
 - optionally, installing [`rebar3`](https://www.rebar3.org/)
-- optionally, installing [`hex`](https://hex.pm/)
+- optionally, installing [`local.hex`](https://hex.pm/)
+- optionally, installing [`local.rebar`](https://www.rebar3.org/)
 - optionally, opting for strict or loose version matching
 - optionally, having
   [problem matchers](https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md) show
   warnings and errors on pull requests
 - optionally, using a version file (as explained in "Version file", below), to identify versions
-
-**Note**: currently, this action only supports Actions' `ubuntu-` and `windows-` runtimes.
 
 ## Usage
 
@@ -52,33 +53,41 @@ end up being parsed as `23`, which is not equivalent.
 
 #### Pre-release versions
 
-For pre-release versions, such as `v1.11.0-rc.0`, use the full version
-specifier (`v1.11.0-rc.0`) and set option `version-type` to `strict`. Pre-release versions are
-opt-in, so `1.11.x` will not match a pre-release.
+To use a pre-release version such as `v1.11.0-rc.0`, specify the exact version
+(`v1.11.0-rc.0`) and set `version-type` to `strict`.
+Note that pre-release versions are opt-in by default.
+Patterns like `1.11.x` do not include pre-release versions unless `latest` is specified.
 
 #### "Latest" versions
 
-Set a tool's version to `latest` to retrieve the latest version of a given tool.
-The latest version is (locally) calculated by the action based on the (retrieved) versions
-it knows (**note**: it is not the same as [GitHub considers it](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
-and some repositories might propose).
+To retrieve the most recent available version of a tool, set the version to `latest`.
+This may include pre-release versions such as release candidates.
 
-If in doubt do a test run and compare the obtained release with the one you were expecting to
-be the latest.
+If you want to target only the latest stable release and exclude pre-releases, use a
+version range like `> 0` instead.
+
+Note that the `latest` version is determined locally by the action based on the versions it
+has retrieved. This may differ from how [GitHub defines "latest"](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository),
+and some repositories may present different interpretations.
+
+If you're unsure, perform a test run and compare the resolved version against the version you
+expect to be considered the latest.
 
 ### Compatibility between Operating System and Erlang/OTP
 
 This list presents the known working version combos between the target operating system
 and Erlang/OTP.
 
-| Operating system | Erlang/OTP  | Status
-|-                 |-            |-
-| `ubuntu-18.04`   | 17.0 - 25.3 | ✅
-| `ubuntu-20.04`   | 21.0 - 27   | ✅
-| `ubuntu-22.04`   | 24.2 - 27   | ✅
-| `ubuntu-24.04`   | 24.3 - 27   | ✅
-| `windows-2019`   | 21* - 25    | ✅
-| `windows-2022`   | 21* - 27    | ✅
+| Operating system | Erlang/OTP   | OTP Architecture | Status
+|-                 |-             | -                |-
+| `ubuntu-22.04`   | 24.2 - 28    | x86_64, arm64    | ✅
+| `ubuntu-24.04`   | 24.3 - 28    | x86_64, arm64    | ✅
+| `windows-2019`   | 21\* - 25    | x86_64, x86      | ✅
+| `windows-2022`   | 21\* - 28    | x86_64, x86      | ✅
+| `windows-2025`   | 21\* - 28    | x86_64, x86      | ✅
+| `macOS-13`       | 25.0 - 28    | x86_64, arm64    | ✅
+| `macOS-14`       | 25.0 - 28    | x86_64, arm64    | ✅
+| `macOS-15`       | 25.0 - 28    | x86_64, arm64    | ✅
 
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
@@ -92,14 +101,16 @@ See [compatable versions](https://github.com/erlang/rebar3?tab=readme-ov-file#co
 Self-hosted runners need to set env. variable `ImageOS` to one of the following, since the action
 uses that to download assets:
 
-| ImageOS    | Operating system
-|-           |-
-| `ubuntu18` | `ubuntu-18.04`
-| `ubuntu20` | `ubuntu-20.04`
-| `ubuntu22` | `ubuntu-22.04`
-| `ubuntu24` | `ubuntu-24.04`
-| `win19`    | `windows-2019`
-| `win22`    | `windows-2022`
+| ImageOS            | Operating system
+|-                   |-
+| `ubuntu22`         | `ubuntu-22.04`
+| `ubuntu24`         | `ubuntu-24.04`
+| `win19`            | `windows-2019`
+| `win22`            | `windows-2022`
+| `win25`            | `windows-2025`
+| `macos13`          | `macOS-13`
+| `macos14`          | `macOS-14`
+| `macos15`          | `macOS-15`
 
 as per the following example:
 
@@ -110,7 +121,7 @@ jobs:
   test:
     runs-on: self-hosted
     env:
-      ImageOS: ubuntu20 # equivalent to runs-on ubuntu-20.04
+      ImageOS: ubuntu24 # equivalent to runs-on ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
@@ -198,6 +209,24 @@ jobs:
             https://cdn.jsdelivr.net/hex
 ```
 
+### OTP Architecture
+
+On Windows you can specify the OTP architecture to install.
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '26'
+          otp-architecture: '32'
+```
+
 ### Environment variables
 
 Base installation folders (useful for e.g. fetching headers for NIFs) are available in the following
@@ -214,7 +243,7 @@ are found (i.e. `erl`, `erl.exe`, `rebar3`, `rebar3.exe`, ...).
 ### Elixir Problem Matchers
 
 The Elixir Problem Matchers in this repository are adapted from
-[here](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118).
+[vscode-elixir/package.json](https://github.com/fr1zle/vscode-elixir/blob/45eddb589acd7ac98e0c7305d1c2b24668ca709a/package.json#L70-L118).
 See [MATCHER_NOTICE](MATCHER_NOTICE.md) for license details.
 
 ## Examples
@@ -227,12 +256,12 @@ on: push
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
       matrix:
-        otp: ['21.1', '22.2', '23.3']
-        elixir: ['1.8.2', '1.9.4']
+        otp: ['25.3.2', '26.2.5', '27.3.3']
+        elixir: ['1.17.3', '1.18.3']
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
@@ -251,12 +280,12 @@ on: push
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     name: Erlang/OTP ${{matrix.otp}} / rebar3 ${{matrix.rebar3}}
     strategy:
       matrix:
-        otp: ['21.1', '22.2', '23.3']
-        rebar3: ['3.14.1', '3.14.3']
+        otp: ['25.3.2', '26.2.5', '27.3.3']
+        rebar3: ['3.23.0', '3.24.0']
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
@@ -301,13 +330,31 @@ on: push
 
 jobs:
   test:
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
           otp-version: '24'
           rebar3-version: '3.16.1'
+      - run: rebar3 ct
+```
+
+### Erlang/OTP + `rebar3`, on macOS
+
+```yaml
+# create this in .github/workflows/ci.yml
+on: push
+
+jobs:
+  test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '28'
+          rebar3-version: '3.25'
       - run: rebar3 ct
 ```
 
@@ -325,7 +372,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: '27'
-          gleam-version: '1.5.1'
+          gleam-version: '1.9.0'
       - run: gleam test
 ```
 
@@ -343,7 +390,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: false
-          gleam-version: '1.5.1'
+          gleam-version: '1.9.0'
       - run: gleam check
 ```
 
@@ -373,7 +420,7 @@ Check out [this doc](CONTRIBUTING.md).
 
 ### Code of Conduct
 
-This project's code of conduct is made explicit in [CODE_OF_CONDUCT.md](https://github.com/erlef/setup-beam/blob/main/CODE_OF_CONDUCT.md).
+This project's code of conduct is made explicit in [CODE_OF_CONDUCT.md](https://github.com/erlef/.github/blob/main/CODE_OF_CONDUCT.md).
 
 ### Security
 

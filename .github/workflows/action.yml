@@ -1,6 +1,9 @@
 ---
 name: action
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -18,8 +21,10 @@ jobs:
     name: Version with commit unique id
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
       - name: Version it!
         run: |
           # We expect a string such as const setupBeamVersion = 'undefined' in the code
@@ -40,20 +45,28 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-node@v4.4.0
         with:
           node-version: '20'
       - run: npm run build-dist
       - name: Check if build left artifacts
         run: git diff --exit-code --ignore-space-at-eol
 
+  check_action:
+    name: Action
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: raven-actions/actionlint@v2.0.1
+
   unit_tests_ubuntu:
     name: Unit tests (Ubuntu)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-node@v4.4.0
         with:
           node-version: '20'
       - run: npm ci
@@ -63,6 +76,7 @@ jobs:
         uses: ./
         with:
           install-rebar: false
+          install-hex: false
           version-file: test/.tool-versions
           version-type: strict
 
@@ -70,9 +84,28 @@ jobs:
     name: Unit tests (Windows)
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-node@v4.4.0
         with:
           node-version: '20'
       - run: npm install --production
+      - run: npm test
+      - name: .tool-versions test
+        id: setup-beam
+        uses: ./
+        with:
+          install-rebar: false
+          install-hex: false
+          version-file: test/.tool-versions
+          version-type: strict
+
+  unit_tests_macos:
+    name: Unit tests (macOS)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: '20'
+      - run: npm ci
       - run: npm test

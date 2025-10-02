@@ -1,17 +1,20 @@
 ---
 name: Update 3rd party licenses (automation)
 
+permissions:
+  contents: write
+
 on:
   schedule:
     - cron: '0 12 * * *'
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 jobs:
   update:
     name: Update 3rd party licenses
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
       - run:
           ./.github/workflows/update_3rd_party_licenses.sh
         env:

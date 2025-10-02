@@ -5,15 +5,19 @@ const path = require('path')
 const semver = require('semver')
 const fs = require('fs')
 const os = require('os')
+const csv = require('csv-parse/sync')
+const _ = require('lodash')
 
 const MAX_HTTP_RETRIES = 3
 
-main().catch((err) => {
-  core.setFailed(err.message)
-})
+if (process.env.NODE_ENV !== 'test') {
+  main().catch((err) => {
+    core.setFailed(err.message)
+  })
+}
 
 async function main() {
-  checkPlatform()
+  checkOtpArchitecture()
 
   const versionFilePath = getInput('version-file', false)
   let versions
@@ -26,15 +30,14 @@ async function main() {
     versions = parseVersionFile(versionFilePath)
   }
 
-  const osVersion = getRunnerOSVersion()
   const otpSpec = getInput('otp-version', true, 'erlang', versions)
   const elixirSpec = getInput('elixir-version', false, 'elixir', versions)
   const gleamSpec = getInput('gleam-version', false, 'gleam', versions)
   const rebar3Spec = getInput('rebar3-version', false, 'rebar', versions)
 
   if (otpSpec !== 'false') {
-    await installOTP(otpSpec, osVersion)
-    const elixirInstalled = await maybeInstallElixir(elixirSpec, otpSpec)
+    await installOTP(otpSpec)
+    const elixirInstalled = await maybeInstallElixir(elixirSpec)
     if (elixirInstalled === true) {
       const shouldMixRebar = getInput('install-rebar', false)
       await mix(shouldMixRebar, 'rebar')
@@ -50,11 +53,12 @@ async function main() {
   await maybeInstallRebar3(rebar3Spec)
 
   // undefined is replaced by a function, post- main branch merge
-  const setupBeamVersion = 'ff934e2'
+  const setupBeamVersion = 'b94e7d3'
   core.setOutput('setup-beam-version', setupBeamVersion)
 }
 
-async function installOTP(otpSpec, osVersion) {
+async function installOTP(otpSpec) {
+  const osVersion = getRunnerOSVersion()
   const otpVersion = await getOTPVersion(otpSpec, osVersion)
   core.startGroup(
     `Installing Erlang/OTP ${otpVersion} - built on ${getRunnerOSArchitecture()}/${osVersion}`,
@@ -76,10 +80,10 @@ async function installOTP(otpSpec, osVersion) {
   return otpVersion
 }
 
-async function maybeInstallElixir(elixirSpec, otpSpec) {
+async function maybeInstallElixir(elixirSpec) {
   let installed = false
   if (elixirSpec) {
-    const elixirVersion = await getElixirVersion(elixirSpec, otpSpec)
+    const elixirVersion = await getElixirVersion(elixirSpec)
     core.startGroup(`Installing Elixir ${elixirVersion}`)
     await doWithMirrors({
       hexMirrors: hexMirrorsInput(),
@@ -166,48 +170,98 @@ async function maybeInstallRebar3(rebar3Spec) {
   return installed
 }
 
+function maybeRemoveOTPPrefix(otpSpec) {
+  return otpSpec.replace(/^OTP-/, '')
+}
+
 async function getOTPVersion(otpSpec0, osVersion) {
-  const otpVersions = await getOTPVersions(osVersion)
-  let spec = otpSpec0.replace(/^OTP-/, '')
+  const [otpVersions, originListing, hexMirrors] =
+    await getOTPVersions(osVersion)
+  let spec = maybeRemoveOTPPrefix(otpSpec0)
   const versions = otpVersions
   const otpVersion = getVersionFromSpec(spec, versions)
+
   if (otpVersion === null) {
     throw new Error(
-      `Requested Erlang/OTP version (${otpSpec0}) not found in version list ` +
-        "(should you be using option 'version-type': 'strict'?)",
+      requestedVersionFor('Erlang/OTP', otpSpec0, originListing, hexMirrors),
     )
   }
 
   return otpVersion // from the reference, for download
 }
 
-async function getElixirVersion(exSpec0, otpVersion0) {
-  const otpVersion = otpVersion0.match(/^([^-]+-)?(.+)$/)[2]
-  const otpVersionMajor = otpVersion.match(/^([^.]+).*$/)[1]
+function requestedVersionFor(tool, version, originListing, mirrors) {
+  return (
+    `Requested ${tool} version (${version}) not found in version list, ` +
+    `at ${originListing}${mirrors ? `, with mirrors ${mirrors}` : ''}; ` +
+    "should you be using option 'version-type': 'strict'?"
+  )
+}
 
-  const [otpVersionsForElixirMap, elixirVersions] = await getElixirVersions()
-  const spec = exSpec0.replace(/-otp-.*$/, '')
+const knownBranches = ['main', 'master', 'maint']
+const nonSpecificVersions = ['nightly', 'latest']
+
+async function getElixirVersion(exSpec0) {
+  const otpSuffix = /-otp-(\d+)/
+  const userSuppliedOtp = exSpec0.match(otpSuffix)?.[1] ?? null
+  let otpVersionMajor = ''
+
+  if (userSuppliedOtp && isVersion(userSuppliedOtp)) {
+    otpVersionMajor = userSuppliedOtp
+  } else {
+    let cmd = 'erl'
+    if (process.platform === 'win32') {
+      cmd = 'erl.exe'
+    }
+    const args = [
+      '-noshell',
+      '-eval',
+      'io:format(erlang:system_info(otp_release)), halt().',
+    ]
+    await exec(cmd, args, {
+      listeners: {
+        stdout: (data) => {
+          otpVersionMajor = data.toString()
+        },
+      },
+    })
+  }
+
+  const [otpVersionsForElixirMap, elixirVersions, originListing, hexMirrors] =
+    await getElixirVersions()
+  const spec = exSpec0.replace(otpSuffix, '')
   const versions = elixirVersions
   const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
 
   if (elixirVersionFromSpec === null) {
     throw new Error(
-      `Requested Elixir version (${exSpec0}) not found in version list ` +
-        "(should you be using option 'version-type': 'strict'?)",
+      requestedVersionFor('Elixir', exSpec0, originListing, hexMirrors),
     )
   }
 
-  const elixirVersionComp = otpVersionsForElixirMap[elixirVersionFromSpec]
-  if (
-    (elixirVersionComp && elixirVersionComp.includes(otpVersionMajor)) ||
-    !isVersion(otpVersionMajor)
-  ) {
-    core.info(
-      `Using Elixir ${elixirVersionFromSpec} (built for Erlang/OTP ${otpVersionMajor})`,
-    )
-  } else {
+  let foundCombo = false
+  let otpVersionMajorIter = parseInt(otpVersionMajor)
+  let otpVersionsMajor = []
+  while (otpVersionMajorIter > otpVersionMajor - 3) {
+    otpVersionMajorIter += ''
+    otpVersionsMajor.push(otpVersionMajorIter)
+    const elixirVersionComp = otpVersionsForElixirMap[elixirVersionFromSpec]
+    if (
+      (elixirVersionComp && elixirVersionComp.includes(otpVersionMajorIter)) ||
+      !isVersion(otpVersionMajorIter)
+    ) {
+      core.info(
+        `Using Elixir ${elixirVersionFromSpec} (built for Erlang/OTP ${otpVersionMajorIter})`,
+      )
+      foundCombo = true
+      break
+    }
+    otpVersionMajorIter = parseInt(otpVersionMajorIter) - 1
+  }
+
+  if (!foundCombo) {
     throw new Error(
-      `Requested Elixir / Erlang/OTP version (${exSpec0} / ${otpVersion0}) not ` +
+      `Requested Elixir / Erlang/OTP version (${exSpec0} / tried ${otpVersionsMajor}) not ` +
         'found in version list (did you check Compatibility between Elixir and Erlang/OTP?).' +
         'Elixir and Erlang/OTP compatibility can be found at: ' +
         'https://hexdocs.pm/elixir/compatibility-and-deprecations.html',
@@ -216,62 +270,82 @@ async function getElixirVersion(exSpec0, otpVersion0) {
 
   let elixirVersionForDownload = elixirVersionFromSpec
 
-  if (isVersion(otpVersionMajor)) {
-    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajor}`
+  if (isVersion(otpVersionMajorIter)) {
+    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajorIter}`
   }
 
   return maybePrependWithV(elixirVersionForDownload)
 }
 
 async function getGleamVersion(gleamSpec0) {
-  const gleamVersions = await getGleamVersions()
+  const [gleamVersions, originListing] = await getGleamVersions()
   const spec = gleamSpec0
   const versions = gleamVersions
   const gleamVersion = getVersionFromSpec(spec, versions)
+
   if (gleamVersion === null) {
-    throw new Error(
-      `Requested Gleam version (${gleamSpec0}) not found in version list ` +
-        "(should you be using option 'version-type': 'strict'?)",
-    )
+    throw new Error(requestedVersionFor('Gleam', gleamSpec0, originListing))
   }
 
   return maybePrependWithV(gleamVersion)
 }
 
 async function getRebar3Version(r3Spec) {
-  const rebar3Versions = await getRebar3Versions()
+  const [rebar3Versions, originListing] = await getRebar3Versions()
   const spec = r3Spec
   const versions = rebar3Versions
   const rebar3Version = getVersionFromSpec(spec, versions)
+
   if (rebar3Version === null) {
-    throw new Error(
-      `Requested rebar3 version (${r3Spec}) not found in version list ` +
-        "(should you be using option 'version-type': 'strict'?)",
-    )
+    throw new Error(requestedVersionFor('rebar3', r3Spec, originListing))
   }
 
   return rebar3Version
 }
 
+function otpArchitecture() {
+  return getInput('otp-architecture', false)
+}
+
 async function getOTPVersions(osVersion) {
   let otpVersionsListings
   let originListing
+  let hexMirrors = null
   if (process.platform === 'linux') {
     originListing = `/builds/otp/${getRunnerOSArchitecture()}/${osVersion}/builds.txt`
+    hexMirrors = hexMirrorsInput()
     otpVersionsListings = await doWithMirrors({
-      hexMirrors: hexMirrorsInput(),
+      hexMirrors,
       actionTitle: `fetch ${originListing}`,
       action: async (hexMirror) => {
-        return get(`${hexMirror}${originListing}`, [])
+        return get(`${hexMirror}${originListing}`)
       },
     })
   } else if (process.platform === 'win32') {
     originListing =
       'https://api.github.com/repos/erlang/otp/releases?per_page=100'
     otpVersionsListings = await get(originListing, [1, 2, 3])
+  } else if (process.platform === 'darwin') {
+    const arch = getRunnerOSArchitecture()
+    let targetArch
+    switch (arch) {
+      case 'amd64':
+        targetArch = 'x86_64'
+        break
+      case 'arm64':
+        targetArch = 'aarch64'
+        break
+    }
+    originListing =
+      `https://raw.githubusercontent.com/erlef/otp_builds/refs/heads/main` +
+      `/builds/${targetArch}-apple-darwin.csv`
+    otpVersionsListings = await get(originListing)
   }
 
-  debugLog(`OTP versions listings from ${originListing}`, otpVersionsListings)
+  debugLog(
+    `OTP versions listings from ${originListing}, mirrors ${hexMirrors}`,
+    otpVersionsListings,
+  )
 
   const otpVersions = {}
   if (process.platform === 'linux') {
@@ -279,41 +353,57 @@ async function getOTPVersions(osVersion) {
       .trim()
       .split('\n')
       .forEach((line) => {
-        const otpMatch = line
-          .match(/^([^ ]+)?( .+)/)[1]
-          .match(/^([^-]+-)?(.+)$/)
-        const otpVersion = otpMatch[2]
-        const otpVersionOrig = otpMatch[0]
-        debugLog('OTP line and parsing', [line, otpVersion, otpMatch])
+        const otpVersionOrig = line.match(/^([^ ]+)?( .+)/)[1]
+        const otpVersion = maybeRemoveOTPPrefix(otpVersionOrig)
+        debugLog('OTP line and parsing', [line, otpVersion, otpVersionOrig])
         otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
       })
   } else if (process.platform === 'win32') {
+    const otpArch = otpArchitecture()
+    const file_regex = new RegExp(
+      `^otp_win${_.escapeRegExp(otpArch)}_(.*).exe$`,
+    )
     otpVersionsListings.forEach((otpVersionsListing) => {
       otpVersionsListing
         .map((x) => x.assets)
         .flat()
-        .filter((x) => x.name.match(/^otp_win64_.*.exe$/))
+        .filter((x) => x.name.match(file_regex))
         .forEach((x) => {
-          const otpMatch = x.name.match(/^otp_win64_(.*).exe$/)
-          const otpVersion = otpMatch[1]
-          debugLog('OTP line and parsing', [otpMatch, otpVersion])
-          otpVersions[otpVersion] = otpVersion
+          const otpVersionOrig = x.name.match(file_regex)[1]
+          const otpVersion = otpVersionOrig
+          debugLog('OTP line and parsing', [x.name, otpVersion, otpVersionOrig])
+          otpVersions[otpVersion] = otpVersionOrig
         })
     })
+  } else if (process.platform === 'darwin') {
+    csv
+      .parse(otpVersionsListings, {
+        columns: true,
+      })
+      .forEach((line) => {
+        const otpVersionOrig = line.ref_name
+        const otpVersion = maybeRemoveOTPPrefix(otpVersionOrig)
+        debugLog('OTP line and parsing', [line, otpVersion, otpVersionOrig])
+        otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
+      })
   }
 
-  debugLog(`OTP versions from ${originListing}`, JSON.stringify(otpVersions))
+  debugLog(
+    `OTP versions from ${originListing}, mirrors ${hexMirrors}`,
+    JSON.stringify(otpVersions),
+  )
 
-  return otpVersions
+  return [otpVersions, originListing, hexMirrors]
 }
 
 async function getElixirVersions() {
   const originListing = '/builds/elixir/builds.txt'
+  const hexMirrors = hexMirrorsInput()
   const elixirVersionsListings = await doWithMirrors({
-    hexMirrors: hexMirrorsInput(),
+    hexMirrors,
     actionTitle: `fetch ${originListing}`,
     action: async (hexMirror) => {
-      return get(`${hexMirror}${originListing}`, [])
+      return get(`${hexMirror}${originListing}`)
     },
   })
   const otpVersionsForElixirMap = {}
@@ -336,14 +426,13 @@ async function getElixirVersions() {
       elixirVersions[elixirVersion] = elixirVersion
     })
 
-  return [otpVersionsForElixirMap, elixirVersions]
+  return [otpVersionsForElixirMap, elixirVersions, originListing, hexMirrors]
 }
 
 async function getGleamVersions() {
-  const resultJSONs = await get(
-    'https://api.github.com/repos/gleam-lang/gleam/releases?per_page=100',
-    [1, 2, 3],
-  )
+  const originListing =
+    'https://api.github.com/repos/gleam-lang/gleam/releases?per_page=100'
+  const resultJSONs = await get(originListing, [1, 2, 3])
   const gleamVersionsListing = {}
   resultJSONs.forEach((resultJSON) => {
     resultJSON
@@ -355,14 +444,13 @@ async function getGleamVersions() {
       })
   })
 
-  return gleamVersionsListing
+  return [gleamVersionsListing, originListing]
 }
 
 async function getRebar3Versions() {
-  const resultJSONs = await get(
-    'https://api.github.com/repos/erlang/rebar3/releases?per_page=100',
-    [1, 2, 3],
-  )
+  const originListing =
+    'https://api.github.com/repos/erlang/rebar3/releases?per_page=100'
+  const resultJSONs = await get(originListing, [1, 2, 3])
   const rebar3VersionsListing = {}
   resultJSONs.forEach((resultJSON) => {
     resultJSON
@@ -372,7 +460,7 @@ async function getRebar3Versions() {
       })
   })
 
-  return rebar3VersionsListing
+  return [rebar3VersionsListing, originListing]
 }
 
 function isStrictVersion() {
@@ -385,7 +473,10 @@ function gt(left, right) {
 
 function validVersion(v) {
   return (
-    v.match(/main|master|nightly|latest/g) == null &&
+    v.match(
+      new RegExp(`${knownBranches.join('|')}|${nonSpecificVersions.join('|')}`),
+    ) == null &&
+    // these ones are for rebar3, which has alpha and beta releases
     !v.startsWith('a') &&
     !v.startsWith('b')
   )
@@ -412,8 +503,14 @@ function getVersionFromSpec(spec0, versions0) {
   const altVersions = {}
   Object.entries(versions0).forEach(([version, altVersion]) => {
     let coerced
-    if (isStrictVersion() || isRC(version)) {
-      // If `version-type: strict` or version is RC, we just try to remove a potential initial v
+    if (
+      isStrictVersion() ||
+      isRC(version) ||
+      isKnownBranch(version) ||
+      isKnownVerBranch(version)
+    ) {
+      // If `version-type: strict`, version is an RC, or version is "a branch"
+      // we just try to remove a potential initial v
       coerced = maybeRemoveVPrefix(version)
     } else {
       // Otherwise, we place the version into a version bucket
@@ -430,13 +527,19 @@ function getVersionFromSpec(spec0, versions0) {
   const rangeMax = semver.maxSatisfying(versions, rangeForMax)
   let version = null
 
-  if (isStrictVersion() || isRC(spec0) || isKnownBranch(spec0)) {
+  if (spec0 === 'latest') {
+    version = versions0[versions0.latest]
+  } else if (
+    isStrictVersion() ||
+    isRC(spec0) ||
+    isKnownBranch(spec0) ||
+    isKnownVerBranch(spec0) ||
+    spec0 === 'nightly'
+  ) {
     if (versions0[spec]) {
-      // If `version-type: strict` or version is RC, we obtain it directly
+      // We obtain it directly
       version = versions0[spec]
     }
-  } else if (spec0 === 'latest') {
-    version = versions0[versions0.latest]
   } else if (rangeMax !== null) {
     // Otherwise, we compare alt. versions' semver ranges to this version, from highest to lowest
     const thatVersion = spec
@@ -505,7 +608,11 @@ function isRC(ver) {
 }
 
 function isKnownBranch(ver) {
-  return ['main', 'master', 'maint'].includes(ver)
+  return knownBranches.includes(ver)
+}
+
+function isKnownVerBranch(ver) {
+  return knownBranches.some((b) => ver.match(b))
 }
 
 function githubARMRunnerArchs() {
@@ -535,25 +642,44 @@ function getRunnerOSArchitecture() {
 }
 
 function getRunnerOSVersion() {
+  // List from https://github.com/actions/runner-images?tab=readme-ov-file#available-images
   const ImageOSToContainer = {
-    ubuntu18: 'ubuntu-18.04',
-    ubuntu20: 'ubuntu-20.04',
     ubuntu22: 'ubuntu-22.04',
     ubuntu24: 'ubuntu-24.04',
     win19: 'windows-2019',
     win22: 'windows-2022',
+    win25: 'windows-2025',
+    macos13: 'macOS-13',
+    macos14: 'macOS-14',
+    macos15: 'macOS-15',
+  }
+  const deprecatedImageOSToContainer = {
+    ubuntu18: 'ubuntu-18.04',
+    ubuntu20: 'ubuntu-20.04',
   }
   const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
   if (!containerFromEnvImageOS) {
-    throw new Error(
-      "Tried to map a target OS from env. variable 'ImageOS' (got " +
-        `${process.env.ImageOS}` +
-        "), but failed. If you're using a " +
-        "self-hosted runner, you should set 'env': 'ImageOS': ... to one of the following: " +
-        "['" +
-        `${Object.keys(ImageOSToContainer).join("', '")}` +
-        "']",
-    )
+    const deprecatedContainerFromEnvImageOS =
+      deprecatedImageOSToContainer[process.env.ImageOS]
+    if (deprecatedContainerFromEnvImageOS) {
+      core.warning(
+        `You are using deprecated ImageOS ${deprecatedContainerFromEnvImageOS}. ` +
+          'Support for maintenance is very limited. Consider a non-deprecated version as ' +
+          'mentioned in the README.md.',
+      )
+
+      return deprecatedContainerFromEnvImageOS
+    } else {
+      throw new Error(
+        "Tried to map a target OS from env. variable 'ImageOS' (got " +
+          `${process.env.ImageOS}` +
+          "), but failed. If you're using a " +
+          "self-hosted runner, you should set 'env': 'ImageOS': ... to one of the following: " +
+          "['" +
+          `${Object.keys(ImageOSToContainer).join("', '")}` +
+          "']",
+      )
+    }
   }
 
   return containerFromEnvImageOS
@@ -598,7 +724,7 @@ async function get(url0, pageIdxs) {
     headers.authorization = `Bearer ${GithubToken}`
   }
 
-  if (pageIdxs.length === 0) {
+  if ((pageIdxs || []).length === 0) {
     return getUrlResponse(url, headers)
   } else {
     return Promise.all(
@@ -633,7 +759,7 @@ function xyzAbcVersion(pref, suf) {
   // https://www.erlang.org/doc/system_principles/versions.html
   const dd = '\\.?(\\d+)?'
   return new RegExp(
-    `${pref}v?(\\d+)${dd}${dd}${dd}${dd}${dd}(?:-rc\\.?\\d+)?(?:-otp-\\d+)?${suf}`,
+    `${pref}(?:OTP-)?v?(\\d+)${dd}${dd}${dd}${dd}${dd}(?:-rc\\.?\\d+)?(?:-otp-\\d+)?${suf}`,
   )
 }
 
@@ -682,7 +808,7 @@ function parseVersionFile(versionFilePath0) {
   // For the time being we parse .tool-versions
   // If we ever start parsing something else, this should
   // become default in a new option named e.g. version-file-type
-  versions.split('\n').forEach((line) => {
+  versions.split(/\r?\n/).forEach((line) => {
     const appVersion = line.match(/^([^ ]+)[ ]+(ref:v?)?([^ #]+)/)
     if (appVersion) {
       const app = appVersion[1]
@@ -797,9 +923,13 @@ async function install(toolName, opts) {
           },
         },
         win32: {
-          downloadToolURL: () =>
-            'https://github.com/erlang/otp/releases/download/' +
-            `OTP-${toolVersion}/otp_win64_${toolVersion}.exe`,
+          downloadToolURL: () => {
+            const otpArch = otpArchitecture()
+            return (
+              'https://github.com/erlang/otp/releases/download/' +
+              `OTP-${toolVersion}/otp_win${_.escapeRegExp(otpArch)}_${toolVersion}.exe`
+            )
+          },
           extract: async () => ['file', 'otp.exe'],
           postExtract: async (cachePath) => {
             const cmd = path.join(cachePath, 'otp.exe')
@@ -809,6 +939,36 @@ async function install(toolName, opts) {
           reportVersion: () => {
             const cmd = 'erl.exe'
             const args = ['+V']
+            const env = {}
+
+            return [cmd, args, env]
+          },
+        },
+        darwin: {
+          downloadToolURL: (versionSpec) => {
+            let suffix = ''
+            if (isKnownVerBranch(versionSpec)) {
+              // for these otp_builds adds `-latest` in the folder path
+              suffix = '-latest'
+            }
+            return (
+              `https://github.com/erlef/otp_builds/releases/download/` +
+              `${toolVersion}${suffix}/${toolVersion}-macos-${getRunnerOSArchitecture()}.tar.gz`
+            )
+          },
+          extract: async (file) => {
+            const dest = undefined
+            const flags = ['zx']
+            const targetDir = await tc.extractTar(file, dest, flags)
+
+            return ['dir', targetDir]
+          },
+          postExtract: async (/*cachePath*/) => {
+            // nothing to do
+          },
+          reportVersion: () => {
+            const cmd = 'erl'
+            const args = ['-version']
             const env = {}
 
             return [cmd, args, env]
@@ -920,6 +1080,7 @@ async function install(toolName, opts) {
           },
         },
       }
+      installOpts.darwin = installOpts.linux
       break
     case 'rebar3':
       installOpts = {
@@ -993,6 +1154,7 @@ async function install(toolName, opts) {
           },
         },
       }
+      installOpts.darwin = installOpts.linux
       break
     default:
       throw new Error(`no installer for ${toolName}`)
@@ -1009,7 +1171,7 @@ async function installTool(opts) {
   core.debug(`Checking if ${installOpts.tool} is already cached...`)
   if (cachePath === '') {
     core.debug("  ... it isn't!")
-    const downloadToolURL = platformOpts.downloadToolURL()
+    const downloadToolURL = platformOpts.downloadToolURL(versionSpec)
     const file = await tc.downloadTool(downloadToolURL)
     const [targetElemType, targetElem] = await platformOpts.extract(file)
 
@@ -1047,11 +1209,17 @@ async function installTool(opts) {
   await exec(cmd, args, { env: { ...process.env, ...env } })
 }
 
-function checkPlatform() {
-  if (process.platform !== 'linux' && process.platform !== 'win32') {
+function checkOtpArchitecture() {
+  const otpArch = otpArchitecture()
+
+  if (process.platform !== 'win32' && otpArch == '32') {
     throw new Error(
-      '@erlef/setup-beam only supports Ubuntu and Windows at this time',
+      '@erlef/setup-beam only supports otp-architecture=32 on Windows',
     )
+  }
+
+  if (!['32', '64'].includes(otpArch)) {
+    throw new Error('otp-architecture must be 32 or 64')
   }
 }
 
@@ -1061,13 +1229,17 @@ function debugLoggingEnabled() {
 
 module.exports = {
   get,
-  getOTPVersion,
   getElixirVersion,
   getGleamVersion,
+  getOTPVersion,
   getRebar3Version,
   getVersionFromSpec,
   githubAMDRunnerArchs,
   githubARMRunnerArchs,
   install,
+  installOTP,
+  maybeInstallElixir,
+  maybeInstallGleam,
+  maybeInstallRebar3,
   parseVersionFile,
 }

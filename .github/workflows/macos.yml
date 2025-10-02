@@ -1,5 +1,5 @@
 ---
-name: windows
+name: macos
 
 permissions:
   contents: read
@@ -10,7 +10,7 @@ on:
       - main
   pull_request:
     branches:
-      - "*"
+      - '*'
   workflow_dispatch: {}
 
 jobs:
@@ -18,57 +18,52 @@ jobs:
     name: >
       OTP ${{matrix.combo.otp-version}},
       Elixir ${{matrix.combo.elixir-version}},
-      Gleam ${{matrix.combo.gleam-version}},
       rebar3 ${{matrix.combo.rebar3-version}}
     runs-on: ${{matrix.combo.os}}
     strategy:
       fail-fast: false
       matrix:
         combo:
-          - otp-version: '<26'
-            elixir-version: '<1.17'
-            os: 'ubuntu-22.04'
-          - otp-version: 'master'
-            elixir-version: '> 0'
-            os: 'ubuntu-24.04'
           - otp-version: '27'
             elixir-version: 'v1.17.0'
             rebar3-version: '3.23'
-            os: 'windows-latest'
-          - otp-version: '26.0'
-            elixir-version: 'main'
-            os: 'windows-latest'
-            version-type: 'strict'
+            os: 'macos-latest'
           - otp-version: '26.0'
             elixir-version: 'v1.14-otp-25'
-            os: 'windows-latest'
+            os: 'macos-latest'
             version-type: 'strict'
           - otp-version: '26.0'
             elixir-version: '1.14.5'
-            os: 'windows-latest'
+            os: 'macos-latest'
             version-type: 'strict'
-          - otp-version: '24.0.2'
-            rebar3-version: '3.16'
-            os: 'windows-2022'
-          - otp-version: '23.0'
-            rebar3-version: '3.15'
-            os: 'windows-2022'
-          - elixir-version: 'v1.10'
-            otp-version: '23'
-            rebar3-version: '3.14'
-            os: 'windows-latest'
-          - elixir-version: 'v1.13'
-            otp-version: '24'
-            rebar3-version: '3.15'
-            os: 'windows-latest'
-          - gleam-version: '1.9.0'
-            otp-version: '27'
-            os: 'windows-latest'
-          - elixir-version: 'v1.13'
-            otp-version: '24'
+          - otp-version: '25.2'
+            elixir-version: '1.14.2'
+            os: 'macos-latest'
+          - otp-version: '25.2'
+            elixir-version: '1.14.3'
+            os: 'macos-latest'
+            version-type: 'strict'
+          - otp-version: '25'
+            os: 'macos-15'
+          - otp-version: '26'
+            elixir-version: '1.16'
+            rebar3-version: '3.25'
+            os: 'macos-14'
+          - otp-version: '25.0'
+            elixir-version: 'v1.13.4-otp-25'
+            rebar3-version: '3.18.0'
+            os: 'macos-latest'
+            version-type: 'strict'
+          - otp-version: '25.0'
+            elixir-version: 'v1.13.4'
+            rebar3-version: '3.18.0'
+            os: 'macos-latest'
+            version-type: 'strict'
             escript_packages: 'hex protobuf'
             escript_script: 'protoc-gen-elixir --version'
-            os: 'windows-latest'
+          - otp-version: 'latest'
+            rebar3-version: 'latest'
+            os: 'macos-latest'
     steps:
       - uses: actions/checkout@v4.2.2
       - name: Use erlef/setup-beam
@@ -77,29 +72,16 @@ jobs:
         with:
           otp-version: ${{matrix.combo.otp-version}}
           elixir-version: ${{matrix.combo.elixir-version}}
-          gleam-version: ${{matrix.combo.gleam-version}}
           rebar3-version: ${{matrix.combo.rebar3-version}}
           version-type: ${{matrix.combo.version-type}}
       - name: Erlang/OTP version (action)
         run: echo "Erlang/OTP ${{steps.setup-beam.outputs.otp-version}}"
+        if: ${{matrix.combo.otp-version}}
       - name: Elixir version (action)
         run: echo "Elixir ${{steps.setup-beam.outputs.elixir-version}}"
         if: ${{matrix.combo.elixir-version}}
-      - name: Gleam version (action)
-        run: echo "Gleam ${{steps.setup-beam.outputs.gleam-version}}"
-        if: ${{matrix.combo.gleam-version}}
       - name: rebar3 version (action)
         run: echo "rebar3 ${{steps.setup-beam.outputs.rebar3-version}}"
-      - name: Run rebar3 and rebar3.cmd
-        run: |
-          # Should not fail
-          rebar3 version
-          rebar3.cmd version
-        if: ${{matrix.combo.rebar3-version}}
-      - name: rebar3 from Rust
-        run: |
-          cd test/projects/rust_rebar3_cmd
-          cargo test -- --nocapture
         if: ${{matrix.combo.rebar3-version}}
       - name: mix version and help (CLI)
         run: |
@@ -133,9 +115,8 @@ jobs:
         combo:
           - otp-version: 27
             elixir-version: 1.19
-            gleam-version: 1.10
             rebar3-version: 3.24
-            os: windows-latest
+            os: macos-latest
     steps:
       - uses: actions/checkout@v4.2.2
       - name: Use erlef/setup-beam
@@ -144,14 +125,10 @@ jobs:
         with:
           otp-version: ${{matrix.combo.otp-version}}
           elixir-version: ${{matrix.combo.elixir-version}}
-          gleam-version: ${{matrix.combo.gleam-version}}
           rebar3-version: ${{matrix.combo.rebar3-version}}
       - run: env
       - name: Check environment variables
         run: |
-          & "$Env:INSTALL_DIR_FOR_ELIXIR/bin/elixir" "-v"
-          & "$Env:INSTALL_DIR_FOR_GLEAM/bin/gleam.exe" "--version"
-          & "$Env:INSTALL_DIR_FOR_OTP/bin/erl.exe" "+V"
-          & "$Env:INSTALL_DIR_FOR_REBAR3/bin/rebar3.cmd" "version"
-          & "$Env:INSTALL_DIR_FOR_REBAR3/bin/rebar3.ps1" "version"
-        shell: pwsh
+          "${INSTALL_DIR_FOR_ELIXIR}"/bin/elixir -v
+          "${INSTALL_DIR_FOR_OTP}"/bin/erl -version
+          "${INSTALL_DIR_FOR_REBAR3}"/bin/rebar3 version
