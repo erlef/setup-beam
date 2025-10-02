@@ -85,13 +85,7 @@ and Erlang/OTP.
 
 ### Compatibility between Erlang/OTP and rebar3
 
-| rebar3 | Erlang/OTP |
-|-       |-           |
-| 3.10.0 | 17         |
-| 3.11.1 | 18         |
-| 3.15.2 | 19 - 21    |
-| 3.16.1 | 22 - 24    |
-| 3.22.1 | 25 - 27    |
+See [compatable versions](https://github.com/erlang/rebar3?tab=readme-ov-file#compatibility-between-rebar3-and-erlangotp) in rebar3 repo
 
 ### Self-hosted runners
 
