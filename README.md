@@ -83,6 +83,16 @@ and Erlang/OTP.
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
 
+### Compatibility between Erlang/OTP and rebar3
+
+| rebar3 | Erlang/OTP |
+|-       |-           |
+| 3.10.0 | 17         |
+| 3.11.1 | 18         |
+| 3.15.2 | 19 - 21    |
+| 3.16.1 | 22 - 24    |
+| 3.22.1 | 25 - 27    |
+
 ### Self-hosted runners
 
 Self-hosted runners need to set env. variable `ImageOS` to one of the following, since the action
@@ -264,30 +274,15 @@ jobs:
 
 ### Compatibility
 
-One can run matrix-style testing but with pinned compatible versions in the following manner:
+Matrix-style testing can be executed using pinned, compatible dependency versions by configuring the test matrix accordingly:
 
 ```yaml
   test:
-    runs-on: ${{matrix.erlang.os}}
-    name: Erlang/OTP ${{matrix.erlang.otp}} / rebar3 ${{matrix.erlang.rebar3}}
+    runs-on: ${{matrix.compat.os}}
+    name: Erlang/OTP ${{matrix.compat.otp}} / rebar3 ${{matrix.compat.rebar3}}
     strategy:
       matrix:
-        erlang:
-          - otp: "21.3.8.17"
-            rebar3: "3.15.2"
-            os: ubuntu-20.04
-          - otp: "22.3.4.9"
-            rebar3: "3.16.1"
-            os: ubuntu-20.04
-          - otp: "23.3.4.5"
-            rebar3: "3.16.1"
-            os: ubuntu-22.04
-          - otp: "24.3.4.17"
-            rebar3: "3.16.1"
-            os: ubuntu-22.04
-          - otp: "25.3.2.15"
-            rebar3: "3.22.1"
-            os: ubuntu-24.04
+        compat:
           - otp: "26.2.5.5"
             rebar3: "3.22.1"
             os: ubuntu-24.04
@@ -298,8 +293,9 @@ One can run matrix-style testing but with pinned compatible versions in the foll
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: ${{matrix.erlang.otp}}
-          rebar3-version: ${{matrix.erlang.rebar3}}
+          otp-version: ${{matrix.compat.otp}}
+          rebar3-version: ${{matrix.compat.rebar3}}
+          version-type: strict
       - run: rebar3 eunit
 ```
 
