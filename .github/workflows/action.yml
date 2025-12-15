@@ -59,7 +59,7 @@ jobs:
     if: github.ref != 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4.2.2
-      - uses: raven-actions/actionlint@v2.0.1
+      - uses: raven-actions/actionlint@v2.1.0
 
   unit_tests_ubuntu:
     name: Unit tests (Ubuntu)
