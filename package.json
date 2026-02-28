@@ -21,7 +21,8 @@
     "@actions/tool-cache": "2.0.2",
     "csv-parse": "6.1.0",
     "lodash": "4.17.23",
-    "semver": "7.7.2"
+    "semver": "7.7.2",
+    "toml": "^3.0.0"
   },
   "devDependencies": {
     "@eslint/js": "9.38.0",
@@ -32,8 +33,7 @@
     "markdownlint-cli": "0.47.0",
     "prettier": "3.6.2",
     "shellcheck": "4.1.0",
-    "yarn": "1.22.22",
-    "toml": "^3.0.0"
+    "yarn": "1.22.22"
   },
   "engines": {
     "node": ">=20"
