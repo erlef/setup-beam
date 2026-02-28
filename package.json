@@ -23,7 +23,7 @@
     "csv-parse": "6.1.0",
     "lodash": "4.17.23",
     "semver": "7.7.4",
-    "toml": "^3.0.0"
+    "toml": "3.0.0"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
