@@ -24,7 +24,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v6.0.2
       - name: Version it!
         run: |
           # We expect a string such as const setupBeamVersion = 'undefined' in the code
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v6.0.2
       - uses: actions/setup-node@v6.1.0
         with:
           node-version: '20'
@@ -58,14 +58,14 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v6.0.2
       - uses: raven-actions/actionlint@v2.1.0
 
   unit_tests_ubuntu:
     name: Unit tests (Ubuntu)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v6.0.2
       - uses: actions/setup-node@v6.1.0
         with:
           node-version: '20'
@@ -84,7 +84,7 @@ jobs:
     name: Unit tests (Windows)
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v6.0.2
       - uses: actions/setup-node@v6.1.0
         with:
           node-version: '20'
@@ -103,7 +103,7 @@ jobs:
     name: Unit tests (macOS)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v6.0.2
       - uses: actions/setup-node@v6.1.0
         with:
           node-version: '20'
