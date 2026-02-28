@@ -94,7 +94,7 @@ and Erlang/OTP.
 
 ### Compatibility between Erlang/OTP and rebar3
 
-See [compatable versions](https://github.com/erlang/rebar3?tab=readme-ov-file#compatibility-between-rebar3-and-erlangotp) in rebar3 repo
+Check [version compatibility](https://github.com/erlang/rebar3?tab=readme-ov-file#compatibility-between-rebar3-and-erlangotp) in `erlang/rebar3`.
 
 ### Self-hosted runners
 
