@@ -92,6 +92,10 @@ and Erlang/OTP.
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
 
+### Compatibility between Erlang/OTP and rebar3
+
+Check [version compatibility](https://github.com/erlang/rebar3?tab=readme-ov-file#compatibility-between-rebar3-and-erlangotp) in `erlang/rebar3`.
+
 ### Self-hosted runners
 
 Self-hosted runners need to set env. variable `ImageOS` to one of the following, since the action
@@ -289,6 +293,33 @@ jobs:
           otp-version: ${{matrix.otp}}
           rebar3-version: ${{matrix.rebar3}}
       - run: rebar3 ct
+```
+
+### Compatibility
+
+Matrix-style testing can be executed using pinned, compatible dependency versions by configuring the test matrix accordingly:
+
+```yaml
+  test:
+    runs-on: ${{matrix.compat.os}}
+    name: Erlang/OTP ${{matrix.compat.otp}} / rebar3 ${{matrix.compat.rebar3}}
+    strategy:
+      matrix:
+        compat:
+          - otp: "26.2.5.5"
+            rebar3: "3.22.1"
+            os: ubuntu-24.04
+          - otp: "27.1.2"
+            rebar3: "3.22.1"
+            os: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.compat.otp}}
+          rebar3-version: ${{matrix.compat.rebar3}}
+          version-type: strict
+      - run: rebar3 eunit
 ```
 
 ### Erlang/OTP + `rebar3`, on Windows
