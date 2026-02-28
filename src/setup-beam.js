@@ -33,7 +33,8 @@ async function main() {
       )
     }
 
-    const versionFileType = getInput('version-file-type', '.tool-versions')
+    const versionFileType =
+      getInput('version-file-type', false) || '.tool-versions'
     versions = parseVersionFile(versionFilePath, versionFileType)
   }
 

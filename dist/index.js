@@ -80470,10 +80470,12 @@ var lodash = __nccwpck_require__(2356);
 
 
 
+const toml = require('toml')
 
 const setup_beam_dirname = external_node_path_namespaceObject.dirname((0,external_node_url_.fileURLToPath)(import.meta.url))
 
 const MAX_HTTP_RETRIES = 3
+const APPS = ['erlang', 'elixir', 'gleam', 'rebar']
 
 if (process.env.NODE_ENV !== 'test') {
   main().catch((err) => {
@@ -80492,7 +80494,10 @@ async function main() {
         "you have to set version-type=strict if you're using version-file",
       )
     }
-    versions = parseVersionFile(versionFilePath)
+
+    const versionFileType =
+      setup_beam_getInput('version-file-type', false) || '.tool-versions'
+    versions = parseVersionFile(versionFilePath, versionFileType)
   }
 
   const otpSpec = setup_beam_getInput('otp-version', true, 'erlang', versions)
@@ -81263,28 +81268,14 @@ alongside ${alternativeName}=${alternativeValue} \
   return input
 }
 
-function parseVersionFile(versionFilePath0) {
-  const versionFilePath = external_node_path_namespaceObject.resolve(
-    process.env.GITHUB_WORKSPACE,
-    versionFilePath0,
-  )
-  if (!external_node_fs_namespaceObject.existsSync(versionFilePath)) {
-    throw new Error(
-      `The specified version file, ${versionFilePath0}, does not exist`,
-    )
-  }
-
-  lib_core.startGroup(`Parsing version file at ${versionFilePath0}`)
+function parseToolVersionsFile(versionFilePath) {
   const appVersions = new Map()
   const versions = external_node_fs_namespaceObject.readFileSync(versionFilePath, 'utf8')
-  // For the time being we parse .tool-versions
-  // If we ever start parsing something else, this should
-  // become default in a new option named e.g. version-file-type
   versions.split(/\r?\n/).forEach((line) => {
     const appVersion = line.match(/^([^ ]+)[ ]+(ref:v?)?([^ #]+)/)
     if (appVersion) {
       const app = appVersion[1]
-      if (['erlang', 'elixir', 'gleam', 'rebar'].includes(app)) {
+      if (APPS.includes(app)) {
         const [, , , version] = appVersion
         lib_core.info(`Consuming ${app} at version ${version}`)
         appVersions.set(app, version)
@@ -81299,6 +81290,44 @@ function parseVersionFile(versionFilePath0) {
   lib_core.endGroup()
 
   return appVersions
+}
+
+function parseMiseTomlFile(versionFilePath) {
+  const appVersions = new Map()
+  const miseToml = external_node_fs_namespaceObject.readFileSync(versionFilePath, 'utf8')
+  const miseTomlParsed = toml.parse(miseToml)
+  for (const app in miseTomlParsed.tools) {
+    if (APPS.includes(app)) {
+      const appVersion = miseTomlParsed.tools[app]
+      const version =
+        typeof appVersion == 'object' ? appVersion.version : appVersion
+
+      lib_core.info(`Consuming ${app} at version ${version}`)
+      appVersions.set(app, version)
+    }
+  }
+
+  return appVersions
+}
+
+function parseVersionFile(versionFilePath0, versionFileType) {
+  const versionFilePath = external_node_path_namespaceObject.resolve(
+    process.env.GITHUB_WORKSPACE,
+    versionFilePath0,
+  )
+  if (!external_node_fs_namespaceObject.existsSync(versionFilePath)) {
+    throw new Error(
+      `The specified version file, ${versionFilePath0}, does not exist`,
+    )
+  }
+  lib_core.startGroup(`Parsing ${versionFileType} file at ${versionFilePath0}`)
+
+  switch (versionFileType) {
+    case '.tool-versions':
+      return parseToolVersionsFile(versionFilePath)
+    case 'mise.toml':
+      return parseMiseTomlFile(versionFilePath)
+  }
 }
 
 function debugLog(groupName, message) {
