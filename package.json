@@ -29,7 +29,7 @@
     "eslint": "9.38.0",
     "eslint-plugin-yml": "1.18.0",
     "globals": "17.3.0",
-    "markdownlint-cli2": "0.21.0",
+    "markdownlint-cli": "0.47.0",
     "prettier": "3.6.2",
     "shellcheck": "4.1.0",
     "yarn": "1.22.22"
