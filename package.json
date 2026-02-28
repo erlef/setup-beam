@@ -20,18 +20,18 @@
     "@actions/exec": "1.1.1",
     "@actions/tool-cache": "2.0.2",
     "csv-parse": "6.1.0",
-    "semver": "7.7.2",
-    "lodash": "4.17.23"
+    "lodash": "4.17.23",
+    "semver": "7.7.2"
   },
   "devDependencies": {
+    "@eslint/js": "9.38.0",
     "@vercel/ncc": "0.38.4",
     "eslint": "9.38.0",
-    "@eslint/js": "9.31.0",
+    "eslint-plugin-yml": "1.18.0",
     "globals": "17.3.0",
     "markdownlint-cli": "0.47.0",
     "prettier": "3.6.2",
     "shellcheck": "4.1.0",
-    "eslint-plugin-yml": "1.18.0",
     "yarn": "1.22.22"
   },
   "engines": {
