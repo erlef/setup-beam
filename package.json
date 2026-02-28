@@ -27,7 +27,7 @@
     "@vercel/ncc": "0.38.3",
     "eslint": "9.38.0",
     "@eslint/js": "9.31.0",
-    "globals": "16.3.0",
+    "globals": "17.3.0",
     "markdownlint-cli": "0.45.0",
     "prettier": "3.6.2",
     "shellcheck": "4.1.0",
