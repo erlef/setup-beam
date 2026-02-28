@@ -25,7 +25,6 @@ async function main() {
   checkOtpArchitecture()
 
   const versionFilePath = getInput('version-file', false)
-
   let versions
   if (versionFilePath) {
     if (!isStrictVersion()) {
