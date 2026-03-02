@@ -24,9 +24,9 @@
     "semver": "7.7.2"
   },
   "devDependencies": {
-    "@eslint/js": "9.38.0",
+    "@eslint/js": "10.0.1",
     "@vercel/ncc": "0.38.4",
-    "eslint": "9.38.0",
+    "eslint": "10.0.1",
     "eslint-plugin-yml": "1.18.0",
     "globals": "17.3.0",
     "markdownlint-cli": "0.47.0",
