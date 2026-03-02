@@ -576,7 +576,7 @@ function getVersionFromSpec(spec0, versions0) {
 }
 
 function maybeCoerced(v) {
-  let ret = null
+  let ret
   try {
     if (!isRC(v)) {
       ret = semver.coerce(v).version
