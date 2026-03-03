@@ -19,7 +19,7 @@
   "dependencies": {
     "@actions/core": "1.11.1",
     "@actions/exec": "3.0.0",
-    "@actions/tool-cache": "2.0.2",
+    "@actions/tool-cache": "4.0.0",
     "csv-parse": "6.1.0",
     "lodash": "4.17.23",
     "semver": "7.7.4"
