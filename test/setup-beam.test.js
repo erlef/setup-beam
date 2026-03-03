@@ -990,7 +990,7 @@ gleam ${gleam} \n`
     }
     fs.writeFileSync(filename, toolVersions)
     process.env.GITHUB_WORKSPACE = ''
-    const appVersions = setupBeam.parseVersionFile(filename, '.tool-versions')
+    const appVersions = setupBeam.parseVersionFile(filename)
     assert.strictEqual(appVersions.get('erlang'), erlang)
     assert.strictEqual(appVersions.get('elixir'), elixir)
 
@@ -998,10 +998,7 @@ gleam ${gleam} \n`
     fs.writeFileSync(absoluteFilename, toolVersions)
 
     process.env.GITHUB_WORKSPACE = process.cwd()
-    const absoluteAppVersions = setupBeam.parseVersionFile(
-      absoluteFilename,
-      '.tool-versions',
-    )
+    const absoluteAppVersions = setupBeam.parseVersionFile(absoluteFilename)
     assert.strictEqual(absoluteAppVersions.get('erlang'), erlang)
     assert.strictEqual(absoluteAppVersions.get('elixir'), elixir)
 
@@ -1042,7 +1039,7 @@ elixir = { version = "${elixir}", postinstall="mix deps.get" }  # comment, with 
     }
     fs.writeFileSync(filename, miseToml)
     process.env.GITHUB_WORKSPACE = ''
-    const appVersions = setupBeam.parseVersionFile(filename, 'mise.toml')
+    const appVersions = setupBeam.parseVersionFile(filename)
     assert.strictEqual(appVersions.get('erlang'), erlang)
     assert.strictEqual(appVersions.get('elixir'), elixir)
 
@@ -1050,10 +1047,7 @@ elixir = { version = "${elixir}", postinstall="mix deps.get" }  # comment, with 
     fs.writeFileSync(absoluteFilename, miseToml)
 
     process.env.GITHUB_WORKSPACE = process.cwd()
-    const absoluteAppVersions = setupBeam.parseVersionFile(
-      absoluteFilename,
-      'mise.toml',
-    )
+    const absoluteAppVersions = setupBeam.parseVersionFile(absoluteFilename)
     assert.strictEqual(absoluteAppVersions.get('erlang'), erlang)
     assert.strictEqual(absoluteAppVersions.get('elixir'), elixir)
 

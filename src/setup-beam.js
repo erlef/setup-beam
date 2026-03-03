@@ -8,7 +8,7 @@ import * as tc from '@actions/tool-cache'
 import * as semver from 'semver'
 import * as csv from 'csv-parse/sync'
 import _ from 'lodash'
-const toml = require('toml')
+import toml from 'toml'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -33,9 +33,7 @@ async function main() {
       )
     }
 
-    const versionFileType =
-      getInput('version-file-type', false) || '.tool-versions'
-    versions = parseVersionFile(versionFilePath, versionFileType)
+    versions = parseVersionFile(versionFilePath)
   }
 
   const otpSpec = getInput('otp-version', true, 'erlang', versions)
@@ -849,7 +847,7 @@ function parseMiseTomlFile(versionFilePath) {
   return appVersions
 }
 
-function parseVersionFile(versionFilePath0, versionFileType) {
+function parseVersionFile(versionFilePath0) {
   const versionFilePath = path.resolve(
     process.env.GITHUB_WORKSPACE,
     versionFilePath0,
@@ -859,14 +857,14 @@ function parseVersionFile(versionFilePath0, versionFileType) {
       `The specified version file, ${versionFilePath0}, does not exist`,
     )
   }
-  core.startGroup(`Parsing ${versionFileType} file at ${versionFilePath0}`)
 
-  switch (versionFileType) {
-    case '.tool-versions':
-      return parseToolVersionsFile(versionFilePath)
-    case 'mise.toml':
-      return parseMiseTomlFile(versionFilePath)
+  if (versionFilePath0.endsWith('.toml')) {
+    core.startGroup(`Parsing mise.toml file at ${versionFilePath0}`)
+    return parseMiseTomlFile(versionFilePath)
   }
+
+  core.startGroup(`Parsing .tool-versions file at ${versionFilePath0}`)
+  return parseToolVersionsFile(versionFilePath)
 }
 
 function debugLog(groupName, message) {
