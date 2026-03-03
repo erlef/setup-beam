@@ -1,30 +1,27 @@
 import js from '@eslint/js'
 import globals from 'globals'
-import { defineConfig } from 'eslint/config'
-import eslintPluginYml from 'eslint-plugin-yml'
+import yml from 'eslint-plugin-yml'
+import yamlParser from 'yaml-eslint-parser'
 
-export default defineConfig([
-  ...eslintPluginYml.configs['flat/recommended'],
+export default [
+  js.configs.recommended,
   {
-    extends: ['js/recommended'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: globals.node,
+    },
+  },
+  {
+    files: ['**/*.yml'],
+    languageOptions: {
+      parser: yamlParser,
+    },
     plugins: {
-      js,
+      yml,
     },
-    languageOptions: {
-      ecmaVersion: 2022,
-      globals: {
-        ...globals.node,
-      },
+    rules: {
+      ...yml.configs.recommended.rules,
     },
   },
-  {
-    extends: eslintPluginYml.configs['flat/recommended'],
-    files: ['*.yml'],
-    languageOptions: {
-      parserOptions: {
-        parser: 'yaml-eslint-parser',
-        defaultYAMLVersion: '1.2',
-      },
-    },
-  },
-])
+]

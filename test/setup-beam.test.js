@@ -9,15 +9,16 @@ simulateInput('install-hex', 'true')
 simulateInput('github-token', process.env.GITHUB_TOKEN)
 simulateInput('hexpm-mirrors', 'https://builds.hex.pm', { multiline: true })
 
-const assert = require('assert')
-const http = require('http')
-const fs = require('fs')
-const os = require('os')
-const path = require('path')
-const setupBeam = require('../src/setup-beam')
-const { problemMatcher } = require('../matchers/elixir-matchers.json')
-const { describe, it } = require('node:test')
-const csv = require('csv-parse/sync')
+import assert from 'node:assert'
+import http from 'node:http'
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
+import { describe, it } from 'node:test'
+import * as csv from 'csv-parse/sync'
+import setupBeam from '../src/setup-beam.js'
+import elixirMatchers from '../matchers/elixir-matchers.json' with { type: 'json' }
+const { problemMatcher } = elixirMatchers
 
 const matrix = {
   otp: {
