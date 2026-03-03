@@ -1,2 +1,3 @@
-node_modules/**
-test/.tool-versions
+/node_modules
+/test/.tool-versions
+/dist/package.json

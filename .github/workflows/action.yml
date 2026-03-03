@@ -71,6 +71,8 @@ jobs:
           node-version: '20'
       - run: npm ci
       - run: npm test
+        env:
+          NODE_ENV: test
       - name: .tool-versions test
         id: setup-beam
         uses: ./
@@ -90,6 +92,8 @@ jobs:
           node-version: '20'
       - run: npm install --production
       - run: npm test
+        env:
+          NODE_ENV: test
       - name: .tool-versions test
         id: setup-beam
         uses: ./
@@ -109,3 +113,5 @@ jobs:
           node-version: '20'
       - run: npm ci
       - run: npm test
+        env:
+          NODE_ENV: test

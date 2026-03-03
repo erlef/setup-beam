@@ -1,10 +1,9 @@
-/******/ (() => { // webpackBootstrap
-/******/ 	var __webpack_modules__ = ({
+import { createRequire as __WEBPACK_EXTERNAL_createRequire } from "module";
+/******/ var __webpack_modules__ = ({
 
 /***/ 4914:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -107,7 +106,6 @@ function escapeProperty(s) {
 /***/ 7484:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -458,7 +456,6 @@ exports.platform = __importStar(__nccwpck_require__(8968));
 /***/ 4753:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 // For internal use, subject to change.
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
@@ -527,7 +524,6 @@ exports.prepareKeyValueMessage = prepareKeyValueMessage;
 /***/ 5306:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -611,7 +607,6 @@ exports.OidcClient = OidcClient;
 /***/ 1976:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -680,7 +675,6 @@ exports.toPlatformPath = toPlatformPath;
 /***/ 8968:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -720,7 +714,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getDetails = exports.isLinux = exports.isMacOS = exports.isWindows = exports.arch = exports.platform = void 0;
 const os_1 = __importDefault(__nccwpck_require__(857));
-const exec = __importStar(__nccwpck_require__(5236));
+const exec = __importStar(__nccwpck_require__(7251));
 const getWindowsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
     const { stdout: version } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Version"', undefined, {
         silent: true
@@ -781,7 +775,6 @@ exports.getDetails = getDetails;
 /***/ 1847:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -1071,7 +1064,6 @@ exports.summary = _summary;
 /***/ 302:
 /***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -1115,10 +1107,9 @@ exports.toCommandProperties = toCommandProperties;
 
 /***/ }),
 
-/***/ 5236:
+/***/ 7251:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -1151,7 +1142,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getExecOutput = exports.exec = void 0;
 const string_decoder_1 = __nccwpck_require__(3193);
-const tr = __importStar(__nccwpck_require__(6665));
+const tr = __importStar(__nccwpck_require__(5982));
 /**
  * Exec a command.
  * Output will be streamed to the live console.
@@ -1225,10 +1216,9 @@ exports.getExecOutput = getExecOutput;
 
 /***/ }),
 
-/***/ 6665:
+/***/ 5982:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -1264,8 +1254,8 @@ const os = __importStar(__nccwpck_require__(857));
 const events = __importStar(__nccwpck_require__(4434));
 const child = __importStar(__nccwpck_require__(5317));
 const path = __importStar(__nccwpck_require__(6928));
-const io = __importStar(__nccwpck_require__(4994));
-const ioUtil = __importStar(__nccwpck_require__(5207));
+const io = __importStar(__nccwpck_require__(6757));
+const ioUtil = __importStar(__nccwpck_require__(2594));
 const timers_1 = __nccwpck_require__(3557);
 /* eslint-disable @typescript-eslint/unbound-method */
 const IS_WINDOWS = process.platform === 'win32';
@@ -1850,10 +1840,503 @@ class ExecState extends events.EventEmitter {
 
 /***/ }),
 
+/***/ 2594:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.READONLY = exports.UV_FS_O_EXLOCK = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rm = exports.rename = exports.readlink = exports.readdir = exports.open = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
+const fs = __importStar(__nccwpck_require__(9896));
+const path = __importStar(__nccwpck_require__(6928));
+_a = fs.promises
+// export const {open} = 'fs'
+, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.open = _a.open, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rm = _a.rm, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
+// export const {open} = 'fs'
+exports.IS_WINDOWS = process.platform === 'win32';
+// See https://github.com/nodejs/node/blob/d0153aee367422d0858105abec186da4dff0a0c5/deps/uv/include/uv/win.h#L691
+exports.UV_FS_O_EXLOCK = 0x10000000;
+exports.READONLY = fs.constants.O_RDONLY;
+function exists(fsPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield exports.stat(fsPath);
+        }
+        catch (err) {
+            if (err.code === 'ENOENT') {
+                return false;
+            }
+            throw err;
+        }
+        return true;
+    });
+}
+exports.exists = exists;
+function isDirectory(fsPath, useStat = false) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const stats = useStat ? yield exports.stat(fsPath) : yield exports.lstat(fsPath);
+        return stats.isDirectory();
+    });
+}
+exports.isDirectory = isDirectory;
+/**
+ * On OSX/Linux, true if path starts with '/'. On Windows, true for paths like:
+ * \, \hello, \\hello\share, C:, and C:\hello (and corresponding alternate separator cases).
+ */
+function isRooted(p) {
+    p = normalizeSeparators(p);
+    if (!p) {
+        throw new Error('isRooted() parameter "p" cannot be empty');
+    }
+    if (exports.IS_WINDOWS) {
+        return (p.startsWith('\\') || /^[A-Z]:/i.test(p) // e.g. \ or \hello or \\hello
+        ); // e.g. C: or C:\hello
+    }
+    return p.startsWith('/');
+}
+exports.isRooted = isRooted;
+/**
+ * Best effort attempt to determine whether a file exists and is executable.
+ * @param filePath    file path to check
+ * @param extensions  additional file extensions to try
+ * @return if file exists and is executable, returns the file path. otherwise empty string.
+ */
+function tryGetExecutablePath(filePath, extensions) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let stats = undefined;
+        try {
+            // test file exists
+            stats = yield exports.stat(filePath);
+        }
+        catch (err) {
+            if (err.code !== 'ENOENT') {
+                // eslint-disable-next-line no-console
+                console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
+            }
+        }
+        if (stats && stats.isFile()) {
+            if (exports.IS_WINDOWS) {
+                // on Windows, test for valid extension
+                const upperExt = path.extname(filePath).toUpperCase();
+                if (extensions.some(validExt => validExt.toUpperCase() === upperExt)) {
+                    return filePath;
+                }
+            }
+            else {
+                if (isUnixExecutable(stats)) {
+                    return filePath;
+                }
+            }
+        }
+        // try each extension
+        const originalFilePath = filePath;
+        for (const extension of extensions) {
+            filePath = originalFilePath + extension;
+            stats = undefined;
+            try {
+                stats = yield exports.stat(filePath);
+            }
+            catch (err) {
+                if (err.code !== 'ENOENT') {
+                    // eslint-disable-next-line no-console
+                    console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
+                }
+            }
+            if (stats && stats.isFile()) {
+                if (exports.IS_WINDOWS) {
+                    // preserve the case of the actual file (since an extension was appended)
+                    try {
+                        const directory = path.dirname(filePath);
+                        const upperName = path.basename(filePath).toUpperCase();
+                        for (const actualName of yield exports.readdir(directory)) {
+                            if (upperName === actualName.toUpperCase()) {
+                                filePath = path.join(directory, actualName);
+                                break;
+                            }
+                        }
+                    }
+                    catch (err) {
+                        // eslint-disable-next-line no-console
+                        console.log(`Unexpected error attempting to determine the actual case of the file '${filePath}': ${err}`);
+                    }
+                    return filePath;
+                }
+                else {
+                    if (isUnixExecutable(stats)) {
+                        return filePath;
+                    }
+                }
+            }
+        }
+        return '';
+    });
+}
+exports.tryGetExecutablePath = tryGetExecutablePath;
+function normalizeSeparators(p) {
+    p = p || '';
+    if (exports.IS_WINDOWS) {
+        // convert slashes on Windows
+        p = p.replace(/\//g, '\\');
+        // remove redundant slashes
+        return p.replace(/\\\\+/g, '\\');
+    }
+    // remove redundant slashes
+    return p.replace(/\/\/+/g, '/');
+}
+// on Mac/Linux, test the execute bit
+//     R   W  X  R  W X R W X
+//   256 128 64 32 16 8 4 2 1
+function isUnixExecutable(stats) {
+    return ((stats.mode & 1) > 0 ||
+        ((stats.mode & 8) > 0 && stats.gid === process.getgid()) ||
+        ((stats.mode & 64) > 0 && stats.uid === process.getuid()));
+}
+// Get the path of cmd.exe in windows
+function getCmdPath() {
+    var _a;
+    return (_a = process.env['COMSPEC']) !== null && _a !== void 0 ? _a : `cmd.exe`;
+}
+exports.getCmdPath = getCmdPath;
+//# sourceMappingURL=io-util.js.map
+
+/***/ }),
+
+/***/ 6757:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.findInPath = exports.which = exports.mkdirP = exports.rmRF = exports.mv = exports.cp = void 0;
+const assert_1 = __nccwpck_require__(2613);
+const path = __importStar(__nccwpck_require__(6928));
+const ioUtil = __importStar(__nccwpck_require__(2594));
+/**
+ * Copies a file or folder.
+ * Based off of shelljs - https://github.com/shelljs/shelljs/blob/9237f66c52e5daa40458f94f9565e18e8132f5a6/src/cp.js
+ *
+ * @param     source    source path
+ * @param     dest      destination path
+ * @param     options   optional. See CopyOptions.
+ */
+function cp(source, dest, options = {}) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { force, recursive, copySourceDirectory } = readCopyOptions(options);
+        const destStat = (yield ioUtil.exists(dest)) ? yield ioUtil.stat(dest) : null;
+        // Dest is an existing file, but not forcing
+        if (destStat && destStat.isFile() && !force) {
+            return;
+        }
+        // If dest is an existing directory, should copy inside.
+        const newDest = destStat && destStat.isDirectory() && copySourceDirectory
+            ? path.join(dest, path.basename(source))
+            : dest;
+        if (!(yield ioUtil.exists(source))) {
+            throw new Error(`no such file or directory: ${source}`);
+        }
+        const sourceStat = yield ioUtil.stat(source);
+        if (sourceStat.isDirectory()) {
+            if (!recursive) {
+                throw new Error(`Failed to copy. ${source} is a directory, but tried to copy without recursive flag.`);
+            }
+            else {
+                yield cpDirRecursive(source, newDest, 0, force);
+            }
+        }
+        else {
+            if (path.relative(source, newDest) === '') {
+                // a file cannot be copied to itself
+                throw new Error(`'${newDest}' and '${source}' are the same file`);
+            }
+            yield copyFile(source, newDest, force);
+        }
+    });
+}
+exports.cp = cp;
+/**
+ * Moves a path.
+ *
+ * @param     source    source path
+ * @param     dest      destination path
+ * @param     options   optional. See MoveOptions.
+ */
+function mv(source, dest, options = {}) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (yield ioUtil.exists(dest)) {
+            let destExists = true;
+            if (yield ioUtil.isDirectory(dest)) {
+                // If dest is directory copy src into dest
+                dest = path.join(dest, path.basename(source));
+                destExists = yield ioUtil.exists(dest);
+            }
+            if (destExists) {
+                if (options.force == null || options.force) {
+                    yield rmRF(dest);
+                }
+                else {
+                    throw new Error('Destination already exists');
+                }
+            }
+        }
+        yield mkdirP(path.dirname(dest));
+        yield ioUtil.rename(source, dest);
+    });
+}
+exports.mv = mv;
+/**
+ * Remove a path recursively with force
+ *
+ * @param inputPath path to remove
+ */
+function rmRF(inputPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (ioUtil.IS_WINDOWS) {
+            // Check for invalid characters
+            // https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file
+            if (/[*"<>|]/.test(inputPath)) {
+                throw new Error('File path must not contain `*`, `"`, `<`, `>` or `|` on Windows');
+            }
+        }
+        try {
+            // note if path does not exist, error is silent
+            yield ioUtil.rm(inputPath, {
+                force: true,
+                maxRetries: 3,
+                recursive: true,
+                retryDelay: 300
+            });
+        }
+        catch (err) {
+            throw new Error(`File was unable to be removed ${err}`);
+        }
+    });
+}
+exports.rmRF = rmRF;
+/**
+ * Make a directory.  Creates the full path with folders in between
+ * Will throw if it fails
+ *
+ * @param   fsPath        path to create
+ * @returns Promise<void>
+ */
+function mkdirP(fsPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        assert_1.ok(fsPath, 'a path argument must be provided');
+        yield ioUtil.mkdir(fsPath, { recursive: true });
+    });
+}
+exports.mkdirP = mkdirP;
+/**
+ * Returns path of a tool had the tool actually been invoked.  Resolves via paths.
+ * If you check and the tool does not exist, it will throw.
+ *
+ * @param     tool              name of the tool
+ * @param     check             whether to check if tool exists
+ * @returns   Promise<string>   path to tool
+ */
+function which(tool, check) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!tool) {
+            throw new Error("parameter 'tool' is required");
+        }
+        // recursive when check=true
+        if (check) {
+            const result = yield which(tool, false);
+            if (!result) {
+                if (ioUtil.IS_WINDOWS) {
+                    throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also verify the file has a valid extension for an executable file.`);
+                }
+                else {
+                    throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also check the file mode to verify the file is executable.`);
+                }
+            }
+            return result;
+        }
+        const matches = yield findInPath(tool);
+        if (matches && matches.length > 0) {
+            return matches[0];
+        }
+        return '';
+    });
+}
+exports.which = which;
+/**
+ * Returns a list of all occurrences of the given tool on the system path.
+ *
+ * @returns   Promise<string[]>  the paths of the tool
+ */
+function findInPath(tool) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!tool) {
+            throw new Error("parameter 'tool' is required");
+        }
+        // build the list of extensions to try
+        const extensions = [];
+        if (ioUtil.IS_WINDOWS && process.env['PATHEXT']) {
+            for (const extension of process.env['PATHEXT'].split(path.delimiter)) {
+                if (extension) {
+                    extensions.push(extension);
+                }
+            }
+        }
+        // if it's rooted, return it if exists. otherwise return empty.
+        if (ioUtil.isRooted(tool)) {
+            const filePath = yield ioUtil.tryGetExecutablePath(tool, extensions);
+            if (filePath) {
+                return [filePath];
+            }
+            return [];
+        }
+        // if any path separators, return empty
+        if (tool.includes(path.sep)) {
+            return [];
+        }
+        // build the list of directories
+        //
+        // Note, technically "where" checks the current directory on Windows. From a toolkit perspective,
+        // it feels like we should not do this. Checking the current directory seems like more of a use
+        // case of a shell, and the which() function exposed by the toolkit should strive for consistency
+        // across platforms.
+        const directories = [];
+        if (process.env.PATH) {
+            for (const p of process.env.PATH.split(path.delimiter)) {
+                if (p) {
+                    directories.push(p);
+                }
+            }
+        }
+        // find all matches
+        const matches = [];
+        for (const directory of directories) {
+            const filePath = yield ioUtil.tryGetExecutablePath(path.join(directory, tool), extensions);
+            if (filePath) {
+                matches.push(filePath);
+            }
+        }
+        return matches;
+    });
+}
+exports.findInPath = findInPath;
+function readCopyOptions(options) {
+    const force = options.force == null ? true : options.force;
+    const recursive = Boolean(options.recursive);
+    const copySourceDirectory = options.copySourceDirectory == null
+        ? true
+        : Boolean(options.copySourceDirectory);
+    return { force, recursive, copySourceDirectory };
+}
+function cpDirRecursive(sourceDir, destDir, currentDepth, force) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // Ensure there is not a run away recursive copy
+        if (currentDepth >= 255)
+            return;
+        currentDepth++;
+        yield mkdirP(destDir);
+        const files = yield ioUtil.readdir(sourceDir);
+        for (const fileName of files) {
+            const srcFile = `${sourceDir}/${fileName}`;
+            const destFile = `${destDir}/${fileName}`;
+            const srcFileStat = yield ioUtil.lstat(srcFile);
+            if (srcFileStat.isDirectory()) {
+                // Recurse
+                yield cpDirRecursive(srcFile, destFile, currentDepth, force);
+            }
+            else {
+                yield copyFile(srcFile, destFile, force);
+            }
+        }
+        // Change the mode for the newly created directory
+        yield ioUtil.chmod(destDir, (yield ioUtil.stat(sourceDir)).mode);
+    });
+}
+// Buffered file copy
+function copyFile(srcFile, destFile, force) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if ((yield ioUtil.lstat(srcFile)).isSymbolicLink()) {
+            // unlink/re-link it
+            try {
+                yield ioUtil.lstat(destFile);
+                yield ioUtil.unlink(destFile);
+            }
+            catch (e) {
+                // Try to override file permission
+                if (e.code === 'EPERM') {
+                    yield ioUtil.chmod(destFile, '0666');
+                    yield ioUtil.unlink(destFile);
+                }
+                // other errors = it doesn't exist, no work to do
+            }
+            // Copy over symlink
+            const symlinkFull = yield ioUtil.readlink(srcFile);
+            yield ioUtil.symlink(symlinkFull, destFile, ioUtil.IS_WINDOWS ? 'junction' : null);
+        }
+        else if (!(yield ioUtil.exists(destFile)) || force) {
+            yield ioUtil.copyFile(srcFile, destFile);
+        }
+    });
+}
+//# sourceMappingURL=io.js.map
+
+/***/ }),
+
 /***/ 4552:
 /***/ (function(__unused_webpack_module, exports) {
 
-"use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -1941,7 +2424,6 @@ exports.PersonalAccessTokenCredentialHandler = PersonalAccessTokenCredentialHand
 /***/ 4844:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
@@ -2600,7 +3082,6 @@ const lowercaseKeys = (obj) => Object.keys(obj).reduce((c, k) => ((c[k.toLowerCa
 /***/ 4988:
 /***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.checkBypass = exports.getProxyUrl = void 0;
@@ -2699,506 +3180,9 @@ class DecodedURL extends URL {
 
 /***/ }),
 
-/***/ 5207:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var _a;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.READONLY = exports.UV_FS_O_EXLOCK = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rm = exports.rename = exports.readlink = exports.readdir = exports.open = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
-const fs = __importStar(__nccwpck_require__(9896));
-const path = __importStar(__nccwpck_require__(6928));
-_a = fs.promises
-// export const {open} = 'fs'
-, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.open = _a.open, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rm = _a.rm, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
-// export const {open} = 'fs'
-exports.IS_WINDOWS = process.platform === 'win32';
-// See https://github.com/nodejs/node/blob/d0153aee367422d0858105abec186da4dff0a0c5/deps/uv/include/uv/win.h#L691
-exports.UV_FS_O_EXLOCK = 0x10000000;
-exports.READONLY = fs.constants.O_RDONLY;
-function exists(fsPath) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield exports.stat(fsPath);
-        }
-        catch (err) {
-            if (err.code === 'ENOENT') {
-                return false;
-            }
-            throw err;
-        }
-        return true;
-    });
-}
-exports.exists = exists;
-function isDirectory(fsPath, useStat = false) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const stats = useStat ? yield exports.stat(fsPath) : yield exports.lstat(fsPath);
-        return stats.isDirectory();
-    });
-}
-exports.isDirectory = isDirectory;
-/**
- * On OSX/Linux, true if path starts with '/'. On Windows, true for paths like:
- * \, \hello, \\hello\share, C:, and C:\hello (and corresponding alternate separator cases).
- */
-function isRooted(p) {
-    p = normalizeSeparators(p);
-    if (!p) {
-        throw new Error('isRooted() parameter "p" cannot be empty');
-    }
-    if (exports.IS_WINDOWS) {
-        return (p.startsWith('\\') || /^[A-Z]:/i.test(p) // e.g. \ or \hello or \\hello
-        ); // e.g. C: or C:\hello
-    }
-    return p.startsWith('/');
-}
-exports.isRooted = isRooted;
-/**
- * Best effort attempt to determine whether a file exists and is executable.
- * @param filePath    file path to check
- * @param extensions  additional file extensions to try
- * @return if file exists and is executable, returns the file path. otherwise empty string.
- */
-function tryGetExecutablePath(filePath, extensions) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let stats = undefined;
-        try {
-            // test file exists
-            stats = yield exports.stat(filePath);
-        }
-        catch (err) {
-            if (err.code !== 'ENOENT') {
-                // eslint-disable-next-line no-console
-                console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
-            }
-        }
-        if (stats && stats.isFile()) {
-            if (exports.IS_WINDOWS) {
-                // on Windows, test for valid extension
-                const upperExt = path.extname(filePath).toUpperCase();
-                if (extensions.some(validExt => validExt.toUpperCase() === upperExt)) {
-                    return filePath;
-                }
-            }
-            else {
-                if (isUnixExecutable(stats)) {
-                    return filePath;
-                }
-            }
-        }
-        // try each extension
-        const originalFilePath = filePath;
-        for (const extension of extensions) {
-            filePath = originalFilePath + extension;
-            stats = undefined;
-            try {
-                stats = yield exports.stat(filePath);
-            }
-            catch (err) {
-                if (err.code !== 'ENOENT') {
-                    // eslint-disable-next-line no-console
-                    console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
-                }
-            }
-            if (stats && stats.isFile()) {
-                if (exports.IS_WINDOWS) {
-                    // preserve the case of the actual file (since an extension was appended)
-                    try {
-                        const directory = path.dirname(filePath);
-                        const upperName = path.basename(filePath).toUpperCase();
-                        for (const actualName of yield exports.readdir(directory)) {
-                            if (upperName === actualName.toUpperCase()) {
-                                filePath = path.join(directory, actualName);
-                                break;
-                            }
-                        }
-                    }
-                    catch (err) {
-                        // eslint-disable-next-line no-console
-                        console.log(`Unexpected error attempting to determine the actual case of the file '${filePath}': ${err}`);
-                    }
-                    return filePath;
-                }
-                else {
-                    if (isUnixExecutable(stats)) {
-                        return filePath;
-                    }
-                }
-            }
-        }
-        return '';
-    });
-}
-exports.tryGetExecutablePath = tryGetExecutablePath;
-function normalizeSeparators(p) {
-    p = p || '';
-    if (exports.IS_WINDOWS) {
-        // convert slashes on Windows
-        p = p.replace(/\//g, '\\');
-        // remove redundant slashes
-        return p.replace(/\\\\+/g, '\\');
-    }
-    // remove redundant slashes
-    return p.replace(/\/\/+/g, '/');
-}
-// on Mac/Linux, test the execute bit
-//     R   W  X  R  W X R W X
-//   256 128 64 32 16 8 4 2 1
-function isUnixExecutable(stats) {
-    return ((stats.mode & 1) > 0 ||
-        ((stats.mode & 8) > 0 && stats.gid === process.getgid()) ||
-        ((stats.mode & 64) > 0 && stats.uid === process.getuid()));
-}
-// Get the path of cmd.exe in windows
-function getCmdPath() {
-    var _a;
-    return (_a = process.env['COMSPEC']) !== null && _a !== void 0 ? _a : `cmd.exe`;
-}
-exports.getCmdPath = getCmdPath;
-//# sourceMappingURL=io-util.js.map
-
-/***/ }),
-
-/***/ 4994:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.findInPath = exports.which = exports.mkdirP = exports.rmRF = exports.mv = exports.cp = void 0;
-const assert_1 = __nccwpck_require__(2613);
-const path = __importStar(__nccwpck_require__(6928));
-const ioUtil = __importStar(__nccwpck_require__(5207));
-/**
- * Copies a file or folder.
- * Based off of shelljs - https://github.com/shelljs/shelljs/blob/9237f66c52e5daa40458f94f9565e18e8132f5a6/src/cp.js
- *
- * @param     source    source path
- * @param     dest      destination path
- * @param     options   optional. See CopyOptions.
- */
-function cp(source, dest, options = {}) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const { force, recursive, copySourceDirectory } = readCopyOptions(options);
-        const destStat = (yield ioUtil.exists(dest)) ? yield ioUtil.stat(dest) : null;
-        // Dest is an existing file, but not forcing
-        if (destStat && destStat.isFile() && !force) {
-            return;
-        }
-        // If dest is an existing directory, should copy inside.
-        const newDest = destStat && destStat.isDirectory() && copySourceDirectory
-            ? path.join(dest, path.basename(source))
-            : dest;
-        if (!(yield ioUtil.exists(source))) {
-            throw new Error(`no such file or directory: ${source}`);
-        }
-        const sourceStat = yield ioUtil.stat(source);
-        if (sourceStat.isDirectory()) {
-            if (!recursive) {
-                throw new Error(`Failed to copy. ${source} is a directory, but tried to copy without recursive flag.`);
-            }
-            else {
-                yield cpDirRecursive(source, newDest, 0, force);
-            }
-        }
-        else {
-            if (path.relative(source, newDest) === '') {
-                // a file cannot be copied to itself
-                throw new Error(`'${newDest}' and '${source}' are the same file`);
-            }
-            yield copyFile(source, newDest, force);
-        }
-    });
-}
-exports.cp = cp;
-/**
- * Moves a path.
- *
- * @param     source    source path
- * @param     dest      destination path
- * @param     options   optional. See MoveOptions.
- */
-function mv(source, dest, options = {}) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (yield ioUtil.exists(dest)) {
-            let destExists = true;
-            if (yield ioUtil.isDirectory(dest)) {
-                // If dest is directory copy src into dest
-                dest = path.join(dest, path.basename(source));
-                destExists = yield ioUtil.exists(dest);
-            }
-            if (destExists) {
-                if (options.force == null || options.force) {
-                    yield rmRF(dest);
-                }
-                else {
-                    throw new Error('Destination already exists');
-                }
-            }
-        }
-        yield mkdirP(path.dirname(dest));
-        yield ioUtil.rename(source, dest);
-    });
-}
-exports.mv = mv;
-/**
- * Remove a path recursively with force
- *
- * @param inputPath path to remove
- */
-function rmRF(inputPath) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (ioUtil.IS_WINDOWS) {
-            // Check for invalid characters
-            // https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file
-            if (/[*"<>|]/.test(inputPath)) {
-                throw new Error('File path must not contain `*`, `"`, `<`, `>` or `|` on Windows');
-            }
-        }
-        try {
-            // note if path does not exist, error is silent
-            yield ioUtil.rm(inputPath, {
-                force: true,
-                maxRetries: 3,
-                recursive: true,
-                retryDelay: 300
-            });
-        }
-        catch (err) {
-            throw new Error(`File was unable to be removed ${err}`);
-        }
-    });
-}
-exports.rmRF = rmRF;
-/**
- * Make a directory.  Creates the full path with folders in between
- * Will throw if it fails
- *
- * @param   fsPath        path to create
- * @returns Promise<void>
- */
-function mkdirP(fsPath) {
-    return __awaiter(this, void 0, void 0, function* () {
-        assert_1.ok(fsPath, 'a path argument must be provided');
-        yield ioUtil.mkdir(fsPath, { recursive: true });
-    });
-}
-exports.mkdirP = mkdirP;
-/**
- * Returns path of a tool had the tool actually been invoked.  Resolves via paths.
- * If you check and the tool does not exist, it will throw.
- *
- * @param     tool              name of the tool
- * @param     check             whether to check if tool exists
- * @returns   Promise<string>   path to tool
- */
-function which(tool, check) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (!tool) {
-            throw new Error("parameter 'tool' is required");
-        }
-        // recursive when check=true
-        if (check) {
-            const result = yield which(tool, false);
-            if (!result) {
-                if (ioUtil.IS_WINDOWS) {
-                    throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also verify the file has a valid extension for an executable file.`);
-                }
-                else {
-                    throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also check the file mode to verify the file is executable.`);
-                }
-            }
-            return result;
-        }
-        const matches = yield findInPath(tool);
-        if (matches && matches.length > 0) {
-            return matches[0];
-        }
-        return '';
-    });
-}
-exports.which = which;
-/**
- * Returns a list of all occurrences of the given tool on the system path.
- *
- * @returns   Promise<string[]>  the paths of the tool
- */
-function findInPath(tool) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (!tool) {
-            throw new Error("parameter 'tool' is required");
-        }
-        // build the list of extensions to try
-        const extensions = [];
-        if (ioUtil.IS_WINDOWS && process.env['PATHEXT']) {
-            for (const extension of process.env['PATHEXT'].split(path.delimiter)) {
-                if (extension) {
-                    extensions.push(extension);
-                }
-            }
-        }
-        // if it's rooted, return it if exists. otherwise return empty.
-        if (ioUtil.isRooted(tool)) {
-            const filePath = yield ioUtil.tryGetExecutablePath(tool, extensions);
-            if (filePath) {
-                return [filePath];
-            }
-            return [];
-        }
-        // if any path separators, return empty
-        if (tool.includes(path.sep)) {
-            return [];
-        }
-        // build the list of directories
-        //
-        // Note, technically "where" checks the current directory on Windows. From a toolkit perspective,
-        // it feels like we should not do this. Checking the current directory seems like more of a use
-        // case of a shell, and the which() function exposed by the toolkit should strive for consistency
-        // across platforms.
-        const directories = [];
-        if (process.env.PATH) {
-            for (const p of process.env.PATH.split(path.delimiter)) {
-                if (p) {
-                    directories.push(p);
-                }
-            }
-        }
-        // find all matches
-        const matches = [];
-        for (const directory of directories) {
-            const filePath = yield ioUtil.tryGetExecutablePath(path.join(directory, tool), extensions);
-            if (filePath) {
-                matches.push(filePath);
-            }
-        }
-        return matches;
-    });
-}
-exports.findInPath = findInPath;
-function readCopyOptions(options) {
-    const force = options.force == null ? true : options.force;
-    const recursive = Boolean(options.recursive);
-    const copySourceDirectory = options.copySourceDirectory == null
-        ? true
-        : Boolean(options.copySourceDirectory);
-    return { force, recursive, copySourceDirectory };
-}
-function cpDirRecursive(sourceDir, destDir, currentDepth, force) {
-    return __awaiter(this, void 0, void 0, function* () {
-        // Ensure there is not a run away recursive copy
-        if (currentDepth >= 255)
-            return;
-        currentDepth++;
-        yield mkdirP(destDir);
-        const files = yield ioUtil.readdir(sourceDir);
-        for (const fileName of files) {
-            const srcFile = `${sourceDir}/${fileName}`;
-            const destFile = `${destDir}/${fileName}`;
-            const srcFileStat = yield ioUtil.lstat(srcFile);
-            if (srcFileStat.isDirectory()) {
-                // Recurse
-                yield cpDirRecursive(srcFile, destFile, currentDepth, force);
-            }
-            else {
-                yield copyFile(srcFile, destFile, force);
-            }
-        }
-        // Change the mode for the newly created directory
-        yield ioUtil.chmod(destDir, (yield ioUtil.stat(sourceDir)).mode);
-    });
-}
-// Buffered file copy
-function copyFile(srcFile, destFile, force) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if ((yield ioUtil.lstat(srcFile)).isSymbolicLink()) {
-            // unlink/re-link it
-            try {
-                yield ioUtil.lstat(destFile);
-                yield ioUtil.unlink(destFile);
-            }
-            catch (e) {
-                // Try to override file permission
-                if (e.code === 'EPERM') {
-                    yield ioUtil.chmod(destFile, '0666');
-                    yield ioUtil.unlink(destFile);
-                }
-                // other errors = it doesn't exist, no work to do
-            }
-            // Copy over symlink
-            const symlinkFull = yield ioUtil.readlink(srcFile);
-            yield ioUtil.symlink(symlinkFull, destFile, ioUtil.IS_WINDOWS ? 'junction' : null);
-        }
-        else if (!(yield ioUtil.exists(destFile)) || force) {
-            yield ioUtil.copyFile(srcFile, destFile);
-        }
-    });
-}
-//# sourceMappingURL=io.js.map
-
-/***/ }),
-
 /***/ 8036:
 /***/ (function(module, exports, __nccwpck_require__) {
 
-"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -3334,7 +3318,6 @@ exports._readLinuxVersionFile = _readLinuxVersionFile;
 /***/ 7380:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -3428,7 +3411,6 @@ exports.RetryHelper = RetryHelper;
 /***/ 3472:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
-"use strict";
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -3465,7 +3447,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.evaluateVersions = exports.isExplicitVersion = exports.findFromManifest = exports.getManifestFromRepo = exports.findAllVersions = exports.find = exports.cacheFile = exports.cacheDir = exports.extractZip = exports.extractXar = exports.extractTar = exports.extract7z = exports.downloadTool = exports.HTTPError = void 0;
 const core = __importStar(__nccwpck_require__(7484));
-const io = __importStar(__nccwpck_require__(4994));
+const io = __importStar(__nccwpck_require__(7523));
 const crypto = __importStar(__nccwpck_require__(6982));
 const fs = __importStar(__nccwpck_require__(9896));
 const mm = __importStar(__nccwpck_require__(8036));
@@ -3476,7 +3458,7 @@ const semver = __importStar(__nccwpck_require__(6193));
 const stream = __importStar(__nccwpck_require__(2203));
 const util = __importStar(__nccwpck_require__(9023));
 const assert_1 = __nccwpck_require__(2613);
-const exec_1 = __nccwpck_require__(5236);
+const exec_1 = __nccwpck_require__(9497);
 const retry_helper_1 = __nccwpck_require__(7380);
 class HTTPError extends Error {
     constructor(httpStatusCode) {
@@ -4095,6 +4077,1233 @@ function _unique(values) {
     return Array.from(new Set(values));
 }
 //# sourceMappingURL=tool-cache.js.map
+
+/***/ }),
+
+/***/ 9497:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getExecOutput = exports.exec = void 0;
+const string_decoder_1 = __nccwpck_require__(3193);
+const tr = __importStar(__nccwpck_require__(2112));
+/**
+ * Exec a command.
+ * Output will be streamed to the live console.
+ * Returns promise with return code
+ *
+ * @param     commandLine        command to execute (can include additional args). Must be correctly escaped.
+ * @param     args               optional arguments for tool. Escaping is handled by the lib.
+ * @param     options            optional exec options.  See ExecOptions
+ * @returns   Promise<number>    exit code
+ */
+function exec(commandLine, args, options) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const commandArgs = tr.argStringToArray(commandLine);
+        if (commandArgs.length === 0) {
+            throw new Error(`Parameter 'commandLine' cannot be null or empty.`);
+        }
+        // Path to tool to execute should be first arg
+        const toolPath = commandArgs[0];
+        args = commandArgs.slice(1).concat(args || []);
+        const runner = new tr.ToolRunner(toolPath, args, options);
+        return runner.exec();
+    });
+}
+exports.exec = exec;
+/**
+ * Exec a command and get the output.
+ * Output will be streamed to the live console.
+ * Returns promise with the exit code and collected stdout and stderr
+ *
+ * @param     commandLine           command to execute (can include additional args). Must be correctly escaped.
+ * @param     args                  optional arguments for tool. Escaping is handled by the lib.
+ * @param     options               optional exec options.  See ExecOptions
+ * @returns   Promise<ExecOutput>   exit code, stdout, and stderr
+ */
+function getExecOutput(commandLine, args, options) {
+    var _a, _b;
+    return __awaiter(this, void 0, void 0, function* () {
+        let stdout = '';
+        let stderr = '';
+        //Using string decoder covers the case where a mult-byte character is split
+        const stdoutDecoder = new string_decoder_1.StringDecoder('utf8');
+        const stderrDecoder = new string_decoder_1.StringDecoder('utf8');
+        const originalStdoutListener = (_a = options === null || options === void 0 ? void 0 : options.listeners) === null || _a === void 0 ? void 0 : _a.stdout;
+        const originalStdErrListener = (_b = options === null || options === void 0 ? void 0 : options.listeners) === null || _b === void 0 ? void 0 : _b.stderr;
+        const stdErrListener = (data) => {
+            stderr += stderrDecoder.write(data);
+            if (originalStdErrListener) {
+                originalStdErrListener(data);
+            }
+        };
+        const stdOutListener = (data) => {
+            stdout += stdoutDecoder.write(data);
+            if (originalStdoutListener) {
+                originalStdoutListener(data);
+            }
+        };
+        const listeners = Object.assign(Object.assign({}, options === null || options === void 0 ? void 0 : options.listeners), { stdout: stdOutListener, stderr: stdErrListener });
+        const exitCode = yield exec(commandLine, args, Object.assign(Object.assign({}, options), { listeners }));
+        //flush any remaining characters
+        stdout += stdoutDecoder.end();
+        stderr += stderrDecoder.end();
+        return {
+            exitCode,
+            stdout,
+            stderr
+        };
+    });
+}
+exports.getExecOutput = getExecOutput;
+//# sourceMappingURL=exec.js.map
+
+/***/ }),
+
+/***/ 2112:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.argStringToArray = exports.ToolRunner = void 0;
+const os = __importStar(__nccwpck_require__(857));
+const events = __importStar(__nccwpck_require__(4434));
+const child = __importStar(__nccwpck_require__(5317));
+const path = __importStar(__nccwpck_require__(6928));
+const io = __importStar(__nccwpck_require__(7523));
+const ioUtil = __importStar(__nccwpck_require__(5996));
+const timers_1 = __nccwpck_require__(3557);
+/* eslint-disable @typescript-eslint/unbound-method */
+const IS_WINDOWS = process.platform === 'win32';
+/*
+ * Class for running command line tools. Handles quoting and arg parsing in a platform agnostic way.
+ */
+class ToolRunner extends events.EventEmitter {
+    constructor(toolPath, args, options) {
+        super();
+        if (!toolPath) {
+            throw new Error("Parameter 'toolPath' cannot be null or empty.");
+        }
+        this.toolPath = toolPath;
+        this.args = args || [];
+        this.options = options || {};
+    }
+    _debug(message) {
+        if (this.options.listeners && this.options.listeners.debug) {
+            this.options.listeners.debug(message);
+        }
+    }
+    _getCommandString(options, noPrefix) {
+        const toolPath = this._getSpawnFileName();
+        const args = this._getSpawnArgs(options);
+        let cmd = noPrefix ? '' : '[command]'; // omit prefix when piped to a second tool
+        if (IS_WINDOWS) {
+            // Windows + cmd file
+            if (this._isCmdFile()) {
+                cmd += toolPath;
+                for (const a of args) {
+                    cmd += ` ${a}`;
+                }
+            }
+            // Windows + verbatim
+            else if (options.windowsVerbatimArguments) {
+                cmd += `"${toolPath}"`;
+                for (const a of args) {
+                    cmd += ` ${a}`;
+                }
+            }
+            // Windows (regular)
+            else {
+                cmd += this._windowsQuoteCmdArg(toolPath);
+                for (const a of args) {
+                    cmd += ` ${this._windowsQuoteCmdArg(a)}`;
+                }
+            }
+        }
+        else {
+            // OSX/Linux - this can likely be improved with some form of quoting.
+            // creating processes on Unix is fundamentally different than Windows.
+            // on Unix, execvp() takes an arg array.
+            cmd += toolPath;
+            for (const a of args) {
+                cmd += ` ${a}`;
+            }
+        }
+        return cmd;
+    }
+    _processLineBuffer(data, strBuffer, onLine) {
+        try {
+            let s = strBuffer + data.toString();
+            let n = s.indexOf(os.EOL);
+            while (n > -1) {
+                const line = s.substring(0, n);
+                onLine(line);
+                // the rest of the string ...
+                s = s.substring(n + os.EOL.length);
+                n = s.indexOf(os.EOL);
+            }
+            return s;
+        }
+        catch (err) {
+            // streaming lines to console is best effort.  Don't fail a build.
+            this._debug(`error processing line. Failed with error ${err}`);
+            return '';
+        }
+    }
+    _getSpawnFileName() {
+        if (IS_WINDOWS) {
+            if (this._isCmdFile()) {
+                return process.env['COMSPEC'] || 'cmd.exe';
+            }
+        }
+        return this.toolPath;
+    }
+    _getSpawnArgs(options) {
+        if (IS_WINDOWS) {
+            if (this._isCmdFile()) {
+                let argline = `/D /S /C "${this._windowsQuoteCmdArg(this.toolPath)}`;
+                for (const a of this.args) {
+                    argline += ' ';
+                    argline += options.windowsVerbatimArguments
+                        ? a
+                        : this._windowsQuoteCmdArg(a);
+                }
+                argline += '"';
+                return [argline];
+            }
+        }
+        return this.args;
+    }
+    _endsWith(str, end) {
+        return str.endsWith(end);
+    }
+    _isCmdFile() {
+        const upperToolPath = this.toolPath.toUpperCase();
+        return (this._endsWith(upperToolPath, '.CMD') ||
+            this._endsWith(upperToolPath, '.BAT'));
+    }
+    _windowsQuoteCmdArg(arg) {
+        // for .exe, apply the normal quoting rules that libuv applies
+        if (!this._isCmdFile()) {
+            return this._uvQuoteCmdArg(arg);
+        }
+        // otherwise apply quoting rules specific to the cmd.exe command line parser.
+        // the libuv rules are generic and are not designed specifically for cmd.exe
+        // command line parser.
+        //
+        // for a detailed description of the cmd.exe command line parser, refer to
+        // http://stackoverflow.com/questions/4094699/how-does-the-windows-command-interpreter-cmd-exe-parse-scripts/7970912#7970912
+        // need quotes for empty arg
+        if (!arg) {
+            return '""';
+        }
+        // determine whether the arg needs to be quoted
+        const cmdSpecialChars = [
+            ' ',
+            '\t',
+            '&',
+            '(',
+            ')',
+            '[',
+            ']',
+            '{',
+            '}',
+            '^',
+            '=',
+            ';',
+            '!',
+            "'",
+            '+',
+            ',',
+            '`',
+            '~',
+            '|',
+            '<',
+            '>',
+            '"'
+        ];
+        let needsQuotes = false;
+        for (const char of arg) {
+            if (cmdSpecialChars.some(x => x === char)) {
+                needsQuotes = true;
+                break;
+            }
+        }
+        // short-circuit if quotes not needed
+        if (!needsQuotes) {
+            return arg;
+        }
+        // the following quoting rules are very similar to the rules that by libuv applies.
+        //
+        // 1) wrap the string in quotes
+        //
+        // 2) double-up quotes - i.e. " => ""
+        //
+        //    this is different from the libuv quoting rules. libuv replaces " with \", which unfortunately
+        //    doesn't work well with a cmd.exe command line.
+        //
+        //    note, replacing " with "" also works well if the arg is passed to a downstream .NET console app.
+        //    for example, the command line:
+        //          foo.exe "myarg:""my val"""
+        //    is parsed by a .NET console app into an arg array:
+        //          [ "myarg:\"my val\"" ]
+        //    which is the same end result when applying libuv quoting rules. although the actual
+        //    command line from libuv quoting rules would look like:
+        //          foo.exe "myarg:\"my val\""
+        //
+        // 3) double-up slashes that precede a quote,
+        //    e.g.  hello \world    => "hello \world"
+        //          hello\"world    => "hello\\""world"
+        //          hello\\"world   => "hello\\\\""world"
+        //          hello world\    => "hello world\\"
+        //
+        //    technically this is not required for a cmd.exe command line, or the batch argument parser.
+        //    the reasons for including this as a .cmd quoting rule are:
+        //
+        //    a) this is optimized for the scenario where the argument is passed from the .cmd file to an
+        //       external program. many programs (e.g. .NET console apps) rely on the slash-doubling rule.
+        //
+        //    b) it's what we've been doing previously (by deferring to node default behavior) and we
+        //       haven't heard any complaints about that aspect.
+        //
+        // note, a weakness of the quoting rules chosen here, is that % is not escaped. in fact, % cannot be
+        // escaped when used on the command line directly - even though within a .cmd file % can be escaped
+        // by using %%.
+        //
+        // the saving grace is, on the command line, %var% is left as-is if var is not defined. this contrasts
+        // the line parsing rules within a .cmd file, where if var is not defined it is replaced with nothing.
+        //
+        // one option that was explored was replacing % with ^% - i.e. %var% => ^%var^%. this hack would
+        // often work, since it is unlikely that var^ would exist, and the ^ character is removed when the
+        // variable is used. the problem, however, is that ^ is not removed when %* is used to pass the args
+        // to an external program.
+        //
+        // an unexplored potential solution for the % escaping problem, is to create a wrapper .cmd file.
+        // % can be escaped within a .cmd file.
+        let reverse = '"';
+        let quoteHit = true;
+        for (let i = arg.length; i > 0; i--) {
+            // walk the string in reverse
+            reverse += arg[i - 1];
+            if (quoteHit && arg[i - 1] === '\\') {
+                reverse += '\\'; // double the slash
+            }
+            else if (arg[i - 1] === '"') {
+                quoteHit = true;
+                reverse += '"'; // double the quote
+            }
+            else {
+                quoteHit = false;
+            }
+        }
+        reverse += '"';
+        return reverse
+            .split('')
+            .reverse()
+            .join('');
+    }
+    _uvQuoteCmdArg(arg) {
+        // Tool runner wraps child_process.spawn() and needs to apply the same quoting as
+        // Node in certain cases where the undocumented spawn option windowsVerbatimArguments
+        // is used.
+        //
+        // Since this function is a port of quote_cmd_arg from Node 4.x (technically, lib UV,
+        // see https://github.com/nodejs/node/blob/v4.x/deps/uv/src/win/process.c for details),
+        // pasting copyright notice from Node within this function:
+        //
+        //      Copyright Joyent, Inc. and other Node contributors. All rights reserved.
+        //
+        //      Permission is hereby granted, free of charge, to any person obtaining a copy
+        //      of this software and associated documentation files (the "Software"), to
+        //      deal in the Software without restriction, including without limitation the
+        //      rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+        //      sell copies of the Software, and to permit persons to whom the Software is
+        //      furnished to do so, subject to the following conditions:
+        //
+        //      The above copyright notice and this permission notice shall be included in
+        //      all copies or substantial portions of the Software.
+        //
+        //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        //      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        //      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        //      AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        //      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+        //      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+        //      IN THE SOFTWARE.
+        if (!arg) {
+            // Need double quotation for empty argument
+            return '""';
+        }
+        if (!arg.includes(' ') && !arg.includes('\t') && !arg.includes('"')) {
+            // No quotation needed
+            return arg;
+        }
+        if (!arg.includes('"') && !arg.includes('\\')) {
+            // No embedded double quotes or backslashes, so I can just wrap
+            // quote marks around the whole thing.
+            return `"${arg}"`;
+        }
+        // Expected input/output:
+        //   input : hello"world
+        //   output: "hello\"world"
+        //   input : hello""world
+        //   output: "hello\"\"world"
+        //   input : hello\world
+        //   output: hello\world
+        //   input : hello\\world
+        //   output: hello\\world
+        //   input : hello\"world
+        //   output: "hello\\\"world"
+        //   input : hello\\"world
+        //   output: "hello\\\\\"world"
+        //   input : hello world\
+        //   output: "hello world\\" - note the comment in libuv actually reads "hello world\"
+        //                             but it appears the comment is wrong, it should be "hello world\\"
+        let reverse = '"';
+        let quoteHit = true;
+        for (let i = arg.length; i > 0; i--) {
+            // walk the string in reverse
+            reverse += arg[i - 1];
+            if (quoteHit && arg[i - 1] === '\\') {
+                reverse += '\\';
+            }
+            else if (arg[i - 1] === '"') {
+                quoteHit = true;
+                reverse += '\\';
+            }
+            else {
+                quoteHit = false;
+            }
+        }
+        reverse += '"';
+        return reverse
+            .split('')
+            .reverse()
+            .join('');
+    }
+    _cloneExecOptions(options) {
+        options = options || {};
+        const result = {
+            cwd: options.cwd || process.cwd(),
+            env: options.env || process.env,
+            silent: options.silent || false,
+            windowsVerbatimArguments: options.windowsVerbatimArguments || false,
+            failOnStdErr: options.failOnStdErr || false,
+            ignoreReturnCode: options.ignoreReturnCode || false,
+            delay: options.delay || 10000
+        };
+        result.outStream = options.outStream || process.stdout;
+        result.errStream = options.errStream || process.stderr;
+        return result;
+    }
+    _getSpawnOptions(options, toolPath) {
+        options = options || {};
+        const result = {};
+        result.cwd = options.cwd;
+        result.env = options.env;
+        result['windowsVerbatimArguments'] =
+            options.windowsVerbatimArguments || this._isCmdFile();
+        if (options.windowsVerbatimArguments) {
+            result.argv0 = `"${toolPath}"`;
+        }
+        return result;
+    }
+    /**
+     * Exec a tool.
+     * Output will be streamed to the live console.
+     * Returns promise with return code
+     *
+     * @param     tool     path to tool to exec
+     * @param     options  optional exec options.  See ExecOptions
+     * @returns   number
+     */
+    exec() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // root the tool path if it is unrooted and contains relative pathing
+            if (!ioUtil.isRooted(this.toolPath) &&
+                (this.toolPath.includes('/') ||
+                    (IS_WINDOWS && this.toolPath.includes('\\')))) {
+                // prefer options.cwd if it is specified, however options.cwd may also need to be rooted
+                this.toolPath = path.resolve(process.cwd(), this.options.cwd || process.cwd(), this.toolPath);
+            }
+            // if the tool is only a file name, then resolve it from the PATH
+            // otherwise verify it exists (add extension on Windows if necessary)
+            this.toolPath = yield io.which(this.toolPath, true);
+            return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+                this._debug(`exec tool: ${this.toolPath}`);
+                this._debug('arguments:');
+                for (const arg of this.args) {
+                    this._debug(`   ${arg}`);
+                }
+                const optionsNonNull = this._cloneExecOptions(this.options);
+                if (!optionsNonNull.silent && optionsNonNull.outStream) {
+                    optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os.EOL);
+                }
+                const state = new ExecState(optionsNonNull, this.toolPath);
+                state.on('debug', (message) => {
+                    this._debug(message);
+                });
+                if (this.options.cwd && !(yield ioUtil.exists(this.options.cwd))) {
+                    return reject(new Error(`The cwd: ${this.options.cwd} does not exist!`));
+                }
+                const fileName = this._getSpawnFileName();
+                const cp = child.spawn(fileName, this._getSpawnArgs(optionsNonNull), this._getSpawnOptions(this.options, fileName));
+                let stdbuffer = '';
+                if (cp.stdout) {
+                    cp.stdout.on('data', (data) => {
+                        if (this.options.listeners && this.options.listeners.stdout) {
+                            this.options.listeners.stdout(data);
+                        }
+                        if (!optionsNonNull.silent && optionsNonNull.outStream) {
+                            optionsNonNull.outStream.write(data);
+                        }
+                        stdbuffer = this._processLineBuffer(data, stdbuffer, (line) => {
+                            if (this.options.listeners && this.options.listeners.stdline) {
+                                this.options.listeners.stdline(line);
+                            }
+                        });
+                    });
+                }
+                let errbuffer = '';
+                if (cp.stderr) {
+                    cp.stderr.on('data', (data) => {
+                        state.processStderr = true;
+                        if (this.options.listeners && this.options.listeners.stderr) {
+                            this.options.listeners.stderr(data);
+                        }
+                        if (!optionsNonNull.silent &&
+                            optionsNonNull.errStream &&
+                            optionsNonNull.outStream) {
+                            const s = optionsNonNull.failOnStdErr
+                                ? optionsNonNull.errStream
+                                : optionsNonNull.outStream;
+                            s.write(data);
+                        }
+                        errbuffer = this._processLineBuffer(data, errbuffer, (line) => {
+                            if (this.options.listeners && this.options.listeners.errline) {
+                                this.options.listeners.errline(line);
+                            }
+                        });
+                    });
+                }
+                cp.on('error', (err) => {
+                    state.processError = err.message;
+                    state.processExited = true;
+                    state.processClosed = true;
+                    state.CheckComplete();
+                });
+                cp.on('exit', (code) => {
+                    state.processExitCode = code;
+                    state.processExited = true;
+                    this._debug(`Exit code ${code} received from tool '${this.toolPath}'`);
+                    state.CheckComplete();
+                });
+                cp.on('close', (code) => {
+                    state.processExitCode = code;
+                    state.processExited = true;
+                    state.processClosed = true;
+                    this._debug(`STDIO streams have closed for tool '${this.toolPath}'`);
+                    state.CheckComplete();
+                });
+                state.on('done', (error, exitCode) => {
+                    if (stdbuffer.length > 0) {
+                        this.emit('stdline', stdbuffer);
+                    }
+                    if (errbuffer.length > 0) {
+                        this.emit('errline', errbuffer);
+                    }
+                    cp.removeAllListeners();
+                    if (error) {
+                        reject(error);
+                    }
+                    else {
+                        resolve(exitCode);
+                    }
+                });
+                if (this.options.input) {
+                    if (!cp.stdin) {
+                        throw new Error('child process missing stdin');
+                    }
+                    cp.stdin.end(this.options.input);
+                }
+            }));
+        });
+    }
+}
+exports.ToolRunner = ToolRunner;
+/**
+ * Convert an arg string to an array of args. Handles escaping
+ *
+ * @param    argString   string of arguments
+ * @returns  string[]    array of arguments
+ */
+function argStringToArray(argString) {
+    const args = [];
+    let inQuotes = false;
+    let escaped = false;
+    let arg = '';
+    function append(c) {
+        // we only escape double quotes.
+        if (escaped && c !== '"') {
+            arg += '\\';
+        }
+        arg += c;
+        escaped = false;
+    }
+    for (let i = 0; i < argString.length; i++) {
+        const c = argString.charAt(i);
+        if (c === '"') {
+            if (!escaped) {
+                inQuotes = !inQuotes;
+            }
+            else {
+                append(c);
+            }
+            continue;
+        }
+        if (c === '\\' && escaped) {
+            append(c);
+            continue;
+        }
+        if (c === '\\' && inQuotes) {
+            escaped = true;
+            continue;
+        }
+        if (c === ' ' && !inQuotes) {
+            if (arg.length > 0) {
+                args.push(arg);
+                arg = '';
+            }
+            continue;
+        }
+        append(c);
+    }
+    if (arg.length > 0) {
+        args.push(arg.trim());
+    }
+    return args;
+}
+exports.argStringToArray = argStringToArray;
+class ExecState extends events.EventEmitter {
+    constructor(options, toolPath) {
+        super();
+        this.processClosed = false; // tracks whether the process has exited and stdio is closed
+        this.processError = '';
+        this.processExitCode = 0;
+        this.processExited = false; // tracks whether the process has exited
+        this.processStderr = false; // tracks whether stderr was written to
+        this.delay = 10000; // 10 seconds
+        this.done = false;
+        this.timeout = null;
+        if (!toolPath) {
+            throw new Error('toolPath must not be empty');
+        }
+        this.options = options;
+        this.toolPath = toolPath;
+        if (options.delay) {
+            this.delay = options.delay;
+        }
+    }
+    CheckComplete() {
+        if (this.done) {
+            return;
+        }
+        if (this.processClosed) {
+            this._setResult();
+        }
+        else if (this.processExited) {
+            this.timeout = timers_1.setTimeout(ExecState.HandleTimeout, this.delay, this);
+        }
+    }
+    _debug(message) {
+        this.emit('debug', message);
+    }
+    _setResult() {
+        // determine whether there is an error
+        let error;
+        if (this.processExited) {
+            if (this.processError) {
+                error = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`);
+            }
+            else if (this.processExitCode !== 0 && !this.options.ignoreReturnCode) {
+                error = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`);
+            }
+            else if (this.processStderr && this.options.failOnStdErr) {
+                error = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`);
+            }
+        }
+        // clear the timeout
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
+        this.done = true;
+        this.emit('done', error, this.processExitCode);
+    }
+    static HandleTimeout(state) {
+        if (state.done) {
+            return;
+        }
+        if (!state.processClosed && state.processExited) {
+            const message = `The STDIO streams did not close within ${state.delay /
+                1000} seconds of the exit event from process '${state.toolPath}'. This may indicate a child process inherited the STDIO streams and has not yet exited.`;
+            state._debug(message);
+        }
+        state._setResult();
+    }
+}
+//# sourceMappingURL=toolrunner.js.map
+
+/***/ }),
+
+/***/ 5996:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.READONLY = exports.UV_FS_O_EXLOCK = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rm = exports.rename = exports.readlink = exports.readdir = exports.open = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
+const fs = __importStar(__nccwpck_require__(9896));
+const path = __importStar(__nccwpck_require__(6928));
+_a = fs.promises
+// export const {open} = 'fs'
+, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.open = _a.open, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rm = _a.rm, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
+// export const {open} = 'fs'
+exports.IS_WINDOWS = process.platform === 'win32';
+// See https://github.com/nodejs/node/blob/d0153aee367422d0858105abec186da4dff0a0c5/deps/uv/include/uv/win.h#L691
+exports.UV_FS_O_EXLOCK = 0x10000000;
+exports.READONLY = fs.constants.O_RDONLY;
+function exists(fsPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield exports.stat(fsPath);
+        }
+        catch (err) {
+            if (err.code === 'ENOENT') {
+                return false;
+            }
+            throw err;
+        }
+        return true;
+    });
+}
+exports.exists = exists;
+function isDirectory(fsPath, useStat = false) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const stats = useStat ? yield exports.stat(fsPath) : yield exports.lstat(fsPath);
+        return stats.isDirectory();
+    });
+}
+exports.isDirectory = isDirectory;
+/**
+ * On OSX/Linux, true if path starts with '/'. On Windows, true for paths like:
+ * \, \hello, \\hello\share, C:, and C:\hello (and corresponding alternate separator cases).
+ */
+function isRooted(p) {
+    p = normalizeSeparators(p);
+    if (!p) {
+        throw new Error('isRooted() parameter "p" cannot be empty');
+    }
+    if (exports.IS_WINDOWS) {
+        return (p.startsWith('\\') || /^[A-Z]:/i.test(p) // e.g. \ or \hello or \\hello
+        ); // e.g. C: or C:\hello
+    }
+    return p.startsWith('/');
+}
+exports.isRooted = isRooted;
+/**
+ * Best effort attempt to determine whether a file exists and is executable.
+ * @param filePath    file path to check
+ * @param extensions  additional file extensions to try
+ * @return if file exists and is executable, returns the file path. otherwise empty string.
+ */
+function tryGetExecutablePath(filePath, extensions) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let stats = undefined;
+        try {
+            // test file exists
+            stats = yield exports.stat(filePath);
+        }
+        catch (err) {
+            if (err.code !== 'ENOENT') {
+                // eslint-disable-next-line no-console
+                console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
+            }
+        }
+        if (stats && stats.isFile()) {
+            if (exports.IS_WINDOWS) {
+                // on Windows, test for valid extension
+                const upperExt = path.extname(filePath).toUpperCase();
+                if (extensions.some(validExt => validExt.toUpperCase() === upperExt)) {
+                    return filePath;
+                }
+            }
+            else {
+                if (isUnixExecutable(stats)) {
+                    return filePath;
+                }
+            }
+        }
+        // try each extension
+        const originalFilePath = filePath;
+        for (const extension of extensions) {
+            filePath = originalFilePath + extension;
+            stats = undefined;
+            try {
+                stats = yield exports.stat(filePath);
+            }
+            catch (err) {
+                if (err.code !== 'ENOENT') {
+                    // eslint-disable-next-line no-console
+                    console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
+                }
+            }
+            if (stats && stats.isFile()) {
+                if (exports.IS_WINDOWS) {
+                    // preserve the case of the actual file (since an extension was appended)
+                    try {
+                        const directory = path.dirname(filePath);
+                        const upperName = path.basename(filePath).toUpperCase();
+                        for (const actualName of yield exports.readdir(directory)) {
+                            if (upperName === actualName.toUpperCase()) {
+                                filePath = path.join(directory, actualName);
+                                break;
+                            }
+                        }
+                    }
+                    catch (err) {
+                        // eslint-disable-next-line no-console
+                        console.log(`Unexpected error attempting to determine the actual case of the file '${filePath}': ${err}`);
+                    }
+                    return filePath;
+                }
+                else {
+                    if (isUnixExecutable(stats)) {
+                        return filePath;
+                    }
+                }
+            }
+        }
+        return '';
+    });
+}
+exports.tryGetExecutablePath = tryGetExecutablePath;
+function normalizeSeparators(p) {
+    p = p || '';
+    if (exports.IS_WINDOWS) {
+        // convert slashes on Windows
+        p = p.replace(/\//g, '\\');
+        // remove redundant slashes
+        return p.replace(/\\\\+/g, '\\');
+    }
+    // remove redundant slashes
+    return p.replace(/\/\/+/g, '/');
+}
+// on Mac/Linux, test the execute bit
+//     R   W  X  R  W X R W X
+//   256 128 64 32 16 8 4 2 1
+function isUnixExecutable(stats) {
+    return ((stats.mode & 1) > 0 ||
+        ((stats.mode & 8) > 0 && stats.gid === process.getgid()) ||
+        ((stats.mode & 64) > 0 && stats.uid === process.getuid()));
+}
+// Get the path of cmd.exe in windows
+function getCmdPath() {
+    var _a;
+    return (_a = process.env['COMSPEC']) !== null && _a !== void 0 ? _a : `cmd.exe`;
+}
+exports.getCmdPath = getCmdPath;
+//# sourceMappingURL=io-util.js.map
+
+/***/ }),
+
+/***/ 7523:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.findInPath = exports.which = exports.mkdirP = exports.rmRF = exports.mv = exports.cp = void 0;
+const assert_1 = __nccwpck_require__(2613);
+const path = __importStar(__nccwpck_require__(6928));
+const ioUtil = __importStar(__nccwpck_require__(5996));
+/**
+ * Copies a file or folder.
+ * Based off of shelljs - https://github.com/shelljs/shelljs/blob/9237f66c52e5daa40458f94f9565e18e8132f5a6/src/cp.js
+ *
+ * @param     source    source path
+ * @param     dest      destination path
+ * @param     options   optional. See CopyOptions.
+ */
+function cp(source, dest, options = {}) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { force, recursive, copySourceDirectory } = readCopyOptions(options);
+        const destStat = (yield ioUtil.exists(dest)) ? yield ioUtil.stat(dest) : null;
+        // Dest is an existing file, but not forcing
+        if (destStat && destStat.isFile() && !force) {
+            return;
+        }
+        // If dest is an existing directory, should copy inside.
+        const newDest = destStat && destStat.isDirectory() && copySourceDirectory
+            ? path.join(dest, path.basename(source))
+            : dest;
+        if (!(yield ioUtil.exists(source))) {
+            throw new Error(`no such file or directory: ${source}`);
+        }
+        const sourceStat = yield ioUtil.stat(source);
+        if (sourceStat.isDirectory()) {
+            if (!recursive) {
+                throw new Error(`Failed to copy. ${source} is a directory, but tried to copy without recursive flag.`);
+            }
+            else {
+                yield cpDirRecursive(source, newDest, 0, force);
+            }
+        }
+        else {
+            if (path.relative(source, newDest) === '') {
+                // a file cannot be copied to itself
+                throw new Error(`'${newDest}' and '${source}' are the same file`);
+            }
+            yield copyFile(source, newDest, force);
+        }
+    });
+}
+exports.cp = cp;
+/**
+ * Moves a path.
+ *
+ * @param     source    source path
+ * @param     dest      destination path
+ * @param     options   optional. See MoveOptions.
+ */
+function mv(source, dest, options = {}) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (yield ioUtil.exists(dest)) {
+            let destExists = true;
+            if (yield ioUtil.isDirectory(dest)) {
+                // If dest is directory copy src into dest
+                dest = path.join(dest, path.basename(source));
+                destExists = yield ioUtil.exists(dest);
+            }
+            if (destExists) {
+                if (options.force == null || options.force) {
+                    yield rmRF(dest);
+                }
+                else {
+                    throw new Error('Destination already exists');
+                }
+            }
+        }
+        yield mkdirP(path.dirname(dest));
+        yield ioUtil.rename(source, dest);
+    });
+}
+exports.mv = mv;
+/**
+ * Remove a path recursively with force
+ *
+ * @param inputPath path to remove
+ */
+function rmRF(inputPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (ioUtil.IS_WINDOWS) {
+            // Check for invalid characters
+            // https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file
+            if (/[*"<>|]/.test(inputPath)) {
+                throw new Error('File path must not contain `*`, `"`, `<`, `>` or `|` on Windows');
+            }
+        }
+        try {
+            // note if path does not exist, error is silent
+            yield ioUtil.rm(inputPath, {
+                force: true,
+                maxRetries: 3,
+                recursive: true,
+                retryDelay: 300
+            });
+        }
+        catch (err) {
+            throw new Error(`File was unable to be removed ${err}`);
+        }
+    });
+}
+exports.rmRF = rmRF;
+/**
+ * Make a directory.  Creates the full path with folders in between
+ * Will throw if it fails
+ *
+ * @param   fsPath        path to create
+ * @returns Promise<void>
+ */
+function mkdirP(fsPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        assert_1.ok(fsPath, 'a path argument must be provided');
+        yield ioUtil.mkdir(fsPath, { recursive: true });
+    });
+}
+exports.mkdirP = mkdirP;
+/**
+ * Returns path of a tool had the tool actually been invoked.  Resolves via paths.
+ * If you check and the tool does not exist, it will throw.
+ *
+ * @param     tool              name of the tool
+ * @param     check             whether to check if tool exists
+ * @returns   Promise<string>   path to tool
+ */
+function which(tool, check) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!tool) {
+            throw new Error("parameter 'tool' is required");
+        }
+        // recursive when check=true
+        if (check) {
+            const result = yield which(tool, false);
+            if (!result) {
+                if (ioUtil.IS_WINDOWS) {
+                    throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also verify the file has a valid extension for an executable file.`);
+                }
+                else {
+                    throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also check the file mode to verify the file is executable.`);
+                }
+            }
+            return result;
+        }
+        const matches = yield findInPath(tool);
+        if (matches && matches.length > 0) {
+            return matches[0];
+        }
+        return '';
+    });
+}
+exports.which = which;
+/**
+ * Returns a list of all occurrences of the given tool on the system path.
+ *
+ * @returns   Promise<string[]>  the paths of the tool
+ */
+function findInPath(tool) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!tool) {
+            throw new Error("parameter 'tool' is required");
+        }
+        // build the list of extensions to try
+        const extensions = [];
+        if (ioUtil.IS_WINDOWS && process.env['PATHEXT']) {
+            for (const extension of process.env['PATHEXT'].split(path.delimiter)) {
+                if (extension) {
+                    extensions.push(extension);
+                }
+            }
+        }
+        // if it's rooted, return it if exists. otherwise return empty.
+        if (ioUtil.isRooted(tool)) {
+            const filePath = yield ioUtil.tryGetExecutablePath(tool, extensions);
+            if (filePath) {
+                return [filePath];
+            }
+            return [];
+        }
+        // if any path separators, return empty
+        if (tool.includes(path.sep)) {
+            return [];
+        }
+        // build the list of directories
+        //
+        // Note, technically "where" checks the current directory on Windows. From a toolkit perspective,
+        // it feels like we should not do this. Checking the current directory seems like more of a use
+        // case of a shell, and the which() function exposed by the toolkit should strive for consistency
+        // across platforms.
+        const directories = [];
+        if (process.env.PATH) {
+            for (const p of process.env.PATH.split(path.delimiter)) {
+                if (p) {
+                    directories.push(p);
+                }
+            }
+        }
+        // find all matches
+        const matches = [];
+        for (const directory of directories) {
+            const filePath = yield ioUtil.tryGetExecutablePath(path.join(directory, tool), extensions);
+            if (filePath) {
+                matches.push(filePath);
+            }
+        }
+        return matches;
+    });
+}
+exports.findInPath = findInPath;
+function readCopyOptions(options) {
+    const force = options.force == null ? true : options.force;
+    const recursive = Boolean(options.recursive);
+    const copySourceDirectory = options.copySourceDirectory == null
+        ? true
+        : Boolean(options.copySourceDirectory);
+    return { force, recursive, copySourceDirectory };
+}
+function cpDirRecursive(sourceDir, destDir, currentDepth, force) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // Ensure there is not a run away recursive copy
+        if (currentDepth >= 255)
+            return;
+        currentDepth++;
+        yield mkdirP(destDir);
+        const files = yield ioUtil.readdir(sourceDir);
+        for (const fileName of files) {
+            const srcFile = `${sourceDir}/${fileName}`;
+            const destFile = `${destDir}/${fileName}`;
+            const srcFileStat = yield ioUtil.lstat(srcFile);
+            if (srcFileStat.isDirectory()) {
+                // Recurse
+                yield cpDirRecursive(srcFile, destFile, currentDepth, force);
+            }
+            else {
+                yield copyFile(srcFile, destFile, force);
+            }
+        }
+        // Change the mode for the newly created directory
+        yield ioUtil.chmod(destDir, (yield ioUtil.stat(sourceDir)).mode);
+    });
+}
+// Buffered file copy
+function copyFile(srcFile, destFile, force) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if ((yield ioUtil.lstat(srcFile)).isSymbolicLink()) {
+            // unlink/re-link it
+            try {
+                yield ioUtil.lstat(destFile);
+                yield ioUtil.unlink(destFile);
+            }
+            catch (e) {
+                // Try to override file permission
+                if (e.code === 'EPERM') {
+                    yield ioUtil.chmod(destFile, '0666');
+                    yield ioUtil.unlink(destFile);
+                }
+                // other errors = it doesn't exist, no work to do
+            }
+            // Copy over symlink
+            const symlinkFull = yield ioUtil.readlink(srcFile);
+            yield ioUtil.symlink(symlinkFull, destFile, ioUtil.IS_WINDOWS ? 'junction' : null);
+        }
+        else if (!(yield ioUtil.exists(destFile)) || force) {
+            yield ioUtil.copyFile(srcFile, destFile);
+        }
+    });
+}
+//# sourceMappingURL=io.js.map
 
 /***/ }),
 
@@ -23007,7 +24216,6 @@ function coerce (version, options) {
 /***/ 9379:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const ANY = Symbol('SemVer ANY')
@@ -23158,7 +24366,6 @@ const Range = __nccwpck_require__(6782)
 /***/ 6782:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SPACE_CHARACTERS = /\s+/g
@@ -23723,7 +24930,6 @@ const testSet = (set, version, options) => {
 /***/ 7163:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const debug = __nccwpck_require__(1159)
@@ -24064,7 +25270,6 @@ module.exports = SemVer
 /***/ 1799:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const parse = __nccwpck_require__(6353)
@@ -24080,7 +25285,6 @@ module.exports = clean
 /***/ 8646:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const eq = __nccwpck_require__(5082)
@@ -24142,7 +25346,6 @@ module.exports = cmp
 /***/ 5385:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -24212,7 +25415,6 @@ module.exports = coerce
 /***/ 7648:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -24229,7 +25431,6 @@ module.exports = compareBuild
 /***/ 6874:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const compare = __nccwpck_require__(8469)
@@ -24242,7 +25443,6 @@ module.exports = compareLoose
 /***/ 8469:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -24257,7 +25457,6 @@ module.exports = compare
 /***/ 711:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const parse = __nccwpck_require__(6353)
@@ -24325,7 +25524,6 @@ module.exports = diff
 /***/ 5082:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const compare = __nccwpck_require__(8469)
@@ -24338,7 +25536,6 @@ module.exports = eq
 /***/ 6599:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const compare = __nccwpck_require__(8469)
@@ -24351,7 +25548,6 @@ module.exports = gt
 /***/ 1236:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const compare = __nccwpck_require__(8469)
@@ -24364,7 +25560,6 @@ module.exports = gte
 /***/ 2338:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -24393,7 +25588,6 @@ module.exports = inc
 /***/ 3872:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const compare = __nccwpck_require__(8469)
@@ -24406,7 +25600,6 @@ module.exports = lt
 /***/ 6717:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const compare = __nccwpck_require__(8469)
@@ -24419,7 +25612,6 @@ module.exports = lte
 /***/ 8511:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -24432,7 +25624,6 @@ module.exports = major
 /***/ 2603:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -24445,7 +25636,6 @@ module.exports = minor
 /***/ 4974:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const compare = __nccwpck_require__(8469)
@@ -24458,7 +25648,6 @@ module.exports = neq
 /***/ 6353:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -24484,7 +25673,6 @@ module.exports = parse
 /***/ 8756:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -24497,7 +25685,6 @@ module.exports = patch
 /***/ 5714:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const parse = __nccwpck_require__(6353)
@@ -24513,7 +25700,6 @@ module.exports = prerelease
 /***/ 2173:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const compare = __nccwpck_require__(8469)
@@ -24526,7 +25712,6 @@ module.exports = rcompare
 /***/ 7192:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const compareBuild = __nccwpck_require__(7648)
@@ -24539,7 +25724,6 @@ module.exports = rsort
 /***/ 8011:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const Range = __nccwpck_require__(6782)
@@ -24559,7 +25743,6 @@ module.exports = satisfies
 /***/ 9872:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const compareBuild = __nccwpck_require__(7648)
@@ -24572,7 +25755,6 @@ module.exports = sort
 /***/ 8780:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const parse = __nccwpck_require__(6353)
@@ -24588,7 +25770,6 @@ module.exports = valid
 /***/ 2088:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 // just pre-load all the stuff that index.js lazily exports
@@ -24687,7 +25868,6 @@ module.exports = {
 /***/ 5101:
 /***/ ((module) => {
 
-"use strict";
 
 
 // Note: this is the semver.org version of the spec that it implements
@@ -24732,7 +25912,6 @@ module.exports = {
 /***/ 1159:
 /***/ ((module) => {
 
-"use strict";
 
 
 const debug = (
@@ -24751,7 +25930,6 @@ module.exports = debug
 /***/ 3348:
 /***/ ((module) => {
 
-"use strict";
 
 
 const numeric = /^[0-9]+$/
@@ -24788,7 +25966,6 @@ module.exports = {
 /***/ 1383:
 /***/ ((module) => {
 
-"use strict";
 
 
 class LRUCache {
@@ -24838,7 +26015,6 @@ module.exports = LRUCache
 /***/ 356:
 /***/ ((module) => {
 
-"use strict";
 
 
 // parse out just the options we care about
@@ -24863,7 +26039,6 @@ module.exports = parseOptions
 /***/ 5471:
 /***/ ((module, exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const {
@@ -25094,7 +26269,6 @@ createToken('GTE0PRE', '^\\s*>=\\s*0\\.0\\.0-0\\s*$')
 /***/ 2276:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 // Determine if version is greater than all the versions possible in the range.
@@ -25108,7 +26282,6 @@ module.exports = gtr
 /***/ 3465:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const Range = __nccwpck_require__(6782)
@@ -25125,7 +26298,6 @@ module.exports = intersects
 /***/ 5213:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const outside = __nccwpck_require__(280)
@@ -25139,7 +26311,6 @@ module.exports = ltr
 /***/ 5574:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -25174,7 +26345,6 @@ module.exports = maxSatisfying
 /***/ 8595:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -25208,7 +26378,6 @@ module.exports = minSatisfying
 /***/ 1866:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -25279,7 +26448,6 @@ module.exports = minVersion
 /***/ 280:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const SemVer = __nccwpck_require__(7163)
@@ -25369,7 +26537,6 @@ module.exports = outside
 /***/ 2028:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 // given a set of versions and a range, create a "simplified" range
@@ -25426,7 +26593,6 @@ module.exports = (versions, range, options) => {
 /***/ 1489:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const Range = __nccwpck_require__(6782)
@@ -25683,7 +26849,6 @@ module.exports = subset
 /***/ 4750:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const Range = __nccwpck_require__(6782)
@@ -25701,7 +26866,6 @@ module.exports = toComparators
 /***/ 4737:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const Range = __nccwpck_require__(6782)
@@ -25730,7 +26894,6 @@ module.exports = __nccwpck_require__(218);
 /***/ 218:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 var net = __nccwpck_require__(9278);
@@ -26002,7 +27165,6 @@ exports.debug = debug; // for test
 /***/ 6752:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const Client = __nccwpck_require__(6197)
@@ -26177,7 +27339,6 @@ module.exports.mockErrors = mockErrors
 /***/ 9965:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { InvalidArgumentError } = __nccwpck_require__(8707)
@@ -26394,7 +27555,6 @@ module.exports = {
 /***/ 4660:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { AsyncResource } = __nccwpck_require__(290)
@@ -26506,7 +27666,6 @@ module.exports = connect
 /***/ 6862:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const {
@@ -26763,7 +27922,6 @@ module.exports = pipeline
 /***/ 4043:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const Readable = __nccwpck_require__(9927)
@@ -26951,7 +28109,6 @@ module.exports.RequestHandler = RequestHandler
 /***/ 3560:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { finished, PassThrough } = __nccwpck_require__(2203)
@@ -27179,7 +28336,6 @@ module.exports = stream
 /***/ 1882:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { InvalidArgumentError, RequestAbortedError, SocketError } = __nccwpck_require__(8707)
@@ -27292,7 +28448,6 @@ module.exports = upgrade
 /***/ 6615:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 module.exports.request = __nccwpck_require__(4043)
@@ -27307,7 +28462,6 @@ module.exports.connect = __nccwpck_require__(4660)
 /***/ 9927:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 // Ported from https://github.com/nodejs/undici/pull/907
 
 
@@ -27690,7 +28844,6 @@ module.exports = { getResolveErrorBodyCallback }
 /***/ 1093:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const {
@@ -27888,7 +29041,6 @@ module.exports = BalancedPool
 /***/ 479:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { kConstruct } = __nccwpck_require__(296)
@@ -28734,7 +29886,6 @@ module.exports = {
 /***/ 4738:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { kConstruct } = __nccwpck_require__(296)
@@ -28886,7 +30037,6 @@ module.exports = {
 /***/ 296:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 module.exports = {
@@ -28899,7 +30049,6 @@ module.exports = {
 /***/ 3993:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const assert = __nccwpck_require__(2613)
@@ -28956,7 +30105,6 @@ module.exports = {
 /***/ 6197:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 // @ts-check
 
 
@@ -31247,7 +32395,6 @@ module.exports = Client
 /***/ 3194:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 /* istanbul ignore file: only for Node 12 */
@@ -31303,7 +32450,6 @@ module.exports = function () {
 /***/ 9237:
 /***/ ((module) => {
 
-"use strict";
 
 
 // https://wicg.github.io/cookie-store/#cookie-maximum-attribute-value-size
@@ -31323,7 +32469,6 @@ module.exports = {
 /***/ 3168:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { parseSetCookie } = __nccwpck_require__(8915)
@@ -31514,7 +32659,6 @@ module.exports = {
 /***/ 8915:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { maxNameValuePairSize, maxAttributeValueSize } = __nccwpck_require__(9237)
@@ -31839,7 +32983,6 @@ module.exports = {
 /***/ 3834:
 /***/ ((module) => {
 
-"use strict";
 
 
 /**
@@ -32121,7 +33264,6 @@ module.exports = {
 /***/ 9136:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const net = __nccwpck_require__(9278)
@@ -32318,7 +33460,6 @@ module.exports = buildConnector
 /***/ 735:
 /***/ ((module) => {
 
-"use strict";
 
 
 /** @type {Record<string, string | undefined>} */
@@ -32444,7 +33585,6 @@ module.exports = {
 /***/ 8707:
 /***/ ((module) => {
 
-"use strict";
 
 
 class UndiciError extends Error {
@@ -32682,7 +33822,6 @@ module.exports = {
 /***/ 4655:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const {
@@ -33259,7 +34398,6 @@ module.exports = {
 /***/ 3440:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const assert = __nccwpck_require__(2613)
@@ -33789,7 +34927,6 @@ module.exports = {
 /***/ 1:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const Dispatcher = __nccwpck_require__(992)
@@ -33989,7 +35126,6 @@ module.exports = DispatcherBase
 /***/ 992:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const EventEmitter = __nccwpck_require__(4434)
@@ -34016,7 +35152,6 @@ module.exports = Dispatcher
 /***/ 8923:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const Busboy = __nccwpck_require__(9581)
@@ -34637,7 +35772,6 @@ module.exports = {
 /***/ 7326:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { MessageChannel, receiveMessageOnPort } = __nccwpck_require__(8167)
@@ -35430,7 +36564,6 @@ module.exports = {
 /***/ 3041:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { Blob, File: NativeFile } = __nccwpck_require__(181)
@@ -35782,7 +36915,6 @@ module.exports = { File, FileLike, isFileLike }
 /***/ 3073:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { isBlobLike, toUSVString, makeIterator } = __nccwpck_require__(5523)
@@ -36055,7 +37187,6 @@ module.exports = { FormData }
 /***/ 5628:
 /***/ ((module) => {
 
-"use strict";
 
 
 // In case of breaking changes, increase the version
@@ -36103,7 +37234,6 @@ module.exports = {
 /***/ 6349:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 // https://github.com/Ethan-Arrowood/undici-fetch
 
 
@@ -36704,7 +37834,6 @@ module.exports = {
 /***/ 2315:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 // https://github.com/Ethan-Arrowood/undici-fetch
 
 
@@ -38860,7 +39989,6 @@ module.exports = {
 /***/ 5194:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 /* globals AbortController */
 
 
@@ -39814,7 +40942,6 @@ module.exports = { Request, makeRequest }
 /***/ 8676:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { Headers, HeadersList, fill } = __nccwpck_require__(6349)
@@ -40393,7 +41520,6 @@ module.exports = {
 /***/ 9710:
 /***/ ((module) => {
 
-"use strict";
 
 
 module.exports = {
@@ -40411,7 +41537,6 @@ module.exports = {
 /***/ 5523:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { redirectStatusSet, referrerPolicySet: referrerPolicyTokens, badPortsSet } = __nccwpck_require__(7326)
@@ -41563,7 +42688,6 @@ module.exports = {
 /***/ 4222:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { types } = __nccwpck_require__(9023)
@@ -42217,7 +43341,6 @@ module.exports = {
 /***/ 396:
 /***/ ((module) => {
 
-"use strict";
 
 
 /**
@@ -42515,7 +43638,6 @@ module.exports = {
 /***/ 2160:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const {
@@ -42867,7 +43989,6 @@ module.exports = {
 /***/ 5976:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { webidl } = __nccwpck_require__(4222)
@@ -42953,7 +44074,6 @@ module.exports = {
 /***/ 6812:
 /***/ ((module) => {
 
-"use strict";
 
 
 module.exports = {
@@ -42971,7 +44091,6 @@ module.exports = {
 /***/ 165:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const {
@@ -43371,7 +44490,6 @@ module.exports = {
 /***/ 2581:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 // We include a version number for the Dispatcher API. In case of breaking changes,
@@ -43411,7 +44529,6 @@ module.exports = {
 /***/ 8840:
 /***/ ((module) => {
 
-"use strict";
 
 
 module.exports = class DecoratorHandler {
@@ -43454,7 +44571,6 @@ module.exports = class DecoratorHandler {
 /***/ 8299:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const util = __nccwpck_require__(3440)
@@ -44026,7 +45142,6 @@ module.exports = RetryHandler
 /***/ 4415:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const RedirectHandler = __nccwpck_require__(8299)
@@ -44055,7 +45170,6 @@ module.exports = createRedirectInterceptor
 /***/ 2824:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
-"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SPECIAL_HEADERS = exports.HEADER_STATE = exports.MINOR = exports.MAJOR = exports.CONNECTION_TOKEN_CHARS = exports.HEADER_CHARS = exports.TOKEN = exports.STRICT_TOKEN = exports.HEX = exports.URL_CHAR = exports.STRICT_URL_CHAR = exports.USERINFO_CHARS = exports.MARK = exports.ALPHANUM = exports.NUM = exports.HEX_MAP = exports.NUM_MAP = exports.ALPHA = exports.FINISH = exports.H_METHOD_MAP = exports.METHOD_MAP = exports.METHODS_RTSP = exports.METHODS_ICE = exports.METHODS_HTTP = exports.METHODS = exports.LENIENT_FLAGS = exports.FLAGS = exports.TYPE = exports.ERROR = void 0;
@@ -44356,7 +45470,6 @@ module.exports = 'AGFzbQEAAAABMAhgAX8Bf2ADf39/AX9gBH9/f38Bf2AAAGADf39/AGABfwBgAn
 /***/ 172:
 /***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.enumToMap = void 0;
@@ -44378,7 +45491,6 @@ exports.enumToMap = enumToMap;
 /***/ 7501:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { kClients } = __nccwpck_require__(6443)
@@ -44557,7 +45669,6 @@ module.exports = MockAgent
 /***/ 7365:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { promisify } = __nccwpck_require__(9023)
@@ -44624,7 +45735,6 @@ module.exports = MockClient
 /***/ 2429:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { UndiciError } = __nccwpck_require__(8707)
@@ -44649,7 +45759,6 @@ module.exports = {
 /***/ 1511:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { getResponseData, buildKey, addMockDispatch } = __nccwpck_require__(3397)
@@ -44863,7 +45972,6 @@ module.exports.MockScope = MockScope
 /***/ 4004:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { promisify } = __nccwpck_require__(9023)
@@ -44930,7 +46038,6 @@ module.exports = MockPool
 /***/ 1117:
 /***/ ((module) => {
 
-"use strict";
 
 
 module.exports = {
@@ -44961,7 +46068,6 @@ module.exports = {
 /***/ 3397:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { MockNotMatchedError } = __nccwpck_require__(2429)
@@ -45320,7 +46426,6 @@ module.exports = {
 /***/ 6142:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { Transform } = __nccwpck_require__(2203)
@@ -45368,7 +46473,6 @@ module.exports = class PendingInterceptorsFormatter {
 /***/ 1529:
 /***/ ((module) => {
 
-"use strict";
 
 
 const singulars = {
@@ -45405,7 +46509,6 @@ module.exports = class Pluralizer {
 /***/ 4869:
 /***/ ((module) => {
 
-"use strict";
 /* eslint-disable */
 
 
@@ -45530,7 +46633,6 @@ module.exports = class FixedQueue {
 /***/ 8640:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const DispatcherBase = __nccwpck_require__(1)
@@ -45773,7 +46875,6 @@ module.exports = PoolStats
 /***/ 5076:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const {
@@ -45889,7 +46990,6 @@ module.exports = Pool
 /***/ 2720:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { kProxy, kClose, kDestroy, kInterceptors } = __nccwpck_require__(6443)
@@ -46086,7 +47186,6 @@ module.exports = ProxyAgent
 /***/ 8804:
 /***/ ((module) => {
 
-"use strict";
 
 
 let fastNow = Date.now()
@@ -46191,7 +47290,6 @@ module.exports = {
 /***/ 8550:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const diagnosticsChannel = __nccwpck_require__(1637)
@@ -46490,7 +47588,6 @@ module.exports = {
 /***/ 5913:
 /***/ ((module) => {
 
-"use strict";
 
 
 // This is a Globally Unique Identifier unique used
@@ -46549,7 +47646,6 @@ module.exports = {
 /***/ 6255:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { webidl } = __nccwpck_require__(4222)
@@ -46860,7 +47956,6 @@ module.exports = {
 /***/ 1237:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { maxUnsigned16Bit } = __nccwpck_require__(5913)
@@ -46941,7 +48036,6 @@ module.exports = {
 /***/ 3171:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { Writable } = __nccwpck_require__(2203)
@@ -47293,7 +48387,6 @@ module.exports = {
 /***/ 2933:
 /***/ ((module) => {
 
-"use strict";
 
 
 module.exports = {
@@ -47313,7 +48406,6 @@ module.exports = {
 /***/ 3574:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { kReadyState, kController, kResponse, kBinaryType, kWebSocketURL } = __nccwpck_require__(2933)
@@ -47521,7 +48613,6 @@ module.exports = {
 /***/ 5171:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const { webidl } = __nccwpck_require__(4222)
@@ -48167,1515 +49258,226 @@ module.exports = {
 
 /***/ }),
 
-/***/ 9890:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const core = __nccwpck_require__(7484)
-const { exec } = __nccwpck_require__(5236)
-const tc = __nccwpck_require__(3472)
-const path = __nccwpck_require__(6928)
-const semver = __nccwpck_require__(2088)
-const fs = __nccwpck_require__(9896)
-const os = __nccwpck_require__(857)
-const csv = __nccwpck_require__(1110)
-const _ = __nccwpck_require__(2356)
-
-const MAX_HTTP_RETRIES = 3
-
-if (process.env.NODE_ENV !== 'test') {
-  main().catch((err) => {
-    core.setFailed(err.message)
-  })
-}
-
-async function main() {
-  checkOtpArchitecture()
-
-  const versionFilePath = getInput('version-file', false)
-  let versions
-  if (versionFilePath) {
-    if (!isStrictVersion()) {
-      throw new Error(
-        "you have to set version-type=strict if you're using version-file",
-      )
-    }
-    versions = parseVersionFile(versionFilePath)
-  }
-
-  const otpSpec = getInput('otp-version', true, 'erlang', versions)
-  const elixirSpec = getInput('elixir-version', false, 'elixir', versions)
-  const gleamSpec = getInput('gleam-version', false, 'gleam', versions)
-  const rebar3Spec = getInput('rebar3-version', false, 'rebar', versions)
-
-  if (otpSpec !== 'false') {
-    await installOTP(otpSpec)
-    const elixirInstalled = await maybeInstallElixir(elixirSpec)
-    if (elixirInstalled === true) {
-      const shouldMixRebar = getInput('install-rebar', false)
-      await mix(shouldMixRebar, 'rebar')
-
-      const shouldMixHex = getInput('install-hex', false)
-      await mix(shouldMixHex, 'hex')
-    }
-  } else if (!gleamSpec) {
-    throw new Error('otp-version=false is only available when installing Gleam')
-  }
-
-  await maybeInstallGleam(gleamSpec)
-  await maybeInstallRebar3(rebar3Spec)
-
-  // undefined is replaced by a function, post- main branch merge
-  const setupBeamVersion = '9928a16'
-  core.setOutput('setup-beam-version', setupBeamVersion)
-}
-
-async function installOTP(otpSpec) {
-  const osVersion = getRunnerOSVersion()
-  const otpVersion = await getOTPVersion(otpSpec, osVersion)
-  core.startGroup(
-    `Installing Erlang/OTP ${otpVersion} - built on ${getRunnerOSArchitecture()}/${osVersion}`,
-  )
-  await doWithMirrors({
-    hexMirrors: hexMirrorsInput(),
-    actionTitle: `install Erlang/OTP ${otpVersion}`,
-    action: async (hexMirror) => {
-      await install('otp', {
-        osVersion,
-        toolVersion: otpVersion,
-        hexMirror,
-      })
-    },
-  })
-  core.setOutput('otp-version', otpVersion)
-  core.endGroup()
-
-  return otpVersion
-}
-
-async function maybeInstallElixir(elixirSpec) {
-  let installed = false
-  if (elixirSpec) {
-    const elixirVersion = await getElixirVersion(elixirSpec)
-    core.startGroup(`Installing Elixir ${elixirVersion}`)
-    await doWithMirrors({
-      hexMirrors: hexMirrorsInput(),
-      actionTitle: `install Elixir ${elixirVersion}`,
-      action: async (hexMirror) => {
-        await install('elixir', {
-          toolVersion: elixirVersion,
-          hexMirror,
-        })
-      },
-    })
-    core.setOutput('elixir-version', elixirVersion)
-    maybeEnableElixirProblemMatchers()
-    core.endGroup()
-
-    installed = true
-  }
-
-  return installed
-}
-
-function maybeEnableElixirProblemMatchers() {
-  const disableProblemMatchers = getInput('disable_problem_matchers', false)
-  if (disableProblemMatchers === 'false') {
-    const elixirMatchers = __nccwpck_require__.ab + "elixir-matchers.json"
-    core.info(`##[add-matcher]${elixirMatchers}`)
-  }
-}
-
-async function mix(shouldMix, what) {
-  if (shouldMix === 'true') {
-    const cmd = 'mix'
-    const args = [`local.${what}`, '--force']
-    core.startGroup(`Running ${cmd} ${args}`)
-    await doWithMirrors({
-      hexMirrors: hexMirrorsInput(),
-      actionTitle: `mix ${what}`,
-      action: async (hexMirror) => {
-        process.env.HEX_MIRROR = hexMirror
-        await exec(cmd, args)
-      },
-    })
-    core.endGroup()
-  }
-}
-
-async function maybeInstallGleam(gleamSpec) {
-  let installed = false
-  if (gleamSpec) {
-    const gleamVersion = await getGleamVersion(gleamSpec)
-    core.startGroup(`Installing Gleam ${gleamVersion}`)
-    await install('gleam', { toolVersion: gleamVersion })
-    core.setOutput('gleam-version', gleamVersion)
-    core.endGroup()
-
-    installed = true
-  }
-
-  return installed
-}
-
-async function maybeInstallRebar3(rebar3Spec) {
-  let installed = false
-  let rebar3Version
-  if (rebar3Spec) {
-    if (rebar3Spec === 'nightly') {
-      rebar3Version = 'nightly'
-    } else {
-      rebar3Version = await getRebar3Version(rebar3Spec)
-    }
-    core.startGroup(`Installing rebar3 ${rebar3Version}`)
-    await install('rebar3', { toolVersion: rebar3Version })
-    core.setOutput('rebar3-version', rebar3Version)
-    core.endGroup()
-
-    installed = true
-  }
-
-  return installed
-}
-
-function maybeRemoveOTPPrefix(otpSpec) {
-  return otpSpec.replace(/^OTP-/, '')
-}
-
-async function getOTPVersion(otpSpec0, osVersion) {
-  const [otpVersions, originListing, hexMirrors] =
-    await getOTPVersions(osVersion)
-  let spec = maybeRemoveOTPPrefix(otpSpec0)
-  const versions = otpVersions
-  const otpVersion = getVersionFromSpec(spec, versions)
-
-  if (otpVersion === null) {
-    throw new Error(
-      requestedVersionFor('Erlang/OTP', otpSpec0, originListing, hexMirrors),
-    )
-  }
-
-  return otpVersion // from the reference, for download
-}
-
-function requestedVersionFor(tool, version, originListing, mirrors) {
-  const isStrictVersion = isStrictVersion()
-
-  let versionType = 'loose'
-  if (isStrictVersion) {
-    versionType = 'strict'
-  }
-
-  let ret =
-    `Requested ${versionType} ${tool} version (${version}) not found in version list, ` +
-    `at ${originListing}${mirrors ? `, with mirrors ${mirrors}` : ''}.`
-  if (!isStrictVersion) {
-    ret = `${ret} Should you be using option 'version-type': 'strict'?`
-  }
-
-  return ret
-}
-
-const knownBranches = ['main', 'master', 'maint']
-const nonSpecificVersions = ['nightly', 'latest']
-
-async function getElixirVersion(exSpec0) {
-  const otpSuffix = /-otp-(\d+)/
-  const userSuppliedOtp = exSpec0.match(otpSuffix)?.[1] ?? null
-  let otpVersionMajor = ''
-
-  if (userSuppliedOtp && isVersion(userSuppliedOtp)) {
-    otpVersionMajor = userSuppliedOtp
-  } else {
-    let cmd = 'erl'
-    if (process.platform === 'win32') {
-      cmd = 'erl.exe'
-    }
-    const args = [
-      '-noshell',
-      '-eval',
-      'io:format(erlang:system_info(otp_release)), halt().',
-    ]
-    await exec(cmd, args, {
-      listeners: {
-        stdout: (data) => {
-          otpVersionMajor = data.toString()
-        },
-      },
-    })
-  }
-
-  const [otpVersionsForElixirMap, elixirVersions, originListing, hexMirrors] =
-    await getElixirVersions()
-  const spec = exSpec0.replace(otpSuffix, '')
-  const versions = elixirVersions
-  const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
-
-  if (elixirVersionFromSpec === null) {
-    throw new Error(
-      requestedVersionFor('Elixir', exSpec0, originListing, hexMirrors),
-    )
-  }
-
-  let foundCombo = false
-  let otpVersionMajorIter = parseInt(otpVersionMajor)
-  let otpVersionsMajor = []
-  while (otpVersionMajorIter > otpVersionMajor - 3) {
-    otpVersionMajorIter += ''
-    otpVersionsMajor.push(otpVersionMajorIter)
-    const elixirVersionComp = otpVersionsForElixirMap[elixirVersionFromSpec]
-    if (
-      (elixirVersionComp && elixirVersionComp.includes(otpVersionMajorIter)) ||
-      !isVersion(otpVersionMajorIter)
-    ) {
-      core.info(
-        `Using Elixir ${elixirVersionFromSpec} (built for Erlang/OTP ${otpVersionMajorIter})`,
-      )
-      foundCombo = true
-      break
-    }
-    otpVersionMajorIter = parseInt(otpVersionMajorIter) - 1
-  }
-
-  if (!foundCombo) {
-    throw new Error(
-      `Requested Elixir / Erlang/OTP version (${exSpec0} / tried ${otpVersionsMajor}) not ` +
-        'found in version list (did you check Compatibility between Elixir and Erlang/OTP?).' +
-        'Elixir and Erlang/OTP compatibility can be found at: ' +
-        'https://hexdocs.pm/elixir/compatibility-and-deprecations.html',
-    )
-  }
-
-  let elixirVersionForDownload = elixirVersionFromSpec
-
-  if (isVersion(otpVersionMajorIter)) {
-    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajorIter}`
-  }
-
-  return maybePrependWithV(elixirVersionForDownload)
-}
-
-async function getGleamVersion(gleamSpec0) {
-  const [gleamVersions, originListing] = await getGleamVersions()
-  const spec = gleamSpec0
-  const versions = gleamVersions
-  const gleamVersion = getVersionFromSpec(spec, versions)
-
-  if (gleamVersion === null) {
-    throw new Error(requestedVersionFor('Gleam', gleamSpec0, originListing))
-  }
-
-  return maybePrependWithV(gleamVersion)
-}
-
-async function getRebar3Version(r3Spec) {
-  const [rebar3Versions, originListing] = await getRebar3Versions()
-  const spec = r3Spec
-  const versions = rebar3Versions
-  const rebar3Version = getVersionFromSpec(spec, versions)
-
-  if (rebar3Version === null) {
-    throw new Error(requestedVersionFor('rebar3', r3Spec, originListing))
-  }
-
-  return rebar3Version
-}
-
-function otpArchitecture() {
-  return getInput('otp-architecture', false)
-}
-
-async function getOTPVersions(osVersion) {
-  let otpVersionsListings
-  let originListing
-  let hexMirrors = null
-  if (process.platform === 'linux') {
-    originListing = `/builds/otp/${getRunnerOSArchitecture()}/${osVersion}/builds.txt`
-    hexMirrors = hexMirrorsInput()
-    otpVersionsListings = await doWithMirrors({
-      hexMirrors,
-      actionTitle: `fetch ${originListing}`,
-      action: async (hexMirror) => {
-        return get(`${hexMirror}${originListing}`)
-      },
-    })
-  } else if (process.platform === 'win32') {
-    originListing =
-      'https://api.github.com/repos/erlang/otp/releases?per_page=100'
-    otpVersionsListings = await get(originListing, [1, 2, 3])
-  } else if (process.platform === 'darwin') {
-    const arch = getRunnerOSArchitecture()
-    let targetArch
-    switch (arch) {
-      case 'amd64':
-        targetArch = 'x86_64'
-        break
-      case 'arm64':
-        targetArch = 'aarch64'
-        break
-    }
-    originListing =
-      `https://raw.githubusercontent.com/erlef/otp_builds/refs/heads/main` +
-      `/builds/${targetArch}-apple-darwin.csv`
-    otpVersionsListings = await get(originListing)
-  }
-
-  debugLog(
-    `OTP versions listings from ${originListing}, mirrors ${hexMirrors}`,
-    otpVersionsListings,
-  )
-
-  const otpVersions = {}
-  if (process.platform === 'linux') {
-    otpVersionsListings
-      .trim()
-      .split('\n')
-      .forEach((line) => {
-        const otpVersionOrig = line.match(/^([^ ]+)?( .+)/)[1]
-        const otpVersion = maybeRemoveOTPPrefix(otpVersionOrig)
-        debugLog('OTP line and parsing', [line, otpVersion, otpVersionOrig])
-        otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
-      })
-  } else if (process.platform === 'win32') {
-    const otpArch = otpArchitecture()
-    const file_regex = new RegExp(
-      `^otp_win${_.escapeRegExp(otpArch)}_(.*).exe$`,
-    )
-    otpVersionsListings.forEach((otpVersionsListing) => {
-      otpVersionsListing
-        .map((x) => x.assets)
-        .flat()
-        .filter((x) => x.name.match(file_regex))
-        .forEach((x) => {
-          const otpVersionOrig = x.name.match(file_regex)[1]
-          const otpVersion = otpVersionOrig
-          debugLog('OTP line and parsing', [x.name, otpVersion, otpVersionOrig])
-          otpVersions[otpVersion] = otpVersionOrig
-        })
-    })
-  } else if (process.platform === 'darwin') {
-    csv
-      .parse(otpVersionsListings, {
-        columns: true,
-      })
-      .forEach((line) => {
-        const otpVersionOrig = line.ref_name
-        const otpVersion = maybeRemoveOTPPrefix(otpVersionOrig)
-        debugLog('OTP line and parsing', [line, otpVersion, otpVersionOrig])
-        otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
-      })
-  }
-
-  debugLog(
-    `OTP versions from ${originListing}, mirrors ${hexMirrors}`,
-    JSON.stringify(otpVersions),
-  )
-
-  return [otpVersions, originListing, hexMirrors]
-}
-
-async function getElixirVersions() {
-  const originListing = '/builds/elixir/builds.txt'
-  const hexMirrors = hexMirrorsInput()
-  const elixirVersionsListings = await doWithMirrors({
-    hexMirrors,
-    actionTitle: `fetch ${originListing}`,
-    action: async (hexMirror) => {
-      return get(`${hexMirror}${originListing}`)
-    },
-  })
-  const otpVersionsForElixirMap = {}
-  const elixirVersions = {}
-
-  elixirVersionsListings
-    .trim()
-    .split('\n')
-    .forEach((line) => {
-      const elixirMatch =
-        line.match(/^v?(.+)-otp-([^ ]+)/) || line.match(/^v?([^ ]+)/)
-      const elixirVersion = elixirMatch[1]
-      const otpVersion = elixirMatch[2]
-      const otpVersions = otpVersionsForElixirMap[elixirVersion] || []
-      if (otpVersion) {
-        // -otp- present (special case)
-        otpVersions.push(otpVersion)
-      }
-      otpVersionsForElixirMap[elixirVersion] = otpVersions
-      elixirVersions[elixirVersion] = elixirVersion
-    })
-
-  return [otpVersionsForElixirMap, elixirVersions, originListing, hexMirrors]
-}
-
-async function getGleamVersions() {
-  const originListing =
-    'https://api.github.com/repos/gleam-lang/gleam/releases?per_page=100'
-  const resultJSONs = await get(originListing, [1, 2, 3])
-  const gleamVersionsListing = {}
-  resultJSONs.forEach((resultJSON) => {
-    resultJSON
-      .map((x) => x.tag_name)
-      .forEach((ver) => {
-        const gleamMatch = ver.match(/^v?([^ ]+)/)
-        const gleamVersion = gleamMatch[1]
-        gleamVersionsListing[gleamVersion] = gleamVersion
-      })
-  })
-
-  return [gleamVersionsListing, originListing]
-}
-
-async function getRebar3Versions() {
-  const originListing =
-    'https://api.github.com/repos/erlang/rebar3/releases?per_page=100'
-  const resultJSONs = await get(originListing, [1, 2, 3])
-  const rebar3VersionsListing = {}
-  resultJSONs.forEach((resultJSON) => {
-    resultJSON
-      .map((x) => x.tag_name)
-      .forEach((ver) => {
-        rebar3VersionsListing[ver] = ver
-      })
-  })
-
-  return [rebar3VersionsListing, originListing]
-}
-
-function isStrictVersion() {
-  return getInput('version-type', false) === 'strict'
-}
-
-function gt(left, right) {
-  return semver.gt(parseVersion(left), parseVersion(right))
-}
-
-function validVersion(v) {
-  return (
-    v.match(
-      new RegExp(`${knownBranches.join('|')}|${nonSpecificVersions.join('|')}`),
-    ) == null &&
-    // these ones are for rebar3, which has alpha and beta releases
-    !v.startsWith('a') &&
-    !v.startsWith('b')
-  )
-}
-
-function parseVersion(v) {
-  v = v.includes('rc') ? v : v.split('.')
-  if (v instanceof Array) {
-    v = `${[v.shift(), v.shift(), v.shift()].join('.')}+${v.join('.')}`
-  }
-  return semver.coerce(v, { includePrerelease: true, loose: true })
-}
-
-function getVersionFromSpec(spec0, versions0) {
-  let latest
-  Object.keys(versions0).forEach((v) => {
-    if (validVersion(v)) {
-      latest = latest && gt(latest, v) ? latest : v
-    }
-  })
-  versions0.latest = latest
-  const spec = maybeRemoveVPrefix(spec0)
-
-  const altVersions = {}
-  Object.entries(versions0).forEach(([version, altVersion]) => {
-    let coerced
-    if (
-      isStrictVersion() ||
-      isRC(version) ||
-      isKnownBranch(version) ||
-      isKnownVerBranch(version)
-    ) {
-      // If `version-type: strict`, version is an RC, or version is "a branch"
-      // we just try to remove a potential initial v
-      coerced = maybeRemoveVPrefix(version)
-    } else {
-      // Otherwise, we place the version into a version bucket
-      coerced = maybeCoerced(version)
-    }
-    const alt = (altVersions[coerced] || []).concat(altVersion)
-    alt.sort(sortVersions)
-    altVersions[coerced] = alt
-  })
-
-  let versions = Object.keys(altVersions)
-
-  const rangeForMax = semver.validRange(spec0) || maybeCoerced(spec)
-  const rangeMax = semver.maxSatisfying(versions, rangeForMax)
-  let version = null
-
-  if (spec0 === 'latest') {
-    version = versions0[versions0.latest]
-  } else if (
-    isStrictVersion() ||
-    isRC(spec0) ||
-    isKnownBranch(spec0) ||
-    isKnownVerBranch(spec0) ||
-    spec0 === 'nightly'
-  ) {
-    if (versions0[spec]) {
-      // We obtain it directly
-      version = versions0[spec]
-    }
-  } else if (rangeMax !== null) {
-    // Otherwise, we compare alt. versions' semver ranges to this version, from highest to lowest
-    const thatVersion = spec
-    const thatVersionAbc = versionAbc(thatVersion)
-    const thatVersionAbcRange = semver.validRange(thatVersionAbc)
-
-    versions = altVersions[rangeMax]
-    for (let i = versions.length - 1; i >= 0; i -= 1) {
-      const thisVersion = versions[i]
-      const thisVersionAbc = versionAbc(thisVersion)
-      const thisVersionAbcRange = semver.validRange(thisVersionAbc)
-
-      if (
-        thatVersionAbcRange &&
-        semver.intersects(thatVersionAbcRange, thisVersionAbcRange)
-      ) {
-        version = thisVersion
-        break
-      }
-    }
-  }
-
-  return version || null
-}
-
-function maybeCoerced(v) {
-  let ret
-  try {
-    if (!isRC(v)) {
-      ret = semver.coerce(v).version
-    } else {
-      ret = maybeRemoveVPrefix(v)
-    }
-  } catch {
-    // some stuff can't be coerced, like 'main'
-    core.debug(`Was not able to coerce ${v} with semver`)
-    ret = v
-  }
-
-  return ret
-}
-
-function sortVersions(left, right) {
-  let ret = 0
-  const newL = verAsComparableStr(left)
-  const newR = verAsComparableStr(right)
-  function verAsComparableStr(ver) {
-    const matchGroups = 6
-    const verSpec = xyzAbcVersion('', '')
-    const matches = ver.match(verSpec).splice(1, matchGroups)
-
-    return matches.reduce((acc, v) => acc + (v || '0').padStart(3, '0'), '')
-  }
-
-  if (newL < newR) {
-    ret = -1
-  } else if (newL > newR) {
-    ret = 1
-  }
-
-  return ret
-}
-
-function isRC(ver) {
-  return ver.match(xyzAbcVersion('^', '(?:-rc\\.?\\d+)'))
-}
-
-function isKnownBranch(ver) {
-  return knownBranches.includes(ver)
-}
-
-function isKnownVerBranch(ver) {
-  return knownBranches.some((b) => ver.match(b))
-}
-
-function githubARMRunnerArchs() {
-  return ['ARM', 'ARM64']
-}
-
-function githubAMDRunnerArchs() {
-  return ['X86', 'X64']
-}
-
-function getRunnerOSArchitecture() {
-  // These options come from:
-  // https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
-  if (githubARMRunnerArchs().includes(process.env.RUNNER_ARCH)) {
-    return 'arm64'
-  }
-
-  if (githubAMDRunnerArchs().includes(process.env.RUNNER_ARCH)) {
-    return 'amd64'
-  }
-
-  throw new Error(
-    'Invalid Github runner architecture, expected one of ' +
-      `${githubAMDRunnerArchs().concat(githubARMRunnerArchs()).join(', ')} ` +
-      `but got process.env.RUNNER_ARCH = ${process.env.RUNNER_ARCH}`,
-  )
-}
-
-function getRunnerOSVersion() {
-  // List from https://github.com/actions/runner-images?tab=readme-ov-file#available-images
-  const ImageOSToContainer = {
-    ubuntu22: 'ubuntu-22.04',
-    ubuntu24: 'ubuntu-24.04',
-    win19: 'windows-2019',
-    win22: 'windows-2022',
-    win25: 'windows-2025',
-    macos13: 'macOS-13',
-    macos14: 'macOS-14',
-    macos15: 'macOS-15',
-  }
-  const deprecatedImageOSToContainer = {
-    ubuntu18: 'ubuntu-18.04',
-    ubuntu20: 'ubuntu-20.04',
-  }
-  const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
-  if (!containerFromEnvImageOS) {
-    const deprecatedContainerFromEnvImageOS =
-      deprecatedImageOSToContainer[process.env.ImageOS]
-    if (deprecatedContainerFromEnvImageOS) {
-      core.warning(
-        `You are using deprecated ImageOS ${deprecatedContainerFromEnvImageOS}. ` +
-          'Support for maintenance is very limited. Consider a non-deprecated version as ' +
-          'mentioned in the README.md.',
-      )
-
-      return deprecatedContainerFromEnvImageOS
-    } else {
-      throw new Error(
-        "Tried to map a target OS from env. variable 'ImageOS' (got " +
-          `${process.env.ImageOS}` +
-          "), but failed. If you're using a " +
-          "self-hosted runner, you should set 'env': 'ImageOS': ... to one of the following: " +
-          "['" +
-          `${Object.keys(ImageOSToContainer).join("', '")}` +
-          "']",
-      )
-    }
-  }
-
-  return containerFromEnvImageOS
-}
-
-async function getUrlResponse(url, headers, attempt = 1) {
-  try {
-    const response = await fetch(url, {
-      headers,
-      signal: AbortSignal.timeout(10000),
-    })
-    const contentType = response.headers.get('content-type') || ''
-
-    if (!response.ok) {
-      throw new Error(response.statusText)
-    }
-
-    if (contentType.indexOf('application/json') !== -1) {
-      return response.json()
-    } else {
-      return response.text()
-    }
-  } catch (err) {
-    core.debug(`Error fetching from ${url}: ${err}`)
-
-    if (attempt <= MAX_HTTP_RETRIES) {
-      const delay = attempt * 2 * 1000
-      core.debug(`Error during fetch. Retrying in ${delay}ms`)
-      await new Promise((resolve) => setTimeout(resolve, delay))
-      return getUrlResponse(url, headers, attempt + 1)
-    } else {
-      throw err
-    }
-  }
-}
-
-async function get(url0, pageIdxs) {
-  const url = new URL(url0)
-  const headers = {}
-  const GithubToken = getInput('github-token', false)
-  if (GithubToken && url.host === 'api.github.com') {
-    headers.authorization = `Bearer ${GithubToken}`
-  }
-
-  if ((pageIdxs || []).length === 0) {
-    return getUrlResponse(url, headers)
-  } else {
-    return Promise.all(
-      pageIdxs.map((page) => {
-        const urlWithPage = new URL(url)
-        urlWithPage.searchParams.append('page', page)
-        return getUrlResponse(urlWithPage, headers)
-      }),
-    )
-  }
-}
-
-function maybePrependWithV(v) {
-  if (isVersion(v)) {
-    return `v${v.replace('v', '')}`
-  }
-
-  return v
-}
-
-function maybeRemoveVPrefix(ver) {
-  let ret = ver
-  if (isVersion(ver)) {
-    ret = ver.replace('v', '')
-  }
-
-  return ret
-}
-
-function xyzAbcVersion(pref, suf) {
-  // This accounts for stuff like 6.0.2.0.1.0, as proposed by Erlang's
-  // https://www.erlang.org/doc/system_principles/versions.html
-  const dd = '\\.?(\\d+)?'
-  return new RegExp(
-    `${pref}(?:OTP-)?v?(\\d+)${dd}${dd}${dd}${dd}${dd}(?:-rc\\.?\\d+)?(?:-otp-\\d+)?${suf}`,
-  )
-}
-
-function versionAbc(ver) {
-  // For a version like 6.0.2.0.1.0, return 0.1.0
-  return ver.match(/\d+(?:\.[^.]+)?(?:\.[^.]+)?(?:\.)?(.*)/)[1]
-}
-
-function isVersion(v) {
-  return v.match(xyzAbcVersion('^', '$')) !== null
-}
-
-function getInput(inputName, required, alternativeName, alternatives) {
-  const alternativeValue = (alternatives || new Map()).get(alternativeName)
-  let input = core.getInput(inputName, {
-    required: alternativeValue ? false : required,
-  })
-  // We can't have both input and alternativeValue set
-  if (input && alternativeValue) {
-    throw new Error(
-      `Found input ${inputName}=${input} (from the YML) \
-alongside ${alternativeName}=${alternativeValue} \
-(from the version file). You must choose one or the other.`,
-    )
-  } else if (!input) {
-    input = alternativeValue
-  }
-
-  return input
-}
-
-function parseVersionFile(versionFilePath0) {
-  const versionFilePath = path.resolve(
-    process.env.GITHUB_WORKSPACE,
-    versionFilePath0,
-  )
-  if (!fs.existsSync(versionFilePath)) {
-    throw new Error(
-      `The specified version file, ${versionFilePath0}, does not exist`,
-    )
-  }
-
-  core.startGroup(`Parsing version file at ${versionFilePath0}`)
-  const appVersions = new Map()
-  const versions = fs.readFileSync(versionFilePath, 'utf8')
-  // For the time being we parse .tool-versions
-  // If we ever start parsing something else, this should
-  // become default in a new option named e.g. version-file-type
-  versions.split(/\r?\n/).forEach((line) => {
-    const appVersion = line.match(/^([^ ]+)[ ]+(ref:v?)?([^ #]+)/)
-    if (appVersion) {
-      const app = appVersion[1]
-      if (['erlang', 'elixir', 'gleam', 'rebar'].includes(app)) {
-        const [, , , version] = appVersion
-        core.info(`Consuming ${app} at version ${version}`)
-        appVersions.set(app, version)
-      }
-    }
-  })
-  if (!appVersions.size) {
-    core.info('There was apparently nothing to consume')
-  } else {
-    core.info('... done!')
-  }
-  core.endGroup()
-
-  return appVersions
-}
-
-function debugLog(groupName, message) {
-  const group = `Debugging for ${groupName}`
-  core.debug(
-    '┌──────────────────────────────────────────────────────────────────────────',
-  )
-  core.debug(`│ ${group} - start`)
-  core.debug(message)
-  core.debug(`│ ${group} - stop`)
-  core.debug(
-    '└──────────────────────────────────────────────────────────────────────────',
-  )
-}
-
-function hexMirrorsInput() {
-  return core.getMultilineInput('hexpm-mirrors', {
-    required: false,
-  })
-}
-
-async function doWithMirrors(opts) {
-  const { hexMirrors, actionTitle, action } = opts
-  let actionRes
-
-  if (hexMirrors.length === 0) {
-    throw new Error(`Could not ${actionTitle} from any hex.pm mirror`)
-  }
-
-  const [hexMirror, ...hexMirrorsT] = hexMirrors
-  try {
-    actionRes = await action(hexMirror)
-  } catch (err) {
-    core.info(
-      `Action ${actionTitle} failed for mirror ${hexMirror}, with ${err}`,
-    )
-    core.debug(`Stacktrace: ${err.stack}`)
-    actionRes = await doWithMirrors({
-      hexMirrors: hexMirrorsT,
-      actionTitle,
-      action,
-    })
-  }
-
-  return actionRes
-}
-
-async function install(toolName, opts) {
-  const { osVersion, toolVersion, hexMirror } = opts
-  const versionSpec =
-    osVersion !== undefined ? `${osVersion}/${toolVersion}` : toolVersion
-  let installOpts
-
-  // The installOpts object is composed of supported processPlatform keys
-  // (e.g. 'linux', 'win32', or 'all' - in case there's no distinction between platforms)
-  // In each of these keys there's an object with keys:
-  // * downloadToolURL
-  //     - where to fetch the downloadable from
-  // * extract
-  //     - if the downloadable is compressed: how to extract it
-  //       - return ['dir', targetDir]
-  //     - if the downloadable is not compressed: a filename.ext you want to cache it under
-  //       - return ['file', filenameWithExt]
-  // * postExtract
-  //     - stuff to execute outside the cache scope (just after it's created)
-  // * reportVersion
-  ///    - configuration elements on how to output the tool version, post-install
-
-  switch (toolName) {
-    case 'otp':
-      installOpts = {
-        tool: 'Erlang/OTP',
-        linux: {
-          downloadToolURL: () =>
-            `${hexMirror}/builds/otp/${getRunnerOSArchitecture()}/${versionSpec}.tar.gz`,
-          extract: async (file) => {
-            const dest = undefined
-            const flags = ['zx', '--strip-components=1']
-            const targetDir = await tc.extractTar(file, dest, flags)
-
-            return ['dir', targetDir]
-          },
-          postExtract: async (cachePath) => {
-            const cmd = path.join(cachePath, 'Install')
-            const args = ['-minimal', cachePath]
-            await exec(cmd, args)
-          },
-          reportVersion: () => {
-            const cmd = 'erl'
-            const args = ['-version']
-            const env = {}
-
-            return [cmd, args, env]
-          },
-        },
-        win32: {
-          downloadToolURL: () => {
-            const otpArch = otpArchitecture()
-            return (
-              'https://github.com/erlang/otp/releases/download/' +
-              `OTP-${toolVersion}/otp_win${_.escapeRegExp(otpArch)}_${toolVersion}.exe`
-            )
-          },
-          extract: async () => ['file', 'otp.exe'],
-          postExtract: async (cachePath) => {
-            const cmd = path.join(cachePath, 'otp.exe')
-            const args = ['/S', `/D=${cachePath}`]
-            await exec(cmd, args)
-          },
-          reportVersion: () => {
-            const cmd = 'erl.exe'
-            const args = ['+V']
-            const env = {}
-
-            return [cmd, args, env]
-          },
-        },
-        darwin: {
-          downloadToolURL: (versionSpec) => {
-            let suffix = ''
-            if (isKnownVerBranch(versionSpec)) {
-              // for these otp_builds adds `-latest` in the folder path
-              suffix = '-latest'
-            }
-            return (
-              `https://github.com/erlef/otp_builds/releases/download/` +
-              `${toolVersion}${suffix}/${toolVersion}-macos-${getRunnerOSArchitecture()}.tar.gz`
-            )
-          },
-          extract: async (file) => {
-            const dest = undefined
-            const flags = ['zx']
-            const targetDir = await tc.extractTar(file, dest, flags)
-
-            return ['dir', targetDir]
-          },
-          postExtract: async (/*cachePath*/) => {
-            // nothing to do
-          },
-          reportVersion: () => {
-            const cmd = 'erl'
-            const args = ['-version']
-            const env = {}
-
-            return [cmd, args, env]
-          },
-        },
-      }
-      break
-    case 'elixir':
-      installOpts = {
-        tool: 'Elixir',
-        all: {
-          downloadToolURL: () =>
-            `${hexMirror}/builds/elixir/${versionSpec}.zip`,
-          extract: async (file) => {
-            const targetDir = await tc.extractZip(file)
-
-            return ['dir', targetDir]
-          },
-          postExtract: async () => {
-            const escriptsPath = path.join(os.homedir(), '.mix', 'escripts')
-            fs.mkdirSync(escriptsPath, { recursive: true })
-            core.addPath(escriptsPath)
-
-            if (debugLoggingEnabled()) {
-              core.exportVariable('ELIXIR_CLI_ECHO', 'true')
-            }
-          },
-          reportVersion: () => {
-            const cmd = 'elixir'
-            const args = ['-v']
-            const env = {}
-
-            return [cmd, args, env]
-          },
-        },
-      }
-      break
-    case 'gleam':
-      installOpts = {
-        tool: 'Gleam',
-        linux: {
-          downloadToolURL: () => {
-            let gz
-            if (
-              versionSpec === 'nightly' ||
-              semver.gt(versionSpec, 'v0.22.1')
-            ) {
-              gz = `gleam-${versionSpec}-x86_64-unknown-linux-musl.tar.gz`
-            } else {
-              gz = `gleam-${versionSpec}-linux-amd64.tar.gz`
-            }
-
-            return `https://github.com/gleam-lang/gleam/releases/download/${versionSpec}/${gz}`
-          },
-          extract: async (file) => {
-            const dest = undefined
-            const flags = ['zx']
-            const targetDir = await tc.extractTar(file, dest, flags)
-
-            return ['dir', targetDir]
-          },
-          postExtract: async (cachePath) => {
-            const bindir = path.join(cachePath, 'bin')
-            const oldPath = path.join(cachePath, 'gleam')
-            const newPath = path.join(bindir, 'gleam')
-            fs.mkdirSync(bindir)
-            fs.renameSync(oldPath, newPath)
-          },
-          reportVersion: () => {
-            const cmd = 'gleam'
-            const args = ['--version']
-            const env = {}
-
-            return [cmd, args, env]
-          },
-        },
-        win32: {
-          downloadToolURL: () => {
-            let zip
-            if (
-              versionSpec === 'nightly' ||
-              semver.gt(versionSpec, 'v0.22.1')
-            ) {
-              zip = `gleam-${versionSpec}-x86_64-pc-windows-msvc.zip`
-            } else {
-              zip = `gleam-${versionSpec}-windows-64bit.zip`
-            }
-
-            return `https://github.com/gleam-lang/gleam/releases/download/${versionSpec}/${zip}`
-          },
-          extract: async (file) => {
-            const targetDir = await tc.extractZip(file)
-
-            return ['dir', targetDir]
-          },
-          postExtract: async (cachePath) => {
-            const bindir = path.join(cachePath, 'bin')
-            const oldPath = path.join(cachePath, 'gleam.exe')
-            const newPath = path.join(bindir, 'gleam.exe')
-            fs.mkdirSync(bindir)
-            fs.renameSync(oldPath, newPath)
-          },
-          reportVersion: () => {
-            const cmd = 'gleam.exe'
-            const args = ['--version']
-            const env = {}
-
-            return [cmd, args, env]
-          },
-        },
-      }
-      installOpts.darwin = installOpts.linux
-      break
-    case 'rebar3':
-      installOpts = {
-        tool: 'Rebar3',
-        linux: {
-          downloadToolURL: () => {
-            let url
-            if (versionSpec === 'nightly') {
-              url = 'https://s3.amazonaws.com/rebar3-nightly/rebar3'
-            } else {
-              url = `https://github.com/erlang/rebar3/releases/download/${versionSpec}/rebar3`
-            }
-
-            return url
-          },
-          extract: async () => ['file', 'rebar3'],
-          postExtract: async (cachePath) => {
-            const bindir = path.join(cachePath, 'bin')
-            const oldPath = path.join(cachePath, 'rebar3')
-            const newPath = path.join(bindir, 'rebar3')
-            fs.mkdirSync(bindir, { recursive: true })
-            fs.renameSync(oldPath, newPath)
-            fs.chmodSync(newPath, 0o755)
-          },
-          reportVersion: () => {
-            const cmd = 'rebar3'
-            const args = ['version']
-            const env = {
-              REBAR_GLOBAL_CONFIG_DIR: '/fake-dir',
-              REBAR_CONFIG: 'fake.config',
-            }
-
-            return [cmd, args, env]
-          },
-        },
-        win32: {
-          downloadToolURL: () => {
-            let url
-            if (versionSpec === 'nightly') {
-              url = 'https://s3.amazonaws.com/rebar3-nightly/rebar3'
-            } else {
-              url = `https://github.com/erlang/rebar3/releases/download/${versionSpec}/rebar3`
-            }
-
-            return url
-          },
-          extract: async () => ['file', 'rebar3'],
-          postExtract: async (cachePath) => {
-            const bindir = path.join(cachePath, 'bin')
-            const oldPath = path.join(cachePath, 'rebar3')
-            const newPath = path.join(bindir, 'rebar3')
-            fs.mkdirSync(bindir)
-            fs.renameSync(oldPath, newPath)
-            fs.chmodSync(newPath, 0o755)
-
-            const ps1Filename = path.join(bindir, 'rebar3.ps1')
-            fs.writeFileSync(ps1Filename, `& escript.exe ${newPath} \${args}`)
-
-            const cmdFilename = path.join(bindir, 'rebar3.cmd')
-            fs.writeFileSync(
-              cmdFilename,
-              `@echo off\r\nescript.exe ${newPath} %*`,
-            )
-          },
-          reportVersion: () => {
-            const cmd = 'rebar3.cmd'
-            const args = ['version']
-            const env = {}
-
-            return [cmd, args, env]
-          },
-        },
-      }
-      installOpts.darwin = installOpts.linux
-      break
-    default:
-      throw new Error(`no installer for ${toolName}`)
-  }
-
-  await installTool({ toolName, versionSpec, installOpts })
-}
-
-async function installTool(opts) {
-  const { toolName, versionSpec, installOpts } = opts
-  const platformOpts = installOpts[process.platform] || installOpts.all
-  let cachePath = tc.find(toolName, versionSpec)
-
-  core.debug(`Checking if ${installOpts.tool} is already cached...`)
-  if (cachePath === '') {
-    core.debug("  ... it isn't!")
-    const downloadToolURL = platformOpts.downloadToolURL(versionSpec)
-    const file = await tc.downloadTool(downloadToolURL)
-    const [targetElemType, targetElem] = await platformOpts.extract(file)
-
-    if (targetElemType === 'dir') {
-      cachePath = await tc.cacheDir(targetElem, toolName, versionSpec)
-    } else if (targetElemType === 'file') {
-      cachePath = await tc.cacheFile(file, targetElem, toolName, versionSpec)
-    }
-  } else {
-    core.debug(`  ... it is, at ${cachePath}`)
-  }
-
-  // This makes sure we run, e.g. in Windows, the installer in the runner
-  // We're not caching the install, just the downloaded tool
-  const runnerToolPath = path.join(
-    process.env.RUNNER_TEMP,
-    '.setup-beam',
-    toolName,
-  )
-  fs.cpSync(cachePath, runnerToolPath, { recursive: true })
-
-  core.debug('Performing post extract operations...')
-  await platformOpts.postExtract(runnerToolPath)
-
-  core.debug(`Adding ${runnerToolPath}' bin to system path`)
-  const runnerToolPathBin = path.join(runnerToolPath, 'bin')
-  core.addPath(runnerToolPathBin)
-
-  const installDirForVarName = `INSTALL_DIR_FOR_${toolName}`.toUpperCase()
-  core.debug(`Exporting ${installDirForVarName} as ${runnerToolPath}`)
-  core.exportVariable(installDirForVarName, runnerToolPath)
-
-  core.info(`Installed ${installOpts.tool} version`)
-  const [cmd, args, env] = platformOpts.reportVersion()
-  await exec(cmd, args, { env: { ...process.env, ...env } })
-}
-
-function checkOtpArchitecture() {
-  const otpArch = otpArchitecture()
-
-  if (process.platform !== 'win32' && otpArch == '32') {
-    throw new Error(
-      '@erlef/setup-beam only supports otp-architecture=32 on Windows',
-    )
-  }
-
-  if (!['32', '64'].includes(otpArch)) {
-    throw new Error('otp-architecture must be 32 or 64')
-  }
-}
-
-function debugLoggingEnabled() {
-  return !!process.env.RUNNER_DEBUG
-}
-
-module.exports = {
-  get,
-  getElixirVersion,
-  getGleamVersion,
-  getOTPVersion,
-  getRebar3Version,
-  getVersionFromSpec,
-  githubAMDRunnerArchs,
-  githubARMRunnerArchs,
-  install,
-  installOTP,
-  maybeInstallElixir,
-  maybeInstallGleam,
-  maybeInstallRebar3,
-  parseVersionFile,
-}
-
-
-/***/ }),
-
 /***/ 2613:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("assert");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("assert");
 
 /***/ }),
 
 /***/ 290:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("async_hooks");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("async_hooks");
 
 /***/ }),
 
 /***/ 181:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("buffer");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("buffer");
 
 /***/ }),
 
 /***/ 5317:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("child_process");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("child_process");
 
 /***/ }),
 
 /***/ 4236:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("console");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("console");
 
 /***/ }),
 
 /***/ 6982:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("crypto");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("crypto");
 
 /***/ }),
 
 /***/ 1637:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("diagnostics_channel");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("diagnostics_channel");
 
 /***/ }),
 
 /***/ 4434:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("events");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("events");
 
 /***/ }),
 
 /***/ 9896:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("fs");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("fs");
 
 /***/ }),
 
 /***/ 8611:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("http");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("http");
 
 /***/ }),
 
 /***/ 5675:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("http2");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("http2");
 
 /***/ }),
 
 /***/ 5692:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("https");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("https");
 
 /***/ }),
 
 /***/ 9278:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("net");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("net");
 
 /***/ }),
 
 /***/ 7598:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("node:crypto");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:crypto");
 
 /***/ }),
 
 /***/ 8474:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("node:events");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:events");
 
 /***/ }),
 
 /***/ 7075:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("node:stream");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:stream");
 
 /***/ }),
 
 /***/ 7975:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("node:util");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:util");
 
 /***/ }),
 
 /***/ 857:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("os");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("os");
 
 /***/ }),
 
 /***/ 6928:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("path");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("path");
 
 /***/ }),
 
 /***/ 2987:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("perf_hooks");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("perf_hooks");
 
 /***/ }),
 
 /***/ 3480:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("querystring");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("querystring");
 
 /***/ }),
 
 /***/ 2203:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("stream");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("stream");
 
 /***/ }),
 
 /***/ 3774:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("stream/web");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("stream/web");
 
 /***/ }),
 
 /***/ 3193:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("string_decoder");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("string_decoder");
 
 /***/ }),
 
 /***/ 3557:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("timers");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("timers");
 
 /***/ }),
 
 /***/ 4756:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("tls");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("tls");
 
 /***/ }),
 
 /***/ 7016:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("url");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("url");
 
 /***/ }),
 
 /***/ 9023:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("util");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("util");
 
 /***/ }),
 
 /***/ 8253:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("util/types");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("util/types");
 
 /***/ }),
 
 /***/ 8167:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("worker_threads");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("worker_threads");
 
 /***/ }),
 
 /***/ 3106:
 /***/ ((module) => {
 
-"use strict";
-module.exports = require("zlib");
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("zlib");
 
 /***/ }),
 
 /***/ 7182:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const WritableStream = (__nccwpck_require__(7075).Writable)
@@ -49896,7 +49698,6 @@ module.exports = Dicer
 /***/ 2271:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const EventEmitter = (__nccwpck_require__(8474).EventEmitter)
@@ -50004,7 +49805,6 @@ module.exports = HeaderParser
 /***/ 612:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const inherits = (__nccwpck_require__(7975).inherits)
@@ -50025,7 +49825,6 @@ module.exports = PartStream
 /***/ 4136:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 /**
@@ -50261,7 +50060,6 @@ module.exports = SBMH
 /***/ 9581:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const WritableStream = (__nccwpck_require__(7075).Writable)
@@ -50354,7 +50152,6 @@ module.exports.Dicer = Dicer
 /***/ 1192:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 // TODO:
@@ -50668,7 +50465,6 @@ module.exports = Multipart
 /***/ 855:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 
 
 const Decoder = __nccwpck_require__(1496)
@@ -50866,7 +50662,6 @@ module.exports = UrlEncoded
 /***/ 1496:
 /***/ ((module) => {
 
-"use strict";
 
 
 const RE_PLUS = /\+/g
@@ -50928,7 +50723,6 @@ module.exports = Decoder
 /***/ 692:
 /***/ ((module) => {
 
-"use strict";
 
 
 module.exports = function basename (path) {
@@ -50950,7 +50744,6 @@ module.exports = function basename (path) {
 /***/ 2747:
 /***/ (function(module) {
 
-"use strict";
 
 
 // Node has always utf-8
@@ -51072,7 +50865,6 @@ module.exports = decodeText
 /***/ 2393:
 /***/ ((module) => {
 
-"use strict";
 
 
 module.exports = function getLimit (limits, name, defaultLimit) {
@@ -51096,7 +50888,6 @@ module.exports = function getLimit (limits, name, defaultLimit) {
 /***/ 8929:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
 /* eslint-disable object-property-newline */
 
 
@@ -51295,14 +51086,1233 @@ function parseParams (str) {
 module.exports = parseParams
 
 
-/***/ }),
+/***/ })
 
-/***/ 1110:
-/***/ ((__unused_webpack_module, exports) => {
+/******/ });
+/************************************************************************/
+/******/ // The module cache
+/******/ var __webpack_module_cache__ = {};
+/******/ 
+/******/ // The require function
+/******/ function __nccwpck_require__(moduleId) {
+/******/ 	// Check if module is in cache
+/******/ 	var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 	if (cachedModule !== undefined) {
+/******/ 		return cachedModule.exports;
+/******/ 	}
+/******/ 	// Create a new module (and put it into the cache)
+/******/ 	var module = __webpack_module_cache__[moduleId] = {
+/******/ 		id: moduleId,
+/******/ 		loaded: false,
+/******/ 		exports: {}
+/******/ 	};
+/******/ 
+/******/ 	// Execute the module function
+/******/ 	var threw = true;
+/******/ 	try {
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __nccwpck_require__);
+/******/ 		threw = false;
+/******/ 	} finally {
+/******/ 		if(threw) delete __webpack_module_cache__[moduleId];
+/******/ 	}
+/******/ 
+/******/ 	// Flag the module as loaded
+/******/ 	module.loaded = true;
+/******/ 
+/******/ 	// Return the exports of the module
+/******/ 	return module.exports;
+/******/ }
+/******/ 
+/************************************************************************/
+/******/ /* webpack/runtime/define property getters */
+/******/ (() => {
+/******/ 	// define getter functions for harmony exports
+/******/ 	__nccwpck_require__.d = (exports, definition) => {
+/******/ 		for(var key in definition) {
+/******/ 			if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 			}
+/******/ 		}
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/hasOwnProperty shorthand */
+/******/ (() => {
+/******/ 	__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/node module decorator */
+/******/ (() => {
+/******/ 	__nccwpck_require__.nmd = (module) => {
+/******/ 		module.paths = [];
+/******/ 		if (!module.children) module.children = [];
+/******/ 		return module;
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/compat */
+/******/ 
+/******/ if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = new URL('.', import.meta.url).pathname.slice(import.meta.url.match(/^file:\/\/\/\w:/) ? 1 : 0, -1) + "/";
+/******/ 
+/************************************************************************/
+var __webpack_exports__ = {};
 
-"use strict";
+// EXPORTS
+__nccwpck_require__.d(__webpack_exports__, {
+  A: () => (/* binding */ setup_beam)
+});
+
+;// CONCATENATED MODULE: external "node:path"
+const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
+;// CONCATENATED MODULE: external "node:fs"
+const external_node_fs_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:fs");
+;// CONCATENATED MODULE: external "node:os"
+const external_node_os_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:os");
+;// CONCATENATED MODULE: external "node:url"
+const external_node_url_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:url");
+// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
+var core = __nccwpck_require__(7484);
+// EXTERNAL MODULE: external "string_decoder"
+var external_string_decoder_ = __nccwpck_require__(3193);
+// EXTERNAL MODULE: external "os"
+var external_os_ = __nccwpck_require__(857);
+// EXTERNAL MODULE: external "events"
+var external_events_ = __nccwpck_require__(4434);
+// EXTERNAL MODULE: external "child_process"
+var external_child_process_ = __nccwpck_require__(5317);
+// EXTERNAL MODULE: external "path"
+var external_path_ = __nccwpck_require__(6928);
+// EXTERNAL MODULE: external "assert"
+var external_assert_ = __nccwpck_require__(2613);
+// EXTERNAL MODULE: external "fs"
+var external_fs_ = __nccwpck_require__(9896);
+;// CONCATENATED MODULE: ./node_modules/@actions/io/lib/io-util.js
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 
+const { chmod, copyFile, lstat, mkdir, open: io_util_open, readdir, rename, rm, rmdir, stat, symlink, unlink } = external_fs_.promises;
+// export const {open} = 'fs'
+const IS_WINDOWS = process.platform === 'win32';
+/**
+ * Custom implementation of readlink to ensure Windows junctions
+ * maintain trailing backslash for backward compatibility with Node.js < 24
+ *
+ * In Node.js 20, Windows junctions (directory symlinks) always returned paths
+ * with trailing backslashes. Node.js 24 removed this behavior, which breaks
+ * code that relied on this format for path operations.
+ *
+ * This implementation restores the Node 20 behavior by adding a trailing
+ * backslash to all junction results on Windows.
+ */
+function readlink(fsPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const result = yield fs.promises.readlink(fsPath);
+        // On Windows, restore Node 20 behavior: add trailing backslash to all results
+        // since junctions on Windows are always directory links
+        if (IS_WINDOWS && !result.endsWith('\\')) {
+            return `${result}\\`;
+        }
+        return result;
+    });
+}
+// See https://github.com/nodejs/node/blob/d0153aee367422d0858105abec186da4dff0a0c5/deps/uv/include/uv/win.h#L691
+const UV_FS_O_EXLOCK = 0x10000000;
+const READONLY = external_fs_.constants.O_RDONLY;
+function exists(fsPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield stat(fsPath);
+        }
+        catch (err) {
+            if (err.code === 'ENOENT') {
+                return false;
+            }
+            throw err;
+        }
+        return true;
+    });
+}
+function isDirectory(fsPath_1) {
+    return __awaiter(this, arguments, void 0, function* (fsPath, useStat = false) {
+        const stats = useStat ? yield stat(fsPath) : yield lstat(fsPath);
+        return stats.isDirectory();
+    });
+}
+/**
+ * On OSX/Linux, true if path starts with '/'. On Windows, true for paths like:
+ * \, \hello, \\hello\share, C:, and C:\hello (and corresponding alternate separator cases).
+ */
+function isRooted(p) {
+    p = normalizeSeparators(p);
+    if (!p) {
+        throw new Error('isRooted() parameter "p" cannot be empty');
+    }
+    if (IS_WINDOWS) {
+        return (p.startsWith('\\') || /^[A-Z]:/i.test(p) // e.g. \ or \hello or \\hello
+        ); // e.g. C: or C:\hello
+    }
+    return p.startsWith('/');
+}
+/**
+ * Best effort attempt to determine whether a file exists and is executable.
+ * @param filePath    file path to check
+ * @param extensions  additional file extensions to try
+ * @return if file exists and is executable, returns the file path. otherwise empty string.
+ */
+function tryGetExecutablePath(filePath, extensions) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let stats = undefined;
+        try {
+            // test file exists
+            stats = yield stat(filePath);
+        }
+        catch (err) {
+            if (err.code !== 'ENOENT') {
+                // eslint-disable-next-line no-console
+                console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
+            }
+        }
+        if (stats && stats.isFile()) {
+            if (IS_WINDOWS) {
+                // on Windows, test for valid extension
+                const upperExt = external_path_.extname(filePath).toUpperCase();
+                if (extensions.some(validExt => validExt.toUpperCase() === upperExt)) {
+                    return filePath;
+                }
+            }
+            else {
+                if (isUnixExecutable(stats)) {
+                    return filePath;
+                }
+            }
+        }
+        // try each extension
+        const originalFilePath = filePath;
+        for (const extension of extensions) {
+            filePath = originalFilePath + extension;
+            stats = undefined;
+            try {
+                stats = yield stat(filePath);
+            }
+            catch (err) {
+                if (err.code !== 'ENOENT') {
+                    // eslint-disable-next-line no-console
+                    console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
+                }
+            }
+            if (stats && stats.isFile()) {
+                if (IS_WINDOWS) {
+                    // preserve the case of the actual file (since an extension was appended)
+                    try {
+                        const directory = external_path_.dirname(filePath);
+                        const upperName = external_path_.basename(filePath).toUpperCase();
+                        for (const actualName of yield readdir(directory)) {
+                            if (upperName === actualName.toUpperCase()) {
+                                filePath = external_path_.join(directory, actualName);
+                                break;
+                            }
+                        }
+                    }
+                    catch (err) {
+                        // eslint-disable-next-line no-console
+                        console.log(`Unexpected error attempting to determine the actual case of the file '${filePath}': ${err}`);
+                    }
+                    return filePath;
+                }
+                else {
+                    if (isUnixExecutable(stats)) {
+                        return filePath;
+                    }
+                }
+            }
+        }
+        return '';
+    });
+}
+function normalizeSeparators(p) {
+    p = p || '';
+    if (IS_WINDOWS) {
+        // convert slashes on Windows
+        p = p.replace(/\//g, '\\');
+        // remove redundant slashes
+        return p.replace(/\\\\+/g, '\\');
+    }
+    // remove redundant slashes
+    return p.replace(/\/\/+/g, '/');
+}
+// on Mac/Linux, test the execute bit
+//     R   W  X  R  W X R W X
+//   256 128 64 32 16 8 4 2 1
+function isUnixExecutable(stats) {
+    return ((stats.mode & 1) > 0 ||
+        ((stats.mode & 8) > 0 &&
+            process.getgid !== undefined &&
+            stats.gid === process.getgid()) ||
+        ((stats.mode & 64) > 0 &&
+            process.getuid !== undefined &&
+            stats.uid === process.getuid()));
+}
+// Get the path of cmd.exe in windows
+function getCmdPath() {
+    var _a;
+    return (_a = process.env['COMSPEC']) !== null && _a !== void 0 ? _a : `cmd.exe`;
+}
+//# sourceMappingURL=io-util.js.map
+;// CONCATENATED MODULE: ./node_modules/@actions/io/lib/io.js
+var io_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+/**
+ * Copies a file or folder.
+ * Based off of shelljs - https://github.com/shelljs/shelljs/blob/9237f66c52e5daa40458f94f9565e18e8132f5a6/src/cp.js
+ *
+ * @param     source    source path
+ * @param     dest      destination path
+ * @param     options   optional. See CopyOptions.
+ */
+function cp(source_1, dest_1) {
+    return io_awaiter(this, arguments, void 0, function* (source, dest, options = {}) {
+        const { force, recursive, copySourceDirectory } = readCopyOptions(options);
+        const destStat = (yield ioUtil.exists(dest)) ? yield ioUtil.stat(dest) : null;
+        // Dest is an existing file, but not forcing
+        if (destStat && destStat.isFile() && !force) {
+            return;
+        }
+        // If dest is an existing directory, should copy inside.
+        const newDest = destStat && destStat.isDirectory() && copySourceDirectory
+            ? path.join(dest, path.basename(source))
+            : dest;
+        if (!(yield ioUtil.exists(source))) {
+            throw new Error(`no such file or directory: ${source}`);
+        }
+        const sourceStat = yield ioUtil.stat(source);
+        if (sourceStat.isDirectory()) {
+            if (!recursive) {
+                throw new Error(`Failed to copy. ${source} is a directory, but tried to copy without recursive flag.`);
+            }
+            else {
+                yield cpDirRecursive(source, newDest, 0, force);
+            }
+        }
+        else {
+            if (path.relative(source, newDest) === '') {
+                // a file cannot be copied to itself
+                throw new Error(`'${newDest}' and '${source}' are the same file`);
+            }
+            yield io_copyFile(source, newDest, force);
+        }
+    });
+}
+/**
+ * Moves a path.
+ *
+ * @param     source    source path
+ * @param     dest      destination path
+ * @param     options   optional. See MoveOptions.
+ */
+function mv(source_1, dest_1) {
+    return io_awaiter(this, arguments, void 0, function* (source, dest, options = {}) {
+        if (yield ioUtil.exists(dest)) {
+            let destExists = true;
+            if (yield ioUtil.isDirectory(dest)) {
+                // If dest is directory copy src into dest
+                dest = path.join(dest, path.basename(source));
+                destExists = yield ioUtil.exists(dest);
+            }
+            if (destExists) {
+                if (options.force == null || options.force) {
+                    yield rmRF(dest);
+                }
+                else {
+                    throw new Error('Destination already exists');
+                }
+            }
+        }
+        yield mkdirP(path.dirname(dest));
+        yield ioUtil.rename(source, dest);
+    });
+}
+/**
+ * Remove a path recursively with force
+ *
+ * @param inputPath path to remove
+ */
+function rmRF(inputPath) {
+    return io_awaiter(this, void 0, void 0, function* () {
+        if (ioUtil.IS_WINDOWS) {
+            // Check for invalid characters
+            // https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file
+            if (/[*"<>|]/.test(inputPath)) {
+                throw new Error('File path must not contain `*`, `"`, `<`, `>` or `|` on Windows');
+            }
+        }
+        try {
+            // note if path does not exist, error is silent
+            yield ioUtil.rm(inputPath, {
+                force: true,
+                maxRetries: 3,
+                recursive: true,
+                retryDelay: 300
+            });
+        }
+        catch (err) {
+            throw new Error(`File was unable to be removed ${err}`);
+        }
+    });
+}
+/**
+ * Make a directory.  Creates the full path with folders in between
+ * Will throw if it fails
+ *
+ * @param   fsPath        path to create
+ * @returns Promise<void>
+ */
+function mkdirP(fsPath) {
+    return io_awaiter(this, void 0, void 0, function* () {
+        ok(fsPath, 'a path argument must be provided');
+        yield ioUtil.mkdir(fsPath, { recursive: true });
+    });
+}
+/**
+ * Returns path of a tool had the tool actually been invoked.  Resolves via paths.
+ * If you check and the tool does not exist, it will throw.
+ *
+ * @param     tool              name of the tool
+ * @param     check             whether to check if tool exists
+ * @returns   Promise<string>   path to tool
+ */
+function which(tool, check) {
+    return io_awaiter(this, void 0, void 0, function* () {
+        if (!tool) {
+            throw new Error("parameter 'tool' is required");
+        }
+        // recursive when check=true
+        if (check) {
+            const result = yield which(tool, false);
+            if (!result) {
+                if (IS_WINDOWS) {
+                    throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also verify the file has a valid extension for an executable file.`);
+                }
+                else {
+                    throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also check the file mode to verify the file is executable.`);
+                }
+            }
+            return result;
+        }
+        const matches = yield findInPath(tool);
+        if (matches && matches.length > 0) {
+            return matches[0];
+        }
+        return '';
+    });
+}
+/**
+ * Returns a list of all occurrences of the given tool on the system path.
+ *
+ * @returns   Promise<string[]>  the paths of the tool
+ */
+function findInPath(tool) {
+    return io_awaiter(this, void 0, void 0, function* () {
+        if (!tool) {
+            throw new Error("parameter 'tool' is required");
+        }
+        // build the list of extensions to try
+        const extensions = [];
+        if (IS_WINDOWS && process.env['PATHEXT']) {
+            for (const extension of process.env['PATHEXT'].split(external_path_.delimiter)) {
+                if (extension) {
+                    extensions.push(extension);
+                }
+            }
+        }
+        // if it's rooted, return it if exists. otherwise return empty.
+        if (isRooted(tool)) {
+            const filePath = yield tryGetExecutablePath(tool, extensions);
+            if (filePath) {
+                return [filePath];
+            }
+            return [];
+        }
+        // if any path separators, return empty
+        if (tool.includes(external_path_.sep)) {
+            return [];
+        }
+        // build the list of directories
+        //
+        // Note, technically "where" checks the current directory on Windows. From a toolkit perspective,
+        // it feels like we should not do this. Checking the current directory seems like more of a use
+        // case of a shell, and the which() function exposed by the toolkit should strive for consistency
+        // across platforms.
+        const directories = [];
+        if (process.env.PATH) {
+            for (const p of process.env.PATH.split(external_path_.delimiter)) {
+                if (p) {
+                    directories.push(p);
+                }
+            }
+        }
+        // find all matches
+        const matches = [];
+        for (const directory of directories) {
+            const filePath = yield tryGetExecutablePath(external_path_.join(directory, tool), extensions);
+            if (filePath) {
+                matches.push(filePath);
+            }
+        }
+        return matches;
+    });
+}
+function readCopyOptions(options) {
+    const force = options.force == null ? true : options.force;
+    const recursive = Boolean(options.recursive);
+    const copySourceDirectory = options.copySourceDirectory == null
+        ? true
+        : Boolean(options.copySourceDirectory);
+    return { force, recursive, copySourceDirectory };
+}
+function cpDirRecursive(sourceDir, destDir, currentDepth, force) {
+    return io_awaiter(this, void 0, void 0, function* () {
+        // Ensure there is not a run away recursive copy
+        if (currentDepth >= 255)
+            return;
+        currentDepth++;
+        yield mkdirP(destDir);
+        const files = yield ioUtil.readdir(sourceDir);
+        for (const fileName of files) {
+            const srcFile = `${sourceDir}/${fileName}`;
+            const destFile = `${destDir}/${fileName}`;
+            const srcFileStat = yield ioUtil.lstat(srcFile);
+            if (srcFileStat.isDirectory()) {
+                // Recurse
+                yield cpDirRecursive(srcFile, destFile, currentDepth, force);
+            }
+            else {
+                yield io_copyFile(srcFile, destFile, force);
+            }
+        }
+        // Change the mode for the newly created directory
+        yield ioUtil.chmod(destDir, (yield ioUtil.stat(sourceDir)).mode);
+    });
+}
+// Buffered file copy
+function io_copyFile(srcFile, destFile, force) {
+    return io_awaiter(this, void 0, void 0, function* () {
+        if ((yield ioUtil.lstat(srcFile)).isSymbolicLink()) {
+            // unlink/re-link it
+            try {
+                yield ioUtil.lstat(destFile);
+                yield ioUtil.unlink(destFile);
+            }
+            catch (e) {
+                // Try to override file permission
+                if (e.code === 'EPERM') {
+                    yield ioUtil.chmod(destFile, '0666');
+                    yield ioUtil.unlink(destFile);
+                }
+                // other errors = it doesn't exist, no work to do
+            }
+            // Copy over symlink
+            const symlinkFull = yield ioUtil.readlink(srcFile);
+            yield ioUtil.symlink(symlinkFull, destFile, ioUtil.IS_WINDOWS ? 'junction' : null);
+        }
+        else if (!(yield ioUtil.exists(destFile)) || force) {
+            yield ioUtil.copyFile(srcFile, destFile);
+        }
+    });
+}
+//# sourceMappingURL=io.js.map
+// EXTERNAL MODULE: external "timers"
+var external_timers_ = __nccwpck_require__(3557);
+;// CONCATENATED MODULE: ./node_modules/@actions/exec/lib/toolrunner.js
+var toolrunner_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+
+
+
+/* eslint-disable @typescript-eslint/unbound-method */
+const toolrunner_IS_WINDOWS = process.platform === 'win32';
+/*
+ * Class for running command line tools. Handles quoting and arg parsing in a platform agnostic way.
+ */
+class ToolRunner extends external_events_.EventEmitter {
+    constructor(toolPath, args, options) {
+        super();
+        if (!toolPath) {
+            throw new Error("Parameter 'toolPath' cannot be null or empty.");
+        }
+        this.toolPath = toolPath;
+        this.args = args || [];
+        this.options = options || {};
+    }
+    _debug(message) {
+        if (this.options.listeners && this.options.listeners.debug) {
+            this.options.listeners.debug(message);
+        }
+    }
+    _getCommandString(options, noPrefix) {
+        const toolPath = this._getSpawnFileName();
+        const args = this._getSpawnArgs(options);
+        let cmd = noPrefix ? '' : '[command]'; // omit prefix when piped to a second tool
+        if (toolrunner_IS_WINDOWS) {
+            // Windows + cmd file
+            if (this._isCmdFile()) {
+                cmd += toolPath;
+                for (const a of args) {
+                    cmd += ` ${a}`;
+                }
+            }
+            // Windows + verbatim
+            else if (options.windowsVerbatimArguments) {
+                cmd += `"${toolPath}"`;
+                for (const a of args) {
+                    cmd += ` ${a}`;
+                }
+            }
+            // Windows (regular)
+            else {
+                cmd += this._windowsQuoteCmdArg(toolPath);
+                for (const a of args) {
+                    cmd += ` ${this._windowsQuoteCmdArg(a)}`;
+                }
+            }
+        }
+        else {
+            // OSX/Linux - this can likely be improved with some form of quoting.
+            // creating processes on Unix is fundamentally different than Windows.
+            // on Unix, execvp() takes an arg array.
+            cmd += toolPath;
+            for (const a of args) {
+                cmd += ` ${a}`;
+            }
+        }
+        return cmd;
+    }
+    _processLineBuffer(data, strBuffer, onLine) {
+        try {
+            let s = strBuffer + data.toString();
+            let n = s.indexOf(external_os_.EOL);
+            while (n > -1) {
+                const line = s.substring(0, n);
+                onLine(line);
+                // the rest of the string ...
+                s = s.substring(n + external_os_.EOL.length);
+                n = s.indexOf(external_os_.EOL);
+            }
+            return s;
+        }
+        catch (err) {
+            // streaming lines to console is best effort.  Don't fail a build.
+            this._debug(`error processing line. Failed with error ${err}`);
+            return '';
+        }
+    }
+    _getSpawnFileName() {
+        if (toolrunner_IS_WINDOWS) {
+            if (this._isCmdFile()) {
+                return process.env['COMSPEC'] || 'cmd.exe';
+            }
+        }
+        return this.toolPath;
+    }
+    _getSpawnArgs(options) {
+        if (toolrunner_IS_WINDOWS) {
+            if (this._isCmdFile()) {
+                let argline = `/D /S /C "${this._windowsQuoteCmdArg(this.toolPath)}`;
+                for (const a of this.args) {
+                    argline += ' ';
+                    argline += options.windowsVerbatimArguments
+                        ? a
+                        : this._windowsQuoteCmdArg(a);
+                }
+                argline += '"';
+                return [argline];
+            }
+        }
+        return this.args;
+    }
+    _endsWith(str, end) {
+        return str.endsWith(end);
+    }
+    _isCmdFile() {
+        const upperToolPath = this.toolPath.toUpperCase();
+        return (this._endsWith(upperToolPath, '.CMD') ||
+            this._endsWith(upperToolPath, '.BAT'));
+    }
+    _windowsQuoteCmdArg(arg) {
+        // for .exe, apply the normal quoting rules that libuv applies
+        if (!this._isCmdFile()) {
+            return this._uvQuoteCmdArg(arg);
+        }
+        // otherwise apply quoting rules specific to the cmd.exe command line parser.
+        // the libuv rules are generic and are not designed specifically for cmd.exe
+        // command line parser.
+        //
+        // for a detailed description of the cmd.exe command line parser, refer to
+        // http://stackoverflow.com/questions/4094699/how-does-the-windows-command-interpreter-cmd-exe-parse-scripts/7970912#7970912
+        // need quotes for empty arg
+        if (!arg) {
+            return '""';
+        }
+        // determine whether the arg needs to be quoted
+        const cmdSpecialChars = [
+            ' ',
+            '\t',
+            '&',
+            '(',
+            ')',
+            '[',
+            ']',
+            '{',
+            '}',
+            '^',
+            '=',
+            ';',
+            '!',
+            "'",
+            '+',
+            ',',
+            '`',
+            '~',
+            '|',
+            '<',
+            '>',
+            '"'
+        ];
+        let needsQuotes = false;
+        for (const char of arg) {
+            if (cmdSpecialChars.some(x => x === char)) {
+                needsQuotes = true;
+                break;
+            }
+        }
+        // short-circuit if quotes not needed
+        if (!needsQuotes) {
+            return arg;
+        }
+        // the following quoting rules are very similar to the rules that by libuv applies.
+        //
+        // 1) wrap the string in quotes
+        //
+        // 2) double-up quotes - i.e. " => ""
+        //
+        //    this is different from the libuv quoting rules. libuv replaces " with \", which unfortunately
+        //    doesn't work well with a cmd.exe command line.
+        //
+        //    note, replacing " with "" also works well if the arg is passed to a downstream .NET console app.
+        //    for example, the command line:
+        //          foo.exe "myarg:""my val"""
+        //    is parsed by a .NET console app into an arg array:
+        //          [ "myarg:\"my val\"" ]
+        //    which is the same end result when applying libuv quoting rules. although the actual
+        //    command line from libuv quoting rules would look like:
+        //          foo.exe "myarg:\"my val\""
+        //
+        // 3) double-up slashes that precede a quote,
+        //    e.g.  hello \world    => "hello \world"
+        //          hello\"world    => "hello\\""world"
+        //          hello\\"world   => "hello\\\\""world"
+        //          hello world\    => "hello world\\"
+        //
+        //    technically this is not required for a cmd.exe command line, or the batch argument parser.
+        //    the reasons for including this as a .cmd quoting rule are:
+        //
+        //    a) this is optimized for the scenario where the argument is passed from the .cmd file to an
+        //       external program. many programs (e.g. .NET console apps) rely on the slash-doubling rule.
+        //
+        //    b) it's what we've been doing previously (by deferring to node default behavior) and we
+        //       haven't heard any complaints about that aspect.
+        //
+        // note, a weakness of the quoting rules chosen here, is that % is not escaped. in fact, % cannot be
+        // escaped when used on the command line directly - even though within a .cmd file % can be escaped
+        // by using %%.
+        //
+        // the saving grace is, on the command line, %var% is left as-is if var is not defined. this contrasts
+        // the line parsing rules within a .cmd file, where if var is not defined it is replaced with nothing.
+        //
+        // one option that was explored was replacing % with ^% - i.e. %var% => ^%var^%. this hack would
+        // often work, since it is unlikely that var^ would exist, and the ^ character is removed when the
+        // variable is used. the problem, however, is that ^ is not removed when %* is used to pass the args
+        // to an external program.
+        //
+        // an unexplored potential solution for the % escaping problem, is to create a wrapper .cmd file.
+        // % can be escaped within a .cmd file.
+        let reverse = '"';
+        let quoteHit = true;
+        for (let i = arg.length; i > 0; i--) {
+            // walk the string in reverse
+            reverse += arg[i - 1];
+            if (quoteHit && arg[i - 1] === '\\') {
+                reverse += '\\'; // double the slash
+            }
+            else if (arg[i - 1] === '"') {
+                quoteHit = true;
+                reverse += '"'; // double the quote
+            }
+            else {
+                quoteHit = false;
+            }
+        }
+        reverse += '"';
+        return reverse.split('').reverse().join('');
+    }
+    _uvQuoteCmdArg(arg) {
+        // Tool runner wraps child_process.spawn() and needs to apply the same quoting as
+        // Node in certain cases where the undocumented spawn option windowsVerbatimArguments
+        // is used.
+        //
+        // Since this function is a port of quote_cmd_arg from Node 4.x (technically, lib UV,
+        // see https://github.com/nodejs/node/blob/v4.x/deps/uv/src/win/process.c for details),
+        // pasting copyright notice from Node within this function:
+        //
+        //      Copyright Joyent, Inc. and other Node contributors. All rights reserved.
+        //
+        //      Permission is hereby granted, free of charge, to any person obtaining a copy
+        //      of this software and associated documentation files (the "Software"), to
+        //      deal in the Software without restriction, including without limitation the
+        //      rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+        //      sell copies of the Software, and to permit persons to whom the Software is
+        //      furnished to do so, subject to the following conditions:
+        //
+        //      The above copyright notice and this permission notice shall be included in
+        //      all copies or substantial portions of the Software.
+        //
+        //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        //      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        //      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        //      AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        //      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+        //      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+        //      IN THE SOFTWARE.
+        if (!arg) {
+            // Need double quotation for empty argument
+            return '""';
+        }
+        if (!arg.includes(' ') && !arg.includes('\t') && !arg.includes('"')) {
+            // No quotation needed
+            return arg;
+        }
+        if (!arg.includes('"') && !arg.includes('\\')) {
+            // No embedded double quotes or backslashes, so I can just wrap
+            // quote marks around the whole thing.
+            return `"${arg}"`;
+        }
+        // Expected input/output:
+        //   input : hello"world
+        //   output: "hello\"world"
+        //   input : hello""world
+        //   output: "hello\"\"world"
+        //   input : hello\world
+        //   output: hello\world
+        //   input : hello\\world
+        //   output: hello\\world
+        //   input : hello\"world
+        //   output: "hello\\\"world"
+        //   input : hello\\"world
+        //   output: "hello\\\\\"world"
+        //   input : hello world\
+        //   output: "hello world\\" - note the comment in libuv actually reads "hello world\"
+        //                             but it appears the comment is wrong, it should be "hello world\\"
+        let reverse = '"';
+        let quoteHit = true;
+        for (let i = arg.length; i > 0; i--) {
+            // walk the string in reverse
+            reverse += arg[i - 1];
+            if (quoteHit && arg[i - 1] === '\\') {
+                reverse += '\\';
+            }
+            else if (arg[i - 1] === '"') {
+                quoteHit = true;
+                reverse += '\\';
+            }
+            else {
+                quoteHit = false;
+            }
+        }
+        reverse += '"';
+        return reverse.split('').reverse().join('');
+    }
+    _cloneExecOptions(options) {
+        options = options || {};
+        const result = {
+            cwd: options.cwd || process.cwd(),
+            env: options.env || process.env,
+            silent: options.silent || false,
+            windowsVerbatimArguments: options.windowsVerbatimArguments || false,
+            failOnStdErr: options.failOnStdErr || false,
+            ignoreReturnCode: options.ignoreReturnCode || false,
+            delay: options.delay || 10000
+        };
+        result.outStream = options.outStream || process.stdout;
+        result.errStream = options.errStream || process.stderr;
+        return result;
+    }
+    _getSpawnOptions(options, toolPath) {
+        options = options || {};
+        const result = {};
+        result.cwd = options.cwd;
+        result.env = options.env;
+        result['windowsVerbatimArguments'] =
+            options.windowsVerbatimArguments || this._isCmdFile();
+        if (options.windowsVerbatimArguments) {
+            result.argv0 = `"${toolPath}"`;
+        }
+        return result;
+    }
+    /**
+     * Exec a tool.
+     * Output will be streamed to the live console.
+     * Returns promise with return code
+     *
+     * @param     tool     path to tool to exec
+     * @param     options  optional exec options.  See ExecOptions
+     * @returns   number
+     */
+    exec() {
+        return toolrunner_awaiter(this, void 0, void 0, function* () {
+            // root the tool path if it is unrooted and contains relative pathing
+            if (!isRooted(this.toolPath) &&
+                (this.toolPath.includes('/') ||
+                    (toolrunner_IS_WINDOWS && this.toolPath.includes('\\')))) {
+                // prefer options.cwd if it is specified, however options.cwd may also need to be rooted
+                this.toolPath = external_path_.resolve(process.cwd(), this.options.cwd || process.cwd(), this.toolPath);
+            }
+            // if the tool is only a file name, then resolve it from the PATH
+            // otherwise verify it exists (add extension on Windows if necessary)
+            this.toolPath = yield which(this.toolPath, true);
+            return new Promise((resolve, reject) => toolrunner_awaiter(this, void 0, void 0, function* () {
+                this._debug(`exec tool: ${this.toolPath}`);
+                this._debug('arguments:');
+                for (const arg of this.args) {
+                    this._debug(`   ${arg}`);
+                }
+                const optionsNonNull = this._cloneExecOptions(this.options);
+                if (!optionsNonNull.silent && optionsNonNull.outStream) {
+                    optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + external_os_.EOL);
+                }
+                const state = new ExecState(optionsNonNull, this.toolPath);
+                state.on('debug', (message) => {
+                    this._debug(message);
+                });
+                if (this.options.cwd && !(yield exists(this.options.cwd))) {
+                    return reject(new Error(`The cwd: ${this.options.cwd} does not exist!`));
+                }
+                const fileName = this._getSpawnFileName();
+                const cp = external_child_process_.spawn(fileName, this._getSpawnArgs(optionsNonNull), this._getSpawnOptions(this.options, fileName));
+                let stdbuffer = '';
+                if (cp.stdout) {
+                    cp.stdout.on('data', (data) => {
+                        if (this.options.listeners && this.options.listeners.stdout) {
+                            this.options.listeners.stdout(data);
+                        }
+                        if (!optionsNonNull.silent && optionsNonNull.outStream) {
+                            optionsNonNull.outStream.write(data);
+                        }
+                        stdbuffer = this._processLineBuffer(data, stdbuffer, (line) => {
+                            if (this.options.listeners && this.options.listeners.stdline) {
+                                this.options.listeners.stdline(line);
+                            }
+                        });
+                    });
+                }
+                let errbuffer = '';
+                if (cp.stderr) {
+                    cp.stderr.on('data', (data) => {
+                        state.processStderr = true;
+                        if (this.options.listeners && this.options.listeners.stderr) {
+                            this.options.listeners.stderr(data);
+                        }
+                        if (!optionsNonNull.silent &&
+                            optionsNonNull.errStream &&
+                            optionsNonNull.outStream) {
+                            const s = optionsNonNull.failOnStdErr
+                                ? optionsNonNull.errStream
+                                : optionsNonNull.outStream;
+                            s.write(data);
+                        }
+                        errbuffer = this._processLineBuffer(data, errbuffer, (line) => {
+                            if (this.options.listeners && this.options.listeners.errline) {
+                                this.options.listeners.errline(line);
+                            }
+                        });
+                    });
+                }
+                cp.on('error', (err) => {
+                    state.processError = err.message;
+                    state.processExited = true;
+                    state.processClosed = true;
+                    state.CheckComplete();
+                });
+                cp.on('exit', (code) => {
+                    state.processExitCode = code;
+                    state.processExited = true;
+                    this._debug(`Exit code ${code} received from tool '${this.toolPath}'`);
+                    state.CheckComplete();
+                });
+                cp.on('close', (code) => {
+                    state.processExitCode = code;
+                    state.processExited = true;
+                    state.processClosed = true;
+                    this._debug(`STDIO streams have closed for tool '${this.toolPath}'`);
+                    state.CheckComplete();
+                });
+                state.on('done', (error, exitCode) => {
+                    if (stdbuffer.length > 0) {
+                        this.emit('stdline', stdbuffer);
+                    }
+                    if (errbuffer.length > 0) {
+                        this.emit('errline', errbuffer);
+                    }
+                    cp.removeAllListeners();
+                    if (error) {
+                        reject(error);
+                    }
+                    else {
+                        resolve(exitCode);
+                    }
+                });
+                if (this.options.input) {
+                    if (!cp.stdin) {
+                        throw new Error('child process missing stdin');
+                    }
+                    cp.stdin.end(this.options.input);
+                }
+            }));
+        });
+    }
+}
+/**
+ * Convert an arg string to an array of args. Handles escaping
+ *
+ * @param    argString   string of arguments
+ * @returns  string[]    array of arguments
+ */
+function argStringToArray(argString) {
+    const args = [];
+    let inQuotes = false;
+    let escaped = false;
+    let arg = '';
+    function append(c) {
+        // we only escape double quotes.
+        if (escaped && c !== '"') {
+            arg += '\\';
+        }
+        arg += c;
+        escaped = false;
+    }
+    for (let i = 0; i < argString.length; i++) {
+        const c = argString.charAt(i);
+        if (c === '"') {
+            if (!escaped) {
+                inQuotes = !inQuotes;
+            }
+            else {
+                append(c);
+            }
+            continue;
+        }
+        if (c === '\\' && escaped) {
+            append(c);
+            continue;
+        }
+        if (c === '\\' && inQuotes) {
+            escaped = true;
+            continue;
+        }
+        if (c === ' ' && !inQuotes) {
+            if (arg.length > 0) {
+                args.push(arg);
+                arg = '';
+            }
+            continue;
+        }
+        append(c);
+    }
+    if (arg.length > 0) {
+        args.push(arg.trim());
+    }
+    return args;
+}
+class ExecState extends external_events_.EventEmitter {
+    constructor(options, toolPath) {
+        super();
+        this.processClosed = false; // tracks whether the process has exited and stdio is closed
+        this.processError = '';
+        this.processExitCode = 0;
+        this.processExited = false; // tracks whether the process has exited
+        this.processStderr = false; // tracks whether stderr was written to
+        this.delay = 10000; // 10 seconds
+        this.done = false;
+        this.timeout = null;
+        if (!toolPath) {
+            throw new Error('toolPath must not be empty');
+        }
+        this.options = options;
+        this.toolPath = toolPath;
+        if (options.delay) {
+            this.delay = options.delay;
+        }
+    }
+    CheckComplete() {
+        if (this.done) {
+            return;
+        }
+        if (this.processClosed) {
+            this._setResult();
+        }
+        else if (this.processExited) {
+            this.timeout = (0,external_timers_.setTimeout)(ExecState.HandleTimeout, this.delay, this);
+        }
+    }
+    _debug(message) {
+        this.emit('debug', message);
+    }
+    _setResult() {
+        // determine whether there is an error
+        let error;
+        if (this.processExited) {
+            if (this.processError) {
+                error = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`);
+            }
+            else if (this.processExitCode !== 0 && !this.options.ignoreReturnCode) {
+                error = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`);
+            }
+            else if (this.processStderr && this.options.failOnStdErr) {
+                error = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`);
+            }
+        }
+        // clear the timeout
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
+        this.done = true;
+        this.emit('done', error, this.processExitCode);
+    }
+    static HandleTimeout(state) {
+        if (state.done) {
+            return;
+        }
+        if (!state.processClosed && state.processExited) {
+            const message = `The STDIO streams did not close within ${state.delay / 1000} seconds of the exit event from process '${state.toolPath}'. This may indicate a child process inherited the STDIO streams and has not yet exited.`;
+            state._debug(message);
+        }
+        state._setResult();
+    }
+}
+//# sourceMappingURL=toolrunner.js.map
+;// CONCATENATED MODULE: ./node_modules/@actions/exec/lib/exec.js
+var exec_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+/**
+ * Exec a command.
+ * Output will be streamed to the live console.
+ * Returns promise with return code
+ *
+ * @param     commandLine        command to execute (can include additional args). Must be correctly escaped.
+ * @param     args               optional arguments for tool. Escaping is handled by the lib.
+ * @param     options            optional exec options.  See ExecOptions
+ * @returns   Promise<number>    exit code
+ */
+function exec(commandLine, args, options) {
+    return exec_awaiter(this, void 0, void 0, function* () {
+        const commandArgs = argStringToArray(commandLine);
+        if (commandArgs.length === 0) {
+            throw new Error(`Parameter 'commandLine' cannot be null or empty.`);
+        }
+        // Path to tool to execute should be first arg
+        const toolPath = commandArgs[0];
+        args = commandArgs.slice(1).concat(args || []);
+        const runner = new ToolRunner(toolPath, args, options);
+        return runner.exec();
+    });
+}
+/**
+ * Exec a command and get the output.
+ * Output will be streamed to the live console.
+ * Returns promise with the exit code and collected stdout and stderr
+ *
+ * @param     commandLine           command to execute (can include additional args). Must be correctly escaped.
+ * @param     args                  optional arguments for tool. Escaping is handled by the lib.
+ * @param     options               optional exec options.  See ExecOptions
+ * @returns   Promise<ExecOutput>   exit code, stdout, and stderr
+ */
+function getExecOutput(commandLine, args, options) {
+    return exec_awaiter(this, void 0, void 0, function* () {
+        var _a, _b;
+        let stdout = '';
+        let stderr = '';
+        //Using string decoder covers the case where a mult-byte character is split
+        const stdoutDecoder = new StringDecoder('utf8');
+        const stderrDecoder = new StringDecoder('utf8');
+        const originalStdoutListener = (_a = options === null || options === void 0 ? void 0 : options.listeners) === null || _a === void 0 ? void 0 : _a.stdout;
+        const originalStdErrListener = (_b = options === null || options === void 0 ? void 0 : options.listeners) === null || _b === void 0 ? void 0 : _b.stderr;
+        const stdErrListener = (data) => {
+            stderr += stderrDecoder.write(data);
+            if (originalStdErrListener) {
+                originalStdErrListener(data);
+            }
+        };
+        const stdOutListener = (data) => {
+            stdout += stdoutDecoder.write(data);
+            if (originalStdoutListener) {
+                originalStdoutListener(data);
+            }
+        };
+        const listeners = Object.assign(Object.assign({}, options === null || options === void 0 ? void 0 : options.listeners), { stdout: stdOutListener, stderr: stdErrListener });
+        const exitCode = yield exec(commandLine, args, Object.assign(Object.assign({}, options), { listeners }));
+        //flush any remaining characters
+        stdout += stdoutDecoder.end();
+        stderr += stderrDecoder.end();
+        return {
+            exitCode,
+            stdout,
+            stderr
+        };
+    });
+}
+//# sourceMappingURL=exec.js.map
+// EXTERNAL MODULE: ./node_modules/@actions/tool-cache/lib/tool-cache.js
+var tool_cache = __nccwpck_require__(3472);
+// EXTERNAL MODULE: ./node_modules/semver/index.js
+var semver = __nccwpck_require__(2088);
+;// CONCATENATED MODULE: ./node_modules/csv-parse/lib/api/CsvError.js
 class CsvError extends Error {
   constructor(code, message, options, ...contexts) {
     if (Array.isArray(message)) message = message.join(" ").trim();
@@ -51324,9 +52334,18 @@ class CsvError extends Error {
   }
 }
 
+
+
+;// CONCATENATED MODULE: ./node_modules/csv-parse/lib/utils/is_object.js
 const is_object = function (obj) {
   return typeof obj === "object" && obj !== null && !Array.isArray(obj);
 };
+
+
+
+;// CONCATENATED MODULE: ./node_modules/csv-parse/lib/api/normalize_columns_array.js
+
+
 
 const normalize_columns_array = function (columns) {
   const normalizedColumns = [];
@@ -51356,6 +52375,9 @@ const normalize_columns_array = function (columns) {
   return normalizedColumns;
 };
 
+
+
+;// CONCATENATED MODULE: ./node_modules/csv-parse/lib/utils/ResizeableBuffer.js
 class ResizeableBuffer {
   constructor(size = 100) {
     this.size = size;
@@ -51418,13 +52440,18 @@ class ResizeableBuffer {
   }
 }
 
+/* harmony default export */ const utils_ResizeableBuffer = (ResizeableBuffer);
+
+;// CONCATENATED MODULE: ./node_modules/csv-parse/lib/api/init_state.js
+
+
 // white space characters
 // https://en.wikipedia.org/wiki/Whitespace_character
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes#Types
 // \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff
 const np = 12;
-const cr$1 = 13; // `\r`, carriage return, 0x0D in hexadécimal, 13 in decimal
-const nl$1 = 10; // `\n`, newline, 0x0A in hexadecimal, 10 in decimal
+const cr = 13; // `\r`, carriage return, 0x0D in hexadécimal, 13 in decimal
+const nl = 10; // `\n`, newline, 0x0A in hexadecimal, 10 in decimal
 const space = 32;
 const tab = 9;
 
@@ -51446,7 +52473,7 @@ const init_state = function (options) {
     expectedRecordLength: Array.isArray(options.columns)
       ? options.columns.length
       : undefined,
-    field: new ResizeableBuffer(20),
+    field: new utils_ResizeableBuffer(20),
     firstLineToHeaders: options.cast_first_line_to_header,
     needMoreDataSize: Math.max(
       // Skip if the remaining buffer smaller than comment
@@ -51459,7 +52486,7 @@ const init_state = function (options) {
     previousBuf: undefined,
     quoting: false,
     stop: false,
-    rawBuffer: new ResizeableBuffer(100),
+    rawBuffer: new utils_ResizeableBuffer(100),
     record: [],
     recordHasError: false,
     record_length: 0,
@@ -51474,8 +52501,8 @@ const init_state = function (options) {
     wasQuoting: false,
     wasRowDelimiter: false,
     timchars: [
-      Buffer.from(Buffer.from([cr$1], "utf8").toString(), options.encoding),
-      Buffer.from(Buffer.from([nl$1], "utf8").toString(), options.encoding),
+      Buffer.from(Buffer.from([cr], "utf8").toString(), options.encoding),
+      Buffer.from(Buffer.from([nl], "utf8").toString(), options.encoding),
       Buffer.from(Buffer.from([np], "utf8").toString(), options.encoding),
       Buffer.from(Buffer.from([space], "utf8").toString(), options.encoding),
       Buffer.from(Buffer.from([tab], "utf8").toString(), options.encoding),
@@ -51483,11 +52510,21 @@ const init_state = function (options) {
   };
 };
 
+
+
+;// CONCATENATED MODULE: ./node_modules/csv-parse/lib/utils/underscore.js
 const underscore = function (str) {
   return str.replace(/([A-Z])/g, function (_, match) {
     return "_" + match.toLowerCase();
   });
 };
+
+
+
+;// CONCATENATED MODULE: ./node_modules/csv-parse/lib/api/normalize_options.js
+
+
+
 
 const normalize_options = function (opts) {
   const options = {};
@@ -51822,7 +52859,9 @@ const normalize_options = function (opts) {
   } else if (
     Number.isInteger(options.max_record_size) &&
     options.max_record_size >= 0
-  ) ; else if (
+  ) {
+    // Great, nothing to do
+  } else if (
     typeof options.max_record_size === "string" &&
     /\d+/.test(options.max_record_size)
   ) {
@@ -51843,7 +52882,9 @@ const normalize_options = function (opts) {
     if (options.objname.length === 0) {
       throw new Error(`Invalid Option: objname must be a non empty buffer`);
     }
-    if (options.encoding === null) ; else {
+    if (options.encoding === null) {
+      // Don't call `toString`, leave objname as a buffer
+    } else {
       options.objname = options.objname.toString(options.encoding);
     }
   } else if (typeof options.objname === "string") {
@@ -51851,7 +52892,12 @@ const normalize_options = function (opts) {
       throw new Error(`Invalid Option: objname must be a non empty string`);
     }
     // Great, nothing to do
-  } else if (typeof options.objname === "number") ; else {
+  } else if (typeof options.objname === "number") {
+    // if(options.objname.length === 0){
+    //   throw new Error(`Invalid Option: objname must be a non empty string`);
+    // }
+    // Great, nothing to do
+  } else {
     throw new Error(
       `Invalid Option: objname must be a string or a buffer, got ${options.objname}`,
     );
@@ -51990,7 +53036,9 @@ const normalize_options = function (opts) {
     return rd;
   });
   // Normalize option `relax_column_count`
-  if (typeof options.relax_column_count === "boolean") ; else if (
+  if (typeof options.relax_column_count === "boolean") {
+    // Great, nothing to do
+  } else if (
     options.relax_column_count === undefined ||
     options.relax_column_count === null
   ) {
@@ -52000,7 +53048,9 @@ const normalize_options = function (opts) {
       `Invalid Option: relax_column_count must be a boolean, got ${JSON.stringify(options.relax_column_count)}`,
     );
   }
-  if (typeof options.relax_column_count_less === "boolean") ; else if (
+  if (typeof options.relax_column_count_less === "boolean") {
+    // Great, nothing to do
+  } else if (
     options.relax_column_count_less === undefined ||
     options.relax_column_count_less === null
   ) {
@@ -52010,7 +53060,9 @@ const normalize_options = function (opts) {
       `Invalid Option: relax_column_count_less must be a boolean, got ${JSON.stringify(options.relax_column_count_less)}`,
     );
   }
-  if (typeof options.relax_column_count_more === "boolean") ; else if (
+  if (typeof options.relax_column_count_more === "boolean") {
+    // Great, nothing to do
+  } else if (
     options.relax_column_count_more === undefined ||
     options.relax_column_count_more === null
   ) {
@@ -52021,7 +53073,9 @@ const normalize_options = function (opts) {
     );
   }
   // Normalize option `relax_quotes`
-  if (typeof options.relax_quotes === "boolean") ; else if (
+  if (typeof options.relax_quotes === "boolean") {
+    // Great, nothing to do
+  } else if (
     options.relax_quotes === undefined ||
     options.relax_quotes === null
   ) {
@@ -52032,7 +53086,9 @@ const normalize_options = function (opts) {
     );
   }
   // Normalize option `skip_empty_lines`
-  if (typeof options.skip_empty_lines === "boolean") ; else if (
+  if (typeof options.skip_empty_lines === "boolean") {
+    // Great, nothing to do
+  } else if (
     options.skip_empty_lines === undefined ||
     options.skip_empty_lines === null
   ) {
@@ -52043,7 +53099,9 @@ const normalize_options = function (opts) {
     );
   }
   // Normalize option `skip_records_with_empty_values`
-  if (typeof options.skip_records_with_empty_values === "boolean") ; else if (
+  if (typeof options.skip_records_with_empty_values === "boolean") {
+    // Great, nothing to do
+  } else if (
     options.skip_records_with_empty_values === undefined ||
     options.skip_records_with_empty_values === null
   ) {
@@ -52054,7 +53112,9 @@ const normalize_options = function (opts) {
     );
   }
   // Normalize option `skip_records_with_error`
-  if (typeof options.skip_records_with_error === "boolean") ; else if (
+  if (typeof options.skip_records_with_error === "boolean") {
+    // Great, nothing to do
+  } else if (
     options.skip_records_with_error === undefined ||
     options.skip_records_with_error === null
   ) {
@@ -52152,6 +53212,14 @@ const normalize_options = function (opts) {
   return options;
 };
 
+
+
+;// CONCATENATED MODULE: ./node_modules/csv-parse/lib/api/index.js
+
+
+
+
+
 const isRecordEmpty = function (record) {
   return record.every(
     (field) =>
@@ -52159,8 +53227,8 @@ const isRecordEmpty = function (record) {
   );
 };
 
-const cr = 13; // `\r`, carriage return, 0x0D in hexadécimal, 13 in decimal
-const nl = 10; // `\n`, newline, 0x0A in hexadecimal, 10 in decimal
+const api_cr = 13; // `\r`, carriage return, 0x0D in hexadécimal, 13 in decimal
+const api_nl = 10; // `\n`, newline, 0x0A in hexadecimal, 10 in decimal
 
 const boms = {
   // Note, the following are equals:
@@ -52312,7 +53380,7 @@ const transform = function (original_options = {}) {
           rawBuffer.append(chr);
         }
         if (
-          (chr === cr || chr === nl) &&
+          (chr === api_cr || chr === api_nl) &&
           this.state.wasRowDelimiter === false
         ) {
           this.state.wasRowDelimiter = true;
@@ -53062,6 +54130,11 @@ const transform = function (original_options = {}) {
   };
 };
 
+
+
+;// CONCATENATED MODULE: ./node_modules/csv-parse/lib/sync.js
+
+
 const parse = function (data, opts = {}) {
   if (typeof data === "string") {
     data = Buffer.from(data);
@@ -53085,68 +54158,1268 @@ const parse = function (data, opts = {}) {
   return records;
 };
 
-exports.CsvError = CsvError;
-exports.parse = parse;
+// export default parse
 
 
-/***/ })
 
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __nccwpck_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			id: moduleId,
-/******/ 			loaded: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		var threw = true;
-/******/ 		try {
-/******/ 			__webpack_modules__[moduleId].call(module.exports, module, module.exports, __nccwpck_require__);
-/******/ 			threw = false;
-/******/ 		} finally {
-/******/ 			if(threw) delete __webpack_module_cache__[moduleId];
-/******/ 		}
-/******/ 	
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/node module decorator */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.nmd = (module) => {
-/******/ 			module.paths = [];
-/******/ 			if (!module.children) module.children = [];
-/******/ 			return module;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/compat */
-/******/ 	
-/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
-/******/ 	
-/************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(9890);
-/******/ 	module.exports = __webpack_exports__;
-/******/ 	
-/******/ })()
-;
+// EXTERNAL MODULE: ./node_modules/lodash/lodash.js
+var lodash = __nccwpck_require__(2356);
+;// CONCATENATED MODULE: ./src/setup-beam.js
+
+
+
+
+
+
+
+
+
+
+
+const setup_beam_dirname = external_node_path_namespaceObject.dirname((0,external_node_url_namespaceObject.fileURLToPath)(import.meta.url))
+
+const MAX_HTTP_RETRIES = 3
+
+if (process.env.NODE_ENV !== 'test') {
+  main().catch((err) => {
+    core.setFailed(err.message)
+  })
+}
+
+async function main() {
+  checkOtpArchitecture()
+
+  const versionFilePath = getInput('version-file', false)
+  let versions
+  if (versionFilePath) {
+    if (!isStrictVersion()) {
+      throw new Error(
+        "you have to set version-type=strict if you're using version-file",
+      )
+    }
+    versions = parseVersionFile(versionFilePath)
+  }
+
+  const otpSpec = getInput('otp-version', true, 'erlang', versions)
+  const elixirSpec = getInput('elixir-version', false, 'elixir', versions)
+  const gleamSpec = getInput('gleam-version', false, 'gleam', versions)
+  const rebar3Spec = getInput('rebar3-version', false, 'rebar', versions)
+
+  if (otpSpec !== 'false') {
+    await installOTP(otpSpec)
+    const elixirInstalled = await maybeInstallElixir(elixirSpec)
+    if (elixirInstalled === true) {
+      const shouldMixRebar = getInput('install-rebar', false)
+      await mix(shouldMixRebar, 'rebar')
+
+      const shouldMixHex = getInput('install-hex', false)
+      await mix(shouldMixHex, 'hex')
+    }
+  } else if (!gleamSpec) {
+    throw new Error('otp-version=false is only available when installing Gleam')
+  }
+
+  await maybeInstallGleam(gleamSpec)
+  await maybeInstallRebar3(rebar3Spec)
+
+  // undefined is replaced by a function, post- main branch merge
+  const setupBeamVersion = '9928a16'
+  core.setOutput('setup-beam-version', setupBeamVersion)
+}
+
+async function installOTP(otpSpec) {
+  const osVersion = getRunnerOSVersion()
+  const otpVersion = await getOTPVersion(otpSpec, osVersion)
+  core.startGroup(
+    `Installing Erlang/OTP ${otpVersion} - built on ${getRunnerOSArchitecture()}/${osVersion}`,
+  )
+  await doWithMirrors({
+    hexMirrors: hexMirrorsInput(),
+    actionTitle: `install Erlang/OTP ${otpVersion}`,
+    action: async (hexMirror) => {
+      await install('otp', {
+        osVersion,
+        toolVersion: otpVersion,
+        hexMirror,
+      })
+    },
+  })
+  core.setOutput('otp-version', otpVersion)
+  core.endGroup()
+
+  return otpVersion
+}
+
+async function maybeInstallElixir(elixirSpec) {
+  let installed = false
+  if (elixirSpec) {
+    const elixirVersion = await getElixirVersion(elixirSpec)
+    core.startGroup(`Installing Elixir ${elixirVersion}`)
+    await doWithMirrors({
+      hexMirrors: hexMirrorsInput(),
+      actionTitle: `install Elixir ${elixirVersion}`,
+      action: async (hexMirror) => {
+        await install('elixir', {
+          toolVersion: elixirVersion,
+          hexMirror,
+        })
+      },
+    })
+    core.setOutput('elixir-version', elixirVersion)
+    maybeEnableElixirProblemMatchers()
+    core.endGroup()
+
+    installed = true
+  }
+
+  return installed
+}
+
+function maybeEnableElixirProblemMatchers() {
+  const disableProblemMatchers = getInput('disable_problem_matchers', false)
+  if (disableProblemMatchers === 'false') {
+    // path.join helps ncc figure this out
+    const elixirMatchers = external_node_path_namespaceObject.join(
+      __nccwpck_require__.ab + "elixir-matchers.json",
+    )
+    core.info(`##[add-matcher]${elixirMatchers}`)
+  }
+}
+
+async function mix(shouldMix, what) {
+  if (shouldMix === 'true') {
+    const cmd = 'mix'
+    const args = [`local.${what}`, '--force']
+    core.startGroup(`Running ${cmd} ${args}`)
+    await doWithMirrors({
+      hexMirrors: hexMirrorsInput(),
+      actionTitle: `mix ${what}`,
+      action: async (hexMirror) => {
+        process.env.HEX_MIRROR = hexMirror
+        await exec(cmd, args)
+      },
+    })
+    core.endGroup()
+  }
+}
+
+async function maybeInstallGleam(gleamSpec) {
+  let installed = false
+  if (gleamSpec) {
+    const gleamVersion = await getGleamVersion(gleamSpec)
+    core.startGroup(`Installing Gleam ${gleamVersion}`)
+    await install('gleam', { toolVersion: gleamVersion })
+    core.setOutput('gleam-version', gleamVersion)
+    core.endGroup()
+
+    installed = true
+  }
+
+  return installed
+}
+
+async function maybeInstallRebar3(rebar3Spec) {
+  let installed = false
+  let rebar3Version
+  if (rebar3Spec) {
+    if (rebar3Spec === 'nightly') {
+      rebar3Version = 'nightly'
+    } else {
+      rebar3Version = await getRebar3Version(rebar3Spec)
+    }
+    core.startGroup(`Installing rebar3 ${rebar3Version}`)
+    await install('rebar3', { toolVersion: rebar3Version })
+    core.setOutput('rebar3-version', rebar3Version)
+    core.endGroup()
+
+    installed = true
+  }
+
+  return installed
+}
+
+function maybeRemoveOTPPrefix(otpSpec) {
+  return otpSpec.replace(/^OTP-/, '')
+}
+
+async function getOTPVersion(otpSpec0, osVersion) {
+  const [otpVersions, originListing, hexMirrors] =
+    await getOTPVersions(osVersion)
+  let spec = maybeRemoveOTPPrefix(otpSpec0)
+  const versions = otpVersions
+  const otpVersion = getVersionFromSpec(spec, versions)
+
+  if (otpVersion === null) {
+    throw new Error(
+      requestedVersionFor('Erlang/OTP', otpSpec0, originListing, hexMirrors),
+    )
+  }
+
+  return otpVersion // from the reference, for download
+}
+
+function requestedVersionFor(tool, version, originListing, mirrors) {
+  const isStrictVersion = isStrictVersion()
+
+  let versionType = 'loose'
+  if (isStrictVersion) {
+    versionType = 'strict'
+  }
+
+  let ret =
+    `Requested ${versionType} ${tool} version (${version}) not found in version list, ` +
+    `at ${originListing}${mirrors ? `, with mirrors ${mirrors}` : ''}.`
+  if (!isStrictVersion) {
+    ret = `${ret} Should you be using option 'version-type': 'strict'?`
+  }
+
+  return ret
+}
+
+const knownBranches = ['main', 'master', 'maint']
+const nonSpecificVersions = ['nightly', 'latest']
+
+async function getElixirVersion(exSpec0) {
+  const otpSuffix = /-otp-(\d+)/
+  const userSuppliedOtp = exSpec0.match(otpSuffix)?.[1] ?? null
+  let otpVersionMajor = ''
+
+  if (userSuppliedOtp && isVersion(userSuppliedOtp)) {
+    otpVersionMajor = userSuppliedOtp
+  } else {
+    let cmd = 'erl'
+    if (process.platform === 'win32') {
+      cmd = 'erl.exe'
+    }
+    const args = [
+      '-noshell',
+      '-eval',
+      'io:format(erlang:system_info(otp_release)), halt().',
+    ]
+    await exec(cmd, args, {
+      listeners: {
+        stdout: (data) => {
+          otpVersionMajor = data.toString()
+        },
+      },
+    })
+  }
+
+  const [otpVersionsForElixirMap, elixirVersions, originListing, hexMirrors] =
+    await getElixirVersions()
+  const spec = exSpec0.replace(otpSuffix, '')
+  const versions = elixirVersions
+  const elixirVersionFromSpec = getVersionFromSpec(spec, versions)
+
+  if (elixirVersionFromSpec === null) {
+    throw new Error(
+      requestedVersionFor('Elixir', exSpec0, originListing, hexMirrors),
+    )
+  }
+
+  let foundCombo = false
+  let otpVersionMajorIter = parseInt(otpVersionMajor)
+  let otpVersionsMajor = []
+  while (otpVersionMajorIter > otpVersionMajor - 3) {
+    otpVersionMajorIter += ''
+    otpVersionsMajor.push(otpVersionMajorIter)
+    const elixirVersionComp = otpVersionsForElixirMap[elixirVersionFromSpec]
+    if (
+      (elixirVersionComp && elixirVersionComp.includes(otpVersionMajorIter)) ||
+      !isVersion(otpVersionMajorIter)
+    ) {
+      core.info(
+        `Using Elixir ${elixirVersionFromSpec} (built for Erlang/OTP ${otpVersionMajorIter})`,
+      )
+      foundCombo = true
+      break
+    }
+    otpVersionMajorIter = parseInt(otpVersionMajorIter) - 1
+  }
+
+  if (!foundCombo) {
+    throw new Error(
+      `Requested Elixir / Erlang/OTP version (${exSpec0} / tried ${otpVersionsMajor}) not ` +
+        'found in version list (did you check Compatibility between Elixir and Erlang/OTP?).' +
+        'Elixir and Erlang/OTP compatibility can be found at: ' +
+        'https://hexdocs.pm/elixir/compatibility-and-deprecations.html',
+    )
+  }
+
+  let elixirVersionForDownload = elixirVersionFromSpec
+
+  if (isVersion(otpVersionMajorIter)) {
+    elixirVersionForDownload = `${elixirVersionFromSpec}-otp-${otpVersionMajorIter}`
+  }
+
+  return maybePrependWithV(elixirVersionForDownload)
+}
+
+async function getGleamVersion(gleamSpec0) {
+  const [gleamVersions, originListing] = await getGleamVersions()
+  const spec = gleamSpec0
+  const versions = gleamVersions
+  const gleamVersion = getVersionFromSpec(spec, versions)
+
+  if (gleamVersion === null) {
+    throw new Error(requestedVersionFor('Gleam', gleamSpec0, originListing))
+  }
+
+  return maybePrependWithV(gleamVersion)
+}
+
+async function getRebar3Version(r3Spec) {
+  const [rebar3Versions, originListing] = await getRebar3Versions()
+  const spec = r3Spec
+  const versions = rebar3Versions
+  const rebar3Version = getVersionFromSpec(spec, versions)
+
+  if (rebar3Version === null) {
+    throw new Error(requestedVersionFor('rebar3', r3Spec, originListing))
+  }
+
+  return rebar3Version
+}
+
+function otpArchitecture() {
+  return getInput('otp-architecture', false)
+}
+
+async function getOTPVersions(osVersion) {
+  let otpVersionsListings
+  let originListing
+  let hexMirrors = null
+  if (process.platform === 'linux') {
+    originListing = `/builds/otp/${getRunnerOSArchitecture()}/${osVersion}/builds.txt`
+    hexMirrors = hexMirrorsInput()
+    otpVersionsListings = await doWithMirrors({
+      hexMirrors,
+      actionTitle: `fetch ${originListing}`,
+      action: async (hexMirror) => {
+        return get(`${hexMirror}${originListing}`)
+      },
+    })
+  } else if (process.platform === 'win32') {
+    originListing =
+      'https://api.github.com/repos/erlang/otp/releases?per_page=100'
+    otpVersionsListings = await get(originListing, [1, 2, 3])
+  } else if (process.platform === 'darwin') {
+    const arch = getRunnerOSArchitecture()
+    let targetArch
+    switch (arch) {
+      case 'amd64':
+        targetArch = 'x86_64'
+        break
+      case 'arm64':
+        targetArch = 'aarch64'
+        break
+    }
+    originListing =
+      `https://raw.githubusercontent.com/erlef/otp_builds/refs/heads/main` +
+      `/builds/${targetArch}-apple-darwin.csv`
+    otpVersionsListings = await get(originListing)
+  }
+
+  debugLog(
+    `OTP versions listings from ${originListing}, mirrors ${hexMirrors}`,
+    otpVersionsListings,
+  )
+
+  const otpVersions = {}
+  if (process.platform === 'linux') {
+    otpVersionsListings
+      .trim()
+      .split('\n')
+      .forEach((line) => {
+        const otpVersionOrig = line.match(/^([^ ]+)?( .+)/)[1]
+        const otpVersion = maybeRemoveOTPPrefix(otpVersionOrig)
+        debugLog('OTP line and parsing', [line, otpVersion, otpVersionOrig])
+        otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
+      })
+  } else if (process.platform === 'win32') {
+    const otpArch = otpArchitecture()
+    const file_regex = new RegExp(
+      `^otp_win${lodash.escapeRegExp(otpArch)}_(.*).exe$`,
+    )
+    otpVersionsListings.forEach((otpVersionsListing) => {
+      otpVersionsListing
+        .map((x) => x.assets)
+        .flat()
+        .filter((x) => x.name.match(file_regex))
+        .forEach((x) => {
+          const otpVersionOrig = x.name.match(file_regex)[1]
+          const otpVersion = otpVersionOrig
+          debugLog('OTP line and parsing', [x.name, otpVersion, otpVersionOrig])
+          otpVersions[otpVersion] = otpVersionOrig
+        })
+    })
+  } else if (process.platform === 'darwin') {
+    parse(otpVersionsListings, {
+        columns: true,
+      })
+      .forEach((line) => {
+        const otpVersionOrig = line.ref_name
+        const otpVersion = maybeRemoveOTPPrefix(otpVersionOrig)
+        debugLog('OTP line and parsing', [line, otpVersion, otpVersionOrig])
+        otpVersions[otpVersion] = otpVersionOrig // we keep the original for later reference
+      })
+  }
+
+  debugLog(
+    `OTP versions from ${originListing}, mirrors ${hexMirrors}`,
+    JSON.stringify(otpVersions),
+  )
+
+  return [otpVersions, originListing, hexMirrors]
+}
+
+async function getElixirVersions() {
+  const originListing = '/builds/elixir/builds.txt'
+  const hexMirrors = hexMirrorsInput()
+  const elixirVersionsListings = await doWithMirrors({
+    hexMirrors,
+    actionTitle: `fetch ${originListing}`,
+    action: async (hexMirror) => {
+      return get(`${hexMirror}${originListing}`)
+    },
+  })
+  const otpVersionsForElixirMap = {}
+  const elixirVersions = {}
+
+  elixirVersionsListings
+    .trim()
+    .split('\n')
+    .forEach((line) => {
+      const elixirMatch =
+        line.match(/^v?(.+)-otp-([^ ]+)/) || line.match(/^v?([^ ]+)/)
+      const elixirVersion = elixirMatch[1]
+      const otpVersion = elixirMatch[2]
+      const otpVersions = otpVersionsForElixirMap[elixirVersion] || []
+      if (otpVersion) {
+        // -otp- present (special case)
+        otpVersions.push(otpVersion)
+      }
+      otpVersionsForElixirMap[elixirVersion] = otpVersions
+      elixirVersions[elixirVersion] = elixirVersion
+    })
+
+  return [otpVersionsForElixirMap, elixirVersions, originListing, hexMirrors]
+}
+
+async function getGleamVersions() {
+  const originListing =
+    'https://api.github.com/repos/gleam-lang/gleam/releases?per_page=100'
+  const resultJSONs = await get(originListing, [1, 2, 3])
+  const gleamVersionsListing = {}
+  resultJSONs.forEach((resultJSON) => {
+    resultJSON
+      .map((x) => x.tag_name)
+      .forEach((ver) => {
+        const gleamMatch = ver.match(/^v?([^ ]+)/)
+        const gleamVersion = gleamMatch[1]
+        gleamVersionsListing[gleamVersion] = gleamVersion
+      })
+  })
+
+  return [gleamVersionsListing, originListing]
+}
+
+async function getRebar3Versions() {
+  const originListing =
+    'https://api.github.com/repos/erlang/rebar3/releases?per_page=100'
+  const resultJSONs = await get(originListing, [1, 2, 3])
+  const rebar3VersionsListing = {}
+  resultJSONs.forEach((resultJSON) => {
+    resultJSON
+      .map((x) => x.tag_name)
+      .forEach((ver) => {
+        rebar3VersionsListing[ver] = ver
+      })
+  })
+
+  return [rebar3VersionsListing, originListing]
+}
+
+function isStrictVersion() {
+  return getInput('version-type', false) === 'strict'
+}
+
+function gt(left, right) {
+  return semver.gt(parseVersion(left), parseVersion(right))
+}
+
+function validVersion(v) {
+  return (
+    v.match(
+      new RegExp(`${knownBranches.join('|')}|${nonSpecificVersions.join('|')}`),
+    ) == null &&
+    // these ones are for rebar3, which has alpha and beta releases
+    !v.startsWith('a') &&
+    !v.startsWith('b')
+  )
+}
+
+function parseVersion(v) {
+  v = v.includes('rc') ? v : v.split('.')
+  if (v instanceof Array) {
+    v = `${[v.shift(), v.shift(), v.shift()].join('.')}+${v.join('.')}`
+  }
+  return semver.coerce(v, { includePrerelease: true, loose: true })
+}
+
+function getVersionFromSpec(spec0, versions0) {
+  let latest
+  Object.keys(versions0).forEach((v) => {
+    if (validVersion(v)) {
+      latest = latest && gt(latest, v) ? latest : v
+    }
+  })
+  versions0.latest = latest
+  const spec = maybeRemoveVPrefix(spec0)
+
+  const altVersions = {}
+  Object.entries(versions0).forEach(([version, altVersion]) => {
+    let coerced
+    if (
+      isStrictVersion() ||
+      isRC(version) ||
+      isKnownBranch(version) ||
+      isKnownVerBranch(version)
+    ) {
+      // If `version-type: strict`, version is an RC, or version is "a branch"
+      // we just try to remove a potential initial v
+      coerced = maybeRemoveVPrefix(version)
+    } else {
+      // Otherwise, we place the version into a version bucket
+      coerced = maybeCoerced(version)
+    }
+    const alt = (altVersions[coerced] || []).concat(altVersion)
+    alt.sort(sortVersions)
+    altVersions[coerced] = alt
+  })
+
+  let versions = Object.keys(altVersions)
+
+  const rangeForMax = semver.validRange(spec0) || maybeCoerced(spec)
+  const rangeMax = semver.maxSatisfying(versions, rangeForMax)
+  let version = null
+
+  if (spec0 === 'latest') {
+    version = versions0[versions0.latest]
+  } else if (
+    isStrictVersion() ||
+    isRC(spec0) ||
+    isKnownBranch(spec0) ||
+    isKnownVerBranch(spec0) ||
+    spec0 === 'nightly'
+  ) {
+    if (versions0[spec]) {
+      // We obtain it directly
+      version = versions0[spec]
+    }
+  } else if (rangeMax !== null) {
+    // Otherwise, we compare alt. versions' semver ranges to this version, from highest to lowest
+    const thatVersion = spec
+    const thatVersionAbc = versionAbc(thatVersion)
+    const thatVersionAbcRange = semver.validRange(thatVersionAbc)
+
+    versions = altVersions[rangeMax]
+    for (let i = versions.length - 1; i >= 0; i -= 1) {
+      const thisVersion = versions[i]
+      const thisVersionAbc = versionAbc(thisVersion)
+      const thisVersionAbcRange = semver.validRange(thisVersionAbc)
+
+      if (
+        thatVersionAbcRange &&
+        semver.intersects(thatVersionAbcRange, thisVersionAbcRange)
+      ) {
+        version = thisVersion
+        break
+      }
+    }
+  }
+
+  return version || null
+}
+
+function maybeCoerced(v) {
+  let ret
+  try {
+    if (!isRC(v)) {
+      ret = semver.coerce(v).version
+    } else {
+      ret = maybeRemoveVPrefix(v)
+    }
+  } catch {
+    // some stuff can't be coerced, like 'main'
+    core.debug(`Was not able to coerce ${v} with semver`)
+    ret = v
+  }
+
+  return ret
+}
+
+function sortVersions(left, right) {
+  let ret = 0
+  const newL = verAsComparableStr(left)
+  const newR = verAsComparableStr(right)
+  function verAsComparableStr(ver) {
+    const matchGroups = 6
+    const verSpec = xyzAbcVersion('', '')
+    const matches = ver.match(verSpec).splice(1, matchGroups)
+
+    return matches.reduce((acc, v) => acc + (v || '0').padStart(3, '0'), '')
+  }
+
+  if (newL < newR) {
+    ret = -1
+  } else if (newL > newR) {
+    ret = 1
+  }
+
+  return ret
+}
+
+function isRC(ver) {
+  return ver.match(xyzAbcVersion('^', '(?:-rc\\.?\\d+)'))
+}
+
+function isKnownBranch(ver) {
+  return knownBranches.includes(ver)
+}
+
+function isKnownVerBranch(ver) {
+  return knownBranches.some((b) => ver.match(b))
+}
+
+function githubARMRunnerArchs() {
+  return ['ARM', 'ARM64']
+}
+
+function githubAMDRunnerArchs() {
+  return ['X86', 'X64']
+}
+
+function getRunnerOSArchitecture() {
+  // These options come from:
+  // https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+  if (githubARMRunnerArchs().includes(process.env.RUNNER_ARCH)) {
+    return 'arm64'
+  }
+
+  if (githubAMDRunnerArchs().includes(process.env.RUNNER_ARCH)) {
+    return 'amd64'
+  }
+
+  throw new Error(
+    'Invalid Github runner architecture, expected one of ' +
+      `${githubAMDRunnerArchs().concat(githubARMRunnerArchs()).join(', ')} ` +
+      `but got process.env.RUNNER_ARCH = ${process.env.RUNNER_ARCH}`,
+  )
+}
+
+function getRunnerOSVersion() {
+  // List from https://github.com/actions/runner-images?tab=readme-ov-file#available-images
+  const ImageOSToContainer = {
+    ubuntu22: 'ubuntu-22.04',
+    ubuntu24: 'ubuntu-24.04',
+    win19: 'windows-2019',
+    win22: 'windows-2022',
+    win25: 'windows-2025',
+    macos13: 'macOS-13',
+    macos14: 'macOS-14',
+    macos15: 'macOS-15',
+  }
+  const deprecatedImageOSToContainer = {
+    ubuntu18: 'ubuntu-18.04',
+    ubuntu20: 'ubuntu-20.04',
+  }
+  const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
+  if (!containerFromEnvImageOS) {
+    const deprecatedContainerFromEnvImageOS =
+      deprecatedImageOSToContainer[process.env.ImageOS]
+    if (deprecatedContainerFromEnvImageOS) {
+      core.warning(
+        `You are using deprecated ImageOS ${deprecatedContainerFromEnvImageOS}. ` +
+          'Support for maintenance is very limited. Consider a non-deprecated version as ' +
+          'mentioned in the README.md.',
+      )
+
+      return deprecatedContainerFromEnvImageOS
+    } else {
+      throw new Error(
+        "Tried to map a target OS from env. variable 'ImageOS' (got " +
+          `${process.env.ImageOS}` +
+          "), but failed. If you're using a " +
+          "self-hosted runner, you should set 'env': 'ImageOS': ... to one of the following: " +
+          "['" +
+          `${Object.keys(ImageOSToContainer).join("', '")}` +
+          "']",
+      )
+    }
+  }
+
+  return containerFromEnvImageOS
+}
+
+async function getUrlResponse(url, headers, attempt = 1) {
+  try {
+    const response = await fetch(url, {
+      headers,
+      signal: AbortSignal.timeout(10000),
+    })
+    const contentType = response.headers.get('content-type') || ''
+
+    if (!response.ok) {
+      throw new Error(response.statusText)
+    }
+
+    if (contentType.indexOf('application/json') !== -1) {
+      return response.json()
+    } else {
+      return response.text()
+    }
+  } catch (err) {
+    core.debug(`Error fetching from ${url}: ${err}`)
+
+    if (attempt <= MAX_HTTP_RETRIES) {
+      const delay = attempt * 2 * 1000
+      core.debug(`Error during fetch. Retrying in ${delay}ms`)
+      await new Promise((resolve) => setTimeout(resolve, delay))
+      return getUrlResponse(url, headers, attempt + 1)
+    } else {
+      throw err
+    }
+  }
+}
+
+async function get(url0, pageIdxs) {
+  const url = new URL(url0)
+  const headers = {}
+  const GithubToken = getInput('github-token', false)
+  if (GithubToken && url.host === 'api.github.com') {
+    headers.authorization = `Bearer ${GithubToken}`
+  }
+
+  if ((pageIdxs || []).length === 0) {
+    return getUrlResponse(url, headers)
+  } else {
+    return Promise.all(
+      pageIdxs.map((page) => {
+        const urlWithPage = new URL(url)
+        urlWithPage.searchParams.append('page', page)
+        return getUrlResponse(urlWithPage, headers)
+      }),
+    )
+  }
+}
+
+function maybePrependWithV(v) {
+  if (isVersion(v)) {
+    return `v${v.replace('v', '')}`
+  }
+
+  return v
+}
+
+function maybeRemoveVPrefix(ver) {
+  let ret = ver
+  if (isVersion(ver)) {
+    ret = ver.replace('v', '')
+  }
+
+  return ret
+}
+
+function xyzAbcVersion(pref, suf) {
+  // This accounts for stuff like 6.0.2.0.1.0, as proposed by Erlang's
+  // https://www.erlang.org/doc/system_principles/versions.html
+  const dd = '\\.?(\\d+)?'
+  return new RegExp(
+    `${pref}(?:OTP-)?v?(\\d+)${dd}${dd}${dd}${dd}${dd}(?:-rc\\.?\\d+)?(?:-otp-\\d+)?${suf}`,
+  )
+}
+
+function versionAbc(ver) {
+  // For a version like 6.0.2.0.1.0, return 0.1.0
+  return ver.match(/\d+(?:\.[^.]+)?(?:\.[^.]+)?(?:\.)?(.*)/)[1]
+}
+
+function isVersion(v) {
+  return v.match(xyzAbcVersion('^', '$')) !== null
+}
+
+function getInput(inputName, required, alternativeName, alternatives) {
+  const alternativeValue = (alternatives || new Map()).get(alternativeName)
+  let input = core.getInput(inputName, {
+    required: alternativeValue ? false : required,
+  })
+  // We can't have both input and alternativeValue set
+  if (input && alternativeValue) {
+    throw new Error(
+      `Found input ${inputName}=${input} (from the YML) \
+alongside ${alternativeName}=${alternativeValue} \
+(from the version file). You must choose one or the other.`,
+    )
+  } else if (!input) {
+    input = alternativeValue
+  }
+
+  return input
+}
+
+function parseVersionFile(versionFilePath0) {
+  const versionFilePath = external_node_path_namespaceObject.resolve(
+    process.env.GITHUB_WORKSPACE,
+    versionFilePath0,
+  )
+  if (!external_node_fs_namespaceObject.existsSync(versionFilePath)) {
+    throw new Error(
+      `The specified version file, ${versionFilePath0}, does not exist`,
+    )
+  }
+
+  core.startGroup(`Parsing version file at ${versionFilePath0}`)
+  const appVersions = new Map()
+  const versions = external_node_fs_namespaceObject.readFileSync(versionFilePath, 'utf8')
+  // For the time being we parse .tool-versions
+  // If we ever start parsing something else, this should
+  // become default in a new option named e.g. version-file-type
+  versions.split(/\r?\n/).forEach((line) => {
+    const appVersion = line.match(/^([^ ]+)[ ]+(ref:v?)?([^ #]+)/)
+    if (appVersion) {
+      const app = appVersion[1]
+      if (['erlang', 'elixir', 'gleam', 'rebar'].includes(app)) {
+        const [, , , version] = appVersion
+        core.info(`Consuming ${app} at version ${version}`)
+        appVersions.set(app, version)
+      }
+    }
+  })
+  if (!appVersions.size) {
+    core.info('There was apparently nothing to consume')
+  } else {
+    core.info('... done!')
+  }
+  core.endGroup()
+
+  return appVersions
+}
+
+function debugLog(groupName, message) {
+  const group = `Debugging for ${groupName}`
+  core.debug(
+    '┌──────────────────────────────────────────────────────────────────────────',
+  )
+  core.debug(`│ ${group} - start`)
+  core.debug(message)
+  core.debug(`│ ${group} - stop`)
+  core.debug(
+    '└──────────────────────────────────────────────────────────────────────────',
+  )
+}
+
+function hexMirrorsInput() {
+  return core.getMultilineInput('hexpm-mirrors', {
+    required: false,
+  })
+}
+
+async function doWithMirrors(opts) {
+  const { hexMirrors, actionTitle, action } = opts
+  let actionRes
+
+  if (hexMirrors.length === 0) {
+    throw new Error(`Could not ${actionTitle} from any hex.pm mirror`)
+  }
+
+  const [hexMirror, ...hexMirrorsT] = hexMirrors
+  try {
+    actionRes = await action(hexMirror)
+  } catch (err) {
+    core.info(
+      `Action ${actionTitle} failed for mirror ${hexMirror}, with ${err}`,
+    )
+    core.debug(`Stacktrace: ${err.stack}`)
+    actionRes = await doWithMirrors({
+      hexMirrors: hexMirrorsT,
+      actionTitle,
+      action,
+    })
+  }
+
+  return actionRes
+}
+
+async function install(toolName, opts) {
+  const { osVersion, toolVersion, hexMirror } = opts
+  const versionSpec =
+    osVersion !== undefined ? `${osVersion}/${toolVersion}` : toolVersion
+  let installOpts
+
+  // The installOpts object is composed of supported processPlatform keys
+  // (e.g. 'linux', 'win32', or 'all' - in case there's no distinction between platforms)
+  // In each of these keys there's an object with keys:
+  // * downloadToolURL
+  //     - where to fetch the downloadable from
+  // * extract
+  //     - if the downloadable is compressed: how to extract it
+  //       - return ['dir', targetDir]
+  //     - if the downloadable is not compressed: a filename.ext you want to cache it under
+  //       - return ['file', filenameWithExt]
+  // * postExtract
+  //     - stuff to execute outside the cache scope (just after it's created)
+  // * reportVersion
+  ///    - configuration elements on how to output the tool version, post-install
+
+  switch (toolName) {
+    case 'otp':
+      installOpts = {
+        tool: 'Erlang/OTP',
+        linux: {
+          downloadToolURL: () =>
+            `${hexMirror}/builds/otp/${getRunnerOSArchitecture()}/${versionSpec}.tar.gz`,
+          extract: async (file) => {
+            const dest = undefined
+            const flags = ['zx', '--strip-components=1']
+            const targetDir = await tool_cache.extractTar(file, dest, flags)
+
+            return ['dir', targetDir]
+          },
+          postExtract: async (cachePath) => {
+            const cmd = external_node_path_namespaceObject.join(cachePath, 'Install')
+            const args = ['-minimal', cachePath]
+            await exec(cmd, args)
+          },
+          reportVersion: () => {
+            const cmd = 'erl'
+            const args = ['-version']
+            const env = {}
+
+            return [cmd, args, env]
+          },
+        },
+        win32: {
+          downloadToolURL: () => {
+            const otpArch = otpArchitecture()
+            return (
+              'https://github.com/erlang/otp/releases/download/' +
+              `OTP-${toolVersion}/otp_win${lodash.escapeRegExp(otpArch)}_${toolVersion}.exe`
+            )
+          },
+          extract: async () => ['file', 'otp.exe'],
+          postExtract: async (cachePath) => {
+            const cmd = external_node_path_namespaceObject.join(cachePath, 'otp.exe')
+            const args = ['/S', `/D=${cachePath}`]
+            await exec(cmd, args)
+          },
+          reportVersion: () => {
+            const cmd = 'erl.exe'
+            const args = ['+V']
+            const env = {}
+
+            return [cmd, args, env]
+          },
+        },
+        darwin: {
+          downloadToolURL: (versionSpec) => {
+            let suffix = ''
+            if (isKnownVerBranch(versionSpec)) {
+              // for these otp_builds adds `-latest` in the folder path
+              suffix = '-latest'
+            }
+            return (
+              `https://github.com/erlef/otp_builds/releases/download/` +
+              `${toolVersion}${suffix}/${toolVersion}-macos-${getRunnerOSArchitecture()}.tar.gz`
+            )
+          },
+          extract: async (file) => {
+            const dest = undefined
+            const flags = ['zx']
+            const targetDir = await tool_cache.extractTar(file, dest, flags)
+
+            return ['dir', targetDir]
+          },
+          postExtract: async (/*cachePath*/) => {
+            // nothing to do
+          },
+          reportVersion: () => {
+            const cmd = 'erl'
+            const args = ['-version']
+            const env = {}
+
+            return [cmd, args, env]
+          },
+        },
+      }
+      break
+    case 'elixir':
+      installOpts = {
+        tool: 'Elixir',
+        all: {
+          downloadToolURL: () =>
+            `${hexMirror}/builds/elixir/${versionSpec}.zip`,
+          extract: async (file) => {
+            const targetDir = await tool_cache.extractZip(file)
+
+            return ['dir', targetDir]
+          },
+          postExtract: async () => {
+            const escriptsPath = external_node_path_namespaceObject.join(external_node_os_namespaceObject.homedir(), '.mix', 'escripts')
+            external_node_fs_namespaceObject.mkdirSync(escriptsPath, { recursive: true })
+            core.addPath(escriptsPath)
+
+            if (debugLoggingEnabled()) {
+              core.exportVariable('ELIXIR_CLI_ECHO', 'true')
+            }
+          },
+          reportVersion: () => {
+            const cmd = 'elixir'
+            const args = ['-v']
+            const env = {}
+
+            return [cmd, args, env]
+          },
+        },
+      }
+      break
+    case 'gleam':
+      installOpts = {
+        tool: 'Gleam',
+        linux: {
+          downloadToolURL: () => {
+            let gz
+            if (
+              versionSpec === 'nightly' ||
+              semver.gt(versionSpec, 'v0.22.1')
+            ) {
+              gz = `gleam-${versionSpec}-x86_64-unknown-linux-musl.tar.gz`
+            } else {
+              gz = `gleam-${versionSpec}-linux-amd64.tar.gz`
+            }
+
+            return `https://github.com/gleam-lang/gleam/releases/download/${versionSpec}/${gz}`
+          },
+          extract: async (file) => {
+            const dest = undefined
+            const flags = ['zx']
+            const targetDir = await tool_cache.extractTar(file, dest, flags)
+
+            return ['dir', targetDir]
+          },
+          postExtract: async (cachePath) => {
+            const bindir = external_node_path_namespaceObject.join(cachePath, 'bin')
+            const oldPath = external_node_path_namespaceObject.join(cachePath, 'gleam')
+            const newPath = external_node_path_namespaceObject.join(bindir, 'gleam')
+            external_node_fs_namespaceObject.mkdirSync(bindir)
+            external_node_fs_namespaceObject.renameSync(oldPath, newPath)
+          },
+          reportVersion: () => {
+            const cmd = 'gleam'
+            const args = ['--version']
+            const env = {}
+
+            return [cmd, args, env]
+          },
+        },
+        win32: {
+          downloadToolURL: () => {
+            let zip
+            if (
+              versionSpec === 'nightly' ||
+              semver.gt(versionSpec, 'v0.22.1')
+            ) {
+              zip = `gleam-${versionSpec}-x86_64-pc-windows-msvc.zip`
+            } else {
+              zip = `gleam-${versionSpec}-windows-64bit.zip`
+            }
+
+            return `https://github.com/gleam-lang/gleam/releases/download/${versionSpec}/${zip}`
+          },
+          extract: async (file) => {
+            const targetDir = await tool_cache.extractZip(file)
+
+            return ['dir', targetDir]
+          },
+          postExtract: async (cachePath) => {
+            const bindir = external_node_path_namespaceObject.join(cachePath, 'bin')
+            const oldPath = external_node_path_namespaceObject.join(cachePath, 'gleam.exe')
+            const newPath = external_node_path_namespaceObject.join(bindir, 'gleam.exe')
+            external_node_fs_namespaceObject.mkdirSync(bindir)
+            external_node_fs_namespaceObject.renameSync(oldPath, newPath)
+          },
+          reportVersion: () => {
+            const cmd = 'gleam.exe'
+            const args = ['--version']
+            const env = {}
+
+            return [cmd, args, env]
+          },
+        },
+      }
+      installOpts.darwin = installOpts.linux
+      break
+    case 'rebar3':
+      installOpts = {
+        tool: 'Rebar3',
+        linux: {
+          downloadToolURL: () => {
+            let url
+            if (versionSpec === 'nightly') {
+              url = 'https://s3.amazonaws.com/rebar3-nightly/rebar3'
+            } else {
+              url = `https://github.com/erlang/rebar3/releases/download/${versionSpec}/rebar3`
+            }
+
+            return url
+          },
+          extract: async () => ['file', 'rebar3'],
+          postExtract: async (cachePath) => {
+            const bindir = external_node_path_namespaceObject.join(cachePath, 'bin')
+            const oldPath = external_node_path_namespaceObject.join(cachePath, 'rebar3')
+            const newPath = external_node_path_namespaceObject.join(bindir, 'rebar3')
+            external_node_fs_namespaceObject.mkdirSync(bindir, { recursive: true })
+            external_node_fs_namespaceObject.renameSync(oldPath, newPath)
+            external_node_fs_namespaceObject.chmodSync(newPath, 0o755)
+          },
+          reportVersion: () => {
+            const cmd = 'rebar3'
+            const args = ['version']
+            const env = {
+              REBAR_GLOBAL_CONFIG_DIR: '/fake-dir',
+              REBAR_CONFIG: 'fake.config',
+            }
+
+            return [cmd, args, env]
+          },
+        },
+        win32: {
+          downloadToolURL: () => {
+            let url
+            if (versionSpec === 'nightly') {
+              url = 'https://s3.amazonaws.com/rebar3-nightly/rebar3'
+            } else {
+              url = `https://github.com/erlang/rebar3/releases/download/${versionSpec}/rebar3`
+            }
+
+            return url
+          },
+          extract: async () => ['file', 'rebar3'],
+          postExtract: async (cachePath) => {
+            const bindir = external_node_path_namespaceObject.join(cachePath, 'bin')
+            const oldPath = external_node_path_namespaceObject.join(cachePath, 'rebar3')
+            const newPath = external_node_path_namespaceObject.join(bindir, 'rebar3')
+            external_node_fs_namespaceObject.mkdirSync(bindir)
+            external_node_fs_namespaceObject.renameSync(oldPath, newPath)
+            external_node_fs_namespaceObject.chmodSync(newPath, 0o755)
+
+            const ps1Filename = external_node_path_namespaceObject.join(bindir, 'rebar3.ps1')
+            external_node_fs_namespaceObject.writeFileSync(ps1Filename, `& escript.exe ${newPath} \${args}`)
+
+            const cmdFilename = external_node_path_namespaceObject.join(bindir, 'rebar3.cmd')
+            external_node_fs_namespaceObject.writeFileSync(
+              cmdFilename,
+              `@echo off\r\nescript.exe ${newPath} %*`,
+            )
+          },
+          reportVersion: () => {
+            const cmd = 'rebar3.cmd'
+            const args = ['version']
+            const env = {}
+
+            return [cmd, args, env]
+          },
+        },
+      }
+      installOpts.darwin = installOpts.linux
+      break
+    default:
+      throw new Error(`no installer for ${toolName}`)
+  }
+
+  await installTool({ toolName, versionSpec, installOpts })
+}
+
+async function installTool(opts) {
+  const { toolName, versionSpec, installOpts } = opts
+  const platformOpts = installOpts[process.platform] || installOpts.all
+  let cachePath = tool_cache.find(toolName, versionSpec)
+
+  core.debug(`Checking if ${installOpts.tool} is already cached...`)
+  if (cachePath === '') {
+    core.debug("  ... it isn't!")
+    const downloadToolURL = platformOpts.downloadToolURL(versionSpec)
+    const file = await tool_cache.downloadTool(downloadToolURL)
+    const [targetElemType, targetElem] = await platformOpts.extract(file)
+
+    if (targetElemType === 'dir') {
+      cachePath = await tool_cache.cacheDir(targetElem, toolName, versionSpec)
+    } else if (targetElemType === 'file') {
+      cachePath = await tool_cache.cacheFile(file, targetElem, toolName, versionSpec)
+    }
+  } else {
+    core.debug(`  ... it is, at ${cachePath}`)
+  }
+
+  // This makes sure we run, e.g. in Windows, the installer in the runner
+  // We're not caching the install, just the downloaded tool
+  const runnerToolPath = external_node_path_namespaceObject.join(
+    process.env.RUNNER_TEMP,
+    '.setup-beam',
+    toolName,
+  )
+  external_node_fs_namespaceObject.cpSync(cachePath, runnerToolPath, { recursive: true })
+
+  core.debug('Performing post extract operations...')
+  await platformOpts.postExtract(runnerToolPath)
+
+  core.debug(`Adding ${runnerToolPath}' bin to system path`)
+  const runnerToolPathBin = external_node_path_namespaceObject.join(runnerToolPath, 'bin')
+  core.addPath(runnerToolPathBin)
+
+  const installDirForVarName = `INSTALL_DIR_FOR_${toolName}`.toUpperCase()
+  core.debug(`Exporting ${installDirForVarName} as ${runnerToolPath}`)
+  core.exportVariable(installDirForVarName, runnerToolPath)
+
+  core.info(`Installed ${installOpts.tool} version`)
+  const [cmd, args, env] = platformOpts.reportVersion()
+  await exec(cmd, args, { env: { ...process.env, ...env } })
+}
+
+function checkOtpArchitecture() {
+  const otpArch = otpArchitecture()
+
+  if (process.platform !== 'win32' && otpArch == '32') {
+    throw new Error(
+      '@erlef/setup-beam only supports otp-architecture=32 on Windows',
+    )
+  }
+
+  if (!['32', '64'].includes(otpArch)) {
+    throw new Error('otp-architecture must be 32 or 64')
+  }
+}
+
+function debugLoggingEnabled() {
+  return !!process.env.RUNNER_DEBUG
+}
+
+/* harmony default export */ const setup_beam = ({
+  get,
+  getElixirVersion,
+  getGleamVersion,
+  getOTPVersion,
+  getRebar3Version,
+  getVersionFromSpec,
+  githubAMDRunnerArchs,
+  githubARMRunnerArchs,
+  install,
+  installOTP,
+  maybeInstallElixir,
+  maybeInstallGleam,
+  maybeInstallRebar3,
+  parseVersionFile,
+});
+
+var __webpack_exports__default = __webpack_exports__.A;
+export { __webpack_exports__default as default };

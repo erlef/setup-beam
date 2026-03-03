@@ -1,12 +1,15 @@
-const core = require('@actions/core')
-const { exec } = require('@actions/exec')
-const tc = require('@actions/tool-cache')
-const path = require('path')
-const semver = require('semver')
-const fs = require('fs')
-const os = require('os')
-const csv = require('csv-parse/sync')
-const _ = require('lodash')
+import path from 'node:path'
+import fs from 'node:fs'
+import os from 'node:os'
+import { fileURLToPath } from 'node:url'
+import * as core from '@actions/core'
+import { exec } from '@actions/exec'
+import * as tc from '@actions/tool-cache'
+import * as semver from 'semver'
+import * as csv from 'csv-parse/sync'
+import _ from 'lodash'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const MAX_HTTP_RETRIES = 3
 
@@ -108,11 +111,9 @@ async function maybeInstallElixir(elixirSpec) {
 function maybeEnableElixirProblemMatchers() {
   const disableProblemMatchers = getInput('disable_problem_matchers', false)
   if (disableProblemMatchers === 'false') {
+    // path.join helps ncc figure this out
     const elixirMatchers = path.join(
-      __dirname,
-      '..',
-      'matchers',
-      'elixir-matchers.json',
+      `${__dirname}/../matchers/elixir-matchers.json`,
     )
     core.info(`##[add-matcher]${elixirMatchers}`)
   }
@@ -1237,7 +1238,7 @@ function debugLoggingEnabled() {
   return !!process.env.RUNNER_DEBUG
 }
 
-module.exports = {
+export default {
   get,
   getElixirVersion,
   getGleamVersion,

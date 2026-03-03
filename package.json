@@ -1,5 +1,6 @@
 {
   "name": "setup-beam",
+  "type": "module",
   "license": "MIT",
   "private": true,
   "scripts": {
