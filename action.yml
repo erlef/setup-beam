@@ -69,7 +69,9 @@ inputs:
     required: false
 
   version-file:
-    description: a versions file (e.g. as used by `asdf`), which defines inputs
+    description: >-
+      a versions file (e.g. `.tool-versions` as used by `asdf`, or `mise.toml`
+      as used by `mise`), which defines inputs
     default: ''
     required: false
 
