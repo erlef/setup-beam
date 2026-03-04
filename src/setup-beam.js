@@ -32,7 +32,6 @@ async function main() {
         "you have to set version-type=strict if you're using version-file",
       )
     }
-
     versions = parseVersionFile(versionFilePath)
   }
 
