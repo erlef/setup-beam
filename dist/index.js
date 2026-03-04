@@ -84562,7 +84562,6 @@ async function main() {
         "you have to set version-type=strict if you're using version-file",
       )
     }
-
     versions = parseVersionFile(versionFilePath)
   }
 
@@ -85388,7 +85387,7 @@ function parseVersionFile(versionFilePath0) {
   }
 
   if (versionFilePath0.endsWith('.toml')) {
-    lib_core.startGroup(`Parsing mise.toml file at ${versionFilePath0}`)
+    lib_core.startGroup(`Parsing ${external_node_path_namespaceObject.basename(versionFilePath0)} file at ${versionFilePath0}`)
     return parseMiseTomlFile(versionFilePath)
   }
 
