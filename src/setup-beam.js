@@ -858,7 +858,9 @@ function parseVersionFile(versionFilePath0) {
   }
 
   if (versionFilePath0.endsWith('.toml')) {
-    core.startGroup(`Parsing mise.toml file at ${versionFilePath0}`)
+    core.startGroup(
+      `Parsing ${path.basename(versionFilePath0)} file at ${versionFilePath0}`,
+    )
     return parseMiseTomlFile(versionFilePath)
   }
 
