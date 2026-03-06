@@ -85387,7 +85387,9 @@ function parseVersionFile(versionFilePath0) {
   }
 
   if (versionFilePath0.endsWith('.toml')) {
-    lib_core.startGroup(`Parsing ${external_node_path_namespaceObject.basename(versionFilePath0)} file at ${versionFilePath0}`)
+    lib_core.startGroup(
+      `Parsing ${external_node_path_namespaceObject.basename(versionFilePath0)} file at ${versionFilePath0}`,
+    )
     return parseMiseTomlFile(versionFilePath)
   }
 
