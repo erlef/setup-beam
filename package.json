@@ -17,7 +17,7 @@
     "build-dist": "npm run clean-dist && npm install && npm run build && npm run format && npm run lint"
   },
   "dependencies": {
-    "@actions/core": "1.11.1",
+    "@actions/core": "3.0.0",
     "@actions/exec": "3.0.0",
     "@actions/tool-cache": "4.0.0",
     "csv-parse": "6.1.0",
