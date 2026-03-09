@@ -1,7 +1,7 @@
 import js from '@eslint/js'
 import globals from 'globals'
 import yml from 'eslint-plugin-yml'
-import yamlParser from 'yaml-eslint-parser'
+import * as yamlParser from 'yaml-eslint-parser'
 
 export default [
   js.configs.recommended,
