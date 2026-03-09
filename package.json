@@ -17,7 +17,7 @@
     "build-dist": "npm run clean-dist && npm install && npm run build && npm run format && npm run lint"
   },
   "dependencies": {
-    "@actions/core": "1.11.1",
+    "@actions/core": "3.0.0",
     "@actions/exec": "3.0.0",
     "@actions/tool-cache": "4.0.0",
     "csv-parse": "6.1.0",
@@ -28,10 +28,10 @@
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@vercel/ncc": "0.38.4",
-    "eslint": "10.0.1",
-    "eslint-plugin-yml": "1.18.0",
+    "eslint": "10.0.3",
+    "eslint-plugin-yml": "3.3.1",
     "globals": "17.3.0",
-    "markdownlint-cli": "0.47.0",
+    "markdownlint-cli": "0.48.0",
     "prettier": "3.8.1",
     "shellcheck": "4.1.0",
     "yarn": "1.22.22"
