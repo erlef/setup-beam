@@ -27,7 +27,7 @@
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@vercel/ncc": "0.38.4",
-    "eslint": "10.0.1",
+    "eslint": "10.0.3",
     "eslint-plugin-yml": "1.18.0",
     "globals": "17.3.0",
     "markdownlint-cli": "0.47.0",
