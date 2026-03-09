@@ -57566,7 +57566,7 @@ async function main() {
   await maybeInstallRebar3(rebar3Spec)
 
   // undefined is replaced by a function, post- main branch merge
-  const setupBeamVersion = '687000a'
+  const setupBeamVersion = 'c3137f5'
   setOutput('setup-beam-version', setupBeamVersion)
 }
 
@@ -57702,17 +57702,17 @@ async function getOTPVersion(otpSpec0, osVersion) {
 }
 
 function requestedVersionFor(tool, version, originListing, mirrors) {
-  const isStrictVersion = isStrictVersion()
+  const isVersionTypeStrict = isStrictVersion()
 
   let versionType = 'loose'
-  if (isStrictVersion) {
+  if (isVersionTypeStrict) {
     versionType = 'strict'
   }
 
   let ret =
     `Requested ${versionType} ${tool} version (${version}) not found in version list, ` +
     `at ${originListing}${mirrors ? `, with mirrors ${mirrors}` : ''}.`
-  if (!isStrictVersion) {
+  if (!isVersionTypeStrict) {
     ret = `${ret} Should you be using option 'version-type': 'strict'?`
   }
 
