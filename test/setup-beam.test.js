@@ -1,3 +1,13 @@
+import assert from 'node:assert'
+import http from 'node:http'
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
+import { describe, it } from 'node:test'
+import * as csv from 'csv-parse/sync'
+import elixirMatchers from '../matchers/elixir-matchers.json' with { type: 'json' }
+const { problemMatcher } = elixirMatchers
+
 process.env.NODE_ENV = 'test'
 
 simulateInput('otp-version', '25.1.2')
@@ -9,16 +19,7 @@ simulateInput('install-hex', 'true')
 simulateInput('github-token', process.env.GITHUB_TOKEN)
 simulateInput('hexpm-mirrors', 'https://builds.hex.pm', { multiline: true })
 
-import assert from 'node:assert'
-import http from 'node:http'
-import fs from 'node:fs'
-import os from 'node:os'
-import path from 'node:path'
-import { describe, it } from 'node:test'
-import * as csv from 'csv-parse/sync'
-import setupBeam from '../src/setup-beam.js'
-import elixirMatchers from '../matchers/elixir-matchers.json' with { type: 'json' }
-const { problemMatcher } = elixirMatchers
+const { default: setupBeam } = await import('../src/setup-beam.js')
 
 const matrix = {
   otp: {
