@@ -701,6 +701,44 @@ describe('.getOTPVersion(_) - rebar3', () => {
     got = await setupBeam.getRebar3Version(spec)
     assert.deepStrictEqual(got, expected)
   })
+
+  it('filters by OTP compatibility when OTP version is given', async () => {
+    // OTP 24 is compatible with rebar3 3.21 (24-26), but not 3.25+ (26-28)
+    spec = '3'
+    got = await setupBeam.getRebar3Version(spec, '24.3.4')
+    assert.deepStrictEqual(got, '3.21.0')
+
+    // OTP 25 is compatible with rebar3 3.24 (25-27), but not 3.25+ (26-28)
+    spec = '3'
+    got = await setupBeam.getRebar3Version(spec, '25.1.2')
+    assert.deepStrictEqual(got, '3.24.0')
+
+    // OTP 26 is compatible with rebar3 up to latest (26-28)
+    spec = '3'
+    got = await setupBeam.getRebar3Version(spec, '26.2.5')
+    // Should resolve to the latest available rebar3 since OTP 26+ is in range for newest
+    const gotNoFilter = await setupBeam.getRebar3Version(spec)
+    assert.deepStrictEqual(got, gotNoFilter)
+  })
+})
+
+describe('.filterRebar3ByOTPCompatibility', () => {
+  it('returns all versions when no OTP version is given', () => {
+    const versions = { '3.23.0': '3.23.0', '3.20.0': '3.20.0' }
+    const result = setupBeam.filterRebar3ByOTPCompatibility(versions, undefined)
+    assert.deepStrictEqual(result, versions)
+  })
+
+  it('filters out incompatible versions', () => {
+    const versions = {
+      '3.23.0': '3.23.0',
+      '3.21.0': '3.21.0',
+      '3.20.0': '3.20.0',
+    }
+    // OTP 24: 3.21 (24-26) is OK, 3.20 (23-25) is OK, 3.23 (25-27) is not
+    const result = setupBeam.filterRebar3ByOTPCompatibility(versions, '24.0')
+    assert.deepStrictEqual(result, { '3.21.0': '3.21.0', '3.20.0': '3.20.0' })
+  })
 })
 
 describe('.getVersionFromSpec(_)', () => {

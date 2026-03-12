@@ -40,8 +40,9 @@ async function main() {
   const gleamSpec = getInput('gleam-version', false, 'gleam', versions)
   const rebar3Spec = getInput('rebar3-version', false, 'rebar', versions)
 
+  let otpVersion
   if (otpSpec !== 'false') {
-    await installOTP(otpSpec)
+    otpVersion = await installOTP(otpSpec)
     const elixirInstalled = await maybeInstallElixir(elixirSpec)
     if (elixirInstalled === true) {
       const shouldMixRebar = getInput('install-rebar', false)
@@ -55,7 +56,7 @@ async function main() {
   }
 
   await maybeInstallGleam(gleamSpec)
-  await maybeInstallRebar3(rebar3Spec)
+  await maybeInstallRebar3(rebar3Spec, otpVersion)
 
   // undefined is replaced by a function, post- main branch merge
   const setupBeamVersion = 'c8e0954'
@@ -153,14 +154,14 @@ async function maybeInstallGleam(gleamSpec) {
   return installed
 }
 
-async function maybeInstallRebar3(rebar3Spec) {
+async function maybeInstallRebar3(rebar3Spec, otpVersion) {
   let installed = false
   let rebar3Version
   if (rebar3Spec) {
     if (rebar3Spec === 'nightly') {
       rebar3Version = 'nightly'
     } else {
-      rebar3Version = await getRebar3Version(rebar3Spec)
+      rebar3Version = await getRebar3Version(rebar3Spec, otpVersion)
     }
     core.startGroup(`Installing rebar3 ${rebar3Version}`)
     await install('rebar3', { toolVersion: rebar3Version })
@@ -213,6 +214,28 @@ function requestedVersionFor(tool, version, originListing, mirrors) {
 
 const knownBranches = ['main', 'master', 'maint']
 const nonSpecificVersions = ['nightly', 'latest']
+
+// Compatibility between rebar3 and Erlang/OTP, from:
+// https://github.com/erlang/rebar3?tab=readme-ov-file#compatibility-between-rebar3-and-erlangotp
+// Each entry maps a rebar3 version to [minOTP, maxOTP].
+// Versions not listed here are assumed compatible with any OTP version.
+const rebar3OTPCompatibility = [
+  ['3.27', [26, 28]],
+  ['3.26', [26, 28]],
+  ['3.25', [26, 28]],
+  ['3.24', [25, 27]],
+  ['3.23', [25, 27]],
+  ['3.22', [25, 27]],
+  ['3.21', [24, 26]],
+  ['3.20', [23, 25]],
+  ['3.19', [23, 25]],
+  ['3.18', [22, 24]],
+  ['3.17', [22, 24]],
+  ['3.16', [22, 24]],
+  ['3.15', [19, 23]],
+  ['3.14', [19, 23]],
+  ['3.13', [19, 22]],
+]
 
 async function getElixirVersion(exSpec0) {
   const otpSuffix = /-otp-(\d+)/
@@ -303,10 +326,10 @@ async function getGleamVersion(gleamSpec0) {
   return maybePrependWithV(gleamVersion)
 }
 
-async function getRebar3Version(r3Spec) {
+async function getRebar3Version(r3Spec, otpVersion) {
   const [rebar3Versions, originListing] = await getRebar3Versions()
   const spec = r3Spec
-  const versions = rebar3Versions
+  const versions = filterRebar3ByOTPCompatibility(rebar3Versions, otpVersion)
   const rebar3Version = getVersionFromSpec(spec, versions)
 
   if (rebar3Version === null) {
@@ -314,6 +337,46 @@ async function getRebar3Version(r3Spec) {
   }
 
   return rebar3Version
+}
+
+function filterRebar3ByOTPCompatibility(rebar3Versions, otpVersion) {
+  if (!otpVersion) {
+    return rebar3Versions
+  }
+
+  const otpMajor = parseInt(otpVersion.toString().split('.')[0], 10)
+  if (Number.isNaN(otpMajor)) {
+    return rebar3Versions
+  }
+
+  const filtered = {}
+  Object.entries(rebar3Versions).forEach(([ver, altVer]) => {
+    if (isRebar3CompatibleWithOTP(ver, otpMajor)) {
+      filtered[ver] = altVer
+    }
+  })
+
+  return filtered
+}
+
+function isRebar3CompatibleWithOTP(rebar3Ver, otpMajor) {
+  if (!validVersion(rebar3Ver)) {
+    return true
+  }
+
+  const rebar3Minor = rebar3Ver.match(/^(\d+)\.(\d+)/)
+  if (!rebar3Minor) {
+    return true
+  }
+
+  const prefix = `${rebar3Minor[1]}.${rebar3Minor[2]}`
+  const compat = rebar3OTPCompatibility.find(([r3]) => r3 === prefix)
+  if (!compat) {
+    return true
+  }
+
+  const [minOTP, maxOTP] = compat[1]
+  return otpMajor >= minOTP && otpMajor <= maxOTP
 }
 
 function otpArchitecture() {
@@ -1267,6 +1330,7 @@ function debugLoggingEnabled() {
 }
 
 export default {
+  filterRebar3ByOTPCompatibility,
   get,
   getElixirVersion,
   getGleamVersion,
