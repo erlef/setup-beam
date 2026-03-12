@@ -88,6 +88,7 @@ and Erlang/OTP.
 | `macOS-13`       | 25.0 - 28    | x86_64, arm64    | ✅
 | `macOS-14`       | 25.0 - 28    | x86_64, arm64    | ✅
 | `macOS-15`       | 25.0 - 28    | x86_64, arm64    | ✅
+| `macOS-26`       | 25.0 - 28    | x86_64, arm64    | ✅
 
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
@@ -107,6 +108,7 @@ uses that to download assets:
 | `macos13`          | `macOS-13`
 | `macos14`          | `macOS-14`
 | `macos15`          | `macOS-15`
+| `macos26`          | `macOS-26`
 
 as per the following example:
 
