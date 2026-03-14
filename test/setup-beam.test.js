@@ -1235,7 +1235,8 @@ describe("Erlang matcher's", () => {
       ).pattern
 
     const header = 'mymod_test: hello_test....*failed*'
-    const func = 'in function mymod_test:hello_test/0 (test/mymod_test.erl, line 12)'
+    const func =
+      'in function mymod_test:hello_test/0 (test/mymod_test.erl, line 12)'
     const call = 'in call from mymod_test:hello_test/0'
     const error = '**error:{badmatch,false}'
 

@@ -57550,6 +57550,7 @@ async function main() {
 
   if (otpSpec !== 'false') {
     await installOTP(otpSpec)
+    maybeEnableErlangProblemMatchers()
     const elixirInstalled = await maybeInstallElixir(elixirSpec)
     if (elixirInstalled === true) {
       const shouldMixRebar = setup_beam_getInput('install-rebar', false)
@@ -57616,6 +57617,16 @@ async function maybeInstallElixir(elixirSpec) {
   }
 
   return installed
+}
+
+function maybeEnableErlangProblemMatchers() {
+  const disableProblemMatchers = setup_beam_getInput('disable_problem_matchers', false)
+  if (disableProblemMatchers === 'false') {
+    const erlangMatchers = external_node_path_namespaceObject.join(
+      __nccwpck_require__.ab + "erlang-matchers.json",
+    )
+    info(`##[add-matcher]${erlangMatchers}`)
+  }
 }
 
 function maybeEnableElixirProblemMatchers() {
