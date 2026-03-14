@@ -58558,12 +58558,14 @@ async function install(toolName, opts) {
         tool: 'Gleam',
         linux: {
           downloadToolURL: () => {
+            const arch = getRunnerOSArchitecture()
             let gz
             if (
               versionSpec === 'nightly' ||
               node_modules_semver.gt(versionSpec, 'v0.22.1')
             ) {
-              gz = `gleam-${versionSpec}-x86_64-unknown-linux-musl.tar.gz`
+              const target = arch === 'arm64' ? 'aarch64' : 'x86_64'
+              gz = `gleam-${versionSpec}-${target}-unknown-linux-musl.tar.gz`
             } else {
               gz = `gleam-${versionSpec}-linux-amd64.tar.gz`
             }
@@ -58627,7 +58629,26 @@ async function install(toolName, opts) {
           },
         },
       }
-      installOpts.darwin = installOpts.linux
+      installOpts.darwin = {
+        downloadToolURL: () => {
+          const arch = getRunnerOSArchitecture()
+          let gz
+          if (versionSpec === 'nightly' || node_modules_semver.gt(versionSpec, 'v0.22.1')) {
+            const target = arch === 'arm64' ? 'aarch64' : 'x86_64'
+            gz = `gleam-${versionSpec}-${target}-apple-darwin.tar.gz`
+          } else {
+            gz =
+              arch === 'arm64'
+                ? `gleam-${versionSpec}-macos-arm64.tar.gz`
+                : `gleam-${versionSpec}-macos.tar.gz`
+          }
+
+          return `https://github.com/gleam-lang/gleam/releases/download/${versionSpec}/${gz}`
+        },
+        extract: installOpts.linux.extract,
+        postExtract: installOpts.linux.postExtract,
+        reportVersion: installOpts.linux.reportVersion,
+      }
       break
     case 'rebar3':
       installOpts = {
