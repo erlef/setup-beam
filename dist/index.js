@@ -57588,7 +57588,7 @@ async function installOTP(otpSpec) {
     },
   })
   setOutput('otp-version', otpVersion)
-  maybeEnableErlangProblemMatchers()
+  maybeEnableProblemMatchers('erlang')
   endGroup()
 
   return otpVersion
@@ -57610,7 +57610,7 @@ async function maybeInstallElixir(elixirSpec) {
       },
     })
     setOutput('elixir-version', elixirVersion)
-    maybeEnableElixirProblemMatchers()
+    maybeEnableProblemMatchers('elixir')
     endGroup()
 
     installed = true
@@ -57619,24 +57619,16 @@ async function maybeInstallElixir(elixirSpec) {
   return installed
 }
 
-function maybeEnableErlangProblemMatchers() {
-  const disableProblemMatchers = setup_beam_getInput('disable_problem_matchers', false)
-  if (disableProblemMatchers === 'false') {
-    const erlangMatchers = external_node_path_namespaceObject.join(
-      __nccwpck_require__.ab + "erlang-matchers.json",
-    )
-    info(`##[add-matcher]${erlangMatchers}`)
-  }
+function problemMatchersEnabled() {
+  return setup_beam_getInput('disable_problem_matchers', false) === 'false'
 }
 
-function maybeEnableElixirProblemMatchers() {
-  const disableProblemMatchers = setup_beam_getInput('disable_problem_matchers', false)
-  if (disableProblemMatchers === 'false') {
-    // path.join helps ncc figure this out
-    const elixirMatchers = external_node_path_namespaceObject.join(
-      __nccwpck_require__.ab + "elixir-matchers.json",
+function maybeEnableProblemMatchers(language) {
+  if (problemMatchersEnabled()) {
+    const matchers = external_node_path_namespaceObject.join(
+      __nccwpck_require__.ab + "matchers/" + language + '-matchers.json',
     )
-    info(`##[add-matcher]${elixirMatchers}`)
+    info(`##[add-matcher]${matchers}`)
   }
 }
 
