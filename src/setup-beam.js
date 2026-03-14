@@ -115,12 +115,14 @@ function problemMatchersEnabled() {
   return getInput('disable_problem_matchers', false) === 'false'
 }
 
+// path.join with static strings helps ncc resolve and bundle the JSON files
 function maybeEnableProblemMatchers(language) {
   if (problemMatchersEnabled()) {
-    const matchers = path.join(
-      `${__dirname}/../matchers/${language}-matchers.json`,
-    )
-    core.info(`##[add-matcher]${matchers}`)
+    const matcherFiles = {
+      erlang: path.join(`${__dirname}/../matchers/erlang-matchers.json`),
+      elixir: path.join(`${__dirname}/../matchers/elixir-matchers.json`),
+    }
+    core.info(`##[add-matcher]${matcherFiles[language]}`)
   }
 }
 

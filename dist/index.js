@@ -57623,12 +57623,14 @@ function problemMatchersEnabled() {
   return setup_beam_getInput('disable_problem_matchers', false) === 'false'
 }
 
+// path.join with static strings helps ncc resolve and bundle the JSON files
 function maybeEnableProblemMatchers(language) {
   if (problemMatchersEnabled()) {
-    const matchers = external_node_path_namespaceObject.join(
-      __nccwpck_require__.ab + "matchers/" + language + '-matchers.json',
-    )
-    info(`##[add-matcher]${matchers}`)
+    const matcherFiles = {
+      erlang: external_node_path_namespaceObject.join(__nccwpck_require__.ab + "erlang-matchers.json"),
+      elixir: external_node_path_namespaceObject.join(__nccwpck_require__.ab + "elixir-matchers.json"),
+    }
+    info(`##[add-matcher]${matcherFiles[language]}`)
   }
 }
 
