@@ -197,19 +197,19 @@ describe('.getOTPVersion(_) - Erlang', () => {
       simulateInput('version-type', before)
 
       spec = '19.3.x'
-      osVersion = 'ubuntu-16.04'
+      osVersion = 'ubuntu-20.04'
       expected = 'OTP-19.3.6.13'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
 
       spec = '^19.3.6'
-      osVersion = 'ubuntu-16.04'
+      osVersion = 'ubuntu-20.04'
       expected = 'OTP-19.3.6.13'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
 
       spec = '^19.3'
-      osVersion = 'ubuntu-18.04'
+      osVersion = 'ubuntu-20.04'
       expected = 'OTP-19.3.6.13'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
