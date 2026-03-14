@@ -665,6 +665,7 @@ function getRunnerOSVersion() {
     macos13: 'macOS-13',
     macos14: 'macOS-14',
     macos15: 'macOS-15',
+    macos26: 'macOS-26',
   }
   const deprecatedImageOSToContainer = {
     ubuntu18: 'ubuntu-18.04',
