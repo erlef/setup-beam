@@ -42,7 +42,6 @@ async function main() {
 
   if (otpSpec !== 'false') {
     await installOTP(otpSpec)
-    maybeEnableErlangProblemMatchers()
     const elixirInstalled = await maybeInstallElixir(elixirSpec)
     if (elixirInstalled === true) {
       const shouldMixRebar = getInput('install-rebar', false)
@@ -81,6 +80,7 @@ async function installOTP(otpSpec) {
     },
   })
   core.setOutput('otp-version', otpVersion)
+  maybeEnableErlangProblemMatchers()
   core.endGroup()
 
   return otpVersion
