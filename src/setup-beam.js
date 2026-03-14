@@ -42,6 +42,7 @@ async function main() {
 
   if (otpSpec !== 'false') {
     await installOTP(otpSpec)
+    maybeEnableErlangProblemMatchers()
     const elixirInstalled = await maybeInstallElixir(elixirSpec)
     if (elixirInstalled === true) {
       const shouldMixRebar = getInput('install-rebar', false)
@@ -108,6 +109,16 @@ async function maybeInstallElixir(elixirSpec) {
   }
 
   return installed
+}
+
+function maybeEnableErlangProblemMatchers() {
+  const disableProblemMatchers = getInput('disable_problem_matchers', false)
+  if (disableProblemMatchers === 'false') {
+    const erlangMatchers = path.join(
+      `${__dirname}/../matchers/erlang-matchers.json`,
+    )
+    core.info(`##[add-matcher]${erlangMatchers}`)
+  }
 }
 
 function maybeEnableElixirProblemMatchers() {

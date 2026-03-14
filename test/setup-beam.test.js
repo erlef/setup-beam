@@ -6,7 +6,9 @@ import path from 'node:path'
 import { describe, it } from 'node:test'
 import * as csv from 'csv-parse/sync'
 import elixirMatchers from '../matchers/elixir-matchers.json' with { type: 'json' }
+import erlangMatchers from '../matchers/erlang-matchers.json' with { type: 'json' }
 const { problemMatcher } = elixirMatchers
+const { problemMatcher: erlangProblemMatcher } = erlangMatchers
 
 process.env.NODE_ENV = 'test'
 
@@ -1156,6 +1158,97 @@ describe("Elixir Mix matcher's", () => {
     assert.equal(file, 'lib/test.ex')
     assert.equal(line, '15')
     assert.equal(column, '7')
+  })
+})
+
+describe("Erlang matcher's", () => {
+  it('erlc errors are properly matched', () => {
+    const [matcher] = erlangProblemMatcher.find(
+      ({ owner }) => owner === 'erlc-error',
+    ).pattern
+
+    const output = 'src/mymod.erl:42:5: head mismatch'
+    const match = output.match(matcher.regexp)
+    assert.equal(match[1], 'src/mymod.erl')
+    assert.equal(match[2], '42')
+    assert.equal(match[3], '5')
+    assert.equal(match[4], 'head mismatch')
+  })
+
+  it('erlc errors do not match warnings', () => {
+    const [matcher] = erlangProblemMatcher.find(
+      ({ owner }) => owner === 'erlc-error',
+    ).pattern
+
+    const output = 'src/mymod.erl:42:5: Warning: variable X is unused'
+    const match = output.match(matcher.regexp)
+    assert.equal(match, null)
+  })
+
+  it('erlc warnings are properly matched', () => {
+    const [matcher] = erlangProblemMatcher.find(
+      ({ owner }) => owner === 'erlc-warning',
+    ).pattern
+
+    const output = 'src/mymod.erl:10:3: Warning: variable X is unused'
+    const match = output.match(matcher.regexp)
+    assert.equal(match[1], 'src/mymod.erl')
+    assert.equal(match[2], '10')
+    assert.equal(match[3], '3')
+    assert.equal(match[4], 'variable X is unused')
+  })
+
+  it('dialyzer warnings are matched via erlc patterns', () => {
+    const [matcher] = erlangProblemMatcher.find(
+      ({ owner }) => owner === 'erlc-warning',
+    ).pattern
+
+    const output =
+      'src/mymod.erl:25:1: warning: Function foo/0 has no local return'
+    const match = output.match(matcher.regexp)
+    assert.equal(match[1], 'src/mymod.erl')
+    assert.equal(match[2], '25')
+    assert.equal(match[3], '1')
+    assert.equal(match[4], 'Function foo/0 has no local return')
+  })
+
+  it('CT failures are properly matched', () => {
+    const [filePattern, reasonPattern] = erlangProblemMatcher.find(
+      ({ owner }) => owner === 'ct-failure',
+    ).pattern
+
+    const firstOutput = 'test/mymod_SUITE.erl failed on line 55'
+    const secondOutput = 'Reason: {badmatch,{error,timeout}}'
+
+    const fileMatch = firstOutput.match(filePattern.regexp)
+    assert.equal(fileMatch[1], 'test/mymod_SUITE.erl')
+    assert.equal(fileMatch[2], '55')
+
+    const reasonMatch = secondOutput.match(reasonPattern.regexp)
+    assert.equal(reasonMatch[1], '{badmatch,{error,timeout}}')
+  })
+
+  it('EUnit failures are properly matched', () => {
+    const [headerPattern, funcPattern, callPattern, errorPattern] =
+      erlangProblemMatcher.find(
+        ({ owner }) => owner === 'eunit-failure',
+      ).pattern
+
+    const header = 'mymod_test: hello_test....*failed*'
+    const func = 'in function mymod_test:hello_test/0 (test/mymod_test.erl, line 12)'
+    const call = 'in call from mymod_test:hello_test/0'
+    const error = '**error:{badmatch,false}'
+
+    assert.ok(header.match(headerPattern.regexp))
+
+    const funcMatch = func.match(funcPattern.regexp)
+    assert.equal(funcMatch[1], 'test/mymod_test.erl')
+    assert.equal(funcMatch[2], '12')
+
+    assert.ok(call.match(callPattern.regexp))
+
+    const errorMatch = error.match(errorPattern.regexp)
+    assert.equal(errorMatch[1], '{badmatch,false}')
   })
 })
 

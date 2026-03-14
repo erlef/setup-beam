@@ -1,0 +1,66 @@
+{
+  "problemMatcher": [
+    {
+      "owner": "erlc-warning",
+      "severity": "warning",
+      "pattern": [
+        {
+          "regexp": "^(\\S+):(\\d+):(\\d+): [wW]arning: (.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      ]
+    },
+    {
+      "owner": "erlc-error",
+      "severity": "error",
+      "pattern": [
+        {
+          "regexp": "^(\\S+):(\\d+):(\\d+): (?![wW]arning)(.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      ]
+    },
+    {
+      "owner": "ct-failure",
+      "severity": "error",
+      "pattern": [
+        {
+          "regexp": "^(\\S+) failed on line (\\d+)$",
+          "file": 1,
+          "line": 2
+        },
+        {
+          "regexp": "^Reason: (.+)$",
+          "message": 1
+        }
+      ]
+    },
+    {
+      "owner": "eunit-failure",
+      "severity": "error",
+      "pattern": [
+        {
+          "regexp": "^\\S+: .+\\.\\.\\.\\*failed\\*$"
+        },
+        {
+          "regexp": "^in function .+ \\((.+), line (\\d+)\\)$",
+          "file": 1,
+          "line": 2
+        },
+        {
+          "regexp": "^in call from .+$"
+        },
+        {
+          "regexp": "^\\*\\*error:(.+)$",
+          "message": 1
+        }
+      ]
+    }
+  ]
+}
