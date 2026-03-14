@@ -80,6 +80,7 @@ async function installOTP(otpSpec) {
     },
   })
   core.setOutput('otp-version', otpVersion)
+  maybeEnableProblemMatchers('erlang')
   core.endGroup()
 
   return otpVersion
@@ -101,7 +102,7 @@ async function maybeInstallElixir(elixirSpec) {
       },
     })
     core.setOutput('elixir-version', elixirVersion)
-    maybeEnableElixirProblemMatchers()
+    maybeEnableProblemMatchers('elixir')
     core.endGroup()
 
     installed = true
@@ -110,14 +111,18 @@ async function maybeInstallElixir(elixirSpec) {
   return installed
 }
 
-function maybeEnableElixirProblemMatchers() {
-  const disableProblemMatchers = getInput('disable_problem_matchers', false)
-  if (disableProblemMatchers === 'false') {
-    // path.join helps ncc figure this out
-    const elixirMatchers = path.join(
-      `${__dirname}/../matchers/elixir-matchers.json`,
-    )
-    core.info(`##[add-matcher]${elixirMatchers}`)
+function problemMatchersEnabled() {
+  return getInput('disable_problem_matchers', false) === 'false'
+}
+
+// path.join with static strings helps ncc resolve and bundle the JSON files
+function maybeEnableProblemMatchers(language) {
+  if (problemMatchersEnabled()) {
+    const matcherFiles = {
+      erlang: path.join(`${__dirname}/../matchers/erlang-matchers.json`),
+      elixir: path.join(`${__dirname}/../matchers/elixir-matchers.json`),
+    }
+    core.info(`##[add-matcher]${matcherFiles[language]}`)
   }
 }
 
