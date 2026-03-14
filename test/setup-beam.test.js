@@ -177,11 +177,8 @@ describe('.getOTPVersion(_) - Erlang', () => {
     'https://repo.hex.pm, https://cdn.jsdelivr.net/hex',
     { multiline: true },
   )
-  const previousRunnerArch = process.env.RUNNER_ARCH
 
   if (process.platform === 'linux') {
-    process.env.RUNNER_ARCH = 'X64'
-
     it('is Ok for known linux version', async () => {
       before = simulateInput('version-type', 'strict')
       spec = '27.0'
@@ -199,21 +196,21 @@ describe('.getOTPVersion(_) - Erlang', () => {
       assert.deepStrictEqual(got, expected)
       simulateInput('version-type', before)
 
-      spec = '19.3.x'
-      osVersion = 'ubuntu-16.04'
-      expected = 'OTP-19.3.6.13'
+      spec = '20.3.x'
+      osVersion = 'ubuntu-20.04'
+      expected = 'OTP-20.3.8.26'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
 
-      spec = '^19.3.6'
-      osVersion = 'ubuntu-16.04'
-      expected = 'OTP-19.3.6.13'
+      spec = '^20.3.8'
+      osVersion = 'ubuntu-20.04'
+      expected = 'OTP-20.3.8.26'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
 
-      spec = '^19.3'
-      osVersion = 'ubuntu-18.04'
-      expected = 'OTP-19.3.6.13'
+      spec = '^20.3'
+      osVersion = 'ubuntu-20.04'
+      expected = 'OTP-20.3.8.26'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
 
@@ -309,6 +306,7 @@ describe('.getOTPVersion(_) - Erlang', () => {
   if (process.platform === 'linux') {
     it('is main-... only if strict/maint-... is used as input', async () => {
       const arm64Options = setupBeam.githubARMRunnerArchs()
+      const previousRunnerArch = process.env.RUNNER_ARCH
       process.env.RUNNER_ARCH =
         arm64Options[Math.floor(Math.random() * arm64Options.length)]
 
@@ -344,6 +342,7 @@ describe('.getOTPVersion(_) - Erlang', () => {
 
     it('is Ok for known linux ARM64 version', async () => {
       const arm64Options = setupBeam.githubARMRunnerArchs()
+      const previousRunnerArch = process.env.RUNNER_ARCH
       process.env.RUNNER_ARCH =
         arm64Options[Math.floor(Math.random() * arm64Options.length)]
 
@@ -404,10 +403,13 @@ describe('.getOTPVersion(_) - Erlang', () => {
       expected = 'master'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
+
+      process.env.RUNNER_ARCH = previousRunnerArch
     })
 
     it('is Ok for known linux AMD64 version', async () => {
       const amd64Options = setupBeam.githubAMDRunnerArchs()
+      const previousRunnerArch = process.env.RUNNER_ARCH
       process.env.RUNNER_ARCH =
         amd64Options[Math.floor(Math.random() * amd64Options.length)]
 
@@ -486,12 +488,15 @@ describe('.getOTPVersion(_) - Erlang', () => {
       expected = 'master'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
+
+      process.env.RUNNER_ARCH = previousRunnerArch
     })
   }
 
   if (process.platform === 'darwin') {
     it('is main-... only if strict/maint-... is used as input', async () => {
       const arm64Options = setupBeam.githubARMRunnerArchs()
+      const previousRunnerArch = process.env.RUNNER_ARCH
       process.env.RUNNER_ARCH =
         arm64Options[Math.floor(Math.random() * arm64Options.length)]
 
@@ -521,6 +526,7 @@ describe('.getOTPVersion(_) - Erlang', () => {
 
     it('is Ok for known macos ARM64 version', async () => {
       const arm64Options = setupBeam.githubARMRunnerArchs()
+      const previousRunnerArch = process.env.RUNNER_ARCH
       process.env.RUNNER_ARCH =
         arm64Options[Math.floor(Math.random() * arm64Options.length)]
 
@@ -531,10 +537,13 @@ describe('.getOTPVersion(_) - Erlang', () => {
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
       simulateInput('version-type', before)
+
+      process.env.RUNNER_ARCH = previousRunnerArch
     })
 
     it('is Ok for known macos AMD64 version', async () => {
       const amd64Options = setupBeam.githubARMRunnerArchs()
+      const previousRunnerArch = process.env.RUNNER_ARCH
       process.env.RUNNER_ARCH =
         amd64Options[Math.floor(Math.random() * amd64Options.length)]
 
@@ -545,11 +554,12 @@ describe('.getOTPVersion(_) - Erlang', () => {
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
       simulateInput('version-type', before)
+
+      process.env.RUNNER_ARCH = previousRunnerArch
     })
   }
 
   simulateInput('hexpm-mirrors', hexMirrors, { multiline: true })
-  process.env.RUNNER_ARCH = previousRunnerArch
 })
 
 describe('OTP arch-specific install', () => {
@@ -572,6 +582,7 @@ describe('OTP arch-specific install', () => {
         `Fetching OTP Version with invalid Github runner architecture is supposed to fail`,
       )
     }
+
     process.env.RUNNER_ARCH = previousRunnerArch
   })
 })
@@ -582,11 +593,8 @@ describe('.getOTPVersion(_) - Elixir', () => {
   let spec
   let otpVersion
   let before
-  const previousRunnerArch = process.env.RUNNER_ARCH
 
   if (process.platform === 'linux') {
-    process.env.RUNNER_ARCH = 'X64'
-
     it('returns the expected value', async () => {
       spec = '1.18.x'
       otpVersion = 'OTP-27'
@@ -644,8 +652,6 @@ describe('.getOTPVersion(_) - Elixir', () => {
       simulateInput('version-type', before)
     })
   }
-
-  process.env.RUNNER_ARCH = previousRunnerArch
 })
 
 describe('.getOTPVersion(_) - Gleam', () => {
