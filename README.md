@@ -94,7 +94,8 @@ and Erlang/OTP.
 
 ### Compatibility between Erlang/OTP and rebar3
 
-Check [version compatibility](https://github.com/erlang/rebar3?tab=readme-ov-file#compatibility-between-rebar3-and-erlangotp) in `erlang/rebar3`.
+Check [version compatibility](https://github.com/erlang/rebar3?tab=readme-ov-file#compatibility-between-rebar3-and-erlangotp)
+in `erlang/rebar3`.
 
 ### Self-hosted runners
 
@@ -297,7 +298,8 @@ jobs:
 
 ### Compatibility
 
-Matrix-style testing can be executed using pinned, compatible dependency versions by configuring the test matrix accordingly:
+To execute matrix testing with specific dependency versions, configure the environment matrix to
+use pinned, compatible releases:
 
 ```yaml
   test:
