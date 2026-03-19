@@ -8,7 +8,7 @@ import * as tc from '@actions/tool-cache'
 import * as semver from 'semver'
 import * as csv from 'csv-parse/sync'
 import _ from 'lodash'
-import toml from 'toml'
+import toml from 'smol-toml'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
