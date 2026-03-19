@@ -1040,7 +1040,9 @@ describe('mise.toml file', () => {
 "erlang" = "${erlang}"
 elixir = { version = "${elixir}", postinstall="mix deps.get" }  # comment, with space and ref:
 "not-gleam" = 0.23 # not picked up
-"gleam" = "${gleam}" \n`
+"gleam" = "${gleam}"
+[env]
+_.file = ".env"\n`
     const filename = 'test/mise.toml'
     if (process.platform === 'win32') {
       // Force \r\n to test in Windows
