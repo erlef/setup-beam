@@ -98,5 +98,5 @@ outputs:
     description: The commit unique id of the execution action version
 
 runs:
-  using: node20
+  using: node24
   main: dist/index.js

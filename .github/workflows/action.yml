@@ -48,7 +48,7 @@ jobs:
       - uses: actions/checkout@v6.0.2
       - uses: actions/setup-node@v6.3.0
         with:
-          node-version: '20'
+          node-version: '24'
       - run: npm run build-dist
       - name: Check if build left artifacts
         run: git diff --exit-code --ignore-space-at-eol
@@ -73,7 +73,7 @@ jobs:
       - uses: actions/checkout@v6.0.2
       - uses: actions/setup-node@v6.3.0
         with:
-          node-version: '20'
+          node-version: '24'
       - run: npm ci
       - run: npm test
         env:
@@ -99,7 +99,7 @@ jobs:
       - uses: actions/checkout@v6.0.2
       - uses: actions/setup-node@v6.3.0
         with:
-          node-version: '20'
+          node-version: '24'
       - run: npm install --production
       - run: npm test
         env:
@@ -125,7 +125,7 @@ jobs:
       - uses: actions/checkout@v6.0.2
       - uses: actions/setup-node@v6.3.0
         with:
-          node-version: '20'
+          node-version: '24'
       - run: npm ci
       - run: npm test
         env:
