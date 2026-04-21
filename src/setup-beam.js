@@ -7,7 +7,6 @@ import { exec } from '@actions/exec'
 import * as tc from '@actions/tool-cache'
 import * as semver from 'semver'
 import * as csv from 'csv-parse/sync'
-import _ from 'lodash'
 import toml from 'smol-toml'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -378,9 +377,7 @@ async function getOTPVersions(osVersion) {
       })
   } else if (process.platform === 'win32') {
     const otpArch = otpArchitecture()
-    const file_regex = new RegExp(
-      `^otp_win${_.escapeRegExp(otpArch)}_(.*).exe$`,
-    )
+    const file_regex = new RegExp(`^otp_win${RegExp.escape(otpArch)}_(.*).exe$`)
     otpVersionsListings.forEach((otpVersionsListing) => {
       otpVersionsListing
         .map((x) => x.assets)
@@ -972,7 +969,7 @@ async function install(toolName, opts) {
             const otpArch = otpArchitecture()
             return (
               'https://github.com/erlang/otp/releases/download/' +
-              `OTP-${toolVersion}/otp_win${_.escapeRegExp(otpArch)}_${toolVersion}.exe`
+              `OTP-${toolVersion}/otp_win${otpArch}_${toolVersion}.exe`
             )
           },
           extract: async () => ['file', 'otp.exe'],
