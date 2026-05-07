@@ -131,6 +131,11 @@ jobs:
         ...
 ```
 
+For Windows images, suffix variants are canonicalized to the base `winNN` value.
+For example, `win25-vs2026` is treated as `win25`.
+This handles runner label-to-image issues discussed in
+[`actions/runner-images#14004`](https://github.com/actions/runner-images/issues/14004).
+
 ### Outputs
 
 The action provides the following outputs:
