@@ -659,6 +659,14 @@ function getRunnerOSArchitecture() {
   )
 }
 
+/**
+ * Strip Windows runner-image variant suffixes (e.g. "win25-vs2026" → "win25").
+ * Deliberately only targets Windows; see actions/runner-images#14004.
+ */
+function canonicalizeImageOS(imageOS) {
+  return imageOS.replace(/^(win\d{2})-.+$/, '$1')
+}
+
 function getRunnerOSVersion() {
   // List from https://github.com/actions/runner-images?tab=readme-ov-file#available-images
   const ImageOSToContainer = {
@@ -676,10 +684,12 @@ function getRunnerOSVersion() {
     ubuntu18: 'ubuntu-18.04',
     ubuntu20: 'ubuntu-20.04',
   }
-  const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
+  const imageOS = process.env.ImageOS || ''
+  const canonicalImageOS = canonicalizeImageOS(imageOS)
+  const containerFromEnvImageOS = ImageOSToContainer[canonicalImageOS]
   if (!containerFromEnvImageOS) {
     const deprecatedContainerFromEnvImageOS =
-      deprecatedImageOSToContainer[process.env.ImageOS]
+      deprecatedImageOSToContainer[canonicalImageOS]
     if (deprecatedContainerFromEnvImageOS) {
       core.warning(
         `You are using deprecated ImageOS ${deprecatedContainerFromEnvImageOS}. ` +
@@ -691,7 +701,7 @@ function getRunnerOSVersion() {
     } else {
       throw new Error(
         "Tried to map a target OS from env. variable 'ImageOS' (got " +
-          `${process.env.ImageOS}` +
+          `${imageOS}` +
           "), but failed. If you're using a " +
           "self-hosted runner, you should set 'env': 'ImageOS': ... to one of the following: " +
           "['" +
@@ -1294,6 +1304,7 @@ function debugLoggingEnabled() {
 }
 
 export default {
+  canonicalizeImageOS,
   get,
   getElixirVersion,
   getGleamVersion,

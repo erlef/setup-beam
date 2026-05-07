@@ -1102,6 +1102,28 @@ describe('.get(_)', () => {
   })
 })
 
+describe('.canonicalizeImageOS()', () => {
+  it('passes through a standard ImageOS value unchanged', () => {
+    assert.equal(setupBeam.canonicalizeImageOS('ubuntu24'), 'ubuntu24')
+    assert.equal(setupBeam.canonicalizeImageOS('macos15'), 'macos15')
+    assert.equal(setupBeam.canonicalizeImageOS('win25'), 'win25')
+  })
+
+  it('strips Windows runner-image variant suffixes', () => {
+    assert.equal(setupBeam.canonicalizeImageOS('win25-vs2026'), 'win25')
+    assert.equal(setupBeam.canonicalizeImageOS('win22-vs2022'), 'win22')
+  })
+
+  it('does not alter non-Windows suffixed values', () => {
+    assert.equal(setupBeam.canonicalizeImageOS('macos15'), 'macos15')
+    assert.equal(setupBeam.canonicalizeImageOS('ubuntu24'), 'ubuntu24')
+  })
+
+  it('handles empty string', () => {
+    assert.equal(setupBeam.canonicalizeImageOS(''), '')
+  })
+})
+
 describe("Elixir Mix matcher's", () => {
   it('errors are properly matched', async () => {
     const [matcher] = problemMatcher.find(
