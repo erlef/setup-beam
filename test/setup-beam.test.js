@@ -972,7 +972,7 @@ describe('.getVersionFromSpec(_)', () => {
     assert.deepStrictEqual(got, expected)
 
     spec = 'latest'
-    expected = '3.23.0'
+    expected = '3.27.0'
     got = setupBeam.getVersionFromSpec(spec, matrix.rebar3)
     assert.deepStrictEqual(got, expected)
   })
