@@ -78,17 +78,17 @@ expect to be considered the latest.
 This list presents the known working version combos between the target operating system
 and Erlang/OTP.
 
-| Operating system | Erlang/OTP   | OTP Architecture | Status
-|-                 |-             | -                |-
-| `ubuntu-22.04`   | 24.2 - 29    | x86_64, arm64    | ✅
-| `ubuntu-24.04`   | 24.3 - 29    | x86_64, arm64    | ✅
-| `ubuntu-26.04`   | 26 - 29      | x86_64, arm64    | ✅
-| `windows-2022`   | 21\* - 29    | x86_64, x86      | ✅
-| `windows-2025`   | 21\* - 29    | x86_64, x86      | ✅
-| `macOS-13`       | 25.0 - 29    | x86_64, arm64    | ✅
-| `macOS-14`       | 25.0 - 29    | x86_64, arm64    | ✅
-| `macOS-15`       | 25.0 - 29    | x86_64, arm64    | ✅
-| `macOS-26`       | 25.0 - 29    | x86_64, arm64    | ✅
+| Operating system | Erlang/OTP | OTP Architecture | Status
+|-                 |-           | -                |-
+| `ubuntu-22.04`   | 24.2 - 29  | x86_64, arm64    | ✅
+| `ubuntu-24.04`   | 24.3 - 29  | x86_64, arm64    | ✅
+| `ubuntu-26.04`   | 26 - 29    | x86_64, arm64    | ✅
+| `windows-2022`   | 21\* - 29  | x86_64, x86      | ✅
+| `windows-2025`   | 21\* - 29  | x86_64, x86      | ✅
+| `macOS-13`       | 25.0 - 29  | x86_64, arm64    | ✅
+| `macOS-14`       | 25 - 29    | x86_64, arm64    | ✅
+| `macOS-15`       | 25 - 29    | x86_64, arm64    | ✅
+| `macOS-26`       | 25 - 29    | x86_64, arm64    | ✅
 
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
