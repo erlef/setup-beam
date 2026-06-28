@@ -695,18 +695,18 @@ describe('.getOTPVersion(_) - rebar3', () => {
   let spec
 
   it('returns the expected value', async () => {
-    spec = '3.10.x'
-    expected = '3.10.0'
+    spec = '3.26.x'
+    expected = '3.26.0'
     got = await setupBeam.getRebar3Version(spec)
     assert.deepStrictEqual(got, expected)
 
-    spec = '3.11'
-    expected = '3.11.1'
+    spec = '3.25'
+    expected = '3.25.1'
     got = await setupBeam.getRebar3Version(spec)
     assert.deepStrictEqual(got, expected)
 
-    spec = '3.10'
-    expected = '3.10.0'
+    spec = '3.26'
+    expected = '3.26.0'
     got = await setupBeam.getRebar3Version(spec)
     assert.deepStrictEqual(got, expected)
   })
