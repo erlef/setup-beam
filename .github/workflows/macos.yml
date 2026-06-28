@@ -16,6 +16,7 @@ on:
 jobs:
   integration_test:
     name: >
+      OS ${{matrix.combo.os}},
       OTP ${{matrix.combo.otp-version}},
       Elixir ${{matrix.combo.elixir-version}},
       rebar3 ${{matrix.combo.rebar3-version}}
@@ -24,6 +25,22 @@ jobs:
       fail-fast: false
       matrix:
         combo:
+          # macOS 14 - per README
+          - otp-version: '25'
+            os: 'macos-14'
+          - otp-version: '29'
+            os: 'macos-14'
+          # macOS 15 - per README
+          - otp-version: '25'
+            os: 'macos-15'
+          - otp-version: '29'
+            os: 'macos-15'
+          # macOS 26 - per README
+          - otp-version: '25'
+            os: 'macos-26'
+          - otp-version: '29'
+            os: 'macos-26'
+          # macOS latest
           - otp-version: '27'
             elixir-version: 'v1.17.0'
             rebar3-version: '3.23'
@@ -43,22 +60,13 @@ jobs:
             elixir-version: '1.14.3'
             os: 'macos-latest'
             version-type: 'strict'
-          - otp-version: '25'
-            os: 'macos-15'
-          - otp-version: '27'
-            elixir-version: '1.18'
-            os: 'macos-26'
-          - otp-version: '26'
-            elixir-version: '1.16'
-            rebar3-version: '3.25'
-            os: 'macos-14'
           - otp-version: '25.0'
-            elixir-version: 'v1.13.4-otp-25'
+            elixir-version: 'v1.16.3-otp-25'
             rebar3-version: '3.18.0'
             os: 'macos-latest'
             version-type: 'strict'
           - otp-version: '25.0'
-            elixir-version: 'v1.13.4'
+            elixir-version: 'v1.16.3'
             rebar3-version: '3.18.0'
             os: 'macos-latest'
             version-type: 'strict'

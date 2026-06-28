@@ -280,7 +280,7 @@ async function getElixirVersion(exSpec0) {
   if (!foundCombo) {
     throw new Error(
       `Requested Elixir / Erlang/OTP version (${exSpec0} / tried ${otpVersionsMajor}) not ` +
-        'found in version list (did you check Compatibility between Elixir and Erlang/OTP?).' +
+        'found in version list (did you check Compatibility between Elixir and Erlang/OTP?). ' +
         'Elixir and Erlang/OTP compatibility can be found at: ' +
         'https://hexdocs.pm/elixir/compatibility-and-deprecations.html',
     )
@@ -661,13 +661,21 @@ function getRunnerOSArchitecture() {
 
 function getRunnerOSVersion() {
   // List from https://github.com/actions/runner-images?tab=readme-ov-file#available-images
+  // at e065a395d52f491c58eb8fba8ab1dde2c7cfada1
+  // Not considered, at the moment (though it might be easy to adapt to...):
+  // - ubuntu-slim
+  // - all macOS intel, large, and xlarge variants
+  // - all win arm variants
   const ImageOSToContainer = {
     ubuntu22: 'ubuntu-22.04',
+    'ubuntu22-arm64': 'ubuntu-22.04',
     ubuntu24: 'ubuntu-24.04',
-    win19: 'windows-2019',
+    'ubuntu24-arm64': 'ubuntu-24.04',
+    ubuntu26: 'ubuntu-26.04',
+    'ubuntu26-arm64': 'ubuntu-26.04',
     win22: 'windows-2022',
     win25: 'windows-2025',
-    macos13: 'macOS-13',
+    'win25-vs2026': 'windows-2025',
     macos14: 'macOS-14',
     macos15: 'macOS-15',
     macos26: 'macOS-26',
@@ -675,6 +683,8 @@ function getRunnerOSVersion() {
   const deprecatedImageOSToContainer = {
     ubuntu18: 'ubuntu-18.04',
     ubuntu20: 'ubuntu-20.04',
+    win19: 'windows-2019',
+    macos13: 'macOS-13',
   }
   const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
   if (!containerFromEnvImageOS) {

@@ -273,7 +273,7 @@ describe('.getOTPVersion(_) - Erlang', () => {
       assert.deepStrictEqual(got, expected)
 
       spec = '23.0'
-      osVersion = 'windows-2019'
+      osVersion = 'windows-2022'
       expected = '23.0.4'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
@@ -294,7 +294,7 @@ describe('.getOTPVersion(_) - Erlang', () => {
       assert.deepStrictEqual(got, expected)
 
       spec = '23.0'
-      osVersion = 'windows-2019'
+      osVersion = 'windows-2022'
       expected = '23.0.4'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
@@ -625,9 +625,9 @@ describe('.getOTPVersion(_) - Elixir', () => {
       assert.deepStrictEqual(got, expected)
 
       before = simulateInput('version-type', 'strict')
-      spec = '1.17'
+      spec = '1.19'
       otpVersion = 'master'
-      expected = 'v1.17-otp-27'
+      expected = 'v1.19-otp-28'
       await setupBeam.installOTP(otpVersion)
       got = await setupBeam.getElixirVersion(spec, otpVersion)
       assert.deepStrictEqual(got, expected)
@@ -695,18 +695,18 @@ describe('.getOTPVersion(_) - rebar3', () => {
   let spec
 
   it('returns the expected value', async () => {
-    spec = '3.10.x'
-    expected = '3.10.0'
+    spec = '3.26.x'
+    expected = '3.26.0'
     got = await setupBeam.getRebar3Version(spec)
     assert.deepStrictEqual(got, expected)
 
-    spec = '3.11'
-    expected = '3.11.1'
+    spec = '3.25'
+    expected = '3.25.1'
     got = await setupBeam.getRebar3Version(spec)
     assert.deepStrictEqual(got, expected)
 
-    spec = '3.10'
-    expected = '3.10.0'
+    spec = '3.26'
+    expected = '3.26.0'
     got = await setupBeam.getRebar3Version(spec)
     assert.deepStrictEqual(got, expected)
   })
@@ -972,7 +972,7 @@ describe('.getVersionFromSpec(_)', () => {
     assert.deepStrictEqual(got, expected)
 
     spec = 'latest'
-    expected = '3.23.0'
+    expected = '3.27.0'
     got = setupBeam.getVersionFromSpec(spec, matrix.rebar3)
     assert.deepStrictEqual(got, expected)
   })

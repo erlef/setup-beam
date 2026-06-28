@@ -1,5 +1,460 @@
 [
   {
+    "url": "https://api.github.com/repos/erlang/rebar3/releases/291454080",
+    "assets_url": "https://api.github.com/repos/erlang/rebar3/releases/291454080/assets",
+    "upload_url": "https://uploads.github.com/repos/erlang/rebar3/releases/291454080/assets{?name,label}",
+    "html_url": "https://github.com/erlang/rebar3/releases/tag/3.27.0",
+    "id": 291454080,
+    "author": {
+      "login": "github-actions[bot]",
+      "id": 41898282,
+      "node_id": "MDM6Qm90NDE4OTgyODI=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-actions",
+      "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "node_id": "RE_kwDOAZYJ0s4RXzyA",
+    "tag_name": "3.27.0",
+    "target_commitish": "619df55d9dab109cbd1b5d9ed1d45c93f5450e24",
+    "name": "3.27.0",
+    "draft": false,
+    "immutable": false,
+    "prerelease": false,
+    "created_at": "2026-02-27T17:38:58Z",
+    "updated_at": "2026-02-27T17:49:55Z",
+    "published_at": "2026-02-27T17:45:48Z",
+    "assets": [
+      {
+        "url": "https://api.github.com/repos/erlang/rebar3/releases/assets/363630699",
+        "id": 363630699,
+        "node_id": "RA_kwDOAZYJ0s4VrJBr",
+        "name": "rebar3",
+        "label": "",
+        "uploader": {
+          "login": "github-actions[bot]",
+          "id": 41898282,
+          "node_id": "MDM6Qm90NDE4OTgyODI=",
+          "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+          "html_url": "https://github.com/apps/github-actions",
+          "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+          "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+          "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+          "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+          "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+          "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+          "type": "Bot",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "application/octet-stream",
+        "state": "uploaded",
+        "size": 854230,
+        "digest": "sha256:af85aab41f9fd74bdd6341ebdf6fe9c88077aab9f8eac82371583fa02f2b0bdf",
+        "download_count": 185468,
+        "created_at": "2026-02-27T17:45:48Z",
+        "updated_at": "2026-02-27T17:45:49Z",
+        "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.27.0/rebar3"
+      }
+    ],
+    "tarball_url": "https://api.github.com/repos/erlang/rebar3/tarball/3.27.0",
+    "zipball_url": "https://api.github.com/repos/erlang/rebar3/zipball/3.27.0",
+    "body": "- [Vendor hex_core 0.12.2](https://github.com/erlang/rebar3/pull/2997)\r\n- [prepare for OTP-29 by defaulting to warn_deprecated_catch](https://github.com/erlang/rebar3/pull/2983)\r\n- [fix bogus timestamps when creating escripts](https://github.com/erlang/rebar3/pull/2993)\r\n- [Add precision flag (and config) to control output percentage precision](https://github.com/erlang/rebar3/pull/2991)\r\n- [Add middlebox_comp_mode to global options](https://github.com/erlang/rebar3/pull/2989)\r\n- [Ignore optional Hex package dependencies](https://github.com/erlang/rebar3/pull/2982)",
+    "reactions": {
+      "url": "https://api.github.com/repos/erlang/rebar3/releases/291454080/reactions",
+      "total_count": 4,
+      "+1": 2,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 2,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    }
+  },
+  {
+    "url": "https://api.github.com/repos/erlang/rebar3/releases/275001145",
+    "assets_url": "https://api.github.com/repos/erlang/rebar3/releases/275001145/assets",
+    "upload_url": "https://uploads.github.com/repos/erlang/rebar3/releases/275001145/assets{?name,label}",
+    "html_url": "https://github.com/erlang/rebar3/releases/tag/3.26.0",
+    "id": 275001145,
+    "author": {
+      "login": "github-actions[bot]",
+      "id": 41898282,
+      "node_id": "MDM6Qm90NDE4OTgyODI=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-actions",
+      "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "node_id": "RE_kwDOAZYJ0s4QZC85",
+    "tag_name": "3.26.0",
+    "target_commitish": "f2b8b08862e00db4b0306852c9a0291dd7e69650",
+    "name": "3.26.0",
+    "draft": false,
+    "immutable": false,
+    "prerelease": false,
+    "created_at": "2026-01-08T00:29:22Z",
+    "updated_at": "2026-01-08T00:37:53Z",
+    "published_at": "2026-01-08T00:36:14Z",
+    "assets": [
+      {
+        "url": "https://api.github.com/repos/erlang/rebar3/releases/assets/337644584",
+        "id": 337644584,
+        "node_id": "RA_kwDOAZYJ0s4UIAwo",
+        "name": "rebar3",
+        "label": "",
+        "uploader": {
+          "login": "github-actions[bot]",
+          "id": 41898282,
+          "node_id": "MDM6Qm90NDE4OTgyODI=",
+          "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+          "html_url": "https://github.com/apps/github-actions",
+          "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+          "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+          "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+          "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+          "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+          "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+          "type": "Bot",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "application/octet-stream",
+        "state": "uploaded",
+        "size": 844296,
+        "digest": "sha256:cd9bfe244c5919292d234ca35acb51d2ca75dce89ef6d9e49f5e3b7f70009782",
+        "download_count": 51618,
+        "created_at": "2026-01-08T00:36:14Z",
+        "updated_at": "2026-01-08T00:36:15Z",
+        "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.26.0/rebar3"
+      }
+    ],
+    "tarball_url": "https://api.github.com/repos/erlang/rebar3/tarball/3.26.0",
+    "zipball_url": "https://api.github.com/repos/erlang/rebar3/zipball/3.26.0",
+    "body": "- [fix rebar_app_info:source/1 spec](https://github.com/erlang/rebar3/pull/2980)\r\n- [fix the version range parser to support and/or version constraints](https://github.com/erlang/rebar3/pull/2974)\r\n- [IPv6 support for getting Hex packages](https://github.com/erlang/rebar3/pull/2978)\r\n- [CT: disable cth_readable_failonly hook when verbose option is set](https://github.com/erlang/rebar3/pull/2975)\r\n- [relx: do not discard command line parameters when parameter is not in config](https://github.com/erlang/rebar3/pull/2968)\r\n- [Support env variable substitution with defaults in rebar shell](https://github.com/erlang/rebar3/pull/2948)\r\n- [Improve documentation](https://github.com/erlang/rebar3/pull/2972)\r\n- [Return manifest macros as objects](https://github.com/erlang/rebar3/pull/2962)\r\n- [Expand extra src dirs recursively in manifests](https://github.com/erlang/rebar3/pull/2963)\r\n- [Make xref recognize apps again](https://github.com/erlang/rebar3/pull/2965)",
+    "reactions": {
+      "url": "https://api.github.com/repos/erlang/rebar3/releases/275001145/reactions",
+      "total_count": 3,
+      "+1": 3,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    }
+  },
+  {
+    "url": "https://api.github.com/repos/erlang/rebar3/releases/235157413",
+    "assets_url": "https://api.github.com/repos/erlang/rebar3/releases/235157413/assets",
+    "upload_url": "https://uploads.github.com/repos/erlang/rebar3/releases/235157413/assets{?name,label}",
+    "html_url": "https://github.com/erlang/rebar3/releases/tag/3.25.1",
+    "id": 235157413,
+    "author": {
+      "login": "github-actions[bot]",
+      "id": 41898282,
+      "node_id": "MDM6Qm90NDE4OTgyODI=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-actions",
+      "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "node_id": "RE_kwDOAZYJ0s4OBDel",
+    "tag_name": "3.25.1",
+    "target_commitish": "249ec459dfa3f4c71dab38c4c633b16de5b82a27",
+    "name": "3.25.1",
+    "draft": false,
+    "immutable": false,
+    "prerelease": false,
+    "created_at": "2025-07-25T12:19:56Z",
+    "updated_at": "2025-07-25T12:29:57Z",
+    "published_at": "2025-07-25T12:27:00Z",
+    "assets": [
+      {
+        "url": "https://api.github.com/repos/erlang/rebar3/releases/assets/276288463",
+        "id": 276288463,
+        "node_id": "RA_kwDOAZYJ0s4Qd9PP",
+        "name": "rebar3",
+        "label": "",
+        "uploader": {
+          "login": "github-actions[bot]",
+          "id": 41898282,
+          "node_id": "MDM6Qm90NDE4OTgyODI=",
+          "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+          "html_url": "https://github.com/apps/github-actions",
+          "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+          "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+          "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+          "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+          "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+          "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+          "type": "Bot",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "application/octet-stream",
+        "state": "uploaded",
+        "size": 842339,
+        "digest": "sha256:924576737f0d3098e1fa4691e6f542bf61036d234c61ebdc18aafef8e2bccf67",
+        "download_count": 289165,
+        "created_at": "2025-07-25T12:27:00Z",
+        "updated_at": "2025-07-25T12:27:01Z",
+        "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.25.1/rebar3"
+      }
+    ],
+    "tarball_url": "https://api.github.com/repos/erlang/rebar3/tarball/3.25.1",
+    "zipball_url": "https://api.github.com/repos/erlang/rebar3/zipball/3.25.1",
+    "body": "Two fixes for Windows:\r\n- [Update escriptize hook to work with newer Windows versions](https://github.com/erlang/rebar3/pull/2964)\r\n  - The regex used to match hooks for Rebar3's own escript location relied on the `win32` part of the architecture description line. Newer Windows versions now return a `windows` pattern instead\r\n- [Bump erlware_commons to 1.8.0](https://github.com/erlang/rebar3/pull/2957) (fixes hanging resource fetches on Windows on OTP-28)\r\n\r\n\r\nThere are also a couple of minor improvements:\r\n\r\n- [Add file completion support for bash completion](https://github.com/erlang/rebar3/pull/2961), fixing autocompletion of common command arguments that are file names\r\n- [Support resources of arbitrary size in rebar3](https://github.com/erlang/rebar3/pull/2956), allowing fancier custom dependency plugins",
+    "reactions": {
+      "url": "https://api.github.com/repos/erlang/rebar3/releases/235157413/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    }
+  },
+  {
+    "url": "https://api.github.com/repos/erlang/rebar3/releases/220703232",
+    "assets_url": "https://api.github.com/repos/erlang/rebar3/releases/220703232/assets",
+    "upload_url": "https://uploads.github.com/repos/erlang/rebar3/releases/220703232/assets{?name,label}",
+    "html_url": "https://github.com/erlang/rebar3/releases/tag/3.25.0",
+    "id": 220703232,
+    "author": {
+      "login": "github-actions[bot]",
+      "id": 41898282,
+      "node_id": "MDM6Qm90NDE4OTgyODI=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-actions",
+      "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "node_id": "RE_kwDOAZYJ0s4NJ6oA",
+    "tag_name": "3.25.0",
+    "target_commitish": "6243d3fb017c9759ba699850e8a6b57700fbfabd",
+    "name": "3.25.0",
+    "draft": false,
+    "immutable": false,
+    "prerelease": false,
+    "created_at": "2025-05-23T17:22:43Z",
+    "updated_at": "2025-05-23T18:05:51Z",
+    "published_at": "2025-05-23T17:30:17Z",
+    "assets": [
+      {
+        "url": "https://api.github.com/repos/erlang/rebar3/releases/assets/257513121",
+        "id": 257513121,
+        "node_id": "RA_kwDOAZYJ0s4PWVah",
+        "name": "rebar3",
+        "label": "",
+        "uploader": {
+          "login": "github-actions[bot]",
+          "id": 41898282,
+          "node_id": "MDM6Qm90NDE4OTgyODI=",
+          "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+          "html_url": "https://github.com/apps/github-actions",
+          "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+          "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+          "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+          "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+          "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+          "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+          "type": "Bot",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "application/octet-stream",
+        "state": "uploaded",
+        "size": 842031,
+        "digest": null,
+        "download_count": 61206,
+        "created_at": "2025-05-23T17:30:18Z",
+        "updated_at": "2025-05-23T17:30:18Z",
+        "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.25.0/rebar3"
+      }
+    ],
+    "tarball_url": "https://api.github.com/repos/erlang/rebar3/tarball/3.25.0",
+    "zipball_url": "https://api.github.com/repos/erlang/rebar3/zipball/3.25.0",
+    "body": "OTP-28 compatibility release, deprecates OTP-25.\r\n\r\n- [Bump Runner images for Nightly and release builds](https://github.com/erlang/rebar3/pull/2953)\r\n- [Prepare OTP-28 bump](https://github.com/erlang/rebar3/pull/2952)\r\n- [Bump eunit_formatters to 0.6.0](https://github.com/erlang/rebar3/pull/2951)\r\n- [docs: added a link to the license](https://github.com/erlang/rebar3/pull/2946)\r\n- [docs: replaced the link to the build status badge](https://github.com/erlang/rebar3/pull/2945)\r\n- [Bump cth_readable version for OTP-28 readiness](https://github.com/erlang/rebar3/pull/2941)\r\n- [fix: crash on rebar_compiler_format:colorize/2](https://github.com/erlang/rebar3/pull/2939)\r\n- [OTP-28 readiness (part 1)](https://github.com/erlang/rebar3/pull/2937)\r\n- [add env var for skipping project plugins](https://github.com/erlang/rebar3/pull/2932)\r\n- [Fallback to the default error format when a file is empty](https://github.com/erlang/rebar3/pull/2931)\r\n- [update vendored cf to support color in foot and ghostty](https://github.com/erlang/rebar3/pull/2926)\r\n- [Approach the sample config. file to rebar3.org's documentation](https://github.com/erlang/rebar3/pull/2923)\r\n- [Add Rebar3 and Erlang/OTP compatibility list](https://github.com/erlang/rebar3/pull/2918)\r\n- [make escriptize reproducible with erlang 27.1](https://github.com/erlang/rebar3/pull/2916)\r\n- [Bump relx vendored copy](https://github.com/erlang/rebar3/pull/2912)",
+    "reactions": {
+      "url": "https://api.github.com/repos/erlang/rebar3/releases/220703232/reactions",
+      "total_count": 6,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 6,
+      "rocket": 0,
+      "eyes": 0
+    }
+  },
+  {
+    "url": "https://api.github.com/repos/erlang/rebar3/releases/172548795",
+    "assets_url": "https://api.github.com/repos/erlang/rebar3/releases/172548795/assets",
+    "upload_url": "https://uploads.github.com/repos/erlang/rebar3/releases/172548795/assets{?name,label}",
+    "html_url": "https://github.com/erlang/rebar3/releases/tag/3.24.0",
+    "id": 172548795,
+    "author": {
+      "login": "github-actions[bot]",
+      "id": 41898282,
+      "node_id": "MDM6Qm90NDE4OTgyODI=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-actions",
+      "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "node_id": "RE_kwDOAZYJ0s4KSOK7",
+    "tag_name": "3.24.0",
+    "target_commitish": "74c766d0d41117bc4b14987b8ada12aee5fe0b86",
+    "name": "3.24.0",
+    "draft": false,
+    "immutable": false,
+    "prerelease": false,
+    "created_at": "2024-08-29T12:10:10Z",
+    "updated_at": "2024-08-29T12:19:25Z",
+    "published_at": "2024-08-29T12:18:26Z",
+    "assets": [
+      {
+        "url": "https://api.github.com/repos/erlang/rebar3/releases/assets/189095797",
+        "id": 189095797,
+        "node_id": "RA_kwDOAZYJ0s4LRV91",
+        "name": "rebar3",
+        "label": "",
+        "uploader": {
+          "login": "github-actions[bot]",
+          "id": 41898282,
+          "node_id": "MDM6Qm90NDE4OTgyODI=",
+          "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+          "html_url": "https://github.com/apps/github-actions",
+          "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+          "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+          "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+          "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+          "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+          "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+          "type": "Bot",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "application/octet-stream",
+        "state": "uploaded",
+        "size": 839384,
+        "digest": null,
+        "download_count": 589846,
+        "created_at": "2024-08-29T12:18:26Z",
+        "updated_at": "2024-08-29T12:18:27Z",
+        "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.24.0/rebar3"
+      }
+    ],
+    "tarball_url": "https://api.github.com/repos/erlang/rebar3/tarball/3.24.0",
+    "zipball_url": "https://api.github.com/repos/erlang/rebar3/zipball/3.24.0",
+    "body": "New features:\r\n- [Turn rich compiler errors on by default](https://github.com/erlang/rebar3/pull/2881)\r\n- [Tweak experimental manifest plugin to return ELP-compatible information](https://github.com/erlang/rebar3/pull/2910)\r\n\r\nBug fixes:\r\n- [make escriptize reproducible by setting timestamps for files in zip to unix epoch](https://github.com/erlang/rebar3/pull/2900)\r\n- [Log path when plugin template file read fails](https://github.com/erlang/rebar3/pull/2899)\r\n- [Prevent infinite compiler DAG growth](https://github.com/erlang/rebar3/pull/2892)\r\n- [Port Relx compatibility fix for escript files in OTP-27](https://github.com/erlang/rebar3/commit/26cd5271f260b8488348246b81172116680e6fbc)\r\n\r\nInternal maintenance:\r\n- [Made `rebar_utils:filtermap/2` to call directly `lists:filtermap/2`](https://github.com/erlang/rebar3/pull/2907)\r\n- [Cleaned up additional definitions in `bootstrap`](https://github.com/erlang/rebar3/pull/2905)\r\n- [Replaced rebar_utils:find_source/3 by a call to filelib:find_source/3](https://github.com/erlang/rebar3/pull/2904) and [Marked rebar_utils:find_source/3 as deprecated](https://github.com/erlang/rebar3/pull/2901)\r\n- [Fixing various typos in comments, types, and function names](https://github.com/erlang/rebar3/pull/2902)\r\n- [Bump hex_core and certifi dependencies](https://github.com/erlang/rebar3/pull/2898)\r\n- [Remove legacy hostname checks](https://github.com/erlang/rebar3/pull/2896)\r\n- [Replaced group_by_namespace/1 by a call to maps:groups_from_list/2](https://github.com/erlang/rebar3/pull/2895)\r\n- [Removed legacy OTP_RELEASE macro statements](https://github.com/erlang/rebar3/pull/2891)\r\n- [Removed legacy fun_stacktrace usage](https://github.com/erlang/rebar3/pull/2889)\r\n- [Removed unsused platform_define options](https://github.com/erlang/rebar3/pull/2888)\r\n- [Standardizing templates indentation](https://github.com/erlang/rebar3/pull/2884)\r\n\r\nRegarding rich compiler errors, the change is optional.\r\n\r\nGiven the module:\r\n\r\n    -module(fake_mod).\r\n\r\n    -export([diagnostic/1]).\r\n\r\n    diagnostic(A) ->\r\n        X = add(5 / 0),\r\n        {X,X}.\r\n\r\n    add(X) -> X.\r\n\r\n    add(X, Y) -> X + Y.\r\n\r\nCalling rebar3 compile can now yield:\r\n\r\n```\r\n...\r\n===> Compiling apps/rebar/src/fake_mod.erl failed\r\n   ┌─ apps/rebar/src/fake_mod.erl:\r\n   │\r\n 5 │  diagnostic(A) ->\r\n   │             ╰── variable 'A' is unused\r\n\r\n   ┌─ apps/rebar/src/fake_mod.erl:\r\n   │\r\n 6 │      X = add(5 / 0),\r\n   │                ╰── evaluation of operator '/'/2 will fail with a 'badarith' exception\r\n\r\n    ┌─ apps/rebar/src/fake_mod.erl:\r\n    │\r\n 11 │  add(X, Y) -> X + Y.\r\n    │  ╰── function add/2 is unused\r\n```\r\nand in a terminal supporting color output:\r\n\r\n![](https://user-images.githubusercontent.com/111141/240263938-3648a64e-775e-4c6c-a11f-fa3b15ec942f.png)\r\n\r\nBy default, this format is turned on, but can be turned off optionally by configuring values with\r\n\r\n    {compiler_error_format, minimal}.\r\n\r\nIf this breaks your tooling, you may want to put it in your global rebar3 config file.",
+    "reactions": {
+      "url": "https://api.github.com/repos/erlang/rebar3/releases/172548795/reactions",
+      "total_count": 10,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 5,
+      "confused": 0,
+      "heart": 4,
+      "rocket": 1,
+      "eyes": 0
+    }
+  },
+  {
     "url": "https://api.github.com/repos/erlang/rebar3/releases/150620430",
     "assets_url": "https://api.github.com/repos/erlang/rebar3/releases/150620430/assets",
     "upload_url": "https://uploads.github.com/repos/erlang/rebar3/releases/150620430/assets{?name,label}",
@@ -23,6 +478,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "RE_kwDOAZYJ0s4I-kkO",
@@ -30,8 +486,10 @@
     "target_commitish": "bde4b54248d16280b2c70a244aca3bb7566e2033",
     "name": "3.23.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2024-04-10T16:56:48Z",
+    "updated_at": "2024-04-10T17:13:12Z",
     "published_at": "2024-04-10T17:03:13Z",
     "assets": [
       {
@@ -58,12 +516,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 815571,
-        "download_count": 7086,
+        "digest": null,
+        "download_count": 296768,
         "created_at": "2024-04-10T17:03:13Z",
         "updated_at": "2024-04-10T17:03:14Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.23.0/rebar3"
@@ -74,13 +534,13 @@
     "body": "New Features:\r\n- [add a new shell completion provider](https://github.com/erlang/rebar3/pull/2858)\r\n- [`zsh` support for aliases in `completion`](https://github.com/erlang/rebar3/pull/2868)\r\n- [Add new 'shell_hooks_env' config to extend shell hooks' OS env vars](https://github.com/erlang/rebar3/pull/2830)\r\n- [Add (newer) Dialyzer info. about `invalid_contract`](https://github.com/erlang/rebar3/pull/2828)\r\n- [Add command `rebar3 alias`](https://github.com/erlang/rebar3/pull/2825)\r\n\r\nBug fixes:\r\n\r\n- [Bump relx and erlware commons versions](https://github.com/erlang/rebar3/pull/2874)\r\n- [REBAR_SRC_DIRS and REBAR_APP_DIRS fix by making `rebar_dir:src_dirs/1` options default to `[\"src\"]`](https://github.com/erlang/rebar3/pull/2872)\r\n- [Eliminate use of experimental function code:lib_dir/2](https://github.com/erlang/rebar3/pull/2866)\r\n- [Fix \"clean\" hooks in non-umbrella apps and when override are presents](https://github.com/erlang/rebar3/pull/2863)\r\n- [Initial version of the Manifest plugin](https://github.com/erlang/rebar3/pull/2859)\r\n- [Make log_level entry in rebar.app work again](https://github.com/erlang/rebar3/pull/2860)\r\n- [Append . to --eval arg if missing](https://github.com/erlang/rebar3/pull/2856)\r\n- [Handle 'or' in versions in a primitive manner](https://github.com/erlang/rebar3/pull/2840)\r\n- [Fall back to reading versions from hex metadata](https://github.com/erlang/rebar3/pull/2854)\r\n- [Dedupe compiler DAG edge insertion for artifacts](https://github.com/erlang/rebar3/pull/2850)\r\n- [Add missing doc. for `incremental` on Dialyzer analysis](https://github.com/erlang/rebar3/pull/2852)\r\n- [rebar_utils: add metadata to primary logger config](https://github.com/erlang/rebar3/pull/2848)\r\n- [Prevent XRef issue when analysis runs on generated code](https://github.com/erlang/rebar3/pull/2829)\r\n- [Fix unicode output printed as charlist](https://github.com/erlang/rebar3/pull/2831)\r\n- [Rework argument parsing in do/as providers](https://github.com/erlang/rebar3/pull/2813)\r\n- [Fix for `rebar3 shell` in Erlang 26 when ShellArgs==undefined](https://github.com/erlang/rebar3/pull/2819)\r\n- [Erlang 26 custom shell fix](https://github.com/erlang/rebar3/pull/2818)\r\n- [Add app name to \"OTP release ~ts or later is required\" msg](https://github.com/erlang/rebar3/pull/2810)",
     "reactions": {
       "url": "https://api.github.com/repos/erlang/rebar3/releases/150620430/reactions",
-      "total_count": 11,
+      "total_count": 14,
       "+1": 0,
       "-1": 0,
       "laugh": 0,
-      "hooray": 6,
+      "hooray": 7,
       "confused": 0,
-      "heart": 5,
+      "heart": 7,
       "rocket": 0,
       "eyes": 0
     }
@@ -109,6 +569,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "RE_kwDOAZYJ0s4G1Efq",
@@ -116,8 +577,10 @@
     "target_commitish": "26400cd5082bf44bec66227164074677d3bd237c",
     "name": "3.22.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2023-07-31T23:07:31Z",
+    "updated_at": "2023-07-31T23:18:44Z",
     "published_at": "2023-07-31T23:17:24Z",
     "assets": [
       {
@@ -144,12 +607,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 800027,
-        "download_count": 61621,
+        "digest": null,
+        "download_count": 182541,
         "created_at": "2023-07-31T23:17:25Z",
         "updated_at": "2023-07-31T23:17:25Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.22.1/rebar3"
@@ -160,8 +625,8 @@
     "body": "This is a small patch release for some bugfixes:\r\n\r\n- [Defer hostname check to OTP when supported](https://github.com/erlang/rebar3/pull/2805)\r\n- [Print diagnostic when failing to get VSN with Git](https://github.com/erlang/rebar3/pull/2804)\r\n- [Add simple Erlang LS config](https://github.com/erlang/rebar3/pull/2796)",
     "reactions": {
       "url": "https://api.github.com/repos/erlang/rebar3/releases/114575338/reactions",
-      "total_count": 4,
-      "+1": 1,
+      "total_count": 3,
+      "+1": 0,
       "-1": 0,
       "laugh": 0,
       "hooray": 0,
@@ -195,6 +660,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "RE_kwDOAZYJ0s4GNcMA",
@@ -202,8 +668,10 @@
     "target_commitish": "0a432f2f60cd32b8ff07d644a506dba15eb6f04a",
     "name": "3.22.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2023-05-24T23:05:56Z",
+    "updated_at": "2023-05-25T03:36:59Z",
     "published_at": "2023-05-24T23:15:20Z",
     "assets": [
       {
@@ -230,12 +698,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 799994,
-        "download_count": 44823,
+        "digest": null,
+        "download_count": 128182,
         "created_at": "2023-05-24T23:15:20Z",
         "updated_at": "2023-05-24T23:15:21Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.22.0/rebar3"
@@ -246,11 +716,11 @@
     "body": "This release most importantly contains patches to fix blocking issues on Windows:\r\n\r\n- [Avoid setting a shell-encoding in OTP-26, which causes the `shell` command to hang on windows](https://github.com/erlang/rebar3/pull/2794)\r\n- [Support CRLF in shell ENV files](https://github.com/erlang/rebar3/pull/2793)\r\n\r\n---- \r\n\r\nThis release also contains an experimental and optional change that warrants a bit of explanation: [Support rich compiler messages in errors](https://github.com/erlang/rebar3/pull/2783) and [in warnings](https://github.com/erlang/rebar3/pull/2795)\r\n\r\nGiven the module:\r\n\r\n    -module(fake_mod).\r\n\r\n    -export([diagnostic/1]).\r\n\r\n    diagnostic(A) ->\r\n        X = add(5 / 0),\r\n        {X,X}.\r\n\r\n    add(X) -> X.\r\n\r\n    add(X, Y) -> X + Y.\r\n\r\nCalling rebar3 compile can now yield:\r\n\r\n```\r\n...\r\n===> Compiling apps/rebar/src/fake_mod.erl failed\r\n   ┌─ apps/rebar/src/fake_mod.erl:\r\n   │\r\n 5 │  diagnostic(A) ->\r\n   │             ╰── variable 'A' is unused\r\n\r\n   ┌─ apps/rebar/src/fake_mod.erl:\r\n   │\r\n 6 │      X = add(5 / 0),\r\n   │                ╰── evaluation of operator '/'/2 will fail with a 'badarith' exception\r\n\r\n    ┌─ apps/rebar/src/fake_mod.erl:\r\n    │\r\n 11 │  add(X, Y) -> X + Y.\r\n    │  ╰── function add/2 is unused\r\n```\r\nand in a terminal supporting color output:\r\n\r\n![](https://user-images.githubusercontent.com/111141/240263938-3648a64e-775e-4c6c-a11f-fa3b15ec942f.png)\r\n\r\nBy default, this format is turned off, but can be turned on optionally by configuring values with\r\n\r\n    {compiler_error_format, rich}.\r\n\r\nYou can get this enabled. You may want to put it in your global rebar3 config file. That being said, this may break some tooling that could parse rebar3-specific output. The default value is `{compiler_error_format, minimal}.` and putting that value back in should fix any breakage. We're also expecting color output to have a few bugs related to a rather naive heuristic used to delimit language constructs, but we wanted to make the feature available for feedback and this bug-fixing release was a decent opportunity.\r\n\r\nThis functionality relies on an expanded compiler API exposed by Rebar3, but since we're not yet quite sure what form we want it to take, we'll keep the new API undocumented in the short term.",
     "reactions": {
       "url": "https://api.github.com/repos/erlang/rebar3/releases/104186624/reactions",
-      "total_count": 13,
+      "total_count": 12,
       "+1": 0,
       "-1": 0,
       "laugh": 0,
-      "hooray": 13,
+      "hooray": 12,
       "confused": 0,
       "heart": 0,
       "rocket": 0,
@@ -281,6 +751,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "RE_kwDOAZYJ0s4GKbQl",
@@ -288,8 +759,10 @@
     "target_commitish": "5dd033fd8b6f947f72701d61b2761f78f3f9311e",
     "name": "3.21.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2023-05-18T00:56:46Z",
+    "updated_at": "2023-05-18T01:05:29Z",
     "published_at": "2023-05-18T01:05:05Z",
     "assets": [
       {
@@ -316,12 +789,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 797728,
-        "download_count": 1079,
+        "digest": null,
+        "download_count": 10152,
         "created_at": "2023-05-18T01:05:05Z",
         "updated_at": "2023-05-18T01:05:06Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.21.0/rebar3"
@@ -367,6 +842,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "RE_kwDOAZYJ0s4ExIRv",
@@ -374,8 +850,10 @@
     "target_commitish": "3f563feaf1091a1980241adefa83a32dd2eebf7c",
     "name": "3.20.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2022-10-15T12:48:56Z",
+    "updated_at": "2022-10-15T13:00:51Z",
     "published_at": "2022-10-15T12:57:36Z",
     "assets": [
       {
@@ -402,12 +880,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 794893,
-        "download_count": 80636,
+        "digest": null,
+        "download_count": 137293,
         "created_at": "2022-10-15T12:57:36Z",
         "updated_at": "2022-10-15T12:57:37Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.20.0/rebar3"
@@ -453,6 +933,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "RE_kwDOAZYJ0s4EKL0a",
@@ -460,8 +941,10 @@
     "target_commitish": "cc1b22283656282d3518c176dd419eaa6cfce548",
     "name": "3.19.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2022-06-18T22:29:37Z",
+    "updated_at": "2022-06-18T22:41:13Z",
     "published_at": "2022-06-18T22:39:21Z",
     "assets": [
       {
@@ -488,12 +971,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 959664,
-        "download_count": 55975,
+        "digest": null,
+        "download_count": 66685,
         "created_at": "2022-06-18T22:39:21Z",
         "updated_at": "2022-06-18T22:39:22Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.19.0/rebar3"
@@ -539,6 +1024,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "RE_kwDOAZYJ0s4DWqQY",
@@ -546,8 +1032,10 @@
     "target_commitish": "174fd9070195443d693d444ecd1f2b7aa91661fe",
     "name": "3.18.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2022-01-02T12:56:31Z",
+    "updated_at": "2022-01-02T13:12:11Z",
     "published_at": "2022-01-02T13:03:16Z",
     "assets": [
       {
@@ -574,12 +1062,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 952478,
-        "download_count": 56261,
+        "digest": null,
+        "download_count": 118890,
         "created_at": "2022-01-02T13:03:16Z",
         "updated_at": "2022-01-02T13:03:18Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.18.0/rebar3"
@@ -613,6 +1103,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTQ4OTMzMTE3",
@@ -620,8 +1111,10 @@
     "target_commitish": "e008a2ff40f708494a7c259a1fd8c2e77f7cd6a0",
     "name": "3.17.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2021-09-03T01:20:37Z",
+    "updated_at": "2021-09-03T01:39:32Z",
     "published_at": "2021-09-03T01:27:05Z",
     "assets": [
       {
@@ -648,12 +1141,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 944741,
-        "download_count": 17146,
+        "digest": null,
+        "download_count": 24233,
         "created_at": "2021-09-03T01:27:06Z",
         "updated_at": "2021-09-03T01:27:06Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.17.0/rebar3"
@@ -664,11 +1159,11 @@
     "body": "This release is mostly bug fixes, and repairs prior broken builds of elixir dependencies, but also includes a couple of useful features.\r\n\r\nNew Features:\r\n- [Add escript_incl_priv so escriptize priv dir inclusion works with _checkouts and profiles](https://github.com/erlang/rebar3/pull/2602)\r\n- [Added SSL cacert patch to support Corporate MITM Proxies](https://github.com/erlang/rebar3/pull/2570)\r\n\r\nBug fixes:\r\n\r\n- [rebar3 release to honour the ignore-xref attribute](https://github.com/erlang/rebar3/pull/2613)\r\n- [Bump relx to 4.5.0](https://github.com/erlang/rebar3/pull/2612)\r\n  - use copied erts dir when tar'ing even when the user sets the erts\r\n  - improve error message when a symlink creation fails\r\n  - State extended with a filter method to filter xref_warnings\r\n  - Do not require logger\r\n  - Add default time warp mode of multi\r\n  - optionally allow static node name prefixes\r\n  - use random:uniform instead of os:pid when constructing node name in nodetool\r\n  - Fix eval command to use ERL_DIST_PORT, consistency with rpc command\r\n  - Fix bin script arguments to erlexec\r\n- [Give compiler hints when handling run-time deps in parse_transforms](https://github.com/erlang/rebar3/pull/2606)\r\n- [Make `rebar_file_utils:system_tmpdir/1` take `TMPDIR` env var into account on *nix](https://github.com/erlang/rebar3/pull/2597)\r\n- [Handle abstract code starting with a non-file attribute](https://github.com/erlang/rebar3/pull/2595)\r\n- [Prefer erlang app to mix project](https://github.com/erlang/rebar3/pull/2588)\r\n- [Drop bootstrap URI handling functions warnings](https://github.com/erlang/rebar3/pull/2585)\r\n- [Prevent crashes on recursive src_dir definitions in deps](https://github.com/erlang/rebar3/pull/2582)\r\n- [Fix ssl check hostname options for wildcard certificate](https://github.com/erlang/rebar3/pull/2579)\r\n- [{xref_ignores} now properly works on module,](https://github.com/erlang/rebar3/pull/2497)\r\n- [Normalize Dialyzer PLT paths](https://github.com/erlang/rebar3/pull/2578)\r\n- [Fix optimistic registry update of plugins being upgraded](https://github.com/erlang/rebar3/pull/2568)",
     "reactions": {
       "url": "https://api.github.com/repos/erlang/rebar3/releases/48933117/reactions",
-      "total_count": 3,
+      "total_count": 4,
       "+1": 0,
       "-1": 0,
       "laugh": 0,
-      "hooray": 3,
+      "hooray": 4,
       "confused": 0,
       "heart": 0,
       "rocket": 0,
@@ -699,6 +1194,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTQzNjY0MDU5",
@@ -706,8 +1202,10 @@
     "target_commitish": "master",
     "name": "3.13.3",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2021-05-26T23:44:42Z",
+    "updated_at": "2021-05-26T23:45:37Z",
     "published_at": "2021-05-26T23:45:37Z",
     "assets": [
       {
@@ -734,12 +1232,14 @@
           "events_url": "https://api.github.com/users/ferd/events{/privacy}",
           "received_events_url": "https://api.github.com/users/ferd/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 839773,
-        "download_count": 3479,
+        "digest": null,
+        "download_count": 4457,
         "created_at": "2021-05-27T16:57:10Z",
         "updated_at": "2021-05-27T16:57:11Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.13.3/rebar3"
@@ -773,6 +1273,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTQzNDY1MDE5",
@@ -780,8 +1281,10 @@
     "target_commitish": "d7ef89721c6c64daf07c0b90c43c55528c7b1e4c",
     "name": "3.16.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2021-05-24T13:23:30Z",
+    "updated_at": "2021-05-24T13:34:22Z",
     "published_at": "2021-05-24T13:28:54Z",
     "assets": [
       {
@@ -808,12 +1311,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 942316,
-        "download_count": 56277,
+        "digest": null,
+        "download_count": 59595,
         "created_at": "2021-05-24T13:28:54Z",
         "updated_at": "2021-05-24T13:28:55Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.16.1/rebar3"
@@ -847,6 +1352,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTQzNDY0NTMy",
@@ -854,8 +1360,10 @@
     "target_commitish": "0be8717a4ff5b4a0c3dcef5031fe9833197d861e",
     "name": "3.15.2",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2021-05-24T13:12:51Z",
+    "updated_at": "2021-05-24T13:33:34Z",
     "published_at": "2021-05-24T13:20:56Z",
     "assets": [
       {
@@ -882,12 +1390,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 952373,
-        "download_count": 34092,
+        "digest": null,
+        "download_count": 47106,
         "created_at": "2021-05-24T13:20:57Z",
         "updated_at": "2021-05-24T13:20:57Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.15.2/rebar3"
@@ -921,6 +1431,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTQzMTg0MjEz",
@@ -928,8 +1439,10 @@
     "target_commitish": "master",
     "name": "3.16.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2021-05-19T01:38:33Z",
+    "updated_at": "2021-05-19T01:51:56Z",
     "published_at": "2021-05-19T01:51:56Z",
     "assets": [
       {
@@ -956,12 +1469,14 @@
           "events_url": "https://api.github.com/users/ferd/events{/privacy}",
           "received_events_url": "https://api.github.com/users/ferd/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 939594,
-        "download_count": 1031,
+        "digest": null,
+        "download_count": 1302,
         "created_at": "2021-05-19T01:54:58Z",
         "updated_at": "2021-05-19T01:55:03Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.16.0/rebar3"
@@ -995,6 +1510,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTQxNjcxNzE1",
@@ -1002,8 +1518,10 @@
     "target_commitish": "e7f896aeedca2a5f1ceec60b7013d1535d49da40",
     "name": "3.15.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2021-04-19T21:03:27Z",
+    "updated_at": "2021-04-19T21:12:03Z",
     "published_at": "2021-04-19T21:10:41Z",
     "assets": [
       {
@@ -1030,12 +1548,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 951017,
-        "download_count": 4642,
+        "digest": null,
+        "download_count": 5204,
         "created_at": "2021-04-19T21:10:42Z",
         "updated_at": "2021-04-19T21:10:42Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.15.1/rebar3"
@@ -1069,6 +1589,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTQxNjEyMTU1",
@@ -1076,8 +1597,10 @@
     "target_commitish": "44a4c53978dd590afe3a3400c2dcc0f9bc05d028",
     "name": "3.15.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2021-04-18T19:58:15Z",
+    "updated_at": "2021-04-18T21:08:28Z",
     "published_at": "2021-04-18T20:04:16Z",
     "assets": [
       {
@@ -1104,12 +1627,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 951015,
-        "download_count": 1059,
+        "digest": null,
+        "download_count": 1289,
         "created_at": "2021-04-18T20:04:17Z",
         "updated_at": "2021-04-18T20:04:17Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.15.0/rebar3"
@@ -1143,6 +1668,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTM4Njg2OTEx",
@@ -1150,8 +1676,10 @@
     "target_commitish": "2d443b5c8b9fe5f1beb8027e9c2ca7e5dcc61810",
     "name": "3.14.4",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2021-02-25T00:33:33Z",
+    "updated_at": "2021-02-25T01:06:19Z",
     "published_at": "2021-02-25T01:05:37Z",
     "assets": [
       {
@@ -1178,12 +1706,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 943940,
-        "download_count": 4947,
+        "digest": null,
+        "download_count": 7450,
         "created_at": "2021-02-25T01:05:37Z",
         "updated_at": "2021-02-25T01:05:37Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.14.4/rebar3"
@@ -1217,6 +1747,7 @@
       "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
       "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
       "type": "Bot",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTM0Njk0ODQ5",
@@ -1224,8 +1755,10 @@
     "target_commitish": "6036581295a6741612dea9eed5277affc5da21d1",
     "name": "3.14.3",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2020-12-02T14:06:37Z",
+    "updated_at": "2020-12-02T14:37:08Z",
     "published_at": "2020-12-02T14:33:38Z",
     "assets": [
       {
@@ -1252,12 +1785,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 942595,
-        "download_count": 7549,
+        "digest": null,
+        "download_count": 10156,
         "created_at": "2020-12-02T14:33:39Z",
         "updated_at": "2020-12-02T14:33:39Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.14.3/rebar3"
@@ -1291,6 +1826,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTM0MTkwODkx",
@@ -1298,8 +1834,10 @@
     "target_commitish": "master",
     "name": "3.14.2",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2020-11-19T18:30:56Z",
+    "updated_at": "2020-11-19T18:33:56Z",
     "published_at": "2020-11-19T18:33:56Z",
     "assets": [
       {
@@ -1326,12 +1864,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 939690,
-        "download_count": 24160,
+        "digest": null,
+        "download_count": 24302,
         "created_at": "2020-11-19T19:06:51Z",
         "updated_at": "2020-11-19T19:06:53Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.14.2/rebar3"
@@ -1365,6 +1905,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTMwNjkwOTA2",
@@ -1372,8 +1913,10 @@
     "target_commitish": "master",
     "name": "3.14.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2020-09-03T21:55:52Z",
+    "updated_at": "2020-09-03T21:58:00Z",
     "published_at": "2020-09-03T21:58:00Z",
     "assets": [
       {
@@ -1400,12 +1943,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 922945,
-        "download_count": 2950,
+        "digest": null,
+        "download_count": 3487,
         "created_at": "2020-09-03T22:16:14Z",
         "updated_at": "2020-09-03T22:16:16Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.14.1/rebar3"
@@ -1439,6 +1984,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTMwNDY1MjAz",
@@ -1446,8 +1992,10 @@
     "target_commitish": "master",
     "name": "3.14.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2020-08-31T21:59:22Z",
+    "updated_at": "2020-08-31T22:11:43Z",
     "published_at": "2020-08-31T22:11:43Z",
     "assets": [
       {
@@ -1474,12 +2022,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/zip",
         "state": "uploaded",
         "size": 923040,
-        "download_count": 321,
+        "digest": null,
+        "download_count": 847,
         "created_at": "2020-08-31T22:17:59Z",
         "updated_at": "2020-08-31T22:17:59Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.14.0/rebar3"
@@ -1513,6 +2063,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTI2OTk2NDQy",
@@ -1520,8 +2071,10 @@
     "target_commitish": "master",
     "name": "3.14.0-rc2",
     "draft": false,
+    "immutable": false,
     "prerelease": true,
     "created_at": "2020-05-28T15:28:51Z",
+    "updated_at": "2020-05-28T15:30:21Z",
     "published_at": "2020-05-28T15:30:21Z",
     "assets": [
       {
@@ -1548,12 +2101,14 @@
           "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
           "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
           "type": "Bot",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/zip",
         "state": "uploaded",
         "size": 913912,
-        "download_count": 208,
+        "digest": null,
+        "download_count": 235,
         "created_at": "2020-05-28T15:37:06Z",
         "updated_at": "2020-05-28T15:37:07Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.14.0-rc2/rebar3"
@@ -1587,6 +2142,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTI1ODE2Mjg4",
@@ -1594,8 +2150,10 @@
     "target_commitish": "v3.13",
     "name": "3.13.2",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2020-04-23T15:56:48Z",
+    "updated_at": "2020-04-23T16:03:05Z",
     "published_at": "2020-04-23T16:03:05Z",
     "assets": [
       {
@@ -1622,12 +2180,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 839684,
-        "download_count": 97010,
+        "digest": null,
+        "download_count": 145617,
         "created_at": "2020-07-01T00:19:00Z",
         "updated_at": "2020-07-01T00:19:01Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.13.2/rebar3"
@@ -1661,6 +2221,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTI1NjQyOTAw",
@@ -1668,8 +2229,10 @@
     "target_commitish": "master",
     "name": "3.14.0-rc1",
     "draft": false,
+    "immutable": false,
     "prerelease": true,
     "created_at": "2020-04-18T17:43:06Z",
+    "updated_at": "2020-04-18T18:11:18Z",
     "published_at": "2020-04-18T17:50:32Z",
     "assets": [
       {
@@ -1696,12 +2259,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 898017,
-        "download_count": 47,
+        "digest": null,
+        "download_count": 61,
         "created_at": "2020-04-18T18:35:49Z",
         "updated_at": "2020-04-18T18:35:50Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.14.0-rc1/rebar3"
@@ -1735,6 +2300,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTI0MDU5NzU5",
@@ -1742,8 +2308,10 @@
     "target_commitish": "master",
     "name": "3.13.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2020-02-28T01:15:17Z",
+    "updated_at": "2020-02-28T01:16:00Z",
     "published_at": "2020-02-28T01:16:00Z",
     "assets": [
       {
@@ -1770,12 +2338,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 839594,
-        "download_count": 5010,
+        "digest": null,
+        "download_count": 5368,
         "created_at": "2020-02-28T01:50:18Z",
         "updated_at": "2020-02-28T01:50:20Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.13.1/rebar3"
@@ -1809,6 +2379,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTIyNDE3NzYz",
@@ -1816,8 +2387,10 @@
     "target_commitish": "master",
     "name": "3.13.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2019-12-22T22:38:11Z",
+    "updated_at": "2019-12-22T22:42:11Z",
     "published_at": "2019-12-22T22:42:11Z",
     "assets": [
       {
@@ -1844,12 +2417,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 838112,
-        "download_count": 2070,
+        "digest": null,
+        "download_count": 2383,
         "created_at": "2019-12-22T23:17:32Z",
         "updated_at": "2019-12-22T23:17:33Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.13.0/rebar3"
@@ -1883,6 +2458,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE5NDQxMTg3",
@@ -1890,8 +2466,10 @@
     "target_commitish": "master",
     "name": "3.12.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2019-08-21T15:33:53Z",
+    "updated_at": "2019-08-21T15:49:13Z",
     "published_at": "2019-08-21T15:49:13Z",
     "assets": [
       {
@@ -1918,12 +2496,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 836907,
-        "download_count": 5799,
+        "digest": null,
+        "download_count": 7225,
         "created_at": "2019-08-21T16:15:12Z",
         "updated_at": "2019-08-21T16:15:13Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.12.0/rebar3"
@@ -1957,6 +2537,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE3NzIyNzI2",
@@ -1964,8 +2545,10 @@
     "target_commitish": "master",
     "name": "3.11.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2019-06-01T15:42:00Z",
+    "updated_at": "2019-06-01T15:43:41Z",
     "published_at": "2019-06-01T15:43:41Z",
     "assets": [
       {
@@ -1992,12 +2575,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 834105,
-        "download_count": 7500,
+        "digest": null,
+        "download_count": 7683,
         "created_at": "2019-06-01T16:16:23Z",
         "updated_at": "2019-06-01T16:16:24Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.11.1/rebar3"
@@ -2031,6 +2616,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE3NjkyNTAz",
@@ -2038,8 +2624,10 @@
     "target_commitish": "master",
     "name": "3.11.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2019-05-30T14:03:12Z",
+    "updated_at": "2019-05-30T23:13:34Z",
     "published_at": "2019-05-30T21:44:16Z",
     "assets": [
       {
@@ -2066,12 +2654,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 834171,
-        "download_count": 373,
+        "digest": null,
+        "download_count": 522,
         "created_at": "2019-05-30T22:28:29Z",
         "updated_at": "2019-05-30T22:28:30Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.11.0/rebar3"
@@ -2105,6 +2695,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE2Nzk2NzYy",
@@ -2112,8 +2703,10 @@
     "target_commitish": "master",
     "name": "3.10.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2019-04-16T14:05:28Z",
+    "updated_at": "2019-04-16T14:19:34Z",
     "published_at": "2019-04-16T14:19:34Z",
     "assets": [
       {
@@ -2140,12 +2733,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 831057,
-        "download_count": 3900,
+        "digest": null,
+        "download_count": 4133,
         "created_at": "2019-04-16T14:23:08Z",
         "updated_at": "2019-04-16T14:23:09Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.10.0/rebar3"
@@ -2179,6 +2774,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE2MTE4NDMy",
@@ -2186,8 +2782,10 @@
     "target_commitish": "master",
     "name": "3.9.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2019-03-14T15:33:22Z",
+    "updated_at": "2019-03-14T15:36:17Z",
     "published_at": "2019-03-14T15:36:17Z",
     "assets": [
       {
@@ -2214,12 +2812,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 824598,
-        "download_count": 1819,
+        "digest": null,
+        "download_count": 2136,
         "created_at": "2019-03-14T15:37:57Z",
         "updated_at": "2019-03-14T15:37:58Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.9.1/rebar3"
@@ -2253,6 +2853,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE1Mzg3Mjk0",
@@ -2260,8 +2861,10 @@
     "target_commitish": "master",
     "name": "3.9.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2019-02-06T00:34:06Z",
+    "updated_at": "2019-02-06T00:38:12Z",
     "published_at": "2019-02-06T00:38:12Z",
     "assets": [
       {
@@ -2288,12 +2891,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 985460,
-        "download_count": 1380,
+        "digest": null,
+        "download_count": 1507,
         "created_at": "2019-02-06T00:50:17Z",
         "updated_at": "2019-02-06T00:50:18Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.9.0/rebar3"
@@ -2327,6 +2932,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE0ODE4NjA1",
@@ -2334,8 +2940,10 @@
     "target_commitish": "master",
     "name": "3.8.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2019-01-05T21:54:18Z",
+    "updated_at": "2019-01-05T22:01:40Z",
     "published_at": "2019-01-05T22:01:40Z",
     "assets": [
       {
@@ -2362,12 +2970,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 982888,
-        "download_count": 822,
+        "digest": null,
+        "download_count": 946,
         "created_at": "2019-01-05T23:06:29Z",
         "updated_at": "2019-01-05T23:06:30Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.8.0/rebar3"
@@ -2401,6 +3011,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE0MjE5OTkw",
@@ -2408,8 +3019,10 @@
     "target_commitish": "master",
     "name": "3.7.5",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-11-27T23:22:09Z",
+    "updated_at": "2018-11-27T23:24:32Z",
     "published_at": "2018-11-27T23:24:32Z",
     "assets": [
       {
@@ -2436,12 +3049,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 968737,
-        "download_count": 2534,
+        "digest": null,
+        "download_count": 2594,
         "created_at": "2018-11-27T23:45:24Z",
         "updated_at": "2018-11-27T23:45:25Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.7.5/rebar3"
@@ -2475,6 +3090,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE0MTY4NzEy",
@@ -2482,8 +3098,10 @@
     "target_commitish": "master",
     "name": "3.7.4",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-11-24T22:22:38Z",
+    "updated_at": "2018-11-24T22:25:28Z",
     "published_at": "2018-11-24T22:25:28Z",
     "assets": [
       {
@@ -2510,12 +3128,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 968847,
-        "download_count": 392,
+        "digest": null,
+        "download_count": 409,
         "created_at": "2018-11-24T22:28:40Z",
         "updated_at": "2018-11-24T22:28:41Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.7.4/rebar3"
@@ -2549,6 +3169,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE0MTY3MzI1",
@@ -2556,8 +3177,10 @@
     "target_commitish": "master",
     "name": "3.7.3",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-11-24T16:36:54Z",
+    "updated_at": "2018-11-24T16:38:35Z",
     "published_at": "2018-11-24T16:38:35Z",
     "assets": [
       {
@@ -2584,12 +3207,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 968490,
-        "download_count": 33,
+        "digest": null,
+        "download_count": 45,
         "created_at": "2018-11-24T16:39:46Z",
         "updated_at": "2018-11-24T16:39:47Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.7.3/rebar3"
@@ -2623,6 +3248,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE0MTYzOTQ4",
@@ -2630,8 +3256,10 @@
     "target_commitish": "master",
     "name": "3.7.2",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-11-24T01:00:34Z",
+    "updated_at": "2018-11-24T01:04:29Z",
     "published_at": "2018-11-24T01:04:29Z",
     "assets": [
       {
@@ -2658,12 +3286,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 968469,
-        "download_count": 38,
+        "digest": null,
+        "download_count": 49,
         "created_at": "2018-11-24T01:09:21Z",
         "updated_at": "2018-11-24T01:09:22Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.7.2/rebar3"
@@ -2697,6 +3327,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE0MTYzMTc0",
@@ -2704,8 +3335,10 @@
     "target_commitish": "master",
     "name": "3.7.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-11-23T21:57:34Z",
+    "updated_at": "2018-11-23T22:00:10Z",
     "published_at": "2018-11-23T22:00:10Z",
     "assets": [
       {
@@ -2732,12 +3365,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 968499,
-        "download_count": 37,
+        "digest": null,
+        "download_count": 59,
         "created_at": "2018-11-23T22:06:21Z",
         "updated_at": "2018-11-23T22:06:21Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.7.1/rebar3"
@@ -2771,6 +3406,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE0MTYxMjI2",
@@ -2778,8 +3414,10 @@
     "target_commitish": "master",
     "name": "3.7.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-11-23T18:00:02Z",
+    "updated_at": "2018-11-23T18:03:26Z",
     "published_at": "2018-11-23T18:03:26Z",
     "assets": [
       {
@@ -2806,12 +3444,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 968612,
-        "download_count": 10112,
+        "digest": null,
+        "download_count": 10310,
         "created_at": "2018-11-23T18:55:18Z",
         "updated_at": "2018-11-23T18:55:19Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.7.0/rebar3"
@@ -2845,6 +3485,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTEzMjY5OTg2",
@@ -2852,8 +3493,10 @@
     "target_commitish": "master",
     "name": "3.7.0-rc2",
     "draft": false,
+    "immutable": false,
     "prerelease": true,
     "created_at": "2018-10-05T15:02:37Z",
+    "updated_at": "2018-11-23T18:06:22Z",
     "published_at": "2018-10-05T15:10:55Z",
     "assets": [
       {
@@ -2880,12 +3523,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 950429,
-        "download_count": 127,
+        "digest": null,
+        "download_count": 140,
         "created_at": "2018-10-05T15:16:05Z",
         "updated_at": "2018-10-05T15:16:06Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.7.0-rc2/rebar3"
@@ -2919,6 +3564,7 @@
       "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
       "received_events_url": "https://api.github.com/users/tsloughter/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTEyODk0MTYx",
@@ -2926,8 +3572,10 @@
     "target_commitish": "master",
     "name": "3.7.0-rc1",
     "draft": false,
+    "immutable": false,
     "prerelease": true,
     "created_at": "2018-09-14T02:25:26Z",
+    "updated_at": "2018-09-14T02:45:05Z",
     "published_at": "2018-09-14T02:33:49Z",
     "assets": [
       {
@@ -2954,12 +3602,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 939575,
-        "download_count": 52,
+        "digest": null,
+        "download_count": 61,
         "created_at": "2018-09-14T02:36:30Z",
         "updated_at": "2018-09-14T02:36:31Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.7.0-rc1/rebar3"
@@ -2993,6 +3643,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTEyODkxOTU0",
@@ -3000,8 +3651,10 @@
     "target_commitish": "master",
     "name": "3.6.2",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-09-13T22:16:21Z",
+    "updated_at": "2018-09-13T22:19:05Z",
     "published_at": "2018-09-13T22:19:05Z",
     "assets": [
       {
@@ -3028,12 +3681,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 694889,
-        "download_count": 6421,
+        "digest": null,
+        "download_count": 7367,
         "created_at": "2018-09-14T01:03:28Z",
         "updated_at": "2018-09-14T01:03:29Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.6.2/rebar3"
@@ -3067,6 +3722,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTExNjQwOTU0",
@@ -3074,8 +3730,10 @@
     "target_commitish": "main",
     "name": "3.6.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-06-25T20:50:59Z",
+    "updated_at": "2018-06-25T20:52:40Z",
     "published_at": "2018-06-25T20:52:40Z",
     "assets": [
       {
@@ -3102,12 +3760,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 707955,
-        "download_count": 442950,
+        "digest": null,
+        "download_count": 521457,
         "created_at": "2018-06-25T20:59:30Z",
         "updated_at": "2018-06-25T20:59:30Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.6.1/rebar3"
@@ -3141,6 +3801,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTExNTU3MTg4",
@@ -3148,8 +3809,10 @@
     "target_commitish": "main",
     "name": "3.6.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-06-19T20:39:24Z",
+    "updated_at": "2018-06-19T20:50:10Z",
     "published_at": "2018-06-19T20:50:10Z",
     "assets": [
       {
@@ -3176,12 +3839,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 707245,
-        "download_count": 809,
+        "digest": null,
+        "download_count": 882,
         "created_at": "2018-06-19T20:53:43Z",
         "updated_at": "2018-06-19T20:53:43Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.6.0/rebar3"
@@ -3215,6 +3880,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTEwOTMzMzU3",
@@ -3222,8 +3888,10 @@
     "target_commitish": "main",
     "name": "3.5.3",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-05-10T01:53:20Z",
+    "updated_at": "2018-05-10T02:03:02Z",
     "published_at": "2018-05-10T02:01:22Z",
     "assets": [
       {
@@ -3250,12 +3918,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 703666,
-        "download_count": 335,
+        "digest": null,
+        "download_count": 625,
         "created_at": "2018-05-11T15:11:11Z",
         "updated_at": "2018-05-11T15:11:14Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.5.3/rebar3"
@@ -3289,6 +3959,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTEwODQ0NTMx",
@@ -3296,8 +3967,10 @@
     "target_commitish": "main",
     "name": "3.5.2",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-05-03T23:35:35Z",
+    "updated_at": "2018-05-03T23:37:09Z",
     "published_at": "2018-05-03T23:37:09Z",
     "assets": [
       {
@@ -3324,12 +3997,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 686342,
-        "download_count": 310,
+        "digest": null,
+        "download_count": 328,
         "created_at": "2018-05-04T16:38:52Z",
         "updated_at": "2018-05-04T16:38:52Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.5.2/rebar3"
@@ -3363,6 +4038,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTEwODQzODEz",
@@ -3370,8 +4046,10 @@
     "target_commitish": "main",
     "name": "3.5.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2018-05-03T22:17:27Z",
+    "updated_at": "2018-05-03T23:38:11Z",
     "published_at": "2018-05-03T22:19:35Z",
     "assets": [
 
@@ -3404,6 +4082,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTkwMTQ4NzU=",
@@ -3411,8 +4090,10 @@
     "target_commitish": "main",
     "name": "3.5.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2017-12-22T20:39:34Z",
+    "updated_at": "2017-12-22T20:41:35Z",
     "published_at": "2017-12-22T20:41:35Z",
     "assets": [
       {
@@ -3439,12 +4120,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 695247,
-        "download_count": 4006,
+        "digest": null,
+        "download_count": 4147,
         "created_at": "2017-12-22T20:57:41Z",
         "updated_at": "2017-12-22T20:57:43Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.5.0/rebar3"
@@ -3478,6 +4161,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTg2MjU4NzM=",
@@ -3485,8 +4169,10 @@
     "target_commitish": "main",
     "name": "3.4.7",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2017-11-22T19:55:36Z",
+    "updated_at": "2017-11-22T19:58:56Z",
     "published_at": "2017-11-22T19:58:56Z",
     "assets": [
       {
@@ -3513,12 +4199,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 689079,
-        "download_count": 438,
+        "digest": null,
+        "download_count": 468,
         "created_at": "2017-11-22T20:11:42Z",
         "updated_at": "2017-11-22T20:11:43Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.4.7/rebar3"
@@ -3552,6 +4240,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTg1NjkzODk=",
@@ -3559,8 +4248,10 @@
     "target_commitish": "main",
     "name": "3.4.6",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2017-11-17T22:24:27Z",
+    "updated_at": "2017-11-17T22:26:54Z",
     "published_at": "2017-11-17T22:26:54Z",
     "assets": [
       {
@@ -3587,12 +4278,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 688657,
-        "download_count": 55,
+        "digest": null,
+        "download_count": 68,
         "created_at": "2017-11-17T22:33:49Z",
         "updated_at": "2017-11-17T22:33:50Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.4.6/rebar3"
@@ -3626,6 +4319,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTg1NjUyNDM=",
@@ -3633,8 +4327,10 @@
     "target_commitish": "main",
     "name": "3.4.5",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2017-11-17T17:04:11Z",
+    "updated_at": "2017-11-17T17:05:52Z",
     "published_at": "2017-11-17T17:05:52Z",
     "assets": [
       {
@@ -3661,12 +4357,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 688352,
-        "download_count": 37,
+        "digest": null,
+        "download_count": 48,
         "created_at": "2017-11-17T17:21:58Z",
         "updated_at": "2017-11-17T17:21:59Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.4.5/rebar3"
@@ -3700,6 +4398,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTc3MDA5NzE=",
@@ -3707,8 +4406,10 @@
     "target_commitish": "main",
     "name": "3.4.4",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2017-09-11T01:45:05Z",
+    "updated_at": "2017-09-11T01:46:56Z",
     "published_at": "2017-09-11T01:46:56Z",
     "assets": [
       {
@@ -3735,12 +4436,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 679522,
-        "download_count": 7478,
+        "digest": null,
+        "download_count": 7501,
         "created_at": "2017-09-11T02:00:03Z",
         "updated_at": "2017-09-11T02:00:04Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.4.4/rebar3"
@@ -3774,6 +4477,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTc0Njk4MDE=",
@@ -3781,8 +4485,10 @@
     "target_commitish": "main",
     "name": "3.4.3",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2017-08-21T21:25:03Z",
+    "updated_at": "2017-08-21T21:26:50Z",
     "published_at": "2017-08-21T21:26:50Z",
     "assets": [
       {
@@ -3809,12 +4515,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 679353,
-        "download_count": 226,
+        "digest": null,
+        "download_count": 244,
         "created_at": "2017-08-21T21:36:56Z",
         "updated_at": "2017-08-21T21:36:57Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.4.3/rebar3"
@@ -3848,6 +4556,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTcwNDk5ODg=",
@@ -3855,8 +4564,10 @@
     "target_commitish": "main",
     "name": "3.4.2",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2017-07-14T22:26:30Z",
+    "updated_at": "2017-07-14T22:31:28Z",
     "published_at": "2017-07-14T22:31:28Z",
     "assets": [
       {
@@ -3883,12 +4594,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 791577,
-        "download_count": 2118,
+        "digest": null,
+        "download_count": 2144,
         "created_at": "2017-07-14T22:54:42Z",
         "updated_at": "2017-07-14T22:54:43Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.4.2/rebar3"
@@ -3922,6 +4635,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTY0OTQyMzU=",
@@ -3929,8 +4643,10 @@
     "target_commitish": "main",
     "name": "3.4.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2017-05-24T18:14:59Z",
+    "updated_at": "2017-05-24T18:19:05Z",
     "published_at": "2017-05-24T18:19:05Z",
     "assets": [
       {
@@ -3957,12 +4673,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 790573,
-        "download_count": 9423,
+        "digest": null,
+        "download_count": 9445,
         "created_at": "2017-05-24T18:21:29Z",
         "updated_at": "2017-05-24T18:21:31Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.4.1/rebar3"
@@ -3996,6 +4714,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTY0NjM3Nzg=",
@@ -4003,8 +4722,10 @@
     "target_commitish": "main",
     "name": "3.4.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2017-05-22T14:17:09Z",
+    "updated_at": "2017-05-22T14:22:57Z",
     "published_at": "2017-05-22T14:22:57Z",
     "assets": [
       {
@@ -4031,12 +4752,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 789708,
-        "download_count": 46,
+        "digest": null,
+        "download_count": 80,
         "created_at": "2017-05-23T20:09:13Z",
         "updated_at": "2017-05-23T20:09:15Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.4.0/rebar3"
@@ -4070,6 +4793,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTU4NDM1MTI=",
@@ -4077,8 +4801,10 @@
     "target_commitish": "main",
     "name": "3.3.6",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2017-03-23T11:20:17Z",
+    "updated_at": "2017-03-23T11:23:36Z",
     "published_at": "2017-03-23T11:23:36Z",
     "assets": [
       {
@@ -4105,12 +4831,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 785001,
-        "download_count": 795,
+        "digest": null,
+        "download_count": 850,
         "created_at": "2017-03-23T16:28:25Z",
         "updated_at": "2017-03-23T16:28:27Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.3.6/rebar3"
@@ -4144,6 +4872,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTUzNTY3MTY=",
@@ -4151,8 +4880,10 @@
     "target_commitish": "main",
     "name": "3.3.5",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2017-02-03T21:13:21Z",
+    "updated_at": "2017-02-03T21:15:41Z",
     "published_at": "2017-02-03T21:15:41Z",
     "assets": [
       {
@@ -4179,12 +4910,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 782661,
-        "download_count": 1801,
+        "digest": null,
+        "download_count": 1853,
         "created_at": "2017-02-03T21:34:28Z",
         "updated_at": "2017-02-03T21:34:29Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.3.5/rebar3"
@@ -4218,6 +4951,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTUwMDI4OTg=",
@@ -4225,8 +4959,10 @@
     "target_commitish": "main",
     "name": "3.3.4",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2016-12-23T20:31:33Z",
+    "updated_at": "2016-12-23T20:35:45Z",
     "published_at": "2016-12-23T20:35:45Z",
     "assets": [
       {
@@ -4253,12 +4989,14 @@
           "events_url": "https://api.github.com/users/ferd/events{/privacy}",
           "received_events_url": "https://api.github.com/users/ferd/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 781024,
-        "download_count": 366,
+        "digest": null,
+        "download_count": 379,
         "created_at": "2016-12-23T21:11:10Z",
         "updated_at": "2016-12-23T21:11:11Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.3.4/rebar3"
@@ -4292,6 +5030,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTQ4NzAwNzE=",
@@ -4299,8 +5038,10 @@
     "target_commitish": "main",
     "name": "3.3.3",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2016-12-08T17:41:22Z",
+    "updated_at": "2016-12-08T17:43:38Z",
     "published_at": "2016-12-08T17:43:38Z",
     "assets": [
       {
@@ -4327,12 +5068,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 778957,
-        "download_count": 112,
+        "digest": null,
+        "download_count": 127,
         "created_at": "2016-12-08T17:55:06Z",
         "updated_at": "2016-12-08T17:55:07Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.3.3/rebar3"
@@ -4366,6 +5109,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTQzOTU0NDc=",
@@ -4373,8 +5117,10 @@
     "target_commitish": "main",
     "name": "3.3.2",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2016-10-14T23:12:43Z",
+    "updated_at": "2016-10-14T23:19:35Z",
     "published_at": "2016-10-14T23:19:35Z",
     "assets": [
       {
@@ -4401,12 +5147,14 @@
           "events_url": "https://api.github.com/users/ferd/events{/privacy}",
           "received_events_url": "https://api.github.com/users/ferd/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 766378,
-        "download_count": 12207,
+        "digest": null,
+        "download_count": 12259,
         "created_at": "2016-11-21T18:23:07Z",
         "updated_at": "2016-11-21T18:23:12Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.3.2/rebar3"
@@ -4440,6 +5188,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTQwNDM0MTM=",
@@ -4447,8 +5196,10 @@
     "target_commitish": "main",
     "name": "3.3.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2016-09-03T00:33:44Z",
+    "updated_at": "2016-09-03T00:38:33Z",
     "published_at": "2016-09-03T00:38:33Z",
     "assets": [
       {
@@ -4475,12 +5226,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 761988,
-        "download_count": 2249,
+        "digest": null,
+        "download_count": 2321,
         "created_at": "2016-09-03T17:32:01Z",
         "updated_at": "2016-09-03T17:32:02Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.3.1/rebar3"
@@ -4514,6 +5267,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTM5ODQ5MjY=",
@@ -4521,8 +5275,10 @@
     "target_commitish": "master",
     "name": "3.3.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2016-08-26T17:01:22Z",
+    "updated_at": "2016-12-08T17:52:36Z",
     "published_at": "2016-12-08T17:40:19Z",
     "assets": [
       {
@@ -4549,12 +5305,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 761060,
-        "download_count": 156,
+        "digest": null,
+        "download_count": 175,
         "created_at": "2016-08-26T17:27:23Z",
         "updated_at": "2016-08-26T17:27:24Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.3.0/rebar3"
@@ -4588,6 +5346,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTM0NzQ1NzU=",
@@ -4595,8 +5354,10 @@
     "target_commitish": "main",
     "name": "3.2.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2016-06-18T20:59:13Z",
+    "updated_at": "2016-06-23T14:32:16Z",
     "published_at": "2016-06-18T21:01:29Z",
     "assets": [
       {
@@ -4623,12 +5384,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 733570,
-        "download_count": 12086,
+        "digest": null,
+        "download_count": 12147,
         "created_at": "2016-06-18T21:38:56Z",
         "updated_at": "2016-06-18T21:38:57Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.2.0/rebar3"
@@ -4662,6 +5425,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTMyNDE0NjE=",
@@ -4669,8 +5433,10 @@
     "target_commitish": "main",
     "name": "3.1.1",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2016-05-17T12:31:43Z",
+    "updated_at": "2016-05-17T12:34:02Z",
     "published_at": "2016-05-17T12:34:02Z",
     "assets": [
       {
@@ -4697,12 +5463,14 @@
           "events_url": "https://api.github.com/users/tsloughter/events{/privacy}",
           "received_events_url": "https://api.github.com/users/tsloughter/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 731282,
-        "download_count": 500,
+        "digest": null,
+        "download_count": 531,
         "created_at": "2016-05-17T13:02:34Z",
         "updated_at": "2016-05-17T13:02:36Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.1.1/rebar3"
@@ -4736,6 +5504,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTI5NDkzODI=",
@@ -4743,8 +5512,10 @@
     "target_commitish": "master",
     "name": "3.1.0",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2016-04-04T18:41:14Z",
+    "updated_at": "2016-04-04T18:42:16Z",
     "published_at": "2016-04-04T18:42:16Z",
     "assets": [
       {
@@ -4771,12 +5542,14 @@
           "events_url": "https://api.github.com/users/ferd/events{/privacy}",
           "received_events_url": "https://api.github.com/users/ferd/received_events",
           "type": "User",
+          "user_view_type": "public",
           "site_admin": false
         },
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 730312,
-        "download_count": 1587,
+        "digest": null,
+        "download_count": 1613,
         "created_at": "2016-04-05T20:09:59Z",
         "updated_at": "2016-04-05T20:10:00Z",
         "browser_download_url": "https://github.com/erlang/rebar3/releases/download/3.1.0/rebar3"
@@ -4810,6 +5583,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTI3NzgyNjg=",
@@ -4817,8 +5591,10 @@
     "target_commitish": "main",
     "name": "3.0.0 Stable",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2016-03-09T17:42:01Z",
+    "updated_at": "2016-03-09T18:09:45Z",
     "published_at": "2016-03-09T18:09:45Z",
     "assets": [
 
@@ -4851,6 +5627,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTIxMjcyNjY=",
@@ -4858,8 +5635,10 @@
     "target_commitish": "master",
     "name": "Fourth, and hopefully last Beta",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2015-11-14T20:16:50Z",
+    "updated_at": "2015-11-14T20:21:35Z",
     "published_at": "2015-11-14T20:21:35Z",
     "assets": [
 
@@ -4892,6 +5671,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE4OTYxMzg=",
@@ -4899,8 +5679,10 @@
     "target_commitish": "main",
     "name": "Third Beta",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2015-10-01T12:28:31Z",
+    "updated_at": "2015-10-01T12:30:53Z",
     "published_at": "2015-10-01T12:30:53Z",
     "assets": [
 
@@ -4933,6 +5715,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE3MjkxNjU=",
@@ -4940,8 +5723,10 @@
     "target_commitish": "main",
     "name": "Second Beta",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2015-08-27T05:43:59Z",
+    "updated_at": "2015-08-27T05:52:04Z",
     "published_at": "2015-08-27T05:47:45Z",
     "assets": [
 
@@ -4974,6 +5759,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTE0NzI5MTM=",
@@ -4981,8 +5767,10 @@
     "target_commitish": "main",
     "name": "First Beta",
     "draft": false,
+    "immutable": false,
     "prerelease": false,
     "created_at": "2015-06-29T12:47:25Z",
+    "updated_at": "2015-06-29T13:08:52Z",
     "published_at": "2015-06-29T13:08:52Z",
     "assets": [
 
@@ -5015,6 +5803,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTEzNTkwMjQ=",
@@ -5022,8 +5811,10 @@
     "target_commitish": "main",
     "name": "alpha-6",
     "draft": false,
+    "immutable": false,
     "prerelease": true,
     "created_at": "2015-05-31T22:28:57Z",
+    "updated_at": "2015-05-31T22:40:31Z",
     "published_at": "2015-05-31T22:32:19Z",
     "assets": [
 
@@ -5056,6 +5847,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTEyNTg1NDg=",
@@ -5063,8 +5855,10 @@
     "target_commitish": "main",
     "name": "alpha-5",
     "draft": false,
+    "immutable": false,
     "prerelease": true,
     "created_at": "2015-05-05T12:07:32Z",
+    "updated_at": "2015-05-05T12:16:13Z",
     "published_at": "2015-05-05T12:16:13Z",
     "assets": [
 
@@ -5097,6 +5891,7 @@
       "events_url": "https://api.github.com/users/ferd/events{/privacy}",
       "received_events_url": "https://api.github.com/users/ferd/received_events",
       "type": "User",
+      "user_view_type": "public",
       "site_admin": false
     },
     "node_id": "MDc6UmVsZWFzZTExMjc2NTk=",
@@ -5104,8 +5899,10 @@
     "target_commitish": "main",
     "name": "alpha-3",
     "draft": false,
+    "immutable": false,
     "prerelease": true,
     "created_at": "2015-04-05T19:00:26Z",
+    "updated_at": "2015-04-05T19:02:37Z",
     "published_at": "2015-04-05T19:02:37Z",
     "assets": [
 
