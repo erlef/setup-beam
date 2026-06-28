@@ -664,7 +664,6 @@ function getRunnerOSVersion() {
   const ImageOSToContainer = {
     ubuntu22: 'ubuntu-22.04',
     ubuntu24: 'ubuntu-24.04',
-    win19: 'windows-2019',
     win22: 'windows-2022',
     win25: 'windows-2025',
     macos13: 'macOS-13',

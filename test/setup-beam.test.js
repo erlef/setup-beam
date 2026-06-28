@@ -273,7 +273,7 @@ describe('.getOTPVersion(_) - Erlang', () => {
       assert.deepStrictEqual(got, expected)
 
       spec = '23.0'
-      osVersion = 'windows-2019'
+      osVersion = 'windows-2022'
       expected = '23.0.4'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
@@ -294,7 +294,7 @@ describe('.getOTPVersion(_) - Erlang', () => {
       assert.deepStrictEqual(got, expected)
 
       spec = '23.0'
-      osVersion = 'windows-2019'
+      osVersion = 'windows-2022'
       expected = '23.0.4'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
