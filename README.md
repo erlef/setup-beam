@@ -105,8 +105,11 @@ uses that to download assets:
 | ImageOS            | Operating system
 |-                   |-
 | `ubuntu22`         | `ubuntu-22.04`
+| `ubuntu22-arm64`   | `ubuntu-22.04`
 | `ubuntu24`         | `ubuntu-24.04`
+| `ubuntu24-arm64`   | `ubuntu-24.04`
 | `ubuntu26`         | `ubuntu-26.04`
+| `ubuntu26-arm64`   | `ubuntu-26.04`
 | `win22`            | `windows-2022`
 | `win25`            | `windows-2025`
 | `win25-vs2026`     | `windows-2025`
