@@ -55362,11 +55362,11 @@ function getRunnerOSVersion() {
   // - all win arm variants
   const ImageOSToContainer = {
     ubuntu22: 'ubuntu-22.04',
-    'ubuntu22-arm64': 'ubuntu-22.04-arm64',
+    'ubuntu22-arm64': 'ubuntu-22.04',
     ubuntu24: 'ubuntu-24.04',
-    'ubuntu24-arm64': 'ubuntu-24.04-arm64',
+    'ubuntu24-arm64': 'ubuntu-24.04',
     ubuntu26: 'ubuntu-26.04',
-    'ubuntu26-arm64': 'ubuntu-26.04-arm64',
+    'ubuntu26-arm64': 'ubuntu-26.04',
     win22: 'windows-2022',
     win25: 'windows-2025',
     'win25-vs2026': 'windows-2025',
@@ -55378,6 +55378,7 @@ function getRunnerOSVersion() {
   const deprecatedImageOSToContainer = {
     ubuntu18: 'ubuntu-18.04',
     ubuntu20: 'ubuntu-20.04',
+    win19: 'windows-2019',
   }
   const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
   if (!containerFromEnvImageOS) {
