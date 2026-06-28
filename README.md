@@ -85,10 +85,10 @@ and Erlang/OTP.
 | `ubuntu-26.04`   | 24.3 - 29    | x86_64, arm64    | ✅
 | `windows-2022`   | 21\* - 28    | x86_64, x86      | ✅
 | `windows-2025`   | 21\* - 28    | x86_64, x86      | ✅
-| `macOS-13`       | 25.0 - 28    | x86_64, arm64    | ✅
-| `macOS-14`       | 25.0 - 28    | x86_64, arm64    | ✅
-| `macOS-15`       | 25.0 - 28    | x86_64, arm64    | ✅
-| `macOS-26`       | 25.0 - 28    | x86_64, arm64    | ✅
+| `macOS-13`       | 25.0 - 29    | x86_64, arm64    | ✅
+| `macOS-14`       | 25.0 - 29    | x86_64, arm64    | ✅
+| `macOS-15`       | 25.0 - 29    | x86_64, arm64    | ✅
+| `macOS-26`       | 25.0 - 29    | x86_64, arm64    | ✅
 
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
 22.0, etc.
