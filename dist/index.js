@@ -55360,6 +55360,7 @@ function getRunnerOSVersion() {
     ubuntu24: 'ubuntu-24.04',
     win22: 'windows-2022',
     win25: 'windows-2025',
+    'win25-vs2026': 'windows-2025',
     macos13: 'macOS-13',
     macos14: 'macOS-14',
     macos15: 'macOS-15',
