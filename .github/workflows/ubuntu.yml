@@ -37,7 +37,7 @@ jobs:
           - otp-version: '29'
             os: 'ubuntu-24.04'
           # Ubuntu 26.04 - per README
-          - otp-version: '24.3'
+          - otp-version: '26'
             os: 'ubuntu-26.04'
           - otp-version: '29'
             os: 'ubuntu-26.04'
