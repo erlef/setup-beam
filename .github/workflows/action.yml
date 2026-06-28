@@ -92,7 +92,6 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-11-arm # ARM64
           - windows-latest # x86_64
     runs-on: ${{ matrix.os }}
     steps:
