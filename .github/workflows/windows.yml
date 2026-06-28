@@ -16,6 +16,7 @@ on:
 jobs:
   integration_test:
     name: >
+      OS ${{matrix.combo.os}},
       OTP ${{matrix.combo.otp-version}},
       Elixir ${{matrix.combo.elixir-version}},
       Gleam ${{matrix.combo.gleam-version}},
