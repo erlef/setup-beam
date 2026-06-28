@@ -26,29 +26,34 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          # Ubuntu 22.04
-          - otp-version: '<26'
-            elixir-version: '<1.17'
+          # Ubuntu 22.04 - per README
+          - otp-version: '24.2'
+            os: 'ubuntu-22.04'
+          - otp-version: '25'
             os: 'ubuntu-22.04'
           - otp-version: '26'
-            elixir-version: '1.16'
-            rebar3-version: '3.25'
+            os: 'ubuntu-22.04'
+          - otp-version: '27'
+            os: 'ubuntu-22.04'
+          - otp-version: '28'
             os: 'ubuntu-22.04'
           - otp-version: '29'
             os: 'ubuntu-22.04'
-          # Ubuntu 24.04
-          - otp-version: 'master'
-            elixir-version: '> 0'
-            os: 'ubuntu-24.04'
-          - otp-version: 'master'
-            elixir-version: 'main'
+          # Ubuntu 24.04 - per README
+          - otp-version: '24.3'
             os: 'ubuntu-24.04'
           - otp-version: '25'
             os: 'ubuntu-24.04'
+          - otp-version: '26'
+            os: 'ubuntu-24.04'
+          - otp-version: '27'
+            os: 'ubuntu-24.04'
+          - otp-version: '28'
+            os: 'ubuntu-24.04'
           - otp-version: '29'
             os: 'ubuntu-24.04'
-          # Ubuntu 26.04
-          - otp-version: '24'
+          # Ubuntu 26.04 - per README
+          - otp-version: '24.3'
             os: 'ubuntu-26.04'
           - otp-version: '25'
             os: 'ubuntu-26.04'
