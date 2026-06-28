@@ -42,9 +42,9 @@ jobs:
             os: 'macos-15'
           # macOS 26 - per README
           - otp-version: '25'
-            os: 'macos-16'
+            os: 'macos-26'
           - otp-version: '29'
-            os: 'macos-16'
+            os: 'macos-26'
           # macOS latest
           - otp-version: '27'
             elixir-version: 'v1.17.0'
