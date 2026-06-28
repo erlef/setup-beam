@@ -80,7 +80,7 @@ jobs:
             otp-version: false
             os: 'ubuntu-latest'
             disable_problem_matchers: true
-          - elixir-version: 'v1.13'
+          - elixir-version: 'v1.16'
             otp-version: '24'
             escript_packages: 'hex protobuf'
             escript_script: 'protoc-gen-elixir --version'
