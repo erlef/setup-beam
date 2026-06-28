@@ -26,19 +26,15 @@ jobs:
       matrix:
         combo:
           # Windows 2022 - per README
-          - otp-version: '21.0'
+          - otp-version: '26' # 21 is "so old", at this moment, we can't find it in latest 100
             os: 'windows-2022'
-          - otp-version: '23'
-            os: 'windows-2022'
-          - otp-version: '23'
+          - otp-version: '29'
             os: 'windows-2029'
           # Windows 2025 - per README
-          - otp-version: '21.0'
+          - otp-version: '26' # 21 is "so old", at this moment, we can't find it in latest 100
             os: 'windows-2025'
-          - otp-version: '23'
+          - otp-version: '29'
             os: 'windows-2025'
-          - otp-version: '23'
-            os: 'windows-2029'
           # Windows latest
           - otp-version: '<26'
             elixir-version: '<1.17'
