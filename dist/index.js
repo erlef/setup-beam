@@ -55370,7 +55370,6 @@ function getRunnerOSVersion() {
     win22: 'windows-2022',
     win25: 'windows-2025',
     'win25-vs2026': 'windows-2025',
-    macos13: 'macOS-13',
     macos14: 'macOS-14',
     macos15: 'macOS-15',
     macos26: 'macOS-26',
@@ -55379,6 +55378,7 @@ function getRunnerOSVersion() {
     ubuntu18: 'ubuntu-18.04',
     ubuntu20: 'ubuntu-20.04',
     win19: 'windows-2019',
+    macos13: 'macOS-13',
   }
   const containerFromEnvImageOS = ImageOSToContainer[process.env.ImageOS]
   if (!containerFromEnvImageOS) {
