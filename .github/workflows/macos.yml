@@ -39,7 +39,7 @@ jobs:
             os: 'macos-15'
           - otp-version: '29'
             os: 'macos-15'
-          # macOS 26
+          # macOS 26 - per README
           - otp-version: '25'
             os: 'macos-16'
           - otp-version: '29'
