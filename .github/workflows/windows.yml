@@ -30,7 +30,7 @@ jobs:
           - otp-version: '26' # 21 is "so old", at this moment, we can't find it in latest 100
             os: 'windows-2022'
           - otp-version: '29'
-            os: 'windows-2029'
+            os: 'windows-2022'
           # Windows 2025 - per README
           - otp-version: '26' # 21 is "so old", at this moment, we can't find it in latest 100
             os: 'windows-2025'
