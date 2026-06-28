@@ -25,11 +25,6 @@ jobs:
       fail-fast: false
       matrix:
         combo:
-          # macOS 13 - per README
-          - otp-version: '25'
-            os: 'macos-13'
-          - otp-version: '29'
-            os: 'macos-13'
           # macOS 14 - per README
           - otp-version: '25'
             os: 'macos-14'
