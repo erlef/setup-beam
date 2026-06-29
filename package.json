@@ -20,7 +20,7 @@
     "@actions/core": "3.0.0",
     "@actions/exec": "3.0.0",
     "@actions/tool-cache": "4.0.0",
-    "csv-parse": "6.2.1",
+    "csv-parse": "7.0.0",
     "semver": "7.7.4",
     "smol-toml": "1.6.1"
   },
