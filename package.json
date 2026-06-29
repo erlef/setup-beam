@@ -22,7 +22,7 @@
     "@actions/tool-cache": "4.0.0",
     "csv-parse": "7.0.0",
     "semver": "7.7.4",
-    "smol-toml": "1.6.1"
+    "smol-toml": "1.7.0"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
