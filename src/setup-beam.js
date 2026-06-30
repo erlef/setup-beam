@@ -1306,6 +1306,7 @@ export default {
   getGleamVersion,
   getOTPVersion,
   getRebar3Version,
+  getRunnerOSVersion,
   getVersionFromSpec,
   githubAMDRunnerArchs,
   githubARMRunnerArchs,
