@@ -39137,6 +39137,7 @@ function debugLoggingEnabled() {
   getGleamVersion,
   getOTPVersion,
   getRebar3Version,
+  getRunnerOSVersion,
   getVersionFromSpec,
   githubAMDRunnerArchs,
   githubARMRunnerArchs,

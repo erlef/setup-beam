@@ -587,6 +587,44 @@ describe('OTP arch-specific install', () => {
   })
 })
 
+describe('.getRunnerOSVersion(_)', () => {
+  it('maps x86 ImageOS values to their container', async () => {
+    const previousImageOS = process.env.ImageOS
+
+    process.env.ImageOS = 'ubuntu22'
+    assert.strictEqual(setupBeam.getRunnerOSVersion(), 'ubuntu-22.04')
+
+    process.env.ImageOS = 'ubuntu24'
+    assert.strictEqual(setupBeam.getRunnerOSVersion(), 'ubuntu-24.04')
+
+    process.env.ImageOS = previousImageOS
+  })
+
+  it('maps arm64 ImageOS variants to the same container as x86', async () => {
+    const previousImageOS = process.env.ImageOS
+
+    process.env.ImageOS = 'ubuntu22-arm64'
+    assert.strictEqual(setupBeam.getRunnerOSVersion(), 'ubuntu-22.04')
+
+    process.env.ImageOS = 'ubuntu24-arm64'
+    assert.strictEqual(setupBeam.getRunnerOSVersion(), 'ubuntu-24.04')
+
+    process.env.ImageOS = previousImageOS
+  })
+
+  it('throws for genuinely unknown ImageOS values', async () => {
+    const previousImageOS = process.env.ImageOS
+
+    process.env.ImageOS = 'plan9'
+    assert.throws(
+      () => setupBeam.getRunnerOSVersion(),
+      /Tried to map a target OS/,
+    )
+
+    process.env.ImageOS = previousImageOS
+  })
+})
+
 describe('.getOTPVersion(_) - Elixir', () => {
   let got
   let expected
