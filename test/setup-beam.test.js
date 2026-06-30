@@ -29,6 +29,7 @@ const matrix = {
     'ubuntu-20.04': parseBuild('test/otp/ubuntu-20.04/builds.txt'),
     'ubuntu-22.04': parseBuild('test/otp/ubuntu-22.04/builds.txt'),
     'ubuntu-24.04': parseBuild('test/otp/ubuntu-24.04/builds.txt'),
+    'ubuntu-26.04': parseBuild('test/otp/ubuntu-26.04/builds.txt'),
     windows: parseReleases('test/otp/releases.json'),
     'macos-aarch64': parseCsv('test/otp/macos/aarch64-apple-darwin.csv'),
     'macos-x86_64': parseCsv('test/otp/macos/x86_64-apple-darwin.csv'),
@@ -183,6 +184,14 @@ describe('.getOTPVersion(_) - Erlang', () => {
       before = simulateInput('version-type', 'strict')
       spec = '27.0'
       osVersion = 'ubuntu-24.04'
+      expected = 'OTP-27.0'
+      got = await setupBeam.getOTPVersion(spec, osVersion)
+      assert.deepStrictEqual(got, expected)
+      simulateInput('version-type', before)
+
+      before = simulateInput('version-type', 'strict')
+      spec = '27.0'
+      osVersion = 'ubuntu-26.04'
       expected = 'OTP-27.0'
       got = await setupBeam.getOTPVersion(spec, osVersion)
       assert.deepStrictEqual(got, expected)
@@ -944,6 +953,16 @@ describe('.getVersionFromSpec(_)', () => {
     spec = 'latest'
     expected = 'OTP-27.0'
     got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-24.04'])
+    assert.deepStrictEqual(got, expected)
+
+    spec = '> 0'
+    expected = 'OTP-29.0.2'
+    got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-26.04'])
+    assert.deepStrictEqual(got, expected)
+
+    spec = 'latest'
+    expected = 'OTP-29.0.2'
+    got = setupBeam.getVersionFromSpec(spec, matrix.otp['ubuntu-26.04'])
     assert.deepStrictEqual(got, expected)
 
     spec = 'latest'
