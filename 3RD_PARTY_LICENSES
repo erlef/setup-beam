@@ -82,7 +82,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @eslint/config-array, @eslint/config-helpers, @eslint/core, @eslint/object-schema, @eslint/plugin-kit, @humanfs/core, @humanfs/node, @humanwhocodes/module-importer, @humanwhocodes/retry, b4a, bare-events, bare-fs, bare-os, bare-stream, bare-url, events-universal, text-decoder. A copy of the source code may be downloaded from git+https://github.com/eslint/rewrite.git (@eslint/config-array), git+https://github.com/eslint/rewrite.git (@eslint/config-helpers), git+https://github.com/eslint/rewrite.git (@eslint/core), git+https://github.com/eslint/rewrite.git (@eslint/object-schema), git+https://github.com/eslint/rewrite.git (@eslint/plugin-kit), git+https://github.com/humanwhocodes/humanfs.git (@humanfs/core), git+https://github.com/humanwhocodes/humanfs.git (@humanfs/node), git+https://github.com/humanwhocodes/module-importer.git (@humanwhocodes/module-importer), git+https://github.com/humanwhocodes/retry.git (@humanwhocodes/retry), git+https://github.com/holepunchto/b4a.git (b4a), git+https://github.com/holepunchto/bare-events.git (bare-events), git+https://github.com/holepunchto/bare-fs.git (bare-fs), git+https://github.com/holepunchto/bare-os.git (bare-os), git+https://github.com/holepunchto/bare-stream.git (bare-stream), git+https://github.com/holepunchto/bare-url.git (bare-url), git+https://github.com/holepunchto/events-universal.git (events-universal), git+https://github.com/holepunchto/text-decoder.git (text-decoder). This software contains the following license and notice below:
+The following software may be included in this product: @eslint/config-array, @eslint/config-helpers, @eslint/core, @eslint/object-schema, @eslint/plugin-kit, @humanfs/core, @humanfs/node, @humanwhocodes/module-importer, @humanwhocodes/retry, b4a, bare-events, bare-fs, bare-stream, bare-url, events-universal, text-decoder. A copy of the source code may be downloaded from git+https://github.com/eslint/rewrite.git (@eslint/config-array), git+https://github.com/eslint/rewrite.git (@eslint/config-helpers), git+https://github.com/eslint/rewrite.git (@eslint/core), git+https://github.com/eslint/rewrite.git (@eslint/object-schema), git+https://github.com/eslint/rewrite.git (@eslint/plugin-kit), git+https://github.com/humanwhocodes/humanfs.git (@humanfs/core), git+https://github.com/humanwhocodes/humanfs.git (@humanfs/node), git+https://github.com/humanwhocodes/module-importer.git (@humanwhocodes/module-importer), git+https://github.com/humanwhocodes/retry.git (@humanwhocodes/retry), git+https://github.com/holepunchto/b4a.git (b4a), git+https://github.com/holepunchto/bare-events.git (bare-events), git+https://github.com/holepunchto/bare-fs.git (bare-fs), git+https://github.com/holepunchto/bare-stream.git (bare-stream), git+https://github.com/holepunchto/bare-url.git (bare-url), git+https://github.com/holepunchto/events-universal.git (events-universal), git+https://github.com/holepunchto/text-decoder.git (text-decoder). This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
@@ -2314,6 +2314,20 @@ SOFTWARE.
 
 -----
 
+The following software may be included in this product: file-type, make-dir, path-exists, path-key, pify, shebang-regex. A copy of the source code may be downloaded from https://github.com/sindresorhus/file-type.git (file-type), https://github.com/sindresorhus/make-dir.git (make-dir), https://github.com/sindresorhus/path-exists.git (path-exists), https://github.com/sindresorhus/path-key.git (path-key), https://github.com/sindresorhus/pify.git (pify), https://github.com/sindresorhus/shebang-regex.git (shebang-regex). This software contains the following license and notice below:
+
+MIT License
+
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----
+
 The following software may be included in this product: file-type, get-stream, is-stream, object-assign, pify. A copy of the source code may be downloaded from https://github.com/sindresorhus/file-type.git (file-type), https://github.com/sindresorhus/get-stream.git (get-stream), https://github.com/sindresorhus/is-stream.git (is-stream), https://github.com/sindresorhus/object-assign.git (object-assign), https://github.com/sindresorhus/pify.git (pify). This software contains the following license and notice below:
 
 The MIT License (MIT)
@@ -2337,20 +2351,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
------
-
-The following software may be included in this product: file-type, make-dir, path-exists, path-key, pify, shebang-regex. A copy of the source code may be downloaded from https://github.com/sindresorhus/file-type.git (file-type), https://github.com/sindresorhus/make-dir.git (make-dir), https://github.com/sindresorhus/path-exists.git (path-exists), https://github.com/sindresorhus/path-key.git (path-key), https://github.com/sindresorhus/pify.git (pify), https://github.com/sindresorhus/shebang-regex.git (shebang-regex). This software contains the following license and notice below:
-
-MIT License
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -----
 
