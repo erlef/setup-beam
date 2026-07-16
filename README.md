@@ -90,7 +90,8 @@ and Erlang/OTP.
 | `macOS-26`       | 25 - 29    | x86_64, arm64    | ✅
 
 **Note** \*: prior to 23, Windows builds are only available for minor versions, e.g. 21.0, 21.3,
-22.0, etc.
+22.0, etc. Additionally, OTP 29 has no 32-bit (x86) Windows installer; on Windows, x86 is
+capped at 28.x.
 
 ### Compatibility between Erlang/OTP and rebar3
 
