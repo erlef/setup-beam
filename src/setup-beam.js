@@ -1259,10 +1259,10 @@ async function installTool(opts) {
 
   // This makes sure we run, e.g. in Windows, the installer in the runner
   // We're not caching the install, just the downloaded tool
-  const runnerToolPath = path.join(
+  const runnerToolPath = getRunnerToolPath(
     process.env.RUNNER_TEMP,
-    '.setup-beam',
     toolName,
+    versionSpec,
   )
   fs.cpSync(cachePath, runnerToolPath, { recursive: true })
 
@@ -1280,6 +1280,15 @@ async function installTool(opts) {
   core.info(`Installed ${installOpts.tool} version`)
   const [cmd, args, env] = platformOpts.reportVersion()
   await exec(cmd, args, { env: { ...process.env, ...env } })
+}
+
+function getRunnerToolPath(runnerTemp, toolName, versionSpec) {
+  return path.join(
+    runnerTemp,
+    '.setup-beam',
+    toolName,
+    encodeURIComponent(versionSpec),
+  )
 }
 
 function checkOtpArchitecture() {
@@ -1306,6 +1315,7 @@ export default {
   getGleamVersion,
   getOTPVersion,
   getRebar3Version,
+  getRunnerToolPath,
   getRunnerOSVersion,
   getVersionFromSpec,
   githubAMDRunnerArchs,

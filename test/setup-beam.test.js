@@ -167,6 +167,32 @@ describe('rebar3 install', () => {
   })
 })
 
+describe('.getRunnerToolPath(_)', () => {
+  it('keeps different tool versions in separate directories', () => {
+    const runnerTemp = path.join('runner', 'temp')
+    const otp26Path = setupBeam.getRunnerToolPath(
+      runnerTemp,
+      'otp',
+      'ubuntu-24.04/OTP-26.0.2',
+    )
+    const otp28Path = setupBeam.getRunnerToolPath(
+      runnerTemp,
+      'otp',
+      'ubuntu-24.04/OTP-28.3.1',
+    )
+
+    assert.notEqual(otp26Path, otp28Path)
+    assert.equal(
+      otp26Path,
+      path.join(runnerTemp, '.setup-beam', 'otp', 'ubuntu-24.04%2FOTP-26.0.2'),
+    )
+    assert.equal(
+      otp28Path,
+      path.join(runnerTemp, '.setup-beam', 'otp', 'ubuntu-24.04%2FOTP-28.3.1'),
+    )
+  })
+})
+
 describe('.getOTPVersion(_) - Erlang', () => {
   let got
   let expected
