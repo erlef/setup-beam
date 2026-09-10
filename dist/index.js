@@ -34715,7 +34715,7 @@ class ResizeableBuffer {
   }
   toString(encoding) {
     if (encoding) {
-      return this.buf.slice(0, this.length).toString(encoding);
+      return this.buf.toString(encoding, 0, this.length);
     } else {
       return Uint8Array.prototype.slice.call(this.buf.slice(0, this.length));
     }
@@ -36286,7 +36286,7 @@ const transform = function (original_options = {}) {
             // Turn duplicate columns into an array
             if (
               group_columns_by_name === true &&
-              obj[columns[i].name] !== undefined
+              Object.hasOwn(obj, columns[i].name)
             ) {
               if (Array.isArray(obj[columns[i].name])) {
                 obj[columns[i].name] = obj[columns[i].name].concat(record[i]);
@@ -36294,7 +36294,12 @@ const transform = function (original_options = {}) {
                 obj[columns[i].name] = [obj[columns[i].name], record[i]];
               }
             } else {
-              obj[columns[i].name] = record[i];
+              Object.defineProperty(obj, columns[i].name, {
+                value: record[i],
+                enumerable: true,
+                writable: true,
+                configurable: true,
+              });
             }
           }
           // Without objname (default)
@@ -36903,6 +36908,7 @@ class TomlError extends Error {
 let INT_REGEX = /^((0x[0-9a-fA-F](_?[0-9a-fA-F])*)|(([+-]|0[ob])?\d(_?\d)*))$/;
 let FLOAT_REGEX = /^[+-]?\d(_?\d)*(\.\d(_?\d)*)?([eE][+-]?\d(_?\d)*)?$/;
 let LEADING_ZERO = /^[+-]?0[0-9_]/;
+/** @internal */
 function parseString(str, ptr) {
     let c = str[ptr++];
     let first = c;
@@ -37053,6 +37059,7 @@ function parseString(str, ptr) {
     }
     throw new TomlError('unfinished string', { toml: str, ptr });
 }
+/** @internal */
 function parseValue(value, toml, ptr, integersAsBigInt) {
     // Constant values
     if (value === 'true')
@@ -37136,12 +37143,14 @@ function parseValue(value, toml, ptr, integersAsBigInt) {
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/** @internal */
 function indexOfNewline(str, start = 0, end = str.length) {
     let idx = str.indexOf('\n', start);
     if (str[idx - 1] === '\r')
         idx--;
     return idx <= end ? idx : -1;
 }
+/** @internal */
 function skipComment(str, ptr) {
     for (let i = ptr; i < str.length; i++) {
         let c = str[i];
@@ -37158,6 +37167,7 @@ function skipComment(str, ptr) {
     }
     return str.length;
 }
+/** @internal */
 function skipVoid(str, ptr, banNewLines, banComments) {
     let c;
     while (1) {
@@ -37171,6 +37181,7 @@ function skipVoid(str, ptr, banNewLines, banComments) {
     }
     return ptr;
 }
+/** @internal */
 function skipUntil(str, ptr, sep, end, banNewLines = false) {
     if (!end) {
         ptr = indexOfNewline(str, ptr);
@@ -37180,6 +37191,8 @@ function skipUntil(str, ptr, sep, end, banNewLines = false) {
         let c = str[i];
         if (c === '#') {
             i = indexOfNewline(str, i);
+            if (i < 0)
+                break;
         }
         else if (c === sep) {
             return i + 1;
@@ -37237,6 +37250,7 @@ function sliceAndTrimEndOf(str, startPtr, endPtr) {
     }
     return [value.trimEnd(), commentIdx];
 }
+/** @internal */
 function extractValue(str, ptr, end, depth, integersAsBigInt) {
     if (depth === 0) {
         throw new TomlError('document contains excessively nested structures. aborting.', {
@@ -37329,6 +37343,7 @@ function extractValue(str, ptr, end, depth, integersAsBigInt) {
 
 
 let KEY_PART_RE = /^[a-zA-Z0-9-_]+[ \t]*$/;
+/** @internal */
 function parseKey(str, ptr, end = '=') {
     let dot = ptr - 1;
     let parsed = [];
@@ -37395,6 +37410,7 @@ function parseKey(str, ptr, end = '=') {
     } while (dot + 1 && dot < endPtr);
     return [parsed, skipVoid(str, endPtr + 1, true, true)];
 }
+/** @internal */
 function parseInlineTable(str, ptr, depth, integersAsBigInt) {
     let res = {};
     let seen = new Set();
@@ -37448,6 +37464,7 @@ function parseInlineTable(str, ptr, depth, integersAsBigInt) {
     }
     return [res, ptr];
 }
+/** @internal */
 function parseArray(str, ptr, depth, integersAsBigInt) {
     let res = [];
     let c;
