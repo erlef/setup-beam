@@ -4,6 +4,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { describe, it } from 'node:test'
+import * as tc from '@actions/tool-cache'
 import * as csv from 'csv-parse/sync'
 import elixirMatchers from '../matchers/elixir-matchers.json' with { type: 'json' }
 import erlangMatchers from '../matchers/erlang-matchers.json' with { type: 'json' }
@@ -164,6 +165,29 @@ describe('rebar3 install', () => {
       },
       `Installing rebar3 ${r3Version} is supposed to fail`,
     )
+  })
+})
+
+describe('.findInToolCache(_)', () => {
+  it('finds what install caches, and skips branch builds', async () => {
+    const before = process.env.RUNNER_TOOL_CACHE
+    process.env.RUNNER_TOOL_CACHE = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'tool-cache-'),
+    )
+    const source = fs.mkdtempSync(path.join(os.tmpdir(), 'tool-'))
+
+    const otp = await tc.cacheDir(source, 'otp', 'ubuntu-24.04/OTP-27.2')
+    assert.equal(setupBeam.findInToolCache('otp', 'ubuntu-24.04/OTP-27.2'), otp)
+
+    const elixir = await tc.cacheDir(source, 'elixir', 'v1.18.4-otp-27')
+    assert.equal(setupBeam.findInToolCache('elixir', 'v1.18.4-otp-27'), elixir)
+
+    await tc.cacheDir(source, 'otp', 'ubuntu-24.04/maint-27')
+    assert.equal(setupBeam.findInToolCache('otp', 'ubuntu-24.04/maint-27'), '')
+
+    assert.equal(setupBeam.findInToolCache('otp', 'ubuntu-24.04/OTP-27.1'), '')
+
+    process.env.RUNNER_TOOL_CACHE = before
   })
 })
 

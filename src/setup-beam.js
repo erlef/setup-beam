@@ -1239,7 +1239,7 @@ async function install(toolName, opts) {
 async function installTool(opts) {
   const { toolName, versionSpec, installOpts } = opts
   const platformOpts = installOpts[process.platform] || installOpts.all
-  let cachePath = tc.find(toolName, versionSpec)
+  let cachePath = findInToolCache(toolName, versionSpec)
 
   core.debug(`Checking if ${installOpts.tool} is already cached...`)
   if (cachePath === '') {
@@ -1282,6 +1282,26 @@ async function installTool(opts) {
   await exec(cmd, args, { env: { ...process.env, ...env } })
 }
 
+// tc.find only finds semver versions, but tc.cacheDir also stores others as-is,
+// e.g. Erlang/OTP as ubuntu-24.04/OTP-27.2. Branch builds (e.g. main,
+// maint-27, nightly) change over time, so we always download them again.
+function findInToolCache(toolName, versionSpec) {
+  if (isKnownVerBranch(versionSpec) || versionSpec === 'nightly') {
+    return ''
+  }
+
+  const cachePath = path.join(
+    process.env.RUNNER_TOOL_CACHE,
+    toolName,
+    semver.clean(versionSpec) || versionSpec,
+    os.arch(),
+  )
+
+  return fs.existsSync(cachePath) && fs.existsSync(`${cachePath}.complete`)
+    ? cachePath
+    : ''
+}
+
 function checkOtpArchitecture() {
   const otpArch = otpArchitecture()
 
@@ -1301,6 +1321,7 @@ function debugLoggingEnabled() {
 }
 
 export default {
+  findInToolCache,
   get,
   getElixirVersion,
   getGleamVersion,

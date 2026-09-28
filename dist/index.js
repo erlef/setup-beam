@@ -34408,7 +34408,7 @@ function find(toolName, versionSpec, arch) {
     if (!versionSpec) {
         throw new Error('versionSpec parameter is required');
     }
-    arch = arch || external_os_namespaceObject.arch();
+    arch = arch || os.arch();
     // attempt to resolve an explicit version
     if (!isExplicitVersion(versionSpec)) {
         const localVersions = findAllVersions(toolName, arch);
@@ -34418,15 +34418,15 @@ function find(toolName, versionSpec, arch) {
     // check for the explicit version in the cache
     let toolPath = '';
     if (versionSpec) {
-        versionSpec = node_modules_semver.clean(versionSpec) || '';
-        const cachePath = external_path_namespaceObject.join(_getCacheDirectory(), toolName, versionSpec, arch);
-        core_debug(`checking cache: ${cachePath}`);
-        if (external_fs_namespaceObject.existsSync(cachePath) && external_fs_namespaceObject.existsSync(`${cachePath}.complete`)) {
-            core_debug(`Found tool in cache ${toolName} ${versionSpec} ${arch}`);
+        versionSpec = semver.clean(versionSpec) || '';
+        const cachePath = path.join(_getCacheDirectory(), toolName, versionSpec, arch);
+        core.debug(`checking cache: ${cachePath}`);
+        if (fs.existsSync(cachePath) && fs.existsSync(`${cachePath}.complete`)) {
+            core.debug(`Found tool in cache ${toolName} ${versionSpec} ${arch}`);
             toolPath = cachePath;
         }
         else {
-            core_debug('not found');
+            core.debug('not found');
         }
     }
     return toolPath;
@@ -34439,14 +34439,14 @@ function find(toolName, versionSpec, arch) {
  */
 function findAllVersions(toolName, arch) {
     const versions = [];
-    arch = arch || external_os_namespaceObject.arch();
-    const toolPath = external_path_namespaceObject.join(_getCacheDirectory(), toolName);
-    if (external_fs_namespaceObject.existsSync(toolPath)) {
-        const children = external_fs_namespaceObject.readdirSync(toolPath);
+    arch = arch || os.arch();
+    const toolPath = path.join(_getCacheDirectory(), toolName);
+    if (fs.existsSync(toolPath)) {
+        const children = fs.readdirSync(toolPath);
         for (const child of children) {
             if (isExplicitVersion(child)) {
-                const fullPath = external_path_namespaceObject.join(toolPath, child, arch || '');
-                if (external_fs_namespaceObject.existsSync(fullPath) && external_fs_namespaceObject.existsSync(`${fullPath}.complete`)) {
+                const fullPath = path.join(toolPath, child, arch || '');
+                if (fs.existsSync(fullPath) && fs.existsSync(`${fullPath}.complete`)) {
                     versions.push(child);
                 }
             }
@@ -34530,10 +34530,10 @@ function _completeToolPath(tool, version, arch) {
  * @param versionSpec      version string to check
  */
 function isExplicitVersion(versionSpec) {
-    const c = node_modules_semver.clean(versionSpec) || '';
-    core_debug(`isExplicit: ${c}`);
-    const valid = node_modules_semver.valid(c) != null;
-    core_debug(`explicit? ${valid}`);
+    const c = semver.clean(versionSpec) || '';
+    core.debug(`isExplicit: ${c}`);
+    const valid = semver.valid(c) != null;
+    core.debug(`explicit? ${valid}`);
     return valid;
 }
 /**
@@ -34544,26 +34544,26 @@ function isExplicitVersion(versionSpec) {
  */
 function evaluateVersions(versions, versionSpec) {
     let version = '';
-    core_debug(`evaluating ${versions.length} versions`);
+    core.debug(`evaluating ${versions.length} versions`);
     versions = versions.sort((a, b) => {
-        if (node_modules_semver.gt(a, b)) {
+        if (semver.gt(a, b)) {
             return 1;
         }
         return -1;
     });
     for (let i = versions.length - 1; i >= 0; i--) {
         const potential = versions[i];
-        const satisfied = node_modules_semver.satisfies(potential, versionSpec);
+        const satisfied = semver.satisfies(potential, versionSpec);
         if (satisfied) {
             version = potential;
             break;
         }
     }
     if (version) {
-        core_debug(`matched: ${version}`);
+        core.debug(`matched: ${version}`);
     }
     else {
-        core_debug('match not found');
+        core.debug('match not found');
     }
     return version;
 }
@@ -39070,7 +39070,7 @@ async function install(toolName, opts) {
 async function installTool(opts) {
   const { toolName, versionSpec, installOpts } = opts
   const platformOpts = installOpts[process.platform] || installOpts.all
-  let cachePath = find(toolName, versionSpec)
+  let cachePath = findInToolCache(toolName, versionSpec)
 
   core_debug(`Checking if ${installOpts.tool} is already cached...`)
   if (cachePath === '') {
@@ -39113,6 +39113,26 @@ async function installTool(opts) {
   await exec_exec(cmd, args, { env: { ...process.env, ...env } })
 }
 
+// tc.find only finds semver versions, but tc.cacheDir also stores others as-is,
+// e.g. Erlang/OTP as ubuntu-24.04/OTP-27.2. Branch builds (e.g. main,
+// maint-27, nightly) change over time, so we always download them again.
+function findInToolCache(toolName, versionSpec) {
+  if (isKnownVerBranch(versionSpec) || versionSpec === 'nightly') {
+    return ''
+  }
+
+  const cachePath = external_node_path_namespaceObject.join(
+    process.env.RUNNER_TOOL_CACHE,
+    toolName,
+    node_modules_semver.clean(versionSpec) || versionSpec,
+    external_node_os_namespaceObject.arch(),
+  )
+
+  return external_node_fs_namespaceObject.existsSync(cachePath) && external_node_fs_namespaceObject.existsSync(`${cachePath}.complete`)
+    ? cachePath
+    : ''
+}
+
 function checkOtpArchitecture() {
   const otpArch = otpArchitecture()
 
@@ -39132,6 +39152,7 @@ function debugLoggingEnabled() {
 }
 
 /* harmony default export */ const setup_beam = ({
+  findInToolCache,
   get,
   getElixirVersion,
   getGleamVersion,
