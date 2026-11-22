@@ -190,14 +190,20 @@ async function getOTPVersion(otpSpec0, osVersion) {
 
   if (otpVersion === null) {
     throw new Error(
-      requestedVersionFor('Erlang/OTP', otpSpec0, originListing, hexMirrors),
+      requestedVersionFor(
+        'Erlang/OTP',
+        otpSpec0,
+        originListing,
+        hexMirrors,
+        versions,
+      ),
     )
   }
 
   return otpVersion // from the reference, for download
 }
 
-function requestedVersionFor(tool, version, originListing, mirrors) {
+function requestedVersionFor(tool, version, originListing, mirrors, versions) {
   const isVersionTypeStrict = isStrictVersion()
 
   let versionType = 'loose'
@@ -209,7 +215,15 @@ function requestedVersionFor(tool, version, originListing, mirrors) {
     `Requested ${versionType} ${tool} version (${version}) not found in version list, ` +
     `at ${originListing}${mirrors ? `, with mirrors ${mirrors}` : ''}.`
   if (!isVersionTypeStrict) {
-    ret = `${ret} Should you be using option 'version-type': 'strict'?`
+    // 'version-type': 'strict' only helps when the listing has that exact
+    // entry; otherwise point at what the listing does have
+    const listed = versions ? Object.keys(versions).filter(validVersion) : []
+    if (listed.length > 0 && !listed.includes(maybeRemoveOTPPrefix(version))) {
+      const oldest = listed.sort((l, r) => (gt(l, r) ? 1 : -1))[0]
+      ret = `${ret} The oldest ${tool} version listed there is ${oldest}.`
+    } else {
+      ret = `${ret} Should you be using option 'version-type': 'strict'?`
+    }
   }
 
   return ret

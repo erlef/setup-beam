@@ -99,6 +99,32 @@ describe('OTP install', () => {
   })
 })
 
+describe('missing OTP version error', () => {
+  if (process.platform === 'linux') {
+    it('names the oldest listed version instead of suggesting strict', async () => {
+      const before = simulateInput('version-type', 'loose')
+      await assert.rejects(
+        async () => {
+          await setupBeam.getOTPVersion('25', 'ubuntu-26.04')
+        },
+        (err) => {
+          assert.match(
+            err.message,
+            /Requested loose Erlang\/OTP version \(25\)/,
+          )
+          assert.match(
+            err.message,
+            /oldest Erlang\/OTP version listed there is/,
+          )
+          assert.doesNotMatch(err.message, /version-type/)
+          return true
+        },
+      )
+      simulateInput('version-type', before)
+    })
+  }
+})
+
 describe('Elixir install', () => {
   it('fails for version 0.11 without OTP', async () => {
     const exVersion = '0.11'
